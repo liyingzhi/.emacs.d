@@ -34,10 +34,10 @@
 
 (setq acm-enable-doc t)
 (setq acm-enable-tabnine nil)
-(setq acm-enable-codeium t)
+(setq acm-enable-codeium nil)
 (setq acm-enable-yas nil)
 (setq acm-enable-tempel nil)
-(setq acm-enable-citre t)
+(setq acm-enable-citre nil)
 
 (setq acm-backend-lsp-show-progress t)
 (setq lsp-bridge-enable-hover-diagnostic t)
@@ -97,6 +97,7 @@
   (interactive)
   (or ;; (tempel-complete t)
    (yas-expand)
+   (completion-preview-insert)
    (acm-select-next)))
 
 ;;; keymap

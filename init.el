@@ -45,7 +45,7 @@
 
 (require 'init-org)
 ;; (require 'init-pangu)
-(require 'init-hugo)
+;; (require 'init-hugo)
 (require 'init-elfeed)
 ;; (require 'init-reader)
 ;; (require 'init-paper)
@@ -53,12 +53,12 @@
 
 (require 'init-go-translate)
 
-(require 'init-rsync)
-(require 'init-code-stats)
+;; (require 'init-rsync)
+;; (require 'init-code-stats)
 
-(require 'init-copilot)
+;; (require 'init-copilot)
 (require 'init-gptel)
-(require 'init-aider)
+;; (require 'init-aider)
 ;; (require 'init-codegeex)
 
 ;;; Programming
@@ -66,6 +66,14 @@
 (require 'init-lsp-bridge)
 (require 'init-citre)
 (require 'init-program)
+
+;; (require 'codeium)
+;; (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
+
+;; ;; Enable Completion Preview mode in code buffers
+;; (add-hook 'prog-mode-hook #'completion-preview-mode)
+;; (setq completion-preview-minimum-symbol-length 2)
+
 
 (when (and user/telega-start (display-graphic-p))
   (message "start telega")

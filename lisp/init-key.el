@@ -3,6 +3,12 @@
 (global-set-key (kbd "M-o") #'ace-window)
 (global-set-key (kbd "M-n") #'scroll-up-1/3)
 (global-set-key (kbd "M-p") #'scroll-down-1/3)
+(global-set-key (kbd "M-<left>") #'previous-buffer)
+(global-set-key (kbd "M-<right>") #'next-buffer)
+
+(global-set-key (kbd "s-.") #'embark-act)
+(global-set-key (kbd "C-s-;") #'embark-dwim)
+(global-set-key (kbd "C-h B") #'embark-bindings)
 
 ;;;###autoload
 (defmacro lazy-one-key-create-menu (title &rest keybinds)
@@ -47,7 +53,7 @@
 (lazy-one-key-create-menu
  "Buffer"
  (:key "b" :description "Switch buffer" :command switch-to-buffer)
- (:key "k" :description "Kill buffer" :commit kill-buffer-and-window)
+ (:key "k" :description "Kill buffer" :command kill-buffer-and-window)
  (:key "T" :description "Switch telega buffers" :command telega-switch-buffer :filename "init-telega")
  (:key "i" :description "Switch telega important chat" :command telega-switch-important-chat :filename "init-telega")
  (:key "t" :description "Switch telega chat" :command telega-chat-with :filename "init-telega")

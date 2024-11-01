@@ -27,8 +27,11 @@
 (require 'citre-config)
 (require 'citre)
 (setq citre-auto-enable-citre-mode-modes '(prog-mode))
-(setq citre-ctags-program "/usr/bin/ctags")
+(setq citre-ctags-program "/usr/local/bin/ctags")
 (add-hook 'find-file-hook #'citre-auto-enable-citre-mode)
+
+;; disable imenu integration with citre backend
+(setq-default citre-enable-imenu-integration nil)
 
 (provide 'init-citre)
 ;;; init-citre.el ends here

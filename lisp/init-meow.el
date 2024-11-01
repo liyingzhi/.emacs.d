@@ -1,5 +1,6 @@
 (require 'meow)
 (meow-global-mode 1)
+;; (setq meow-expand-hint-remove-delay 5.0)
 (setq meow-esc-delay 0.001)
 (setq meow-keypad-leader-dispatch "C-c")
 (setq meow-mode-state-list
@@ -14,7 +15,9 @@
         (message-mode . normal)
         (blink-search-mode . insert)
         (color-rg-mode . insert)
-        (Info-mode-hook . motion)))
+        (Info-mode . motion)
+        (help-mode . normal)
+        (devdocs-mode . normal)))
 (setq meow-use-clipboard t)
 (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
 
@@ -72,7 +75,9 @@
                   (concat "cabal run")))
            (multi-vterm-run command)))
         ('emacs-lisp-mode (message "Not support"))
-        (t (call-interactively #'compile))))))
+        (t (if project-path
+               (call-interactively #'projection-commands-build-project)
+             (call-interactively #'compile)))))))
 
 (defun kill-now-buffer ()
   "Close the current buffer."

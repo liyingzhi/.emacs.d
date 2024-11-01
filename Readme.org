@@ -68,3 +68,11 @@ Get list form [[https://github.com/manateelazycat/lsp-bridge][lsp bridge]]
 #+begin_src shell
   git submodule foreach git pull --rebase
 #+end_src
+* COMMENT xxx
+ #+begin_src c++
+   int main(int argc, char *argv[])
+   {
+
+       return 0;
+   }
+ #+end_src

@@ -95,6 +95,7 @@
  hydra-toggles (:title (pretty-hydra-title "Toggles" 'faicon "nf-fa-toggle_on") :color amaranth :quit-key ("C-g" "q") :all-exit t)
  ("Basic"
   (("p" +lizqwer/toggle-proxy "proxy" :toggle url-proxy-services)
+   ("q" tianqi "tianqi" :toggle t)
    ("c" global-centered-cursor-mode "centered cursor" :toggle t)
    ("l" interaction-log-mode "interactive log" :toggle t)
    ("i" immersive-translate-auto-mode "immersive translate" :toggle t)
@@ -127,7 +128,12 @@
     ("g" (find-file "~/github") "Github")
     ("p" (find-file "~/MyProject") "Project"))
    "Search"
-   (("s" consult-fd-dir "Fuzzy search Dir" :exit t)
+   (("s"
+     (lambda()
+       (interactive)
+       (autoload 'consult-fd-dir "init-func" nil t)
+       (consult-fd-dir))
+     "Fuzzy search Dir" :exit t)
     ("j" dired-jump "Dired jump" :exit t)
     ("J" dired-jump-other-window "Dired jump other" :exit t))))
 
@@ -147,6 +153,7 @@
  hydra-language (:title "Language" :color amaranth :quit-key ("C-g" "q") :all-exit t)
  ("dict"
   (("s" sdcv-search-pointer+ "sdcv dict")
+   ;; ("q" tianqi "tianqi")
    ("f" fanyi-dwim2 "Fanyi Point")
    ("F" fanyi-dwim "Fanyi Input"))
   "english"

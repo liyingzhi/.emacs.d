@@ -8,4 +8,4 @@ url = https://github.com/manateelazycat/blink-search.git
 
 [submodule "site-lisp/insert-translated-name"]
 path = site-lisp/insert-translated-name
-url = git@github.com:lizqwerscott/insert-translated-name.git
+url = https://github.com/lizqwerscott/insert-translated-name.git

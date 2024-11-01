@@ -30,15 +30,16 @@
 ;;; language
 (require 'init-elisp)
 (require 'init-python)
-(require 'init-haskell)
+;; (require 'init-haskell)
 (require 'init-c++)
-(require 'init-web)
-(require 'init-common-lisp)
-(require 'init-scheme)
-(require 'init-rust)
-(require 'init-sql)
-(require 'init-go)
+;; (require 'init-web)
+;; (require 'init-common-lisp)
+;; (require 'init-scheme)
+;; (require 'init-rust)
+;; (require 'init-sql)
+;; (require 'init-go)
 
 
 (provide 'init-program)
 ;;; init-program.el ends heres.
+

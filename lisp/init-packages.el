@@ -4,6 +4,8 @@
     marginalia
     consult
     consult-notes
+    embark
+    embark-consult
     orderless
     fussy
     (flx-rs
@@ -56,7 +58,7 @@
     csv-mode))
 
 (defvar *package-edit-install-list*
-  '(meow
+  '((meow :fetcher github :repo "meow-edit/meow")
     grugru
     auto-rename-tag
     hungry-delete
@@ -100,6 +102,7 @@
     nerd-icons
     nerd-icons-dired
     nerd-icons-completion
+    nerd-icons-ibuffer
     doom-modeline
     pretty-mode
     color-identifiers-mode
@@ -173,7 +176,9 @@
     gptel
     (aider :fetcher github
            :repo "tninja/aider.el"
-           :files ("aider.el"))))
+           :files ("aider.el"))
+    (codeium :fetcher github :repo "Exafunction/codeium.el")
+    ))
 
 (defvar *package-rust-install-list*
   '(rust-mode

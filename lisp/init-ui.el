@@ -218,5 +218,9 @@
 (add-hook 'prog-mode-hook
           'goto-address-prog-mode)
 
+(require 'nerd-icons-ibuffer)
+(add-hook 'ibuffer-mode-hook #'nerd-icons-ibuffer-mode)
+
+
 (provide 'init-ui)
 ;;; init-ui.el ends here.
