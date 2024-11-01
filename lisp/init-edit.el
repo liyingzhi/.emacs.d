@@ -30,6 +30,12 @@
 (setq vundo-glyph-alist vundo-unicode-symbols)
 (global-set-key (kbd "C-/") #'vundo)
 
+;; like replace-regexp with live visual feedback in the buffer
+(require 'visual-regexp)
+;; extension to visual-regexp which enables the use of modern regexp engines
+(require 'visual-regexp-steroids)
+
+
 ;; (use-package lispy
 ;;   :ensure t
 ;;   :hook (lisp-mode . lispy-mode))

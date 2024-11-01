@@ -68,6 +68,8 @@
     apheleia
     avy
     vundo
+    visual-regexp
+    visual-regexp-steroids
     (fingertip :fetcher github :repo "manateelazycat/fingertip")
     (awesome-pair :fetcher github :repo "manateelazycat/awesome-pair")
     (meow-vterm :fetcher github :repo "accelbread/meow-vterm")))
