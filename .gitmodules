@@ -9,3 +9,6 @@ url = https://github.com/manateelazycat/blink-search.git
 [submodule "site-lisp/insert-translated-name"]
 path = site-lisp/insert-translated-name
 url = https://github.com/lizqwerscott/insert-translated-name.git
+[submodule "site-lisp/multi-vterm"]
+	path = site-lisp/multi-vterm
+	url = https://github.com/lizqwerscott/multi-vterm.git
