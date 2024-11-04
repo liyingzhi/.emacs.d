@@ -92,10 +92,9 @@
         head-plist)))
 
 (pretty-hydra-define-e
- hydra-toggles (:title (pretty-hydra-title "Toggles" 'faicon "nf-fa-toggle_on") :color amaranth :quit-key ("C-g" "q") :all-exit t)
+ hydra-toggles (:title (pretty-hydra-title "Toggles" 'faicon "nf-fa-toggle_on") :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
  ("Basic"
   (("p" +lizqwer/toggle-proxy "proxy" :toggle url-proxy-services)
-   ("q" tianqi "tianqi" :toggle t)
    ("c" global-centered-cursor-mode "centered cursor" :toggle t)
    ("l" interaction-log-mode "interactive log" :toggle t)
    ("i" immersive-translate-auto-mode "immersive translate" :toggle t)
@@ -119,7 +118,7 @@
   "Program"
   (("u" unity-mode "unity develop" :toggle t))))
 
-(pretty-hydra-define hydra-jump-dir (:title (pretty-hydra-title "Jump to directory" 'octicon "nf-oct-file_directory_open_fill") :color amaranth :quit-key ("C-g" "q"))
+(pretty-hydra-define hydra-jump-dir (:title (pretty-hydra-title "Jump to directory" 'octicon "nf-oct-file_directory_open_fill") :color amaranth :quit-key ("C-g" "q" "<escape>"))
   ("Base"
    (("h" (find-file "~/") "Home")
     ("d" (find-file "~/Downloads") "Downloads"))
@@ -138,7 +137,7 @@
     ("J" dired-jump-other-window "Dired jump other" :exit t))))
 
 (pretty-hydra-define-e
- hydra-git (:title "Git" :color amaranth :quit-key ("C-g" "q") :all-exit t)
+ hydra-git (:title "Git" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
  ("hunk"
   (("n" diff-hl-next-hunk "Next hunk")
    ("p" diff-hl-previous-hunk "Previous hunk")
@@ -150,10 +149,9 @@
    ("h" vc-region-history "History"))))
 
 (pretty-hydra-define-e
- hydra-language (:title "Language" :color amaranth :quit-key ("C-g" "q") :all-exit t)
+ hydra-language (:title "Language" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
  ("dict"
   (("s" sdcv-search-pointer+ "sdcv dict")
-   ;; ("q" tianqi "tianqi")
    ("f" fanyi-dwim2 "Fanyi Point")
    ("F" fanyi-dwim "Fanyi Input"))
   "english"
