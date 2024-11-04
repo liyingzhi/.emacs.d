@@ -187,6 +187,12 @@
 ;;  '(("C-c /" . webjump))
 ;;  "init-webjump")
 
-(global-set-key (kbd "C-c /") #'google-this)
+(global-set-key (kbd "C-c /")
+                #'google-this)
+
+(require 'transient)
+(keymap-set transient-map
+            "<escape>"
+            #'transient-quit-one)
 
 (provide 'init-key)
