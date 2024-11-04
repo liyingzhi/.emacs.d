@@ -17,7 +17,8 @@
         (color-rg-mode . insert)
         (Info-mode . motion)
         (help-mode . normal)
-        (devdocs-mode . normal)))
+        (devdocs-mode . normal)
+        (vterm-mode . insert)))
 (setq meow-use-clipboard t)
 (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
 
