@@ -194,5 +194,13 @@
 (keymap-set transient-map
             "<escape>"
             #'transient-quit-one)
+(keymap-set transient-map
+            "C-n"
+            #'transient-scroll-up)
+
+(keymap-set transient-map
+            "C-p"
+            #'transient-scroll-down)
+
 
 (provide 'init-key)
