@@ -27,7 +27,7 @@
  "Toggle"
  (:key "t" :description "Toggle telega" :command +lizqwer/toggle-telega :filename "init-telega")
  ;; (:key "c" :description "Toggle copilot" :command +lizqwer/toggle-copilot :filename "init-copilot")
- (:key "v" :description "Toggle vterm" :command multi-vterm-dedicated-toggle :filename "multi-vterm")
+ ;; (:key "v" :description "Toggle vterm" :command multi-vterm-dedicated-toggle :filename "multi-vterm")
  (:key "l" :description "Lock screen" :command +lizqwer/toggle-lock :filename "init-func")
  (:key "b" :description "Toggle big screen mode" :command open-big-screen-mode :filename "init-big-screen")
  (:key "T" :description "Toggle transparent" :command +lizqwer/toggle-transparent :filename "init-func")
