@@ -42,7 +42,11 @@
     (psearch
      :fetcher github
      :repo "twlz0ne/psearch.el"
-     :files ("psearch.el"))))
+     :files ("psearch.el"))
+    (rsync-project-mode
+     :fetcher github
+     :repo "lizqwerscott/rsync-project-mode")
+    ))
 
 (defvar *package-language-mode-install-list*
   '(markdown-mode

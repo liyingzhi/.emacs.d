@@ -39,6 +39,7 @@
 (require 'init-snippet)
 (require 'init-blink-search)
 (require 'init-tramp)
+;; (require 'init-rsync)
 
 (require 'init-dired)
 (require 'init-helpful)
