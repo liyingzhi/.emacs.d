@@ -12,3 +12,6 @@ url = https://github.com/lizqwerscott/insert-translated-name.git
 [submodule "site-lisp/multi-vterm"]
 	path = site-lisp/multi-vterm
 	url = https://github.com/lizqwerscott/multi-vterm.git
+[submodule "site-lisp/holo-layer"]
+	path = site-lisp/holo-layer
+	url = https://github.com/manateelazycat/holo-layer.git
