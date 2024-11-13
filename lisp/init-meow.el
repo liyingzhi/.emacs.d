@@ -18,7 +18,8 @@
         (Info-mode . motion)
         (help-mode . normal)
         (devdocs-mode . normal)
-        (vterm-mode . insert)))
+        (vterm-mode . insert)
+        (fanyi-mode . normal)))
 (setq meow-use-clipboard t)
 (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
 
@@ -271,5 +272,8 @@
 (keymap-sets eww-mode-map
              '(("M-n" . scroll-up-1/3)
                ("M-p" . scroll-down-1/3)))
+
+(require 'meow-tree-sitter)
+(meow-tree-sitter-register-defaults)
 
 (provide 'init-meow)
