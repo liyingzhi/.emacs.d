@@ -37,6 +37,13 @@
         rime-predicate-punctuation-after-space-cc-p
         rime-predicate-space-after-cc-p))
 
+(setq rime-posframe-properties
+      (list :background-color "#333333"
+            :foreground-color "#dcdccc"
+            :font "TsangerJinKai03-6763-18"
+            :internal-border-width 5))
+
+
 (require 'im-cursor-chg)
 (cursor-chg-mode t)
 
