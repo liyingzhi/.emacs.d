@@ -188,5 +188,7 @@
                (highlight-function-calls-mode 1)
                (lisp-extra-font-lock-mode 1)))
 
+(require 'visual-replace)
+(visual-replace-global-mode 1)
 
 (provide 'init-highlight)

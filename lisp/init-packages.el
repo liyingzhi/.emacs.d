@@ -122,6 +122,7 @@
     visual-fill-column
     olivetti
     redacted
+    visual-replace
     hl-todo
     imenu-list
     outshine
