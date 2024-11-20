@@ -25,7 +25,7 @@
 ;;; Code:
 
 (require 'rime)
-(setq rime-user-data-dir "~/.local/share/fcitx5/rime/")
+(setq rime-user-data-dir "~/.config/fcitx5/rime/")
 
 (setq rime-show-candidate 'posframe)
 (setq rime-disable-predicates
