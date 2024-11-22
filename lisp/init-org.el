@@ -167,6 +167,9 @@
 (consult-notes-org-headings-mode)
 (consult-notes-org-roam-mode)
 
+(setq org-latex-compiler "xelatex")
+(setq org-latex-pdf-process '("xelatex %f"))
+
 (require 'init-org-roam)
 
 (require 'init-org-capture)
