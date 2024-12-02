@@ -83,7 +83,6 @@
     yasnippet
     macrostep
     eglot
-    difftastic
     magit
     magit-delta
     git-cliff

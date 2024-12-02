@@ -63,7 +63,6 @@
 ;; (require 'init-codegeex)
 
 ;;; Programming
-(require 'init-difftastic)
 (require 'init-magit)
 (require 'init-lsp-bridge)
 (require 'init-citre)
