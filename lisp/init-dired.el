@@ -154,6 +154,10 @@ Version 2019-11-04"
                ("C-<return>" . xah-open-in-external-app)
                ("C-c +" . dired-create-empty-file)
                ("M-n" . scroll-up-1/3)
-               ("M-p" . scroll-down-1/3)))
+               ("M-p" . scroll-down-1/3)
+               ("n"   . dired-goto-file)
+               ("p" . dired-do-kill-lines)
+               ("j" . dired-next-line)
+               ("k" . dired-previous-line)))
 
 (provide 'init-dired)
