@@ -20,6 +20,13 @@
         (devdocs-mode . normal)
         (vterm-mode . insert)
         (fanyi-mode . normal)))
+
+;; overwrite default j,k key function in motion state
+;; (meow-motion-overwrite-define-key '("j" . dired-next-line))
+;; (meow-motion-overwrite-define-key '("n" . "H-j"))
+;; (meow-motion-overwrite-define-key '("k" . dired-previous-line))
+;; (meow-motion-overwrite-define-key '("p" . "H-k"))
+
 (setq meow-use-clipboard t)
 (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
 
