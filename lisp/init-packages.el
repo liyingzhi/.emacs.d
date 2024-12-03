@@ -25,6 +25,7 @@
 
 (defvar *package-tool-install-list*
   '(try
+    alert
     centered-cursor-mode
     sudo-edit
     google-this

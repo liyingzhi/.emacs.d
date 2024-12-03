@@ -46,7 +46,13 @@
                             (delete-window window)))))
     (message "Compilation %s" string)))
 
-(setq compilation-finish-functions (list #'ar/compile-autoclose))
+(require 'alert)
+(setq alert-default-style 'mode-line)
+(defun ar/alert-after-finish-in-background (buf str)
+  (when (or (not (get-buffer-window buf 'visible)) (not (frame-focus-state)))
+    (alert str :buffer buf)))
+
+(setq compilation-finish-functions (list #'ar/alert-after-finish-in-background #'ar/compile-autoclose))
 
 ;;; language
 (require 'init-elisp)
