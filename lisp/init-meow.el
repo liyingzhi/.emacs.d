@@ -59,6 +59,12 @@
    (("c" . "Rust check") . cargo-process-clippy)
    (("b" . "Rust Compile") . cargo-process-build)))
 
+(one-key-create-menu
+ "Compile"
+ '((("c" . "compile") . run-or-compile)
+   (("r" . "recompile") . project-recompile)))
+
+
 (defun run-or-compile ()
   "Run or compile this project or file."
   (interactive)
@@ -173,7 +179,8 @@
    '("2" . split-window-below)
    '("3" . split-window-horizontally)
    '("0" . delete-window)
-   '("r" . run-or-compile))
+   ;; '("r" . run-or-compile)
+   '("r" . one-key-menu-compile))
 
   ;; (lazy-meow-insert-define-key
   ;;  '(("C-c i" . insert-translated-name-insert) "init-translated-name"))
