@@ -34,23 +34,27 @@
 
 (defun ar/compile-autoclose (buffer string)
   "Hide successful builds window with BUFFER and STRING."
-  (if (and (string-match "finished" string)
-         (not (string-match "^warning.*" string)))
-      (progn
-        (message "Build finished :)")
-        (run-with-timer 3 nil
-                        (lambda ()
-                          (when-let* ((multi-window (> (count-windows) 1))
-                                      (live (buffer-live-p buffer))
-                                      (window (get-buffer-window buffer t)))
-                            (delete-window window)))))
-    (message "Compilation %s" string)))
+  (when (with-current-buffer buffer
+          (equal major-mode 'compilation-mode))
+    (if (and (string-match "finished" string)
+           (not (string-match "^.*warning.*" string)))
+        (progn
+          (message "Build finished :)")
+          (run-with-timer 3 nil
+                          (lambda ()
+                            (when-let* ((multi-window (> (count-windows) 1))
+                                        (live (buffer-live-p buffer))
+                                        (window (get-buffer-window buffer t)))
+                              (delete-window window)))))
+      (message "Compilation %s" string))))
 
 (require 'alert)
 (setq alert-default-style 'mode-line)
 (defun ar/alert-after-finish-in-background (buf str)
-  (when (or (not (get-buffer-window buf 'visible)) (not (frame-focus-state)))
-    (alert str :buffer buf)))
+  (when (with-current-buffer buf
+          (equal major-mode 'compilation-mode))
+    (when (or (not (get-buffer-window buf 'visible)) (not (frame-focus-state)))
+      (alert str :buffer buf))))
 
 (setq compilation-finish-functions (list #'ar/alert-after-finish-in-background #'ar/compile-autoclose))
 
@@ -69,4 +73,3 @@
 
 (provide 'init-program)
 ;;; init-program.el ends heres.
-
