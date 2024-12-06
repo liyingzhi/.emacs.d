@@ -11,6 +11,14 @@
                     "~/Documents/Org/archive.org"
                     "~/Documents/Org/inbox.org"))
 
+(setq org-agenda-custom-commands
+      '(("e" "Agenda, next actions and waiting"
+         ((agenda "" ((org-agenda-overriding-header "Next three days:")
+                      (org-agenda-span 3)
+                      (org-agenda-start-on-weekday nil)))
+          (todo "TODO" ((org-agenda-overriding-header "Next Actions:")))
+          (todo "WAIT" ((org-agenda-overriding-header "Waiting:")))))))
+
 ;; Use a function to decide what to change the state to.
 (setq org-clock-in-switch-to-state #'sodaware/switch-task-on-clock-start)
 
