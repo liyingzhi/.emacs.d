@@ -15,6 +15,7 @@
 (when sys/macp
   (setq insert-directory-program "/opt/homebrew/bin/gls"))
 
+(setq delete-by-moving-to-trash t)
 
 (require 'dired-aux)
 (setq dired-isearch-filenames 'dwim)
