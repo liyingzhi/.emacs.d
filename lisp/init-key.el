@@ -202,5 +202,7 @@
             "C-p"
             #'transient-scroll-down)
 
+;;; yank
+(global-set-key (kbd "M-y") #'consult-yank-pop)
 
 (provide 'init-key)
