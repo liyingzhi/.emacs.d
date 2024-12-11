@@ -82,4 +82,6 @@
   (autoload '+lizqwer/toggle-telega "init-telega" nil t)
   (+lizqwer/toggle-telega))
 
+(require 'init-eaf)
+
 ;;; init.el ends here.

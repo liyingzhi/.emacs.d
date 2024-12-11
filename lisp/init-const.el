@@ -64,6 +64,11 @@
   :group 'user
   :type 'string)
 
+(defcustom user/eaf-python-command "python"
+  "A python command for Some package use python package"
+  :group 'user
+  :type 'string)
+
 (defcustom user/vivaldi-use nil
   "Is use vivaldi"
   :group 'user
