@@ -168,6 +168,7 @@
     ox-reveal
     ox-hugo
     org-appear
+    org-journal
     valign
     pangu-spacing
     (org-modern-indent :fetcher github :repo "jdtsmith/org-modern-indent")

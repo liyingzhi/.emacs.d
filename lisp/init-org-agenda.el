@@ -1,4 +1,5 @@
 (require 'org-agenda)
+(require 'org-journal)
 (require 'org-archive)
 (setq org-archive-location "~/Documents/Org/archive.org::* finish-tasks")
 (setq org-refile-targets '(("~/Documents/Org/archive.org" :maxlevel . 1)
@@ -10,6 +11,9 @@
                     "~/Documents/Org/tasks.org"
                     "~/Documents/Org/archive.org"
                     "~/Documents/Org/inbox.org"))
+
+(add-list-to-list 'org-agenda-files (file-expand-wildcards (concat *org-path* "/daily/*.org")))
+
 
 (setq org-agenda-custom-commands
       '(("e" "Agenda, next actions and waiting"

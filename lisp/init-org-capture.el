@@ -9,7 +9,7 @@
   (push '("n" "LNKS" entry (file+headline "~/Documents/Org/lnks.org" "链接") "* [[%^{link-url}][%^{link-description}]] %^g\n:PROPERTIES:\n:LINK-CREATE-TIME: %T\n:END:\n  %?\n")
         org-capture-templates)
   (push '("t" "任务" entry (file+headline "~/Documents/Org/tasks.org" "任务") "* TODO %^{标题} %t %^g\n** \_From: %f\_
-\=Flie-Line:\= %l \n\=Description:\= %?\n") org-capture-templates))
+\=File-Line:\= %l \n\=Description:\= %?\n") org-capture-templates))
 
 (defun +evan/setup-org-capture ()
   (setq org-capture-templates nil)
