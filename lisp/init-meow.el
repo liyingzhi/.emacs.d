@@ -156,6 +156,7 @@
   (meow-leader-define-key
    '("t" . hydra-toggles/body)
    '("u" . one-key-menu-useful)
+   '("e" . one-key-menu-eaf)
    '("j" . one-key-menu-code)
    '("s" . one-key-menu-search)
    '("f" . one-key-menu-file)

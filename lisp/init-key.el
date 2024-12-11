@@ -126,7 +126,28 @@
  (:key "c" :description "Insert color" :command my-insert-color-hex :filename "init-func")
  (:key "g" :description "gptel" :command gptel)
  (:key "G" :description "gptel menu" :command gptel-menu)
- (:key "a" :description "Aider" :command aider-transient-menu))
+ (:key "a" :description "Aider" :command aider-transient-menu)
+ (:key "m" :description "music-online" :command eaf-open-cloud-music)
+ (:key "l" :description "music-offline" :command eaf-open-music-player))
+
+(lazy-one-key-create-menu
+ "EAF"
+ (:key "s" :description "monitor" :command eaf-open-system-monitor)
+ (:key "j" :description "jupyter" :command eaf-open-jupyter)
+ (:key "w" :description "Office" :command eaf-open-office)
+ (:key "i" :description "idea-mindmap" :command eaf-create-mindmap)
+ (:key "m" :description "Map" :command eaf-open-map)
+ (:key "g" :description "eaf-git" :command eaf-open-git)
+ (:key "d" :description "eaf-dired" :command eaf-open-in-file-manager)
+ (:key "t" :description "pyqterminal" :command eaf-open-pyqterminal)
+ (:key "b" :description "Browser" :command eaf-open-browser)
+ (:key "B" :description "Browser" :command eaf-open-browser-other-window)
+ (:key "h" :description "Browser-history" :command eaf-open-browser-with-history)
+ (:key "o" :description "eaf-open" :command eaf-open)
+ (:key "c" :description "music-online" :command eaf-open-cloud-music)
+ (:key "l" :description "music-offline" :command eaf-open-music-player))
+
+
 
 (lazy-one-key-create-menu
  "Code"
