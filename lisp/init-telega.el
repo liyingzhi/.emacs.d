@@ -61,7 +61,7 @@
       telega-sticker-animated-play t
       telega-auto-translate-probe-language-codes nil
       telega-translate-to-language-by-default "zh-CN"
-      telega-chat-input-markups (list "org"))
+      telega-chat-input-markups (list "markdown2" "org"))
 
 ;; (setf (alist-get 2 telega-avatar-factors-alist ) '(0.5 . 0.1))
 
