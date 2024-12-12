@@ -52,16 +52,9 @@
 
 (add-hook 'eaf-mode-hook
           #'(lambda ()
-              (define-key eaf-mode-map (kbd "C-c b") #'one-key-menu-buffer)))
-(add-hook 'eaf-mode-hook
-          #'(lambda ()
-              (define-key eaf-mode-map (kbd "C-K") #'kill-now-buffer)))
-(add-hook 'eaf-mode-hook
-          #'(lambda ()
-              (define-key eaf-mode-map (kbd "C-k") #'my/meow-quit)))
-(add-hook 'eaf-mode-hook
-          #'(lambda ()
+              (define-key eaf-mode-map (kbd "C-c b") #'one-key-menu-buffer)
+              (define-key eaf-mode-map (kbd "C-K") #'kill-now-buffer)
+              (define-key eaf-mode-map (kbd "C-k") #'my/meow-quit)
               (define-key eaf-mode-map (kbd "C-m") #'meow-keypad)))
-
 
 (provide 'init-eaf)
