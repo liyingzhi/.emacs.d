@@ -43,6 +43,8 @@
  "agenda"
  `((("i" . "inbox agent") . ,(agenda-open-with-file "~/Documents/Org/inbox.org"))
    (("t" . "idea agent") . ,(agenda-open-with-file "~/Documents/Org/tasks.org"))
-   (("a" . "all agent") . org-agenda)))
+   (("a" . "all agent") . org-agenda)
+   (("d" . "Capture roam dailies note") . org-roam-dailies-capture-today)
+   (("j" . "Show open or delete journal menu") . journal-transient)))
 
 (provide 'init-org-agenda)
