@@ -6,14 +6,14 @@
 ;; Keywords: lisp,
 (setq eaf-dired-advisor-enable nil)
 (setq eaf-python-command user/eaf-python-command)
-
+;; (setq eaf-browser-auto-import-chrome-cookies t)
 (setq eaf-pyqterminal-font-family "Hack Nerd Font")
 
-;; (when eaf-dired-advisor-enable
-;;   (advice-add #'dired-find-file :around #'eaf--dired-find-file-advisor)
-;;   (advice-add #'dired-find-alternate-file :around #'eaf--dired-find-file-advisor))
-
 (require 'eaf)
+(unless eaf-dired-advisor-enable
+  (advice-remove #'find-file  #'eaf--find-file-advisor)
+  (advice-remove #'org-open-file  #'eaf--find-file-advisor))
+
 (require 'eaf-browser)
 (require 'eaf-org-previewer)
 (require 'eaf-music-player)
@@ -37,24 +37,31 @@
 ;; (require 'eaf-js-video-plyer)
 ;; (require 'eaf-rss-reader)
 
-(eaf-bind-key meow-keypad "SPC" eaf-git-keybinding)
-(eaf-bind-key meow-keypad "SPC" eaf-mindmap-keybinding)
-(eaf-bind-key meow-keypad "SPC" eaf-pdf-viewer-keybinding)
-(eaf-bind-key meow-keypad "SPC" eaf-image-viewer-keybinding)
-(eaf-bind-key meow-keypad "SPC" eaf-music-player-keybinding)
-(eaf-bind-key js_toggle_play_status "M-t" eaf-music-player-keybinding)
-(eaf-bind-key meow-keypad "SPC" eaf-video-player-keybinding)
-(eaf-bind-key meow-keypad "SPC" eaf-org-previewer-keybinding)
+;; (eaf-bind-key meow-keypad "SPC" eaf-git-keybinding)
+;; (eaf-bind-key meow-keypad "SPC" eaf-mindmap-keybinding)
+;; (eaf-bind-key meow-keypad "SPC" eaf-pdf-viewer-keybinding)
+;; (eaf-bind-key meow-keypad "SPC" eaf-image-viewer-keybinding)
+;; (eaf-bind-key meow-keypad "SPC" eaf-music-player-keybinding)
+;; (eaf-bind-key js_toggle_play_status "M-t" eaf-music-player-keybinding)
+;; (eaf-bind-key meow-keypad "SPC" eaf-video-player-keybinding)
+;; (eaf-bind-key meow-keypad "SPC" eaf-org-previewer-keybinding)
 
-(eaf-bind-key meow-keypad "SPC" eaf-browser-caret-mode-keybinding)
-(eaf-bind-key meow-keypad "SPC" eaf-markdown-previewer-keybinding)
-(eaf-bind-key meow-keypad "SPC" eaf-pyqterminal-cursor-move-mode-keybinding)
+;; (eaf-bind-key meow-keypad "SPC" eaf-browser-caret-mode-keybinding)
+;; (eaf-bind-key meow-keypad "SPC" eaf-markdown-previewer-keybinding)
+;; (eaf-bind-key meow-keypad "SPC" eaf-pyqterminal-cursor-move-mode-keybinding)
 
 (add-hook 'eaf-mode-hook
-          #'(lambda()(define-key eaf-mode-map (kbd "C-c b") #'one-key-menu-buffer)))
+          #'(lambda ()
+              (define-key eaf-mode-map (kbd "C-c b") #'one-key-menu-buffer)))
 (add-hook 'eaf-mode-hook
-          #'(lambda()(define-key eaf-mode-map (kbd "C-K") #'kill-now-buffer)))
+          #'(lambda ()
+              (define-key eaf-mode-map (kbd "C-K") #'kill-now-buffer)))
 (add-hook 'eaf-mode-hook
-          #'(lambda()(define-key eaf-mode-map (kbd "C-k") #'my/meow-quit)))
+          #'(lambda ()
+              (define-key eaf-mode-map (kbd "C-k") #'my/meow-quit)))
+(add-hook 'eaf-mode-hook
+          #'(lambda ()
+              (define-key eaf-mode-map (kbd "C-m") #'meow-keypad)))
+
 
 (provide 'init-eaf)
