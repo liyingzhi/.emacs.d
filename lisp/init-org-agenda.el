@@ -12,7 +12,7 @@
                     "~/Documents/Org/archive.org"
                     "~/Documents/Org/inbox.org"))
 
-(add-list-to-list 'org-agenda-files (file-expand-wildcards (concat *org-path* "/daily/*.org")))
+(add-list-to-list 'org-agenda-files (file-expand-wildcards (concat *org-path* "daily/*.org")))
 
 
 (setq org-agenda-custom-commands
