@@ -1,5 +1,9 @@
 ;;; init-magit.el --- Git SCM support -*- lexical-binding: t -*-
 ;;; Commentary:
+;; ANCHOR: magit-t-o-dos keyword text
+(require 'magit-todos)
+(with-eval-after-load 'magit
+  (magit-todos-mode 1))
 
 (defun +magit-log--abbreviate-author (&rest args)
   "The first arg is AUTHOR, abbreviate it.
