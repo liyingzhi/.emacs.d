@@ -20,6 +20,12 @@
 (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 (electric-pair-mode t)
 
+(advice-add #'meow-grab
+            :before
+            #'(lambda ()
+                (call-interactively #'electric-pair-mode)
+                (call-interactively #'awesome-pair-mode)))
+
 (require 'hungry-delete)
 (setq hungry-delete-chars-to-skip " \t\f\v"
       hungry-delete-except-modes
@@ -35,17 +41,15 @@
 ;; extension to visual-regexp which enables the use of modern regexp engines
 (require 'visual-regexp-steroids)
 
-
-;; (use-package lispy
-;;   :ensure t
-;;   :hook (lisp-mode . lispy-mode))
+;;; Visual Replace
+(require 'visual-replace)
+(global-set-key (kbd "M-r") #'visual-replace)
+(visual-replace-global-mode 1)
 
 (require 'init-awesome-pair)
 
 (add-hooks '(emacs-lisp-mode lisp-mode)
-           #'(lambda ()
-               (require 'aggressive-indent)
-               (aggressive-indent-mode 1)))
+           #'aggressive-indent-mode )
 
 (add-hooks '(python-mode python-ts-mode)
            #'(lambda ()
