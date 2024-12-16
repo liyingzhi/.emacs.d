@@ -91,11 +91,6 @@
     magit
     magit-delta
     magit-todos
-    async
-    dash
-    f
-    pcre2el
-    s
     git-cliff
     devdocs
     wucuo
