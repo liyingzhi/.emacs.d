@@ -44,10 +44,13 @@
      :fetcher github
      :repo "twlz0ne/psearch.el"
      :files ("psearch.el"))
+    (p-search :repo "zkry/p-search" :fetcher github)
+    heap
     (rsync-project-mode
      :fetcher github
      :repo "lizqwerscott/rsync-project-mode")
-    ))
+    gif-screencast
+    keycast))
 
 (defvar *package-language-mode-install-list*
   '(markdown-mode
@@ -73,6 +76,7 @@
     apheleia
     avy
     vundo
+    visual-replace
     visual-regexp
     visual-regexp-steroids
     (fingertip :fetcher github :repo "manateelazycat/fingertip")
@@ -131,7 +135,6 @@
     visual-fill-column
     olivetti
     redacted
-    visual-replace
     hl-todo
     imenu-list
     outshine
