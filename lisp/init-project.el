@@ -251,6 +251,7 @@ NAME is class name."
  hydra-project (:title "Project" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
  ("Basic"
   (("f" project-find-file "find file")
+   ("F" project-find-file-include "find file with gitignore")
    ("o" projection-find-other-file "find other file")
    ("d" project-dired-dir "dired")
    ("b" consult-project-buffer "buffer")
@@ -265,6 +266,10 @@ NAME is class name."
    ("e" eshell-project-toggle "eshell")
    ("s" project-blink-search "blink search"))))
 
+(defun project-find-file-include ()
+  (interactive)
+  (project-find-file t))
+
 ;;; disproject
 (require 'disproject)
 
@@ -272,8 +277,15 @@ NAME is class name."
   (interactive)
   (call-interactively #'multi-vterm-project))
 
+(transient-define-suffix disproject-find-file-include ()
+  (interactive)
+  (project-find-file t))
+
 (transient-append-suffix 'disproject-dispatch "s"
   '("t" "Term" disproject-term))
+
+(transient-replace-suffix 'disproject-dispatch "F"
+  '("F" "File file with git ignore" disproject-find-file-include))
 
 ;;;autoload
 (defun project-menu ()
