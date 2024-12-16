@@ -28,13 +28,14 @@
 (require 'init-dap)
 
 ;;; complile
-(setq compilation-scroll-output nil)
+(setq compilation-scroll-output t)
 (setq compilation-auto-jump-to-first-error nil)
 (setq compilation-max-output-line-length nil)
 
 (defun ar/compile-autoclose-or-jump-first-error (buffer string)
   "Hide successful builds window with BUFFER and STRING."
-  (when (compilation-buffer-p buffer)
+  (when (with-current-buffer buffer
+          (eq major-mode 'compilation-mode))
     (if (and (string-match "finished" string)
            (not (string-match "^.*warning.*" string)))
         (progn
@@ -52,7 +53,8 @@
 (require 'alert)
 (setq alert-default-style 'mode-line)
 (defun ar/alert-after-finish-in-background (buffer string)
-  (when (and (compilation-buffer-p buffer)
+  (when (and (with-current-buffer buffer
+             (eq major-mode 'compilation-mode))
            (or (not (get-buffer-window buffer 'visible))
               (not (frame-focus-state))))
     (if (and (string-match "finished" string)
