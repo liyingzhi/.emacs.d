@@ -28,35 +28,41 @@
 (require 'init-dap)
 
 ;;; complile
-(setq compilation-scroll-output t)
-(setq compilation-auto-jump-to-first-error t)
+(setq compilation-scroll-output nil)
+(setq compilation-auto-jump-to-first-error nil)
 (setq compilation-max-output-line-length nil)
 
-(defun ar/compile-autoclose (buffer string)
+(defun ar/compile-autoclose-or-jump-first-error (buffer string)
   "Hide successful builds window with BUFFER and STRING."
-  (when (with-current-buffer buffer
-          (equal major-mode 'compilation-mode))
+  (when (compilation-buffer-p buffer)
     (if (and (string-match "finished" string)
            (not (string-match "^.*warning.*" string)))
         (progn
           (message "Build finished :)")
-          (run-with-timer 3 nil
+          (run-with-timer 1 nil
                           (lambda ()
                             (when-let* ((multi-window (> (count-windows) 1))
                                         (live (buffer-live-p buffer))
                                         (window (get-buffer-window buffer t)))
                               (delete-window window)))))
-      (message "Compilation %s" string))))
+      (progn
+        (message "Compilation %s" string)
+        (call-interactively #'compilation-next-error)))))
 
 (require 'alert)
 (setq alert-default-style 'mode-line)
-(defun ar/alert-after-finish-in-background (buf str)
-  (when (with-current-buffer buf
-          (equal major-mode 'compilation-mode))
-    (when (or (not (get-buffer-window buf 'visible)) (not (frame-focus-state)))
-      (alert str :buffer buf))))
+(defun ar/alert-after-finish-in-background (buffer string)
+  (when (and (compilation-buffer-p buffer)
+           (or (not (get-buffer-window buffer 'visible))
+              (not (frame-focus-state))))
+    (if (and (string-match "finished" string)
+           (not (string-match "^.*warning.*" string)))
+        (alert string :buffer buffer :severity 'normal)
+      (alert string :buffer buffer :severity 'high))))
 
-(setq compilation-finish-functions (list #'ar/alert-after-finish-in-background #'ar/compile-autoclose))
+(setq compilation-finish-functions
+      (list #'ar/alert-after-finish-in-background
+            #'ar/compile-autoclose-or-jump-first-error))
 
 ;;; language
 (require 'init-elisp)
