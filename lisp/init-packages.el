@@ -176,7 +176,12 @@
     org-appear
     org-journal
     valign
-    pangu-spacing
+    (pangu-spacing
+     :fetcher github
+     :repo  "nailuoGG/pangu-spacing"
+     :branch "remove-old-version-support"
+     :files ("*.el"))
+
     (org-modern-indent :fetcher github :repo "jdtsmith/org-modern-indent")
     pdf-tools
     org-ref
