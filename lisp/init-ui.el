@@ -62,8 +62,8 @@
 ;;               (if (get-buffer "*Netease-Cloud-Music*")
 ;;                   (netease-cloud-music-add-header-lyrics))))
 
-(custom-set-faces
- '(header-line ((t (:inherit t :foreground unspecified :background unspecified)))))
+;; (custom-set-faces
+;;  '(header-line ((t (:inherit t :foreground unspecified :background unspecified)))))
 
 (breadcrumb-mode)
 ;; (setq header-line-format nil)
@@ -223,6 +223,7 @@
 (require 'nerd-icons-ibuffer)
 (add-hook 'ibuffer-mode-hook #'nerd-icons-ibuffer-mode)
 
+(require 'init-imenu-list)
 
 (provide 'init-ui)
 ;;; init-ui.el ends here.
