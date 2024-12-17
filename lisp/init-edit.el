@@ -43,7 +43,7 @@
 
 ;;; Visual Replace
 (require 'visual-replace)
-(global-set-key (kbd "M-r") #'visual-replace)
+(global-set-key (kbd "C-c C-r") #'visual-replace)
 (visual-replace-global-mode 1)
 
 (require 'init-awesome-pair)
@@ -51,7 +51,7 @@
 (add-hooks '(emacs-lisp-mode lisp-mode)
            #'aggressive-indent-mode )
 
-(add-hooks '(python-mode python-ts-mode)
+(add-hooks '(python-mode python-ts-mode c++-ts-mode)
            #'(lambda ()
                (require 'indent-yank)
                (indent-yank-mode 1)))
