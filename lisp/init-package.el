@@ -77,7 +77,7 @@
     doom-themes
     dracula-theme
     ef-themes
-
+    (standard-themes :fetcher github :repo "protesilaos/standard-themes")
     (lazy-load :fetcher github :repo "manateelazycat/lazy-load")
     (one-key :fetcher github :repo "manateelazycat/one-key")))
 
