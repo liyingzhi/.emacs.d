@@ -6,8 +6,8 @@
 (setf (alist-get 'python-ts-mode apheleia-mode-alist)
       '(isort black))
 
-(setf (alist-get 'c++-ts-mode apheleia-mode-alist)
-      'astyle)
+;; (setf (alist-get 'c++-ts-mode apheleia-mode-alist)
+;;       'astyle)
 
 ;;;###autoload
 (defun format-code ()
