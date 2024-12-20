@@ -39,7 +39,6 @@
 (require 'init-snippet)
 (require 'init-blink-search)
 (require 'init-tramp)
-;; (require 'init-rsync)
 
 (require 'init-dired)
 (require 'init-helpful)
@@ -54,7 +53,7 @@
 
 (require 'init-go-translate)
 
-;; (require 'init-rsync)
+(require 'init-rsync)
 ;; (require 'init-code-stats)
 
 ;; (require 'init-copilot)

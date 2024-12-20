@@ -222,12 +222,6 @@ NAME is class name."
 ;;   (define-key project-prefix-map "t" #'find-temp-project))
 
 (lazy-one-key-create-menu
- "Rsync"
- (:key "c" :description "Create project rsync" :command rsync-add-project :filename "init-rsync")
- (:key "r" :description "Rsync all" :command rsync-all :filename "init-rsync")
- (:key "s" :description "Show remote config" :command rsync-project-show-ssh-config :filename "init-rsync"))
-
-(lazy-one-key-create-menu
  "Project"
  (:key "f" :description "Find file in project" :command project-find-file)
  (:key "o" :description "Find other file in project" :command projection-find-other-file)
@@ -242,7 +236,7 @@ NAME is class name."
 
  (:key "v" :description "Project Git" :command magit-status)
  (:key "s" :description "Project Blink search" :command project-blink-search :filename "init-project")
- (:key "c" :description "Project rsync all" :command one-key-menu-rsync)
+ (:key "c" :description "Project rsync all" :command rsync-project-dispatch :filename "init-rsync")
 
  (:key "e" :description "Project eshell" :command eshell-project-toggle :filename "init-eshell")
  (:key "t" :description "Project vterm" :command multi-vterm-project :filename "multi-vterm"))
@@ -251,7 +245,6 @@ NAME is class name."
  hydra-project (:title "Project" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
  ("Basic"
   (("f" project-find-file "find file")
-   ("F" project-find-file-include "find file with gitignore")
    ("o" projection-find-other-file "find other file")
    ("d" project-dired-dir "dired")
    ("b" consult-project-buffer "buffer")
@@ -259,7 +252,8 @@ NAME is class name."
   "project"
   (("p" project-switch-project "switch other")
    ("r" project-forget-project "forget")
-   ("a" project-remember-project "remember"))
+   ("a" project-remember-project "remember")
+   ("c" rsync-project-dispatch "rsync"))
   "Other"
   (("v" magit-project-status "git")
    ("t" multi-vterm-project "vterm")
@@ -281,11 +275,21 @@ NAME is class name."
   (interactive)
   (project-find-file t))
 
+(transient-define-suffix disproject-find-other-file ()
+  (interactive)
+  (call-interactively #'projection-find-other-file))
+
 (transient-append-suffix 'disproject-dispatch "s"
   '("t" "Term" disproject-term))
 
 (transient-replace-suffix 'disproject-dispatch "F"
   '("F" "File file with git ignore" disproject-find-file-include))
+
+(transient-replace-suffix 'disproject-dispatch "D"
+  '("o" "File other file" disproject-find-other-file))
+
+(transient-replace-suffix 'disproject-dispatch "c"
+  '("c" "Rsync" rsync-project-dispatch))
 
 ;;;autoload
 (defun project-menu ()
