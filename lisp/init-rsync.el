@@ -41,4 +41,11 @@
         (vterm-send-return))))
   )
 
+(transient-define-suffix rsync-project-dispatch-term ()
+  (interactive)
+  (call-interactively #'multi-vterm-project-remote))
+
+(transient-append-suffix 'rsync-project-dispatch "n"
+  '("t" "Open Remote Term" rsync-project-dispatch-term))
+
 (provide 'init-rsync)
