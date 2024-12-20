@@ -50,7 +50,7 @@
 ;; (setq lsp-bridge-use-wenls-in-org-mode nil)
 ;; (setq lsp-bridge-enable-mode-line nil)
 ;; (setq lsp-bridge-enable-diagnostics t)
-;; (setq lsp-bridge-enable-with-tramp nil)
+(setq lsp-bridge-enable-with-tramp nil)
 
 ;; (setq lsp-bridge-completion-hide-characters
 ;;       '(":" ";" "[" "]" "{" "}" ", " "\""))
