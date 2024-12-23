@@ -19,16 +19,14 @@
   (interactive)
   (multi-vterm-project)
   (let ((root (file-truename (project-root (project-current)))))
-    (when (not (gethash root
-                      project-remote-connect))
-      (puthash root
-               t
-               project-remote-connect)
+    (when (not (gethash root project-remote-connect))
+      (puthash root t project-remote-connect)
       (when-let* ((remote-config (rsync-project-get-remote-config root))
                   (ssh-config (cl-getf remote-config :ssh-config)))
         (let ((remote-user (cl-getf ssh-config :user))
               (remote-host (cl-getf ssh-config :host))
-              (remote-port (cl-getf ssh-config :port)))
+              (remote-port (cl-getf ssh-config :port))
+              (remote-path (cl-getf ssh-config :remote-dir)))
           (vterm-send-M-w)
           (vterm-send-string (format "ssh %s %s"
                                      (if (and remote-user remote-host)
@@ -42,9 +40,12 @@
                                            "")
                                        ""))
                              t)
+          (vterm-send-return)
+
+          (vterm-send-string (format "cd %s" remote-path))
           (vterm-send-return))))))
 
-(transient-define-suffix rsync-project-dispatch-term ()
+(transient-define-suffix rsync-project-dispatch-term()
   (interactive)
   (call-interactively #'multi-vterm-project-remote))
 
