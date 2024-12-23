@@ -36,6 +36,8 @@
 
 (require 'init-minibuffer)
 (require 'init-corfu)
+(when user/completion-preview-mode-use
+  (require 'init-completion-preview))
 (require 'init-snippet)
 (require 'init-blink-search)
 (require 'init-tramp)
