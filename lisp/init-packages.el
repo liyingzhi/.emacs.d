@@ -59,7 +59,6 @@
     yaml-mode
     go-mode
     haskell-mode
-    jsonian
     elvish-mode
     git-modes
     csv-mode))
