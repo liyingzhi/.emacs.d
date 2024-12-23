@@ -24,7 +24,7 @@
             :before
             #'(lambda ()
                 (call-interactively #'electric-pair-mode)
-                (call-interactively #'awesome-pair-mode)))
+                (call-interactively #'fingertip-mode)))
 
 (require 'hungry-delete)
 (setq hungry-delete-chars-to-skip " \t\f\v"
@@ -32,6 +32,10 @@
       '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode))
 (global-hungry-delete-mode t)
 
+;;; fingertip
+(require 'init-fingertip)
+
+;;; vundo
 (require 'vundo)
 (setq vundo-glyph-alist vundo-unicode-symbols)
 (global-set-key (kbd "C-/") #'vundo)
@@ -46,15 +50,13 @@
 (global-set-key (kbd "C-c C-r") #'visual-replace)
 (visual-replace-global-mode 1)
 
-(require 'init-awesome-pair)
-
 (add-hooks '(emacs-lisp-mode lisp-mode)
            #'aggressive-indent-mode )
 
-(add-hooks '(python-mode python-ts-mode c++-ts-mode)
-           #'(lambda ()
-               (require 'indent-yank)
-               (indent-yank-mode 1)))
+;;; indent yank
+(require 'indent-yank)
+(add-hook 'prog-mode-hook
+          #'indent-yank-mode)
 
 ;;; Auto rename tag
 (add-hooks '(html-mode web-mode)
