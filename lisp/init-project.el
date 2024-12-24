@@ -60,6 +60,9 @@
   (interactive)
   (message "%s" (project-current t)))
 
+(cl-defmethod project-root ((project (head local)))
+  (cdr project))
+
 (defun my/add-dot-project ()
   (interactive)
   (let* ((root-dir (read-directory-name "Root: "))
