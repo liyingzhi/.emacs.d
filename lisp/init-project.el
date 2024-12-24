@@ -3,15 +3,8 @@
 
 (global-projection-hook-mode)
 
-;;configure project.el
+;;; config
 (setq xref-search-program 'ripgrep)
-
-;;;###autoload
-(defun project-root-path ()
-  "Get current project path"
-  (let ((project (project-current nil)))
-    (when project
-      (project-root project))))
 
 (defun my/project-try-local (dir)
   "Determine if DIR is a non-Git project."
@@ -25,6 +18,43 @@
             (throw 'ret (cons 'local root))))))))
 
 (setq project-find-functions '(project-try-vc my/project-try-local))
+
+(defun my/project-files-in-directory (dir)
+  "Use `fd' to list files in DIR."
+  (let* ((default-directory dir)
+         (localdir (file-local-name (expand-file-name dir)))
+         (command (format "fd -H -t f -0 . %s" localdir)))
+    (project--remote-file-names
+     (sort (split-string (shell-command-to-string command) "\0" t)
+           #'string<))))
+
+(cl-defmethod project-files ((project (head local)) &optional dirs)
+  "Override `project-files' to use `fd' in local projects."
+  (mapcan #'my/project-files-in-directory
+          (or dirs (list (project-root project)))))
+
+(cl-defmethod project-files (project &optional dirs)
+  "Override `project-files' to use `fd' and Check if the current project is a single file project in transient(eglot) projects."
+  (if (equal 'transient (car project))
+      (progn
+        (message "eglot transient single file")
+        (when-let* ((server (eglot-current-server))
+                    (buffers (eglot--managed-buffers server))
+                    (paths (project--remote-file-names
+                            (mapcar #'(lambda (buffer)
+                                        (file-truename (buffer-file-name buffer)))
+                                    buffers))))
+          paths))
+    (mapcan #'my/project-files-in-directory
+            (or dirs (list (project-root project))))))
+
+;;; Functions
+;;;###autoload
+(defun project-root-path ()
+  "Get current project path"
+  (let ((project (project-current nil)))
+    (when project
+      (project-root project))))
 
 (defun my/project-info ()
   (interactive)
@@ -48,125 +78,6 @@
             (when-let ((pr (project-current nil full-name)))
               (project-remember-project pr)
               (message "add project %s..." pr))))))))
-
-(defun my/project-files-in-directory (dir)
-  "Use `fd' to list files in DIR."
-  (let* ((default-directory dir)
-         (localdir (file-local-name (expand-file-name dir)))
-         (command (format "fd -H -t f -0 . %s" localdir)))
-    (project--remote-file-names
-     (sort (split-string (shell-command-to-string command) "\0" t)
-           #'string<))))
-
-(cl-defmethod project-files ((project (head local)) &optional dirs)
-  "Override `project-files' to use `fd' in local projects."
-  (message "hello")
-  (mapcan #'my/project-files-in-directory
-          (or dirs (list (project-root project)))))
-
-(defun ros-generate-command-json ()
-  "Generated ros for lsp ."
-  (interactive)
-  (let ((root-project (project-root (project-current))))
-    (shell-command
-     (concat (concat "cd " root-project)
-             "&& catkin_make -DCMAKE_EXPORT_COMPILE_COMMANDS=1"))
-    (when (not (file-exists-p
-                (concat root-project
-                        "compile_commands.json")))
-      (shell-command
-       (concat "ln -s ./Debug/compile_commands.json "
-               root-project))))
-  (message "ros ccls finish"))
-
-(defun ros-build ()
-  "Build ros code."
-  (interactive)
-  (let ((root-project (project-root (project-current))))
-    (shell-command
-     (concat (concat "cd " root-project)
-             "&& catkin_make"))))
-
-(defun cmake-generate-command-json ()
-  "Generated cmake for lsp (support cmake project)."
-  (interactive)
-  (let ((root-project (project-root (project-current))))
-    (shell-command
-     (concat (concat "cd " root-project)
-             "&& cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES"))
-    (when (not (file-exists-p
-                (concat root-project
-                        "compile_commands.json")))
-      (shell-command
-       (concat "ln -s ./Debug/compile_commands.json "
-               root-project))))
-  (message "cmake ccls finish"))
-
-(defun cmake-run-command-in-debug (command)
-  "Run command in project."
-  (let ((root-project (project-root (project-current)))
-        (compile-buffer (get-buffer-create "*Compile cmake*")))
-    (if (file-directory-p (concat root-project
-                                  "Debug"))
-        (progn
-          (async-shell-command (concat "cd "
-                                       root-project
-                                       "Debug && "
-                                       command)
-                               compile-buffer)
-          (switch-to-buffer-other-window compile-buffer))
-      (message "not generate cmake Debug dir"))))
-
-(defun cmake-compile ()
-  "Compile cmake project."
-  (interactive)
-  (cmake-run-command-in-debug "make -j16"))
-
-(defun cmake-compile-clean ()
-  "Clean make cmake project."
-  (interactive)
-  (cmake-run-command-in-debug "make clean"))
-
-(defvar temp-file-dir "~/temp/" "Set default temp file dir.")
-
-(defun make-lisp-temp (name)
-  (let ((file-name (concat name "/main.lisp")))
-    (make-empty-file file-name)
-    (find-file file-name)))
-
-(defun make-python-temp (name)
-  (let ((file-name (concat name "/main.py")))
-    (make-empty-file file-name)
-    (find-file file-name)))
-
-(defun make-c++-temp (name)
-  (let ((file-name (concat name "/main.cpp")))
-    (make-empty-file file-name)
-    (find-file file-name)))
-
-(defun make-temp-project (args)
-  "Make temp file.
-ARGS is temp project name
-Support Lisp, python, c++."
-  (interactive (list (completing-read "choose one create:"
-                                      `(("Lisp" . 1)
-                                        ("Python" . 2)
-                                        ("C++" . 3))
-                                      nil t "")))
-  (let ((project-name (read-directory-name "make project directory name:"
-                                           temp-file-dir)))
-    (make-directory project-name)
-    (cond ((string= args "Lisp") (make-lisp-temp project-name))
-          ((string= args "Python") (make-python-temp project-name))
-          ((string= args "C++") (make-c++-temp project-name))
-          (t (error "in make-temp-file, the args get another.(%s)" args))))
-  (message args))
-
-(defun find-temp-project ()
-  "Find temp project."
-  (interactive "")
-  (find-file (read-directory-name "find temp project:"
-                                  temp-file-dir)))
 
 (defun c++-generate-class (name)
   "Generate c++ class.
@@ -212,6 +123,49 @@ NAME is class name."
                 (read-directory-name "Dired open: " (project-root (project-current)))))
   (dired dired-dir))
 
+;;; Find Temp project
+(defvar temp-file-dir "~/temp/" "Set default temp file dir.")
+
+(defun make-lisp-temp (name)
+  (let ((file-name (concat name "/main.lisp")))
+    (make-empty-file file-name)
+    (find-file file-name)))
+
+(defun make-python-temp (name)
+  (let ((file-name (concat name "/main.py")))
+    (make-empty-file file-name)
+    (find-file file-name)))
+
+(defun make-c++-temp (name)
+  (let ((file-name (concat name "/main.cpp")))
+    (make-empty-file file-name)
+    (find-file file-name)))
+
+(defun make-temp-project (args)
+  "Make temp file.
+ARGS is temp project name
+Support Lisp, python, c++."
+  (interactive (list (completing-read "choose one create:"
+                                      `(("Lisp" . 1)
+                                        ("Python" . 2)
+                                        ("C++" . 3))
+                                      nil t "")))
+  (let ((project-name (read-directory-name "make project directory name:"
+                                           temp-file-dir)))
+    (make-directory project-name)
+    (cond ((string= args "Lisp") (make-lisp-temp project-name))
+          ((string= args "Python") (make-python-temp project-name))
+          ((string= args "C++") (make-c++-temp project-name))
+          (t (error "in make-temp-file, the args get another.(%s)" args))))
+  (message args))
+
+(defun find-temp-project ()
+  "Find temp project."
+  (interactive "")
+  (find-file (read-directory-name "find temp project:"
+                                  temp-file-dir)))
+
+;;; project-prefix-map
 ;; (defalias 'project-prefix-map project-prefix-map)
 
 ;; (define-key mode-specific-map "p" 'project-prefix-map)
@@ -221,6 +175,20 @@ NAME is class name."
 ;;   (define-key project-prefix-map "s" #'shell)
 ;;   (define-key project-prefix-map "t" #'find-temp-project))
 
+;; (define-key project-prefix-map (kbd "b") #'consult-project-buffer)
+;; (define-key project-prefix-map (kbd "s") #'shell)
+;; (define-key project-prefix-map (kbd "t") #'find-temp-project)
+(define-key project-prefix-map (kbd "v") #'magit-project-status)
+
+;;; project-switch-commands
+(setq project-switch-commands nil)
+(add-to-list 'project-switch-commands '(project-find-file "Find file") t)
+(add-to-list 'project-switch-commands '(magit-project-status "Git Status") t)
+(add-to-list 'project-switch-commands '(project-find-dir "Find Dir") t)
+(add-to-list 'project-switch-commands '(project-dired "Dired") t)
+
+
+;;; Menu
 (lazy-one-key-create-menu
  "Project"
  (:key "f" :description "Find file in project" :command project-find-file)
@@ -260,10 +228,6 @@ NAME is class name."
     ("e" eshell-project-toggle "eshell")
     ("s" project-blink-search "blink search"))))
 
-(defun project-find-file-include ()
-  (interactive)
-  (project-find-file t))
-
 ;;; disproject
 (require 'disproject)
 
@@ -295,22 +259,10 @@ NAME is class name."
   '(";" "Custom dispatch" disproject-custom-dispatch
     :transient transient--do-replace))
 
-;;;autoload
+;;;###autoload
 (defun project-menu ()
   (interactive)
-  ;; (call-interactively #'disproject-dispatch))
-  (call-interactively #'hydra-project/body))
-
-;; (define-key project-prefix-map (kbd "b") #'consult-project-buffer)
-;; (define-key project-prefix-map (kbd "s") #'shell)
-;; (define-key project-prefix-map (kbd "t") #'find-temp-project)
-(define-key project-prefix-map (kbd "v") #'magit-project-status)
-
-(setq project-switch-commands nil)
-(add-to-list 'project-switch-commands '(project-find-file "Find file") t)
-(add-to-list 'project-switch-commands '(magit-project-status "Git Status") t)
-(add-to-list 'project-switch-commands '(project-find-dir "Find Dir") t)
-(add-to-list 'project-switch-commands '(project-dired "Dired") t)
+  (call-interactively #'disproject-dispatch))
 
 (provide 'init-project)
 ;;; init-project.el ends heres.
