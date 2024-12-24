@@ -279,10 +279,6 @@
 (meow-vterm-enable)
 (meow-setup)
 
-(add-hook 'dired-mode-hook
-          #'(lambda ()
-              (meow-motion-overwrite-define-key
-               '("h" . dired-up-directory))))
 
 (require 'eww)
 (keymap-sets eww-mode-map
