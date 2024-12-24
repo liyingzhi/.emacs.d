@@ -118,7 +118,8 @@
    (("f" flymake-mode "flymake" :toggle t)
     ("u" unity-mode "unity develop" :toggle t))))
 
-(pretty-hydra-define hydra-jump-dir (:title (pretty-hydra-title "Jump to directory" 'octicon "nf-oct-file_directory_open_fill") :color amaranth :quit-key ("C-g" "q" "<escape>"))
+(pretty-hydra-define-e hydra-jump-dir
+  (:title (pretty-hydra-title "Jump to directory" 'octicon "nf-oct-file_directory_open_fill") :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
   ("Base"
    (("h" (find-file "~/") "Home")
     ("d" (find-file "~/Downloads") "Downloads"))
@@ -127,14 +128,12 @@
     ("g" (find-file "~/github") "Github")
     ("p" (find-file "~/MyProject") "Project"))
    "Search"
-   (("s"
-     (lambda()
-       (interactive)
-       (autoload 'consult-fd-dir "init-func" nil t)
-       (consult-fd-dir))
-     "Fuzzy search Dir" :exit t)
-    ("j" dired-jump "Dired jump" :exit t)
-    ("J" dired-jump-other-window "Dired jump other" :exit t))))
+   (("s" (lambda ()
+           (interactive)
+           (autoload 'consult-fd-dir "init-func" nil t)
+           (consult-fd-dir)) "Fuzzy search Dir")
+    ("j" dired-jump "Dired jump")
+    ("J" dired-jump-other-window "Dired jump other"))))
 
 (pretty-hydra-define-e hydra-git
   (:title "Git" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
