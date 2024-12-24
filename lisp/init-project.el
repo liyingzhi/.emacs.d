@@ -265,7 +265,8 @@ Support Lisp, python, c++."
 ;;;###autoload
 (defun project-menu ()
   (interactive)
-  (call-interactively #'disproject-dispatch))
+  ;; (call-interactively #'disproject-dispatch)
+  (call-interactively #'hydra-project/body))
 
 (provide 'init-project)
 ;;; init-project.el ends heres.
