@@ -242,8 +242,13 @@
 (add-hook 'prog-mode-hook
           'goto-address-prog-mode)
 
-(require 'nerd-icons-ibuffer)
+;;; Ibuffer
 (add-hook 'ibuffer-mode-hook #'nerd-icons-ibuffer-mode)
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (unless ibuffer-filter-groups
+              (require 'projection-ibuffer)
+              (ibuffer-projection-set-filter-groups))))
 
 (require 'init-imenu-list)
 
