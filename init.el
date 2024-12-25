@@ -26,6 +26,7 @@
 (require 'init-key)
 (require 'init-hydra)
 (require 'init-meow)
+(require 'init-transient)
 
 (require 'init-edit)
 (require 'init-spell)

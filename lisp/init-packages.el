@@ -141,7 +141,8 @@
                 :repo "joaotavora/breadcrumb")
     (highlight-matching-tag :fetcher github :repo "manateelazycat/highlight-matching-tag")
     buffer-name-relative
-    (prism :fetcher github :repo "alphapapa/prism.el")))
+    (prism :fetcher github :repo "alphapapa/prism.el")
+    casual))
 
 (defvar *package-window-install-list*
   '(shackle
