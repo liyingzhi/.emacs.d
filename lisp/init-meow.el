@@ -181,8 +181,9 @@
    '("2" . split-window-below)
    '("3" . split-window-horizontally)
    '("0" . delete-window)
-   ;; '("r" . run-or-compile)
-   '("r" . one-key-menu-compile))
+   '("r" . run-or-compile)
+   ;;'("r" . one-key-menu-compile)
+   )
 
   ;; (lazy-meow-insert-define-key
   ;;  '(("C-c i" . insert-translated-name-insert) "init-translated-name"))
