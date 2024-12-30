@@ -49,7 +49,9 @@
   (interactive)
   (call-interactively #'multi-vterm-project-remote))
 
-(transient-append-suffix 'rsync-project-dispatch "n"
-  '("t" "Open Remote Term" rsync-project-dispatch-term))
+(transient-append-suffix 'rsync-project-dispatch '(-2 -1)
+  ["Mics"
+   :if rsync-project--check
+   ("t" "Open Remote Term" rsync-project-dispatch-term)])
 
 (provide 'init-rsync)
