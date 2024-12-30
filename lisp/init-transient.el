@@ -46,6 +46,8 @@
 
 (with-eval-after-load 'org-agenda
   (keymap-set org-agenda-mode-map "C-o" #'casual-agenda-tmenu))
+(with-eval-after-load 'symbol-overlay
+  (keymap-set symbol-overlay-map "C-o" #'casual-symbol-overlay-tmenu))
 
 (provide 'init-transient)
 ;;; init-transient.el ends here

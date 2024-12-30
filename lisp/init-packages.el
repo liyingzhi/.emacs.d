@@ -74,6 +74,7 @@
     hungry-delete
     separedit
     symbol-overlay
+    symbol-overlay-mc
     aggressive-indent
     apheleia
     avy
@@ -144,7 +145,8 @@
     (highlight-matching-tag :fetcher github :repo "manateelazycat/highlight-matching-tag")
     buffer-name-relative
     (prism :fetcher github :repo "alphapapa/prism.el")
-    casual))
+    casual
+    casual-symbol-overlay))
 
 (defvar *package-window-install-list*
   '(shackle
