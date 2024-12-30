@@ -48,6 +48,28 @@
 ;;; Visual Replace
 (require 'visual-replace)
 (global-set-key (kbd "C-c C-r") #'visual-replace)
+(keymap-sets visual-replace-mode-map
+             '(("C-r" . visual-replace-toggle-regexp)
+               ("C-q" . visual-replace-toggle-query)
+               ("C-w" . visual-replace-toggle-word)
+               ("C-w" . visual-replace-toggle-case-fold)
+               ("C-u" . visual-replace-undo)
+               ("C-s" . visual-replace-toggle-scope)))
+(setq visual-replace-min-length 1)
+
+(transient-define-prefix visual-replace-dispatch ()
+  "Visual replace menu."
+  ["Toggles"
+   ("r" "Regexp" visual-replace-toggle-regexp)
+   ("s" "Scope" visual-replace-toggle-scope)
+   ("q" "Query" visual-replace-toggle-query)
+   ("w" "Word" visual-replace-toggle-word)
+   ("c" "Case Fold" visual-replace-toggle-case-fold)
+   ("l" "Lax ws" visual-replace-toggle-lax-ws)])
+
+(keymap-set visual-replace-mode-map
+            "C-o" #'visual-replace-dispatch)
+
 (visual-replace-global-mode 1)
 
 (add-hooks '(emacs-lisp-mode lisp-mode)
