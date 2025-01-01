@@ -52,7 +52,7 @@
              '(("C-r" . visual-replace-toggle-regexp)
                ("C-q" . visual-replace-toggle-query)
                ("C-w" . visual-replace-toggle-word)
-               ("C-w" . visual-replace-toggle-case-fold)
+               ("C-f" . visual-replace-toggle-case-fold)
                ("C-u" . visual-replace-undo)
                ("C-s" . visual-replace-toggle-scope)))
 (setq visual-replace-min-length 1)
