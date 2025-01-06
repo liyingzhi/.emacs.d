@@ -1,14 +1,27 @@
-(global-set-key (kbd "RET") 'newline-and-indent)
-(global-set-key (kbd "S-<return>") 'comment-indent-new-line)
-(global-set-key (kbd "M-o") #'ace-window)
-(global-set-key (kbd "M-n") #'scroll-up-1/3)
-(global-set-key (kbd "M-p") #'scroll-down-1/3)
-(global-set-key (kbd "M-<left>") #'previous-buffer)
-(global-set-key (kbd "M-<right>") #'next-buffer)
+(global-set-keys
+ '(("s-." . embark-act)
+   ("M-<left>" . previous-buffer)
+   ("M-<right>" . next-buffer)
+   ("C-s-;" . embark-dwim)
+   ("C-h B" . embark-bindings)))
 
-(global-set-key (kbd "s-.") #'embark-act)
-(global-set-key (kbd "C-s-;") #'embark-dwim)
-(global-set-key (kbd "C-h B") #'embark-bindings)
+(global-set-keys
+ '(("RET" . newline-and-indent)
+   ("S-<return>" . comment-indent-new-line)
+   (("s-o" "M-o") . ace-window)
+   (("s-n" "M-n") . scroll-up-1/3)
+   (("s-p" "M-p") . scroll-down-1/3)
+   (("s-x" "M-x") . execute-extended-command)))
+
+(with-eval-after-load 'eww
+  (keymap-sets eww-mode-map
+               '(("M-n" . scroll-up-1/3)
+                 ("M-p" . scroll-down-1/3))))
+
+(with-eval-after-load 'compile
+  (keymap-sets compilation-mode-map
+               '(("s-n" . compilation-next-error)
+                 ("s-p" . compilation-previous-error))))
 
 ;;;###autoload
 (defmacro lazy-one-key-create-menu (title &rest keybinds)
@@ -188,17 +201,15 @@
 ;; ;;; ### Watch other window ###
 ;; ;;; --- 滚动其他窗口
 (require 'watch-other-window)
-(global-set-key (kbd "M-N")
-                #'(lambda ()
-                    (interactive)
-                    (watch-other-window-internal "up"
-                                                 (/ (window-body-height) 3))))
-
-(global-set-key (kbd "M-P")
-                #'(lambda ()
-                    (interactive)
-                    (watch-other-window-internal "down"
-                                                 (/ (window-body-height) 3))))
+(global-set-keys
+ '((("M-N" "s-N") . (lambda ()
+                      (interactive)
+                      (watch-other-window-internal "up"
+                                                   (/ (window-body-height) 3))))
+   (("M-P" "s-P") . (lambda ()
+                      (interactive)
+                      (watch-other-window-internal "down"
+                                                   (/ (window-body-height) 3))))))
 ;;; symbol overlay
 (lazy-load-global-keys
  '(("M-i" . symbol-overlay-put))

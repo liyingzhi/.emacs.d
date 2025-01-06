@@ -87,8 +87,8 @@
                (format "Explain in %d words or fewer." count)
                "It is best to use Chinese for the explanation.")))))
 
-(global-set-key (kbd "M-?") #'gptel-quick)
-(global-set-key (kbd "s-?") #'gptel-quick)
+(global-set-keys
+ '((("M-?" "s-?") . gptel-quick)))
 
 (provide 'init-gptel)
 ;;; init-gptel.el ends here
