@@ -52,8 +52,7 @@
      :fetcher github
      :repo "lizqwerscott/rsync-project-mode")
     gif-screencast
-    keycast
-    nameless))
+    keycast))
 
 (defvar *package-language-mode-install-list*
   '(markdown-mode
