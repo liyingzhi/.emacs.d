@@ -33,7 +33,7 @@
         :protocol "https"
         :host "api.moonshot.cn"
         :key #'gptel-api-key
-        :models '(moonshot-v1-8k)))
+        :models '(moonshot-v1-8k moonshot-v1-128k)))
 
 (setq gptel-backend-fireworks
       (gptel-make-openai "chinese"
@@ -52,10 +52,10 @@
         :key #'gptel-api-key
         :models '(deepseek-chat)))
 
-;; (setq gptel-model 'moonshot-v1-8k)
-;; (setq gptel-backend gptel-backend-kimi)
-(setq gptel-model 'deepseek-chat)
-(setq gptel-backend gptel-backend-deepseek)
+(setq gptel-model 'moonshot-v1-128k)
+(setq gptel-backend gptel-backend-kimi)
+;; (setq gptel-model 'deepseek-chat)
+;; (setq gptel-backend gptel-backend-deepseek)
 
 (require 'gptel)
 (add-list-to-list 'gptel-directives
