@@ -212,24 +212,13 @@
 (global-set-key (kbd "C-c /")
                 #'google-this)
 
-(require 'transient)
-(keymap-set transient-map
-            "<escape>"
-            #'transient-quit-one)
-(keymap-set transient-map
-            "C-n"
-            #'transient-scroll-up)
-
-(keymap-set transient-map
-            "C-p"
-            #'transient-scroll-down)
-
 ;;; yank
 (global-set-key (kbd "M-y") #'consult-yank-pop)
 
 ;;; gif screenshot
 (with-eval-after-load 'gif-screencast
-  (define-key gif-screencast-mode-map (kbd "<f8>") 'gif-screencast-toggle-pause)
-  (define-key gif-screencast-mode-map (kbd "<f9>") 'gif-screencast-stop))
+  (keymap-sets gif-screencast-mode-map
+               '(("<f8>" . gif-screencast-toggle-pause)
+                 ("<f9>" . gif-screencast-stop))))
 
 (provide 'init-key)

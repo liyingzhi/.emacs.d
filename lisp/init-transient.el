@@ -23,6 +23,18 @@
 ;;
 
 ;;; Code:
+(require 'transient)
+(keymap-set transient-map
+            "<escape>"
+            #'transient-quit-all)
+
+(keymap-set transient-map
+            "C-n"
+            #'transient-scroll-up)
+
+(keymap-set transient-map
+            "C-p"
+            #'transient-scroll-down)
 
 (with-eval-after-load 'calc
   (keymap-set calc-mode-map "C-o" #'casual-calc-tmenu))
