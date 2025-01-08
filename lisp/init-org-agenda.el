@@ -32,6 +32,30 @@
       "DOING"
     task-state))
 
+;;; agenda repeater
+;; Shorten the leaders to reserve spaces for the repeater.
+(setq org-agenda-scheduled-leaders '("Sched" "S.%2dx"))
+(setq org-agenda-deadline-leaders '("Deadl" "In%2dd" "D.%2dx"))
+
+(defun my/org-agenda-repeater ()
+  "The repeater shown in org-agenda-prefix for agenda."
+  (if (org-before-first-heading-p)
+      "-------"  ; fill the time grid
+    (format "%5s: " (or (org-get-repeat) ""))))
+
+;; Add `my/org-agenda-repeater' to the agenda prefix.
+(setcdr (assoc 'agenda org-agenda-prefix-format)
+        " %i %-12:c%?-12t%s%(my/org-agenda-repeater)")
+
+;;; agennda format
+(setq org-agenda-span 'day
+      org-agenda-current-time-string (concat "◀┈┈┈┈┈┈┈┈┈┈┈┈┈ ⏰"))
+(setq org-agenda-compact-blocks t)
+
+(setq org-columns-default-format-for-agenda
+      "%TODO %PRIORITY(Pri) %60ITEM(Task) %SCHEDULED")
+
+;;; agenda menu
 ;;;###autoload
 (defun agenda-open-with-file (file)
   `(lambda ()

@@ -167,9 +167,6 @@
 (setq consult-notes-org-headings-files
       '("~/Documents/Org/idea.org"
         "~/Documents/Org/quote.org"))
-(setq org-agenda-span 'day
-      org-agenda-current-time-string (concat "◀┈┈┈┈┈┈┈┈┈┈┈┈┈ ⏰"))
-(setq org-agenda-compact-blocks t)
 
 (consult-notes-org-headings-mode)
 (consult-notes-org-roam-mode)
