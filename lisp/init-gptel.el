@@ -71,9 +71,34 @@
                                           "  Follow my instructions and improve or rewrite the text I provide."
                                           "  Generate ONLY the replacement text,"
                                           " without any explanation or markdown code fences or org code fences."
-                                          " Rewrite: 将当前文本翻译到英语"))))
-(setq gptel-use-tools t)
+                                          " translate chinese to english."))))
+
 (require 'init-gptel-tools)
+
+(defun gptel-translate-to-english (&optional dry-run)
+  "Use AI to translate the currently selected text into English."
+  (interactive "P")
+  (unless (or gptel--rewrite-overlays (use-region-p))
+    (user-error "`gptel-translate-to-english' requires an active region or rewrite in progress."))
+  (gptel-request (list (or (get-char-property (point) 'gptel-rewrite)
+                          (buffer-substring-no-properties (region-beginning) (region-end)))
+                       "What is the required change?"
+                       "Rewrite:")
+    :dry-run dry-run
+    :system (alist-get 'translate gptel-directives)
+    :stream t
+    :context
+    (let ((ov (or (cdr-safe (get-char-property-and-overlay (point) 'gptel-rewrite))
+                 (make-overlay (region-beginning) (region-end) nil t))))
+      (overlay-put ov 'category 'gptel)
+      (overlay-put ov 'evaporate t)
+      (cons ov (generate-new-buffer "*gptel-rewrite*")))
+    :callback #'gptel--rewrite-callback))
+
+(with-eval-after-load 'gptel-transient
+  (transient-append-suffix 'gptel-menu '(-1 -1)
+    ["Quick Tools"
+     ("q t" "Translate select regions to english" gptel-translate-to-english)]))
 
 (global-set-key (kbd "C-c RET") #'gptel-send)
 
