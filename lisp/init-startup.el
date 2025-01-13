@@ -8,9 +8,9 @@
 ;;; Emacs Config
 (setq-default lexical-binding t)
 
-(require 'no-littering)
 (setq no-littering-etc-directory
       (expand-file-name "config/" user-emacs-directory))
+(require 'no-littering)
 
 (let ((path "~/.emacs.d/tmp/"))
   (unless (file-directory-p path)
