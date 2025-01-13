@@ -13,9 +13,9 @@
       (expand-file-name "config/" user-emacs-directory))
 
 (let ((path "~/.emacs.d/tmp/"))
-  (when (not (file-directory-p path))
-    (setq temporary-file-directory
-          path)))
+  (unless (file-directory-p path)
+    (make-directory path))
+  (setq temporary-file-directory path))
 
 ;;; Encoding
 ;; UTF-8 as the default coding system
