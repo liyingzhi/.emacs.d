@@ -50,6 +50,10 @@
 
  (:key "i" :description "Toggle immersive-translate" :command immersive-translate-auto-mode :filename "init-immersive-translate"))
 
+(defun consult-fd-in-home ()
+  (interactive)
+  (consult-fd "~"))
+
 (lazy-one-key-create-menu
  "Search"
  (:key "l" :description "Search in buffer" :command consult-line)
