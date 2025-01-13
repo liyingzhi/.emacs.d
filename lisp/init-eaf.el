@@ -8,6 +8,7 @@
 (setq eaf-python-command user/eaf-python-command)
 ;; (setq eaf-browser-auto-import-chrome-cookies t)
 (setq eaf-pyqterminal-font-family "Hack Nerd Font")
+(setq eaf-config-location no-littering-var-directory)
 
 (require 'eaf)
 (unless eaf-dired-advisor-enable

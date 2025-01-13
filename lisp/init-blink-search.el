@@ -1,3 +1,5 @@
+(setq blink-search-history-path no-littering-var-directory)
+(setq blink-search-db-path no-littering-var-directory)
 (require 'blink-search)
 ;; (add-hook 'blink-search-mode-hook #'meow-insert-mode)
 (setq blink-search-search-backends
