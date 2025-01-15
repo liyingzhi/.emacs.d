@@ -13,6 +13,7 @@
         (cargo-process-mode . normal)
         (compilation-mode . normal)
         (message-mode . normal)
+        (messages-buffer-mode . normal)
         (blink-search-mode . insert)
         (color-rg-mode . insert)
         (Info-mode . motion)
