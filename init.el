@@ -47,6 +47,7 @@
 (require 'init-helpful)
 
 (require 'init-org)
+(require 'init-denote)
 (require 'init-pangu)
 ;; (require 'init-hugo)
 (require 'init-elfeed)
