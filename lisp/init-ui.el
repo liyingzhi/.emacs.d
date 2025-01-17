@@ -252,5 +252,8 @@
 
 (require 'init-imenu-list)
 
+;;; Eww image slice
+(require 'init-image-slicing)
+
 (provide 'init-ui)
 ;;; init-ui.el ends here.

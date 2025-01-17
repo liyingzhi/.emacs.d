@@ -21,7 +21,8 @@
         (devdocs-mode . normal)
         (vterm-mode . insert)
         (fanyi-mode . normal)
-        (eaf-mode . motion)))
+        (eaf-mode . motion)
+        (eww-mode . normal)))
 
 ;; overwrite default j,k key function in motion state
 ;; (meow-motion-overwrite-define-key '("j" . dired-next-line))

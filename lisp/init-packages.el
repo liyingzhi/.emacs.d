@@ -108,7 +108,7 @@
     (peek :fetcher sourcehut :repo "meow_king/peek")
 
     (auto-save :fetcher github :repo "manateelazycat/auto-save")
-    ))
+    (image-slicing :fetcher github :repo "ginqi7/image-slicing")))
 
 (defvar *package-ui-install-list*
   '(solarized-theme
@@ -190,7 +190,8 @@
     pdf-tools
     org-ref
     (org-media-note :fetcher github :repo "yuchen-lea/org-media-note")
-    ))
+    denote
+    consult-denote))
 
 (defvar *package-ai-install-list*
   '((copilot :fetcher github
