@@ -191,7 +191,8 @@
     org-ref
     (org-media-note :fetcher github :repo "yuchen-lea/org-media-note")
     denote
-    consult-denote))
+    consult-denote
+    denote-menu))
 
 (defvar *package-ai-install-list*
   '((copilot :fetcher github

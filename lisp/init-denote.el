@@ -29,8 +29,10 @@
 (setq denote-directory "~/Documents/denote")
 (setq consult-denote-grep-command #'consult-ripgrep)
 (setq consult-denote-find-command #'consult-fd)
+(setq denote-date-prompt-use-org-read-date t)
 
-;; (push '("b" "笔记" entry (file+headline "~/Org/note.org" "笔记") "* %^{标题} %t\n  %?\n") org-capture-templates)
+(add-list-to-list  'consult-notes-file-dir-sources
+                   `(("Denote Notes"  ?d ,denote-directory)))
 (push '("d" "New note (with Denote)" plain
         (file denote-last-path)
         #'denote-org-capture
@@ -38,6 +40,20 @@
         :immediate-finish nil
         :kill-buffer t
         :jump-to-captured t) org-capture-templates)
+
+;; (push '("j" "Journal" entry
+;;         (file denote-journal-extras-path-to-new-or-existing-entry)
+;;         "* %U %?\n%i\n%a"
+;;         :kill-buffer t
+;;         :empty-lines 1) org-capture-templates)
+
+(defun my-denote-create-note-in-any-directory ()
+  "Create new Denote note in any directory.
+Prompt for the directory using minibuffer completion."
+  (declare (interactive-only t))
+  (interactive)
+  (let ((denote-directory (read-directory-name "New note in: " nil nil :must-match)))
+    (call-interactively 'denote)))
 
 (consult-denote-mode 1)
 (provide 'init-denote)
