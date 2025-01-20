@@ -67,6 +67,8 @@
   (cond
    ((bound-and-true-p sly-mode)
     (call-interactively #'sly-edit-definition))
+   (citre-mode
+    (citre-jump))
    (lsp-bridge-mode
     (lsp-bridge-find-def))
    (t
@@ -81,6 +83,8 @@
    ((acm-is-elisp-mode-p)
     (require 'dumb-jump)
     (call-interactively #'dumb-jump-go-other-window))
+   (citre-mode
+    (citre-jump))
    (lsp-bridge-mode
     (lsp-bridge-find-def-other-window))
    (t
@@ -90,6 +94,8 @@
 (defun return-find-def ()
   (interactive)
   (cond
+   (citre-mode
+    (citre-jump-back))
    (lsp-bridge-mode
     (lsp-bridge-find-def-return))
    (t
