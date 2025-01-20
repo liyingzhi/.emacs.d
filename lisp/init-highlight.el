@@ -158,10 +158,7 @@
 ;;       (advice-add cmd :after #'my-recenter-and-pulse))))
 
 ;;; Pulse modified region
-(setq pulse-delay 0.08
-      pulse-iterations 2)
-(add-hooks '(prog-mode text-mode)
-           'goggles-mode)
+(require 'init-pulsar)
 
 ;;; Color identifiers
 (setq color-identifiers:recoloring-delay 1)
