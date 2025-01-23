@@ -165,7 +165,14 @@
  (:key "c" :description "music-online" :command eaf-open-cloud-music)
  (:key "l" :description "music-offline" :command eaf-open-music-player))
 
-
+(defun lsp-rename ()
+  (interactive)
+  (pcase user/lsp-client
+    ('eglot
+     (call-interactively #'eglot-rename))
+    ('lsp-bridge
+     (autoload #'lsp-bridge-rename "init-lsp-bridge" nil t)
+     (call-interactively #'lsp-bridge-rename))))
 
 (lazy-one-key-create-menu
  "Code"
@@ -175,7 +182,7 @@
  (:key "f" :description "Format code" :command format-code :filename "init-format")
  (:key "d" :description "Diagnostic" :command one-key-menu-diagnostic :filename "init-lsp-bridge")
  (:key "D" :description "Lsp Bridge jump to def other window" :command lsp-bridge-find-def-other-window :filename "init-lsp-bridge")
- (:key "r" :description "Lsp Bridge rename" :command lsp-bridge-rename :filename "init-lsp-bridge")
+ (:key "r" :description "Lsp Bridge rename" :command lsp-rename)
  (:key "R" :description "Lsp Bridge restart" :command lsp-bridge-restart-process :filename "init-lsp-bridge")
  (:key "i" :description "Lsp Bridge find impl" :command lsp-bridge-find-impl :filename "init-lsp-bridge")
  (:key "I" :description "Lsp Bridge find impl other window" :command lsp-bridge-find-impl-other-window :filename "init-lsp-bridge")

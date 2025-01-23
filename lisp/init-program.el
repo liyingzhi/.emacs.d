@@ -22,10 +22,39 @@
 ;; flymake
 (add-hook 'after-init-hook
           #'flymake-mode)
-(setq flymake-run-in-place nil)
+(setq flymake-no-changes-timeout nil
+      flymake-fringe-indicator-position 'right-fringe)
+
+(add-hook 'flymake-mode-hook
+          #'flymake-popon-mode)
+
+(custom-set-faces
+ `(flymake-popon-posframe-border ((t :foreground ,(face-background 'region)))))
+
+(setq flymake-popon-width 70
+      flymake-popon-posframe-border-width 1
+      flymake-popon-method (if (childframe-workable-p) 'posframe 'popon))
 
 ;;; debug
 (require 'init-dap)
+
+;;; eldoc
+(with-eval-after-load 'eldoc
+  (when (childframe-workable-p)
+    (require 'eldoc-box)
+    (setq eldoc-box-lighter nil
+          eldoc-box-only-multi-line t
+          eldoc-box-clear-with-C-g t)
+
+    (custom-set-faces
+     '(eldoc-box-border ((t (:inherit posframe-border :background unspecified))))
+     '(eldoc-box-body ((t (:inherit tooltip)))))
+
+    ;; (add-hook 'eglot-managed-mode-hook
+    ;;           #'eldoc-box-hover-at-point-mode)
+
+    (setf (alist-get 'left-fringe eldoc-box-frame-parameters) 8
+          (alist-get 'right-fringe eldoc-box-frame-parameters) 8)))
 
 ;;; complile
 (setq compilation-scroll-output t)

@@ -29,6 +29,8 @@
 (setq citre-auto-enable-citre-mode-modes '(prog-mode))
 (setq citre-ctags-program "/usr/local/bin/ctags")
 (add-hook 'find-file-hook #'citre-auto-enable-citre-mode)
+(setq citre-find-definition-backends '(tags global))
+(setq citre-find-reference-backends '(global))
 
 ;; disable imenu integration with citre backend
 (setq-default citre-enable-imenu-integration nil)
@@ -50,6 +52,13 @@
         (delete-file ctags-path)
         (delete-file tags-path)
         (message "Delete Finished!")))))
+
+(add-hook #'eglot-managed-mode-hook
+          #'(lambda ()
+              (when citre-mode
+                (setq-local xref-backend-functions
+                            '(citre-xref-backend
+                              t)))))
 
 (provide 'init-citre)
 ;;; init-citre.el ends here

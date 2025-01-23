@@ -110,16 +110,21 @@
     (if (delete-window)
         (message "finish"))))
 
-(defun help-helpful-lsp-bridge-sly ()
+(defun help-helpful-lsp-sly ()
+  "Help function with lsp and sly info"
   (interactive)
   (if (bound-and-true-p sly-mode)
       (call-interactively #'sly-documentation)
     (if (or (equal major-mode 'emacs-lisp-mode)
            (equal major-mode 'lisp-interaction-mode))
         (helpful-at-point)
-      (if (bound-and-true-p lsp-bridge-mode)
-          (lsp-bridge-popup-documentation)
-        (message "dont't know how to help")))))
+      (pcase user/lsp-client
+        ('eglot
+         (eldoc-box-help-at-point))
+        ('lsp-bridge
+         (if (bound-and-true-p lsp-bridge-mode)
+             (lsp-bridge-popup-documentation)
+           (message "dont't know how to help")))))))
 
 (defun meow-setup ()
   ;; (meow-motion-overwrite-define-key
@@ -262,23 +267,35 @@
    '("'" . repeat)
    '("<escape>" . ignore))
 
+  (pcase user/lsp-client
+    ('eglot
+     (meow-normal-define-key
+      '("gr" . xref-find-references)
+      '("gd" . xref-find-definitions)
+      '("gD" . xref-find-definitions-other-window)
+      '("gi" . eglot-find-implementation)
+      '("gI" . eglot-find-implementation)
+      '("C-o" . xref-go-back)))
+    ('lsp-bridge
+     (meow-normal-define-key
+      '("gr" . lsp-bridge-find-references)
+      '("gd" . find-definition-with-lsp-bridge)
+      '("gD" . find-definition-with-lsp-bridge-other-window)
+      '("gi" . lsp-bridge-find-impl)
+      '("gI" . lsp-bridge-find-impl-other-window)
+      '("C-o" . return-find-def))))
+
   (meow-normal-define-key
    '("C-;" . grugru)
    '("C-s" . save-buffer)
    '("C-y" . meow-clipboard-yank)
    '("Q" . kill-now-buffer)
-   '("gr" . lsp-bridge-find-references)
-   '("gd" . find-definition-with-lsp-bridge)
-   '("gD" . find-definition-with-lsp-bridge-other-window)
    '("gf" . find-file-at-point)
-   '("gi" . lsp-bridge-find-impl)
-   '("gI" . lsp-bridge-find-impl-other-window)
    '("gp" . goto-percent)
    '("gl" . consult-goto-line)
    '("gL" . avy-goto-line)
-   '("C-o" . return-find-def)
    '("/" . consult-ripgrep)
-   '("?" . help-helpful-lsp-bridge-sly)))
+   '("?" . help-helpful-lsp-sly)))
 
 (meow-vterm-enable)
 (meow-setup)
