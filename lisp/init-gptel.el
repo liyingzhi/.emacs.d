@@ -58,7 +58,7 @@
         :host "api.openai-proxy.org/anthropic"
         :key #'gptel-api-key))
 
-(setq gptel-model 'moonshot-v1-128k)
+(setq gptel-model 'moonshot-v1-8k)
 (setq gptel-backend gptel-backend-kimi)
 ;; (setq gptel-model 'deepseek-chat)
 ;; (setq gptel-backend gptel-backend-deepseek)
