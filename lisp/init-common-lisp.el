@@ -44,4 +44,11 @@ Nominally unique, but not enforced."
              '(("C-c q r" . sly-restart-inferior-lisp)
                ("C-c q l" . load-lisp-project)))
 
+(add-hook 'sly-mode-hook
+          #'(lambda ()
+              (unless (sly-connected-p)
+                (save-excursion (sly)))))
+
+(add-hook 'lisp-mode-hook
+          #'pmx-setup-check-parens)
 (provide 'init-common-lisp)
