@@ -37,7 +37,7 @@
 
 (require 'init-minibuffer)
 (require 'init-corfu)
-(when user/completion-preview-mode-use
+(unless (or (not user/completion-preview-mode-use) user/ai-completion)
   (require 'init-completion-preview))
 (require 'init-snippet)
 (require 'init-blink-search)
@@ -60,10 +60,7 @@
 (require 'init-rsync)
 ;; (require 'init-code-stats)
 
-;; (require 'init-copilot)
-(require 'init-gptel)
-;; (require 'init-aider)
-;; (require 'init-codegeex)
+(require 'init-ai)
 
 ;;; Programming
 (require 'init-magit)

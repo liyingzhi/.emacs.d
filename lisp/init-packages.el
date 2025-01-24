@@ -215,6 +215,10 @@
            :repo "tninja/aider.el"
            :files ("aider.el"))
     (codeium :fetcher github :repo "Exafunction/codeium.el")
+    (codeium-overlay :fetcher github
+                     :repo "liyingzhi/codeium-overlay.el")
+    (minuet :fetcher github
+            :repo "milanglacier/minuet-ai.el")
     ))
 
 (defvar *package-rust-install-list*

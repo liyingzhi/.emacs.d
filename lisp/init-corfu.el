@@ -28,7 +28,9 @@
   (interactive)
   (or ;; (tempel-complete t)
    (yas-expand)
-   (completion-preview-insert)
+   (if user/completion-preview-mode-use
+       (completion-preview-insert))
+   (ai-complete)
    (corfu-next)))
 
 (require 'corfu)

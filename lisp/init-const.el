@@ -89,6 +89,16 @@
   :group 'user
   :type 'boolean)
 
+(defcustom user/ai-completion nil
+  "use what ai to completion: codeium, copilot, minuet"
+  :group 'user
+  :type 'symbol)
+
+(defcustom user/aider nil
+  "Is start aider ai"
+  :group 'user
+  :type 'boolean)
+
 ;;;###autoload
 (defun get-socks-proxy ()
   (concat "socks5://"
