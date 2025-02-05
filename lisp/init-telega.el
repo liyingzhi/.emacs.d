@@ -1,5 +1,5 @@
 (require 'telega)
-(require 'telega-url-shorten)
+(require 'telega-url-shorten-nerd)
 (require 'telega-mnz)
 
 (setq telega-mnz-languages
@@ -67,7 +67,7 @@
 
 (setq telega-mode-line-mode nil)
 (telega-notifications-mode t)
-(global-telega-url-shorten-mode)
+(global-telega-url-shorten-nerd-mode)
 
 (defun +lizqwer/toggle-telega ()
   "切换telega"
