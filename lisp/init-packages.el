@@ -125,6 +125,8 @@
     nerd-icons-dired
     nerd-icons-completion
     nerd-icons-ibuffer
+    page-break-lines
+    dashboard
     doom-modeline
     pretty-mode
     color-identifiers-mode

@@ -14,11 +14,6 @@
 
 (add-hook 'emacs-lisp-mode-hook 'outshine-mode)
 
-(add-hook 'after-init-hook
-          (lambda ()
-            (save-place-mode t)
-            (recentf-mode t)
-            (+evan/scratch-setup)))
 
 ;; Enable `read-only-mode' to ensure that we don't change what we can't read.
 (add-hook 'redacted-mode-hook
