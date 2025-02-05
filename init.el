@@ -19,7 +19,8 @@
 (require 'init-mode)
 (require 'init-hook)
 (require 'init-gcmh)
-(require 'init-auto-save)
+;; (require 'init-auto-save)
+(require 'init-super-save)
 
 (require 'init-ui)
 

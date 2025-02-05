@@ -116,6 +116,7 @@
     (peek :fetcher sourcehut :repo "meow_king/peek")
 
     (auto-save :fetcher github :repo "manateelazycat/auto-save")
+    super-save
     (image-slicing :fetcher github :repo "ginqi7/image-slicing")))
 
 (defvar *package-ui-install-list*
