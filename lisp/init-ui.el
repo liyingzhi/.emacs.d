@@ -151,18 +151,18 @@
 
 ;;; Click to browse URL or to send to e-mail address
 (add-hook 'text-mode-hook
-          'goto-address-mode)
+          #'goto-address-mode)
 
 (add-hook 'prog-mode-hook
-          'goto-address-prog-mode)
+          #'goto-address-prog-mode)
 
 ;;; Ibuffer
 (add-hook 'ibuffer-mode-hook #'nerd-icons-ibuffer-mode)
 (add-hook 'ibuffer-mode-hook
-          (lambda ()
-            (unless ibuffer-filter-groups
-              (require 'projection-ibuffer)
-              (ibuffer-projection-set-filter-groups))))
+          #'(lambda ()
+              (unless ibuffer-filter-groups
+                (require 'projection-ibuffer)
+                (ibuffer-projection-set-filter-groups))))
 
 (require 'init-imenu-list)
 
