@@ -57,6 +57,9 @@
                ("C-s" . visual-replace-toggle-scope)))
 (setq visual-replace-min-length 1)
 
+(keymap-sets isearch-mode-map
+             '(("C-c C-r" . visual-replace-from-isearch)))
+
 (transient-define-prefix visual-replace-dispatch ()
   "Visual replace menu."
   ["Toggles"
