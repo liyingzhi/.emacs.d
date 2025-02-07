@@ -93,11 +93,11 @@
 
 (setq dashboard-banner-logo-title "EMACS - Enjoy Programming & Writing"
       dashboard-startup-banner (or user/logo 'official)
-      dashboard-image-banner-max-width 400
-      dashboard-image-banner-max-height 200
+      dashboard-image-banner-max-width 300
+      dashboard-image-banner-max-height 150
       dashboard-path-max-length 60
       dashboard-path-style 'truncate-middle
-      dashboard-page-separator "\n\f\n"
+      dashboard-page-separator "\f\n"
       dashboard-center-content t
       dashboard-vertically-center-content t
       dashboard-projects-backend 'project-el
@@ -115,7 +115,7 @@
                                   dashboard-insert-newline
                                   dashboard-insert-init-info
                                   dashboard-insert-items
-                                  dashboard-insert-newline
+                                  ;; dashboard-insert-newline
                                   dashboard-insert-footer)
 
       dashboard-display-icons-p t
