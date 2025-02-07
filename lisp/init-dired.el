@@ -125,6 +125,7 @@ At 2nd time it copy current directory to kill-buffer."
                ("h" . dired-up-directory)
                ("C-c C-r" . dired-rsync)
                ("C-c C-x" . dired-rsync-transient)
-               ("C-c e" . dired-do-open-default)))
+               ("C-c e" . dired-do-open-default)
+               ("C-c E" . dired-do-open)))
 
 (provide 'init-dired)
