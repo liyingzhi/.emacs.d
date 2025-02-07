@@ -20,4 +20,15 @@
           (lambda ()
             (read-only-mode
              (if redacted-mode 1 -1))))
+
+;;; macrostep-mode-map settings
+(add-hook 'macrostep-mode-hook
+          #'(lambda ()
+              (with-eval-after-load 'meow
+                (keymap-sets macrostep-mode-map
+                             '(("j" . meow-next)
+                               ("k" . meow-prev)
+                               ("h" . meow-left)
+                               ("l" . meow-right))))))
+
 (provide 'init-hook)
