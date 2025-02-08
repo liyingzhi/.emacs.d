@@ -18,10 +18,15 @@
 ;;; Lsp Server
 ;; (require 'init-eglot)
 
+;;; Xref
+(setq xref-show-xrefs-function 'consult-xref)
+(setq xref-show-definitions-function 'consult-xref)
+
 ;;; check error
 ;; flymake
 (add-hook 'after-init-hook
           #'flymake-mode)
+
 (setq flymake-no-changes-timeout nil
       flymake-fringe-indicator-position 'right-fringe)
 
