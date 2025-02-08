@@ -37,21 +37,22 @@
 
 (defun my/citre-delete-tags-files ()
   (interactive)
-  (when (and citre--tags-file
-           (not (equal citre--tags-file 'none)))
-    (let* ((path (string-remove-suffix ".tags" citre--tags-file))
-           (list-path (concat path ".list"))
-           (ctags-path (concat path ".ctags"))
-           (tags-path (concat path ".tags"))
-           (promot (format "Delete: \n%s \n%s \n%s \nDelete this project tags cache files?"
-                           list-path
-                           ctags-path
-                           tags-path)))
-      (when (yes-or-no-p promot)
-        (delete-file list-path)
-        (delete-file ctags-path)
-        (delete-file tags-path)
-        (message "Delete Finished!")))))
+  (if (and citre--tags-file
+         (not (equal citre--tags-file 'none)))
+      (let* ((path (string-remove-suffix ".tags" citre--tags-file))
+             (list-path (concat path ".list"))
+             (ctags-path (concat path ".ctags"))
+             (tags-path (concat path ".tags"))
+             (promot (format "Delete: \n%s \n%s \n%s \nDelete this project tags cache files?"
+                             list-path
+                             ctags-path
+                             tags-path)))
+        (when (yes-or-no-p promot)
+          (delete-file list-path)
+          (delete-file ctags-path)
+          (delete-file tags-path)
+          (message "Delete Finished!")))
+    (message "This project has no citre-tags-file!")))
 
 (add-hook #'eglot-managed-mode-hook
           #'(lambda ()
