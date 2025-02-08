@@ -56,7 +56,7 @@
 
 (add-hook #'eglot-managed-mode-hook
           #'(lambda ()
-              (when citre-mode
+              (when (bound-and-true-p citre-mode)
                 (setq-local xref-backend-functions
                             '(citre-xref-backend
                               t)))))
