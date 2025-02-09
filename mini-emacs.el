@@ -25,19 +25,182 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
-;; ==== put your code below this line!
-;;
-
-(add-to-list 'load-path "~/.emacs.d/site-lisp/lsp-bridge")
-
 (require 'yasnippet)
 (yas-global-mode 1)
 (require 'no-littering)
-;; (require 'consult)
-(require 'lsp-bridge)
-(setq lsp-bridge-python-command user/run-python-command)
-(setq lsp-bridge-enable-inlay-hint t)
-(global-lsp-bridge-mode)
+
+(add-to-list 'load-path "~/.emacs.d/site-lisp/lsp-bridge")
+;; (require 'lsp-bridge)
+;; (setq lsp-bridge-python-command "python")
+;; (setq lsp-bridge-enable-inlay-hint t)
+;; (global-lsp-bridge-mode)
+
+
+;;; History
+(require 'recentf)
+(setq recentf-max-saved-items 300
+      recentf-exclude
+      '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks" "bookmark-default"
+        "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
+        "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/elfeed/"
+        "^/tmp/" "^/var/folders/.+$" "^/ssh:" "/persp-confs/"
+        (lambda (file) (file-in-directory-p file package-user-dir))))
+(add-to-list 'recentf-exclude no-littering-var-directory)
+(add-to-list 'recentf-exclude no-littering-etc-directory)
+(push (expand-file-name recentf-save-file) recentf-exclude)
+(add-to-list 'recentf-filename-handlers #'abbreviate-file-name)
+
+;;; savehist
+(setq enable-recursive-minibuffers t  ; Allow commands in minibuffers
+      history-length 1000
+      savehist-additional-variables '(mark-ring
+                                      global-mark-ring
+                                      search-ring
+                                      regexp-search-ring
+                                      extended-command-history)
+      savehist-autosave-interval 300)
+(savehist-mode 1)
+;;; saveplace
+(setq save-place-forget-unreadable-files nil)
+
+;;; one-key
+(require 'one-key)
+(require 'consult)
+(require 'ido)
+
+;;;###autoload
+(defmacro lazy-one-key-create-menu (title &rest keybinds)
+  (let (one-key-key-alist)
+    (dolist (ele keybinds)
+      (when (plist-get ele :filename)
+        (autoload (plist-get ele :command) (plist-get ele :filename) nil t))
+      (push
+       (if (plist-get ele :run)
+           (cons (cons (plist-get ele :key) (plist-get ele :description)) (plist-get ele :run))
+         (cons (cons (plist-get ele :key) (plist-get ele :description)) (plist-get ele :command)))
+       one-key-key-alist))
+    `(one-key-create-menu ,title (quote ,one-key-key-alist))))
+
+(lazy-one-key-create-menu
+ "Buffer"
+ (:key "b" :description "Switch buffer" :command consult-buffer)
+ (:key "B" :description "Switch buffer other window" :command consult-buffer-other-window)
+ (:key "k" :description "Kill buffer" :command kill-buffer-and-window)
+ (:key "r" :description "Revert buffer" :command revert-buffer)
+ (:key "s" :description "Save buffer" :command save-buffer))
+
+(lazy-one-key-create-menu
+ "FileAction"
+ (:key "d" :description "Delete this file" :command delete-this-file :filename "init-func")
+ (:key "r" :description "Rename this file" :command rename-this-file :filename "init-func")
+ (:key "b" :description "Browse this file" :command browse-this-file :filename "init-func"))
+
+(one-key-create-menu
+ "File"
+ '((("f" . "Find file") . find-file)
+   (("o" . "Find other file") . ff-find-other-file)
+   (("F" . "Find file other window") . find-file-other-window)
+   (("s" . "Save file") . write-file)
+   (("a" . "Action file") . one-key-menu-fileaction)
+   (("r" . "Recent file") . consult-recent-file)
+   (("h" . "Find in main dir") . (lambda ()
+                                   (interactive)
+                                   (ido-find-file-in-dir "~/")))))
+
+;;; meow
+(require 'meow)
+(require 'window)
+
+(defun kill-now-buffer ()
+  "Close the current buffer."
+  (interactive)
+  (kill-buffer (current-buffer))
+  (delete-window))
+
+(defun my/meow-quit ()
+  (interactive)
+  (if (derived-mode-p 'dired-mode)
+      (kill-now-buffer)
+    (if (delete-window)
+        (message "finish"))))
+
+(defun my/help-lisp ()
+  (interactive)
+  (when (or (equal major-mode 'emacs-lisp-mode)
+           (equal major-mode 'lisp-interaction-mode))
+    (helpful-at-point)))
+
+;;; comment line selection
+(defun line-comment-p ()
+  (save-excursion
+    (back-to-indentation)
+    (or (memq (get-text-property (point) 'face)
+             '(font-lock-comment-face font-lock-comment-delimiter-face web-mode-comment-face)))))
+
+(defun line-empty-p ()
+  (string= (string-trim
+            (buffer-substring-no-properties (line-beginning-position)
+                                            (line-end-position)))
+           ""))
+(defun find-comment-area (forwardp)
+  (let ((findp t)
+        (first-find t)
+        (first-comment-pos nil)
+        (last-comment-pos nil))
+    (while (and findp
+              (not (if forwardp
+                     (= (line-beginning-position) (point-min))
+                   (= (line-end-position) (point-max)))))
+      (if (line-comment-p)
+          (progn
+            (when first-find
+              (setf first-find nil)
+              (setf first-comment-pos
+                    (if forwardp
+                        (line-end-position)
+                      (line-beginning-position))))
+            (setf last-comment-pos
+                  (if forwardp
+                      (line-beginning-position)
+                    (line-end-position))))
+        (when (not (line-empty-p))
+          (setf findp nil)))
+      (if forwardp
+          (previous-line)
+        (next-line)))
+    (list first-comment-pos
+          last-comment-pos
+          (and first-comment-pos
+             last-comment-pos))))
+
+(defun mark-next-comment ()
+  "Mark next line comment"
+  (interactive)
+  (when (or (line-comment-p)
+           (line-empty-p))
+    (let ((p (point)))
+      (setq pre-comment-pos (find-comment-area nil))
+
+      (if (and (cl-second pre-comment-pos)
+             (cl-first pre-comment-pos))
+          (progn
+            (set-mark (cl-second pre-comment-pos))
+            (goto-char (cl-first pre-comment-pos)))
+        (progn
+          (goto-char p)
+          (message "pos: %s" pre-comment-pos))))))
+
+(setq meow-mode-state-list
+      '((fundamental-mode . normal)
+        (text-mode . normal)
+        (prog-mode . normal)
+        (conf-mode . normal)
+        (helpful-mode . normal)
+        (message-mode . normal)
+        (messages-buffer-mode . normal)
+        (Info-mode . motion)
+        (help-mode . normal)
+        (fanyi-mode . normal)))
 
 (defun meow-setup ()
   (meow-normal-define-key
@@ -82,6 +245,7 @@
    '("L" . meow-right-expand)
    '("m" . meow-join)
    '("n" . meow-search)
+   '("N" . mark-next-comment)
    '("o" . meow-block)
    '("O" . meow-to-block)
    '("p" . meow-yank)
@@ -102,19 +266,89 @@
    '("x" . meow-line)
    ;; '("X" . meow-goto-line)
    '("y" . meow-save)
-   '("Y" . meow-sync-grab)
+   ;; '("Y" . meow-sync-grab)
+   '("Y" . meow-clipboard-save)
    '("z" . meow-pop-selection)
    '("'" . repeat)
-   '("<escape>" . ignore)))
+   '("<escape>" . ignore))
 
-;; (require 'meow)
-;; (meow-setup)
-;; (meow-global-mode 1)
+  (meow-normal-define-key
+   '("C-s" . save-buffer)
+   '("C-y" . meow-clipboard-yank)
+   '("Q" . kill-now-buffer)
+   '("/" . consult-ripgrep)
+   '("?" . my/help-lisp))
 
-;; (require 'websocket)
-;; (require 'deno-bridge)
+  (meow-leader-define-key
+   '("b" . one-key-menu-buffer)
+   '("f" . one-key-menu-file)
+   '("1" . delete-other-windows)
+   '("2" . split-window-below)
+   '("3" . split-window-horizontally)
+   '("0" . delete-window)
+   '("?" . meow-cheatsheet)))
 
-(require 'rust-mode)
+(meow-global-mode 1)
+(setq meow-esc-delay 0.001)
+(setq meow-keypad-leader-dispatch "C-c")
+(setq meow-use-clipboard t)
+(setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
 
-;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/insert-translated-name/"))
-;; (require 'insert-translated-name)
+(meow-setup)
+
+;; (add-hook #'after-find-file-hook  #'(lambda ()
+;;                                       (meow-normal-mode 1)))
+;; (add-hook #'after-init-hook  #'(lambda ()
+;;                                  (meow-normal-mode 1)))
+
+
+;;; vundo
+(require 'vundo)
+(setq vundo-glyph-alist vundo-unicode-symbols)
+(global-set-key (kbd "C-/") #'vundo)
+
+;;; ace window
+(require 'ace-window)
+
+;;; global key settings
+(defun scroll-up-1/3 ()
+  (interactive)
+  (scroll-up (/ (window-body-height) 3)))
+
+(defun scroll-down-1/3 ()
+  (interactive)
+  (scroll-down (/ (window-body-height) 3)))
+
+;;;###autoload
+(defmacro keymap-sets (key-map key-bindings)
+  `(dolist (key-b ,key-bindings)
+     (when-let* ((keys (car key-b))
+                 (command (cdr key-b)))
+       (if (listp keys)
+           (dolist (key keys)
+             (keymap-set ,key-map
+                         key
+                         command))
+         (keymap-set ,key-map
+                     keys
+                     command)))))
+;;;###autoload
+(defun global-set-keys (key-bindings)
+  (keymap-sets (current-global-map)
+               key-bindings))
+
+(require 'simple)
+(global-set-keys
+ '(("RET" . newline-and-indent)
+   ("S-<return>" . comment-indent-new-line)
+   (("s-o" "M-o") . ace-window)
+   (("s-n" "M-n") . scroll-up-1/3)
+   (("s-p" "M-p") . scroll-down-1/3)
+   (("s-x" "M-x") . execute-extended-command)))
+
+(global-set-keys
+ '(("M-<left>" . previous-buffer)
+   ("M-<right>" . next-buffer)))
+
+(save-place-mode t)
+(recentf-mode t)
