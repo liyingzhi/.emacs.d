@@ -352,3 +352,8 @@
 
 (save-place-mode t)
 (recentf-mode t)
+
+(toggle-frame-fullscreen)
+
+;;; start emacs cmd
+;; emacs -q -l ~/.emacs.d/mini-emacs.el
