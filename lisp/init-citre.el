@@ -35,6 +35,8 @@
 ;; disable imenu integration with citre backend
 (setq-default citre-enable-imenu-integration nil)
 (setq citre-peek-auto-restore-after-jump nil)
+(setq citre-peek-fill-fringe t)
+(setq citre-peek-use-dashes-as-horizontal-border t)
 
 (defun my/citre-delete-tags-files ()
   (interactive)

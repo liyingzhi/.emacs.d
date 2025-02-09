@@ -223,6 +223,15 @@
      (autoload #'lsp-bridge-peek "init-lsp-bridge" nil t)
      (call-interactively #'lsp-bridge-peek))))
 
+(defun code-ace-peek ()
+  (interactive)
+  (if (equal user/lsp-client 'eglot)
+      (if (bound-and-true-p citre-mode)
+          (call-interactively #'citre-ace-peek)
+        (message "Eglot not support peek"))
+    (message "lsp-bridge not support peek")))
+
+
 (lazy-one-key-create-menu
  "Code"
  (:key "f" :description "Format code" :command apheleia-format-buffer :filename "init-format")
@@ -231,7 +240,8 @@
  (:key "R" :description "Lsp restart" :command lsp-restart)
  (:key "a" :description "Lsp code action" :command lsp-code-action)
  (:key "s" :description "Lsp search symbol" :command lsp-search-symbol)
- (:key "p" :description "Code peek" :command code-peek))
+ (:key "p" :description "Code peek" :command code-peek)
+ (:key "P" :description "Code peek" :command code-ace-peek))
 
 (lazy-one-key-create-menu
  "Org"
