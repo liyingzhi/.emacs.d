@@ -396,3 +396,12 @@
 
 ;;; start emacs cmd
 ;; emacs -q -l ~/.emacs.d/mini-emacs.el
+
+;;; install package items
+;; no-littering
+;; meow
+;; one-key
+;; lazy-load
+;; ace-window
+;; vundo
+;; magit
