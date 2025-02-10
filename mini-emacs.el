@@ -25,16 +25,11 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
-(require 'yasnippet)
-(yas-global-mode 1)
+(setq-default lexical-binding t)
+
+(setq no-littering-etc-directory
+      (expand-file-name "config/" user-emacs-directory))
 (require 'no-littering)
-
-(add-to-list 'load-path "~/.emacs.d/site-lisp/lsp-bridge")
-;; (require 'lsp-bridge)
-;; (setq lsp-bridge-python-command "python")
-;; (setq lsp-bridge-enable-inlay-hint t)
-;; (global-lsp-bridge-mode)
-
 
 ;;; History
 (require 'recentf)
@@ -63,10 +58,51 @@
 ;;; saveplace
 (setq save-place-forget-unreadable-files nil)
 
+(setq-default fill-column 80
+			  tab-width 4
+			  indent-tabs-mode nil)
+;;; vc
+(setq vc-handled-backends '(Git))
+
+
 ;;; one-key
 (require 'one-key)
-(require 'consult)
-(require 'ido)
+
+;;;###autoload
+(defun delete-this-file ()
+  "Delete the current file, and kill the buffer."
+  (interactive)
+  (unless (buffer-file-name)
+    (error "No file is currently being edited"))
+  (when (yes-or-no-p (format "Really delete '%s'?"
+                             (file-name-nondirectory buffer-file-name)))
+    (delete-file (buffer-file-name))
+    (kill-this-buffer)))
+
+;;;###autoload
+(defun rename-this-file (new-name)
+  "Renames both current buffer and file it's visiting to NEW-NAME."
+  (interactive "sNew name: ")
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (unless filename
+      (error "Buffer '%s' is not visiting a file!" name))
+    (progn
+      (when (file-exists-p filename)
+        (rename-file filename new-name 1))
+      (set-visited-file-name new-name)
+      (rename-buffer new-name))))
+
+;;;###autoload
+(defun browse-this-file ()
+  "Open the current file as a URL using `browse-url'."
+  (interactive)
+  (let ((file-name (buffer-file-name)))
+    (if (and (fboundp 'tramp-tramp-file-p)
+           (tramp-tramp-file-p file-name))
+        (error "Cannot open tramp file")
+      (browse-url (concat "file://" file-name)))))
+
 
 ;;;###autoload
 (defmacro lazy-one-key-create-menu (title &rest keybinds)
@@ -83,17 +119,17 @@
 
 (lazy-one-key-create-menu
  "Buffer"
- (:key "b" :description "Switch buffer" :command consult-buffer)
- (:key "B" :description "Switch buffer other window" :command consult-buffer-other-window)
+ (:key "b" :description "Switch buffer" :command switch-to-buffer)
+ (:key "B" :description "Switch buffer other window" :command switch-to-buffer-other-window)
  (:key "k" :description "Kill buffer" :command kill-buffer-and-window)
  (:key "r" :description "Revert buffer" :command revert-buffer)
  (:key "s" :description "Save buffer" :command save-buffer))
 
 (lazy-one-key-create-menu
  "FileAction"
- (:key "d" :description "Delete this file" :command delete-this-file :filename "init-func")
- (:key "r" :description "Rename this file" :command rename-this-file :filename "init-func")
- (:key "b" :description "Browse this file" :command browse-this-file :filename "init-func"))
+ (:key "d" :description "Delete this file" :command delete-this-file )
+ (:key "r" :description "Rename this file" :command rename-this-file )
+ (:key "b" :description "Browse this file" :command browse-this-file ))
 
 (one-key-create-menu
  "File"
@@ -102,14 +138,13 @@
    (("F" . "Find file other window") . find-file-other-window)
    (("s" . "Save file") . write-file)
    (("a" . "Action file") . one-key-menu-fileaction)
-   (("r" . "Recent file") . consult-recent-file)
+   (("r" . "Recent file") . recentf-open)
    (("h" . "Find in main dir") . (lambda ()
                                    (interactive)
                                    (ido-find-file-in-dir "~/")))))
 
 ;;; meow
 (require 'meow)
-(require 'window)
 
 (defun kill-now-buffer ()
   "Close the current buffer."
@@ -276,7 +311,6 @@
    '("C-s" . save-buffer)
    '("C-y" . meow-clipboard-yank)
    '("Q" . kill-now-buffer)
-   '("/" . consult-ripgrep)
    '("?" . my/help-lisp))
 
   (meow-leader-define-key
@@ -355,6 +389,8 @@
 
 (save-place-mode t)
 (recentf-mode t)
+
+(fido-vertical-mode)
 
 (toggle-frame-fullscreen)
 
