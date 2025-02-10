@@ -288,13 +288,16 @@
    '("0" . delete-window)
    '("?" . meow-cheatsheet)))
 
-(meow-global-mode 1)
 (setq meow-esc-delay 0.001)
 (setq meow-keypad-leader-dispatch "C-c")
 (setq meow-use-clipboard t)
 (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
 
 (meow-setup)
+(meow-global-mode 1)
+
+;; (with-current-buffer "*Messages*"
+;;   (meow-normal-mode 1))
 
 ;; (add-hook #'after-find-file-hook  #'(lambda ()
 ;;                                       (meow-normal-mode 1)))

@@ -1,5 +1,4 @@
 (require 'meow)
-(meow-global-mode 1)
 ;; (setq meow-expand-hint-remove-delay 5.0)
 (setq meow-esc-delay 0.001)
 (setq meow-keypad-leader-dispatch "C-c")
@@ -297,7 +296,7 @@
 
 (meow-vterm-enable)
 (meow-setup)
-
+(meow-global-mode 1)
 
 (require 'eww)
 (keymap-sets eww-mode-map
