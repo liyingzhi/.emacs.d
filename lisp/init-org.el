@@ -158,6 +158,8 @@
 (define-key org-mode-map (kbd "M-N") 'org-metadown)
 (define-key org-mode-map (kbd "M-H") 'org-metaleft)
 (define-key org-mode-map (kbd "M-L") 'org-metaright)
+(define-key org-mode-map (kbd "C-c C-'") 'separedit/edit-org-any-block)
+
 (keymap-unset org-mode-map "M-<left>")
 (keymap-unset org-mode-map "M-<right>")
 
