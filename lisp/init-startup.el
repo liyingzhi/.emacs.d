@@ -153,7 +153,7 @@
 (setq vc-handled-backends '(Git))
 
 ;;; exec path from shell
-(setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOROOT" "GOPATH" "EDITOR" "PYTHONPATH"))
+(setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOROOT" "GOPATH" "EDITOR" "PYTHONPATH" "GTAGSOBJDIRPREFIX"))
 
 ;; 设成nil 则不从 .zshrc 读 只从 .zshenv读（可以加快速度，但是需要你将环境变量相关的都放到 .zshenv 中，而非 .zshrc 中）
 (setq exec-path-from-shell-check-startup-files nil) ;

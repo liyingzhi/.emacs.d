@@ -28,6 +28,8 @@
 (require 'citre)
 (setq citre-auto-enable-citre-mode-modes '(prog-mode))
 (setq citre-ctags-program "/usr/local/bin/ctags")
+(setq citre-global-program "/usr/bin/global")
+
 (add-hook 'find-file-hook #'citre-auto-enable-citre-mode)
 (setq citre-find-definition-backends '(tags global))
 (setq citre-find-reference-backends '(global))
