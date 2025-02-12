@@ -28,8 +28,16 @@
     (if (listp package)
         (quelpa package)
       (unless (package-installed-p package)
-        (package-refresh-contents)
-        (package-install package)))))
+        (condition-case-unless-debug err
+            (if (assoc package package-archive-contents)
+                (package-install package)
+              (package-refresh-contents)
+              (package-install package))
+          (error
+           (display-warning 'package
+                            (format "Failed to install %s: %s"
+                                    package (error-message-string err))
+                            :error)))))))
 
 (packages! '(quelpa
              ;; quelpa-use-package
