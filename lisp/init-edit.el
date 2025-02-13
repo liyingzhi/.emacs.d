@@ -106,6 +106,9 @@
 (add-hook 'prog-mode-hook
           #'indent-yank-mode)
 
+;;; Outline indent
+(require 'init-outline-indent)
+
 ;;; Auto rename tag
 (add-hooks '(html-mode web-mode)
            #'auto-rename-tag-mode)
