@@ -41,6 +41,8 @@
               #'doom-modeline-mode)
     (add-hook 'doom-modeline-mode-hook
               #'(lambda ()
-                  (display-time-mode)))))
+                  (display-time-mode)
+                  (when doom-modeline-battery
+                    (display-battery-mode))))))
 
 (provide 'init-modeline)
