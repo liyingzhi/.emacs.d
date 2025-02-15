@@ -284,7 +284,6 @@
 
   (meow-normal-define-key
    '("C-;" . grugru)
-   '("C-s" . save-buffer)
    '("C-y" . meow-clipboard-yank)
    '("Q" . kill-now-buffer)
    '("gf" . find-file-at-point)
