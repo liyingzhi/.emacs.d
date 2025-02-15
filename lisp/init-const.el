@@ -71,6 +71,11 @@
   :group 'user
   :type 'symbol)
 
+(defcustom user/sidebar-magitblame nil
+  "use side bar to show commit id when magit-blame"
+  :group 'user
+  :type 'boolean)
+
 (defcustom user/run-python-command "python"
   "A python command for Some package use python package"
   :group 'user

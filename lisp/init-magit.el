@@ -49,11 +49,19 @@ It is assumed that the author has only one or two names."
               (magit-wip-mode t)
               (magit-delta-mode t)))
 
-(setq magit-blame-styles
-      '((headings
-         (heading-format . "  %C %-18a%f %-80s  %H\n")
-         (show-message . t))
-        (highlight
-         (highlight-face . magit-blame-highlight))))
+(if user/sidebar-magitblame
+    ;; Make `magit-blame' always with sidebar style.
+    (setq magit-blame-styles
+          '((margin
+             (margin-format " %s%f" " %C %a" " %H")
+             (margin-width . 42)
+             (margin-face . magit-blame-margin)
+             (margin-body-face magit-blame-dimmed))))
+  (setq magit-blame-styles
+        '((headings
+           (heading-format . "  %C %-18a%f %-80s  %H\n")
+           (show-message . t))
+          (highlight
+           (highlight-face . magit-blame-highlight)))))
 
 (provide 'init-magit)
