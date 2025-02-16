@@ -76,6 +76,16 @@
   :group 'user
   :type 'boolean)
 
+(defcustom user/load-eaf nil
+  "require init-eaf file"
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/load-elfeed nil
+  "require init-eaf file"
+  :group 'user
+  :type 'boolean)
+
 (defcustom user/run-python-command "python"
   "A python command for Some package use python package"
   :group 'user

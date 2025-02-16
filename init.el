@@ -51,7 +51,6 @@
 (require 'init-denote)
 (require 'init-pangu)
 ;; (require 'init-hugo)
-(require 'init-elfeed)
 ;; (require 'init-reader)
 ;; (require 'init-paper)
 ;;(require 'crefactor)
@@ -83,6 +82,10 @@
   (autoload '+lizqwer/toggle-telega "init-telega" nil t)
   (+lizqwer/toggle-telega))
 
-(require 'init-eaf)
+(when user/load-eaf
+  (require 'init-eaf))
+
+(when user/load-elfeed
+  (require 'init-elfeed))
 
 ;;; init.el ends here.
