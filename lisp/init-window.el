@@ -62,7 +62,7 @@
         "^\\*Process List\\*$" process-menu-mode
         list-environment-mode cargo-process-mode
 
-        "^\\*.*eshell.*\\*.*$"
+        "^\\*.*eshell.*\\*.*$" eshell-mode
         "^\\*.*shell.*\\*.*$"
         "^\\*.*terminal.*\\*.*$"
         "^\\*.*vterm[inal]*.*\\*.*$"
