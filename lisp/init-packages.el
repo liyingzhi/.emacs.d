@@ -100,7 +100,6 @@
     magit
     magit-delta
     ;; magit-todos
-    git-cliff
     difftastic
     devdocs
     wucuo
