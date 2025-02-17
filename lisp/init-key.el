@@ -15,6 +15,10 @@
    ("C-s-f" . forward-sexp)
    ("C-s-b" . backward-sexp)))
 
+(global-set-keys
+ '(("C-M-c" . kill-emacs)
+   ("C-M-r" . restart-emacs)))
+
 (with-eval-after-load 'eww
   (keymap-sets eww-mode-map
                '(("M-n" . scroll-up-1/3)
