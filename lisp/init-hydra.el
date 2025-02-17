@@ -139,7 +139,7 @@
    (("v" (lambda ()
            (interactive)
            (when user/dirvish
-             (call-interactively #'dirvish))) "Dirvish"))))
+             (call-interactively #'dirvish-dwim))) "Dirvish"))))
 
 (pretty-hydra-define-e hydra-git
   (:title "Git" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)

@@ -126,7 +126,7 @@
    (("v" . "Dirvish") . (lambda ()
                           (interactive)
                           (when user/dirvish
-                            (call-interactively #'dirvish))))
+                            (call-interactively #'dirvish-dwim))))
    (("j" . "Dired jump") . dired-jump)
    (("J" . "Dired jump other window") . dired-jump-other-window)))
 
