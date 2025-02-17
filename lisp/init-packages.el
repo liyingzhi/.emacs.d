@@ -100,7 +100,7 @@
     flymake-popon
     magit
     magit-delta
-    ;; magit-todos
+    forge
     difftastic
     devdocs
     wucuo
