@@ -309,6 +309,14 @@
   (forward-char)
   (newline-and-indent))
 
+(defun my/copy-current-line ()
+  "Copy the current line."
+  (interactive)
+  (kill-new
+   (string-trim
+    (buffer-substring (line-beginning-position)
+                      (line-end-position)))))
+
 ;;; grugru
 (grugru-default-setup)
 
