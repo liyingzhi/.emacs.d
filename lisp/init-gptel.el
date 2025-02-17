@@ -58,8 +58,20 @@
         :host "api.openai-proxy.org/anthropic"
         :key #'gptel-api-key))
 
-(setq gptel-model 'moonshot-v1-8k)
-(setq gptel-backend gptel-backend-kimi)
+;; OpenRouter offers an OpenAI compatible API
+(setq gptel-backend-openrouter
+      (gptel-make-openai "OpenRouter"               ;Any name you want
+        :host "openrouter.ai"
+        :endpoint "/api/v1/chat/completions"
+        :stream t
+        :key #'gptel-api-key                   ;can be a function that returns the key
+        :models '(cognitivecomputations/dolphin3.0-r1-mistral-24b:free)))
+
+(setq gptel-model 'cognitivecomputations/dolphin3.0-r1-mistral-24b:free)
+(setq gptel-backend gptel-backend-openrouter)
+
+;; (setq gptel-model 'moonshot-v1-8k)
+;; (setq gptel-backend gptel-backend-kimi)
 ;; (setq gptel-model 'deepseek-chat)
 ;; (setq gptel-backend gptel-backend-deepseek)
 ;; (setq gptel-model 'claude-3-5-sonnet-20241022)
