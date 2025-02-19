@@ -18,7 +18,8 @@
 (global-set-keys
  '(("C-M-c" . kill-emacs)
    ("C-M-r" . restart-emacs)
-   ("C-c y" . my/copy-current-line)))
+   ("C-M-y" . my/copy-current-line)
+   ("C-M-e" . my/select-to-end-of-buffer)))
 
 (with-eval-after-load 'eww
   (keymap-sets eww-mode-map

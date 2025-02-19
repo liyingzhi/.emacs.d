@@ -317,6 +317,12 @@
     (buffer-substring (line-beginning-position)
                       (line-end-position)))))
 
+(defun my/select-end-of-buffer-to-point ()
+  "Select contents from the end of the buffer to the current point."
+  (interactive)
+  (push-mark (point-max))
+  (goto-char (point)))
+
 ;;; grugru
 (grugru-default-setup)
 
