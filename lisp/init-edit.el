@@ -320,7 +320,7 @@
 (defun my/select-end-of-buffer-to-point ()
   "Select contents from the end of the buffer to the current point."
   (interactive)
-  (push-mark (point-max))
+  (push-mark (point-max) t t)
   (goto-char (point)))
 
 ;;; grugru

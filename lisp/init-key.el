@@ -19,7 +19,7 @@
  '(("C-M-c" . kill-emacs)
    ("C-M-r" . restart-emacs)
    ("C-M-y" . my/copy-current-line)
-   ("C-M-e" . my/select-to-end-of-buffer)))
+   ("C-M-e" . my/select-end-of-buffer-to-point)))
 
 (with-eval-after-load 'eww
   (keymap-sets eww-mode-map
