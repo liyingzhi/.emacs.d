@@ -157,11 +157,14 @@ At 2nd time it copy current directory to kill-buffer."
       (setq dirvish-preview-dispatchers
             (cl-substitute 'eza 'dired dirvish-preview-dispatchers)))
 
+    (keymap-unset dired-jump-map "C-j")
     (keymap-sets dirvish-mode-map
                  '(("a" . dirvish-quick-access)
                    ("TAB" . dirvish-subtree-toggle)
                    (("M-i" "s-i") . dirvish-layout-toggle)
-                   ("C-j" . dirvish-fd-jump))))
+                   ("C-j" . (lambda ()
+                              (interactive)
+                              (dirvish-fd-jump 16))))))
 
   (dirvish-override-dired-mode))
 
