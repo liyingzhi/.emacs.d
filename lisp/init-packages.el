@@ -94,7 +94,6 @@
     (eglot-booster :fetcher github :repo "jdtsmith/eglot-booster")
     corfu
     cape
-    kind-icon
     nerd-icons-corfu
     eldoc-box
     flymake-popon
