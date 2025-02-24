@@ -29,6 +29,10 @@
             #'transient-quit-all)
 
 (keymap-set transient-map
+            "q"
+            #'transient-quit-one)
+
+(keymap-set transient-map
             "C-n"
             #'transient-scroll-up)
 
