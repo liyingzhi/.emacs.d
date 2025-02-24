@@ -5,7 +5,7 @@
 ;; (setq blink-search-search-backends
 ;;       '("Buffer List" "Find File" "Common Directory" "Recent File" "Grep PDF" "PDF" "Google Suggest"))
 (setq blink-search-search-backends
-      '("Buffer List" "Find File" "Common Directory" "Recent File" "Google Suggest"))
+      '("Current Buffer" "Buffer List" "Find File" "Grep File" "Common Directory" "Recent File" "Google Suggest"))
 
 (setq blink-search-common-directory
       '(("HOME"  "~/")
