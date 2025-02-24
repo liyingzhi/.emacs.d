@@ -147,7 +147,7 @@
 
 (lazy-one-key-create-menu
  "Useful"
- (:key "t" :description "Sdcv translate" :command sdcv-search-pointer+ :filename "init-sdcv")
+ (:key "T" :description "Sdcv translate" :command sdcv-search-pointer+ :filename "init-sdcv")
  (:key "S" :description "Sudo edit find file" :command sudo-edit-find-file :filename "sudo-edit")
  (:key "e" :description "Toggle sdcv" :command lsp-bridge-toggle-sdcv-helper :filename "init-lsp-bridge")
  (:key "D" :description "Docker" :command docker)
@@ -158,8 +158,7 @@
  (:key "g" :description "gptel" :command gptel)
  (:key "G" :description "gptel menu" :command gptel-menu)
  (:key "a" :description "Aider" :command aider-transient-menu)
- (:key "m" :description "music-online" :command eaf-open-cloud-music)
- (:key "l" :description "music-offline" :command eaf-open-music-player))
+ (:key "t" :description "casual-main-tmenu" :command casual-editkit-main-tmenu))
 
 (lazy-one-key-create-menu
  "EAF"
