@@ -28,6 +28,7 @@
 
 (setq color-rg-show-lines-before-match 0)
 (setq color-rg-show-lines-after-match 0)
+(setq color-rg-search-no-ignore-file nil)
 
 (provide 'init-color-rg)
 ;;; init-color-rg.el ends here
