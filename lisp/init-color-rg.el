@@ -30,5 +30,7 @@
 (setq color-rg-show-lines-after-match 0)
 (setq color-rg-search-no-ignore-file nil)
 
+(define-key isearch-mode-map (kbd "C-c M-r") 'isearch-toggle-color-rg)
+
 (provide 'init-color-rg)
 ;;; init-color-rg.el ends here
