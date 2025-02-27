@@ -136,6 +136,18 @@
 ;; (setq bidi-inhibit-bpa t)
 ;; (setq bidi-paragraph-direction 'left-to-right)
 
+;; from doom emacs
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
+
+;; PERF: Disabling BPA makes redisplay faster, but might produce incorrect
+;;   reordering of bidirectional text with embedded parentheses (and other
+;;   bracket characters whose 'paired-bracket' Unicode property is non-nil).
+(setq bidi-inhibit-bpa t
+      long-line-threshold 1000
+      large-hscroll-threshold 1000
+      syntax-wholeline-max 1000)
+
 ;;; performance
 ;; Disable garbage collection when entering commands.
 (setq garbage-collection-messages t)	;gc时显示消息
