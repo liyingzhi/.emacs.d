@@ -52,11 +52,10 @@
 ;; (eaf-bind-key meow-keypad "SPC" eaf-markdown-previewer-keybinding)
 ;; (eaf-bind-key meow-keypad "SPC" eaf-pyqterminal-cursor-move-mode-keybinding)
 
-(add-hook 'eaf-mode-hook
-          #'(lambda ()
-              (define-key eaf-mode-map (kbd "C-c b") #'one-key-menu-buffer)
-              (define-key eaf-mode-map (kbd "C-K") #'kill-now-buffer)
-              (define-key eaf-mode-map (kbd "C-k") #'my/meow-quit)
-              (define-key eaf-mode-map (kbd "C-m") #'meow-keypad)))
+(keymap-sets eaf-mode-map*
+             '(("C-c b" . one-key-menu-buffer)
+               ("C-k" . kill-now-buffer)
+               ("C-q" . my/meow-quit)
+               ("C-c <SPC>" . meow-keypad)))
 
 (provide 'init-eaf)
