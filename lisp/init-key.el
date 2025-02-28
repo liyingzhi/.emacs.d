@@ -175,7 +175,8 @@
  (:key "h" :description "Browser-history" :command eaf-open-browser-with-history)
  (:key "o" :description "eaf-open" :command eaf-open)
  (:key "c" :description "music-online" :command eaf-open-cloud-music)
- (:key "l" :description "music-offline" :command eaf-open-music-player))
+ (:key "l" :description "music-offline" :command eaf-open-music-player)
+ (:key "n" :description "open mind elixir" :command eaf-open-mind-elixir))
 
 (defun lsp-diagnostic ()
   (interactive)

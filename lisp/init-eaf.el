@@ -31,6 +31,7 @@
 (require 'eaf-system-monitor)
 (require 'eaf-file-manager)
 (require 'eaf-markmap)
+(require 'eaf-mind-elixir)
 ;; (require 'eaf-file-browser)
 ;; (require 'eaf-terminal)
 ;; (require 'eaf-airshare)
