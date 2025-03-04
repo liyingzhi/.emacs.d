@@ -82,7 +82,7 @@
   :type 'boolean)
 
 (defcustom user/load-elfeed nil
-  "require init-eaf file"
+  "require init-elfeed file"
   :group 'user
   :type 'boolean)
 
