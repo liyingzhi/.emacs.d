@@ -8,6 +8,7 @@
 (setq dired-dwim-target t)
 (setq dired-listing-switches "-AFhlv --group-directories-first")
 (unless user/dirvish
+  (setq dired-movement-style 'bounded)
   (setq dired-kill-when-opening-new-dired-buffer t))
 
 ;; Dont prompt about killing buffer visiting delete file
@@ -149,11 +150,11 @@ At 2nd time it copy current directory to kill-buffer."
 
     (when (executable-find "eza")
       (dirvish-define-preview eza (file)
-                              "Use `eza' to generate directory preview."
-                              :require ("eza") ; tell Dirvish to check if we have the executable
-                              (when (file-directory-p file) ; we only interest in directories here
-                                `(shell . ("eza" "-al" "--color=always" "--icons=always"
-                                           "--group-directories-first" ,file))))
+        "Use `eza' to generate directory preview."
+        :require ("eza") ; tell Dirvish to check if we have the executable
+        (when (file-directory-p file) ; we only interest in directories here
+          `(shell . ("eza" "-al" "--color=always" "--icons=always"
+                     "--group-directories-first" ,file))))
 
       (setq dirvish-preview-dispatchers
             (cl-substitute 'eza 'dired dirvish-preview-dispatchers)))
@@ -165,7 +166,8 @@ At 2nd time it copy current directory to kill-buffer."
                    (("M-i" "s-i") . dirvish-layout-toggle)
                    ("C-j" . (lambda ()
                               (interactive)
-                              (dirvish-fd-jump 16))))))
+                              (dirvish-fd-jump 16)))
+                   ("M-o" . dirvish-dispatch))))
 
   (dirvish-override-dired-mode))
 
