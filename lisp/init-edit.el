@@ -317,10 +317,24 @@
     (buffer-substring (line-beginning-position)
                       (line-end-position)))))
 
+(defun my/copy-from-point-to-end-of-current-line ()
+  "Copy the content from point to the end of current line."
+  (interactive)
+  (kill-new
+   (string-trim
+    (buffer-substring (point)
+                      (line-end-position)))))
+
 (defun my/select-end-of-buffer-to-point ()
   "Select contents from the end of the buffer to the current point."
   (interactive)
   (push-mark (point-max) t t)
+  (goto-char (point)))
+
+(defun my/select-end-of-current-line-to-point ()
+  "Select contents from the end of the current line to the current point."
+  (interactive)
+  (push-mark (line-end-position) t t)
   (goto-char (point)))
 
 ;;; grugru
