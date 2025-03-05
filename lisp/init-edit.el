@@ -337,6 +337,15 @@
   (push-mark (line-end-position) t t)
   (goto-char (point)))
 
+(transient-define-prefix edit-utils-dispatch ()
+  "Visual replace menu."
+  ["Utils"
+   ("y" "Yank from point to endline" my/copy-from-point-to-end-of-current-line)
+   ("Y" "Yank current line" my/copy-current-line)
+   ("q" "Mark from point to endline" my/select-end-of-current-line-to-point)
+   ("w" "Mark from point to endbuffer" my/select-end-of-buffer-to-point)])
+
+
 ;;; grugru
 (grugru-default-setup)
 
