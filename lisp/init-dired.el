@@ -167,7 +167,7 @@ At 2nd time it copy current directory to kill-buffer."
                    ("C-j" . (lambda ()
                               (interactive)
                               (dirvish-fd-jump 16)))
-                   ("M-o" . dirvish-dispatch))))
+                   ("C-M-o" . dirvish-dispatch))))
 
   (dirvish-override-dired-mode))
 
