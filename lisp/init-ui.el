@@ -25,7 +25,7 @@
       icon-title-format frame-title-format)
 
 (setq default-frame-alist
-      '((alpha-background . 100)
+      `((alpha-background . ,user/init-alpha-background)
         ;; (fullscreen . maximized)
         ))
 
