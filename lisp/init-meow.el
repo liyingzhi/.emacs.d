@@ -161,6 +161,7 @@
    '("?" . meow-cheatsheet))
 
   (meow-leader-define-key
+   '("w" . hydra-window/body)
    '("t" . hydra-toggles/body)
    '("u" . one-key-menu-useful)
    '("e" . one-key-menu-eaf)
