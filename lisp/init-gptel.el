@@ -27,55 +27,45 @@
 
 (setq gptel-default-mode 'org-mode)
 
-(setq gptel-backend-kimi
-      (gptel-make-openai "kimi"
-        :stream t
-        :protocol "https"
-        :host "api.moonshot.cn"
-        :key #'gptel-api-key
-        :models '(moonshot-v1-8k moonshot-v1-128k)))
+(gptel-make-openai "kimi"
+  :stream t
+  :protocol "https"
+  :host "api.moonshot.cn"
+  :key #'gptel-api-key
+  :models '(moonshot-v1-8k moonshot-v1-128k))
 
-(setq gptel-backend-fireworks
-      (gptel-make-openai "chinese"
-        :stream t
-        :protocol "https"
-        :host "api.fireworks.ai"
-        :endpoint "/inference/v1/chat/completions"
-        :key #'gptel-api-key
-        :models '(accounts/fireworks/models/llama-v3p1-405b-instruct)))
+(gptel-make-openai "fireworks"
+  :stream t
+  :protocol "https"
+  :host "api.fireworks.ai"
+  :endpoint "/inference/v1/chat/completions"
+  :key #'gptel-api-key
+  :models '(accounts/fireworks/models/llama-v3p1-405b-instruct))
 
-(setq gptel-backend-deepseek
-      (gptel-make-openai "deepseek"
-        :stream t
-        :protocol "https"
-        :host "api.deepseek.com"
-        :key #'gptel-api-key
-        :models '(deepseek-chat)))
+(gptel-make-deepseek "deepseek"
+                     :stream t
+                     :key #'gptel-api-key)
 
-(setq gptel-backend-claude
-      (gptel-make-anthropic "Claude"
-        :stream t
-        :host "api.openai-proxy.org/anthropic"
-        :key #'gptel-api-key))
+(gptel-make-anthropic "Claude"
+  :stream t
+  :host "api.openai-proxy.org/anthropic"
+  :key #'gptel-api-key)
 
 ;; OpenRouter offers an OpenAI compatible API
-(setq gptel-backend-openrouter
-      (gptel-make-openai "OpenRouter"               ;Any name you want
-        :host "openrouter.ai"
-        :endpoint "/api/v1/chat/completions"
-        :stream t
-        :key #'gptel-api-key                   ;can be a function that returns the key
-        :models '(cognitivecomputations/dolphin3.0-r1-mistral-24b:free)))
+(gptel-make-openai "OpenRouter"               ;Any name you want
+  :host "openrouter.ai"
+  :endpoint "/api/v1/chat/completions"
+  :stream t
+  :key #'gptel-api-key                   ;can be a function that returns the key
+  :models '(cognitivecomputations/dolphin3.0-r1-mistral-24b:free))
+
+(setq gptel-backend
+      (gptel-get-backend "OpenRouter"))
 
 (setq gptel-model 'cognitivecomputations/dolphin3.0-r1-mistral-24b:free)
-(setq gptel-backend gptel-backend-openrouter)
-
 ;; (setq gptel-model 'moonshot-v1-8k)
-;; (setq gptel-backend gptel-backend-kimi)
 ;; (setq gptel-model 'deepseek-chat)
-;; (setq gptel-backend gptel-backend-deepseek)
 ;; (setq gptel-model 'claude-3-5-sonnet-20241022)
-;; (setq gptel-backend gptel-backend-claude)
 
 (require 'gptel)
 (add-list-to-list 'gptel-directives
