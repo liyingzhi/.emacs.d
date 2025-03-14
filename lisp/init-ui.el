@@ -25,9 +25,9 @@
       icon-title-format frame-title-format)
 
 (setq default-frame-alist
-      `((alpha-background . (if user/start-transparent
-                                ,user/init-alpha-background
-                              100))
+      `((alpha-background . ,(if user/start-transparent
+                                 user/init-alpha-background
+                               100))
         ;; (fullscreen . maximized)
         ))
 
