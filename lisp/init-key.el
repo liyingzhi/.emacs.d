@@ -160,6 +160,7 @@
  (:key "a" :description "Aider" :command aider-transient-menu)
  (:key "t" :description "Casual-main-tmenu" :command casual-editkit-main-tmenu)
  (:key "u" :description "Copy-Select utils dispatch" :command my/copy-select-utils-dispatch)
+ (:key "C" :description "Up-down convert dispatch" :command my/string-convert-dispatch))
 
 (lazy-one-key-create-menu
  "EAF"

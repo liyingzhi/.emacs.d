@@ -291,6 +291,7 @@
    '("gp" . goto-percent)
    '("gl" . consult-goto-line)
    '("gL" . avy-goto-line)
+   '("gc" . my/string-case-cycle-auto)
    '("/" . consult-ripgrep)
    '("?" . help-helpful-lsp-sly)))
 

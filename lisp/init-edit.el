@@ -345,6 +345,130 @@
    ("q" "Mark from point to endline" my/select-end-of-current-line-to-point)
    ("w" "Mark from point to endbuffer" my/select-end-of-buffer-to-point)])
 
+;;; string inflection
+(defun my/string-inflection-cycle-auto ()
+  "switching by major-mode"
+  (interactive)
+  (cond
+   ;; for emacs-lisp-mode
+   ((eq major-mode 'emacs-lisp-mode)
+    ;; "foo_bar => FOO_BAR => FooBar => fooBar => foo-bar => Foo_Bar => foo_bar"
+    (string-inflection-all-cycle))
+   ;; for python
+   ((eq major-mode 'python-mode)
+    (string-inflection-python-style-cycle))
+   ;; for java
+   ((eq major-mode 'java-mode)
+    (string-inflection-java-style-cycle))
+   ;; for elixir
+   ((eq major-mode 'elixir-mode)
+    (string-inflection-elixir-style-cycle))
+   (t
+    ;; default
+    (string-inflection-ruby-style-cycle))))
+
+(setq my-string-case-cycle-auto--Cnt 0)
+
+(defun my/string-case-cycle-auto ()
+  "string-case-cycle-auto"
+  (interactive)
+  (cond
+   ;; for emacs-lisp-mode
+   ((eq my-string-case-cycle-auto--Cnt 0)
+    (setq my-string-case-cycle-auto--Cnt 1)
+    (call-interactively #'downcase-dwim))
+   ;; for python
+   ((eq my-string-case-cycle-auto--Cnt 1)
+    (setq my-string-case-cycle-auto--Cnt 2)
+    (call-interactively #'capitalize-dwim))
+   ;; for java
+   ((eq my-string-case-cycle-auto--Cnt 2)
+    (setq my-string-case-cycle-auto--Cnt 0)
+    (call-interactively #'upcase-dwim))
+   (t
+    ;; default
+    (setq my-string-case-cycle-auto--Cnt 0)
+    (call-interactively #'downcase-dwim))))
+
+(defun my/string-customize-convert-with-parameter (&optional args)
+  "string customize convert with parameter"
+  (interactive (list (transient-args 'my/string-convert-dispatch)))
+  (cond ((member "--styleCamel=foo_bar" args)
+         (string-inflection-underscore))
+        ((member "--styleCamel=FOO_BAR" args)
+         (string-inflection-upcase))
+        ((member "--styleCamel=Foo_Bar" args)
+         (string-inflection-capital-underscore))
+        ((member "--styleCamel=foo-bar" args)
+         (string-inflection-kebab-case))
+        ((member "--styleCamel=FooBar" args)
+         (string-inflection-camelcase))
+        ((member "--styleCamel=fooBar" args)
+         (string-inflection-lower-camelcase))
+        ((member "--styleCase=foobar" args)
+         (call-interactively #'downcase-dwim))
+        ((member "--styleCase=Foobar" args)
+         (call-interactively #'capitalize-dwim))
+        ((member "--styleCase=FOOBAR" args)
+         (call-interactively #'upcase-dwim))))
+
+(transient-define-prefix my/string-convert-dispatch ()
+  "Sting convertion menu"
+
+  ["Customize Arguments & Convert"
+   ("-c " "UpDownCase" "--styleCase="
+    :choices ("foobar" "FOOBAR" "Foobar"))
+   ("-s " "Camel style" "--styleCamel="
+    :choices ("foo_bar" "FOO_BAR" "Foo_Bar" "foo-bar" "FooBar" "fooBar"))
+   ("RET" "Customize Convert" my/string-customize-convert-with-parameter)]
+
+  [:description
+   my-string--cycle-description
+   ("s" "string-inflection-cycle-auto" my/string-inflection-cycle-auto :transient t)
+   ("c" "string-case-cycle-auto [foobar => FOOBAR => Foobar]" my/string-case-cycle-auto :transient t)]
+
+  ["Fast Convert"
+   ("C" "capitalize-dwim" capitalize-dwim)
+   ("U" "upcase-dwim" upcase-dwim)
+   ("D" "downcase-dwim" downcase-dwim)
+   ("u" "upcase-dwim" subword-upcase)
+   ("d" "downcase-dwim" subword-downcase)]
+
+  [("q" "Quit"           transient-quit-one)])
+
+(defun my-string--cycle-description ()
+  "Return a Transient menu headline to indicate the currently selected project."
+  (setq my-string-case-cycle-auto--Cnt 0)
+  (format (propertize "Cycle Style: \n [%s %s \n %s %s]"
+                      'face 'transient-heading)
+          (propertize "string-inflection-cycle-auto:"
+                      'face 'transient-inapt-suffix)
+          (cond
+           ;; for emacs-lisp-mode
+           ((eq major-mode 'emacs-lisp-mode)
+            ;; "foo_bar => FOO_BAR => FooBar => fooBar => foo-bar => Foo_Bar => foo_bar"
+            (propertize "foo_bar => FOO_BAR => FooBar => fooBar => foo-bar => Foo_Bar => foo_bar"
+                        'face 'transient-inapt-suffix))
+           ;; for python
+           ((eq major-mode 'python-mode)
+            (propertize "foo_bar => FOO_BAR => FooBar => foo_bar"
+                        'face 'transient-inapt-suffix))
+           ;; for java
+           ((eq major-mode 'java-mode)
+            (propertize "fooBar => FOO_BAR => FooBar => fooBar"
+                        'face 'transient-inapt-suffix))
+           ;; for elixir
+           ((eq major-mode 'elixir-mode)
+            (propertize "foo_bar => FooBar => foo_bar"
+                        'face 'transient-inapt-suffix))
+           (t
+            ;; default
+            (propertize "foo_bar => FOO_BAR => FooBar => foo_bar"
+                        'face 'transient-inapt-suffix)))
+          (propertize "string-case-cycle-auto:"
+                      'face 'transient-inapt-suffix)
+          (propertize "foobar => FOOBAR => Foobar"
+                      'face 'transient-inapt-suffix)))
 
 ;;; grugru
 (grugru-default-setup)
