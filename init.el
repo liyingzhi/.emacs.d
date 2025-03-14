@@ -41,6 +41,7 @@
 (unless (or (not user/completion-preview-mode-use) user/ai-completion)
   (require 'init-completion-preview))
 (require 'init-snippet)
+(require 'init-color-rg)
 (require 'init-blink-search)
 (require 'init-tramp)
 
