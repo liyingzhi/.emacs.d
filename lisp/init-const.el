@@ -71,6 +71,17 @@
   :group 'user
   :type 'symbol)
 
+(defcustom user/start-fullscreen t
+  "Is fullscreen in start"
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/start-transparent t
+  "Is transparent in start"
+  :group 'user
+  :type 'boolean)
+
+
 (defcustom user/sidebar-magitblame nil
   "use side bar to show commit id when magit-blame"
   :group 'user
