@@ -337,8 +337,8 @@
   (push-mark (line-end-position) t t)
   (goto-char (point)))
 
-(transient-define-prefix edit-utils-dispatch ()
-  "Visual replace menu."
+(transient-define-prefix my/copy-select-utils-dispatch ()
+  "Select and copy content menu."
   ["Utils"
    ("y" "Yank from point to endline" my/copy-from-point-to-end-of-current-line)
    ("Y" "Yank current line" my/copy-current-line)

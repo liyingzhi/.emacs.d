@@ -159,7 +159,7 @@
  (:key "G" :description "gptel menu" :command gptel-menu)
  (:key "a" :description "Aider" :command aider-transient-menu)
  (:key "t" :description "Casual-main-tmenu" :command casual-editkit-main-tmenu)
- (:key "u" :description "Edit-utils-disptch" :command edit-utils-dispatch))
+ (:key "u" :description "Copy-Select utils dispatch" :command my/copy-select-utils-dispatch)
 
 (lazy-one-key-create-menu
  "EAF"
