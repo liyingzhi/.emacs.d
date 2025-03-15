@@ -34,7 +34,6 @@
       super-save-exclude '(".gpg")
       super-save-silent t
 
-      super-save-delete-trailing-whitespace t
       super-save-delete-trailing-whitespace 'except-current-line
 
       super-save-all-buffers t)
