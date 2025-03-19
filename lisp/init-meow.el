@@ -20,9 +20,10 @@
         (devdocs-mode . normal)
         (vterm-mode . insert)
         (fanyi-mode . normal)
-        (eaf-mode . motion)
         (eww-mode . normal)))
 
+(when user/load-eaf
+  (add-to-list 'meow-mode-state-list '(eaf-mode . motion)))
 ;; overwrite default j,k key function in motion state
 ;; (meow-motion-overwrite-define-key '("j" . dired-next-line))
 ;; (meow-motion-overwrite-define-key '("n" . "H-j"))
@@ -164,7 +165,6 @@
    '("w" . hydra-window/body)
    '("t" . hydra-toggles/body)
    '("u" . one-key-menu-useful)
-   '("e" . one-key-menu-eaf)
    '("j" . one-key-menu-code)
    '("s" . one-key-menu-search)
    '("f" . one-key-menu-file)
@@ -182,6 +182,10 @@
 
   (lazy-meow-leader-define-key
    '(("p" . project-menu) "init-project"))
+
+  (when user/load-eaf
+    (meow-leader-define-key
+     '("e" . one-key-menu-eaf)))
 
   (meow-leader-define-key
    '("1" . delete-other-windows)
