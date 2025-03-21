@@ -215,6 +215,8 @@
            :repo "karthink/gptel")
     (gptel-quick :fetcher github
                  :repo "karthink/gptel-quick")
+    (gptel-aibo :fetcher github
+                :repo "dolmens/gptel-aibo")
     (aider :fetcher github
            :repo "tninja/aider.el"
            :files ("aider.el"))

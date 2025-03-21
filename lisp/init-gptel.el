@@ -57,12 +57,12 @@
   :endpoint "/api/v1/chat/completions"
   :stream t
   :key #'gptel-api-key                   ;can be a function that returns the key
-  :models '(cognitivecomputations/dolphin3.0-r1-mistral-24b:free))
+  :models '(cognitivecomputations/dolphin3.0-r1-mistral-24b:free deepseek/deepseek-r1:free))
 
 (setq gptel-backend
       (gptel-get-backend "OpenRouter"))
 
-(setq gptel-model 'cognitivecomputations/dolphin3.0-r1-mistral-24b:free)
+(setq gptel-model 'deepseek/deepseek-r1:free)
 ;; (setq gptel-model 'moonshot-v1-8k)
 ;; (setq gptel-model 'deepseek-chat)
 ;; (setq gptel-model 'claude-3-5-sonnet-20241022)
@@ -125,6 +125,8 @@
 
 (global-set-keys
  '((("M-?" "s-?") . gptel-quick)))
+
+(require 'init-gptel-aibo)
 
 (provide 'init-gptel)
 ;;; init-gptel.el ends here

@@ -157,6 +157,7 @@
  (:key "c" :description "Insert color" :command my-insert-color-hex :filename "init-func")
  (:key "g" :description "gptel" :command gptel)
  (:key "G" :description "gptel menu" :command gptel-menu)
+ (:key "h" :description "gptel aibo" :command gptel-aibo)
  (:key "a" :description "Aider" :command aider-transient-menu)
  (:key "t" :description "Casual-main-tmenu" :command casual-editkit-main-tmenu)
  (:key "u" :description "Copy-Select utils dispatch" :command my/copy-select-utils-dispatch)
