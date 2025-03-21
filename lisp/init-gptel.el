@@ -74,6 +74,7 @@
                                           "  Generate ONLY the replacement text,"
                                           " without any explanation or markdown code fences or org code fences."
                                           " translate chinese to english."))))
+(setq gptel-include-reasoning nil)
 
 (require 'init-gptel-tools)
 
