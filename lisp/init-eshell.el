@@ -24,9 +24,9 @@ Use popper manager eshell buffer."
 
 ;;; eshell prompt
 (with-eval-after-load "esh-opt"
-  (autoload 'epe-theme-lambda "eshell-prompt-extras")
+  (autoload 'epe-theme-pipeline "eshell-prompt-extras")
   (setq eshell-highlight-prompt nil
-        eshell-prompt-function 'epe-theme-lambda))
+        eshell-prompt-function 'epe-theme-pipeline))
 
 ;;; eshell completion
 (when (and (executable-find "fish")
