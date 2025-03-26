@@ -29,7 +29,8 @@
 (require 'eaf-image-viewer)
 (require 'eaf-jupyter)
 (require 'eaf-system-monitor)
-(require 'eaf-file-manager)
+(when user/load-eaf
+  (require 'eaf-file-manager))
 (require 'eaf-markmap)
 (require 'eaf-mind-elixir)
 ;; (require 'eaf-file-browser)
