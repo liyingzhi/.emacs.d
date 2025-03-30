@@ -39,7 +39,6 @@
     diredfl
     dired-subtree
     dired-quick-sort
-    dirvish
     elisp-demos
     vterm
     (lazy-revert :fetcher github :repo "yilin-zhang/lazy-revert")
@@ -53,8 +52,7 @@
      :fetcher github
      :repo "lizqwerscott/rsync-project-mode")
     gif-screencast
-    keycast
-    cal-china-x))
+    keycast))
 
 (defvar *package-language-mode-install-list*
   '(markdown-mode
@@ -70,7 +68,6 @@
 (defvar *package-edit-install-list*
   '((meow :fetcher github :repo "meow-edit/meow")
     meow-tree-sitter
-    (repeat-fu :fetcher codeberg :repo "ideasman42/emacs-repeat-fu")
     grugru
     auto-rename-tag
     hungry-delete
@@ -96,13 +93,14 @@
     (eglot-booster :fetcher github :repo "jdtsmith/eglot-booster")
     corfu
     cape
+    kind-icon
     nerd-icons-corfu
     eldoc-box
     flymake-popon
     magit
     magit-delta
-    forge
-    difftastic
+    ;; magit-todos
+    git-cliff
     devdocs
     wucuo
     projection
@@ -215,8 +213,6 @@
            :repo "karthink/gptel")
     (gptel-quick :fetcher github
                  :repo "karthink/gptel-quick")
-    (gptel-aibo :fetcher github
-                :repo "dolmens/gptel-aibo")
     (aider :fetcher github
            :repo "tninja/aider.el"
            :files ("aider.el"))

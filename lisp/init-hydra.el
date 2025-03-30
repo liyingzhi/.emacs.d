@@ -95,54 +95,6 @@
            `((advice-add #',(intern (concat name "/body")) :before #'start-posframe)
              (advice-add #',(intern (concat name "/nil")) :after #'stop-posframe)) ))))
 
-(pretty-hydra-define-e hydra-toggles
-  (:title (pretty-hydra-title "Toggles" 'faicon "nf-fa-toggle_on") :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
-  ("Basic"
-   (("p" +lizqwer/toggle-proxy "proxy" :toggle url-proxy-services)
-    ("c" global-centered-cursor-mode "centered cursor" :toggle t)
-    ("l" interaction-log-mode "interactive log" :toggle t)
-    ("i" immersive-translate-auto-mode "immersive translate" :toggle t)
-    ("t" +lizqwer/toggle-telega "telega" :toggle (get-buffer "*Telega Root*")))
-   "Ui"
-   (("n" (display-line-numbers-mode (if display-line-numbers-mode -1 1))
-     "line number"
-     :toggle (bound-and-true-p display-line-numbers-mode))
-    ("d" +lizqwer/toggle-dark-theme "dark theme" :toggle (cl-find user/night-theme custom-enabled-themes))
-    ("T" +lizqwer/toggle-transparent "transparent" :toggle (not (eq (frame-parameter (selected-frame) 'alpha-background) 100)))
-    ("r" redacted-mode "redacted" :toggle t)
-    ("b" imenu-list-smart-toggle "imenu list" :toggle imenu-list-minor-mode)
-    ("k" keycast-header-line-mode "keycast" :toggle t))
-   "Edit"
-   (("w" toggle-sub-word-or-super-word "sub or super word" :toggle (bound-and-true-p subword-mode))
-    ("e" electric-pair-mode "electric pair" :toggle t))
-   "Debug"
-   (("E" toggle-debug-on-error "debug on error" :toggle (bound-and-true-p debug-on-error)))
-   "Program"
-   (("f" flymake-mode "flymake" :toggle t)
-    ("u" unity-mode "unity develop" :toggle t))))
-
-(pretty-hydra-define-e hydra-jump-dir
-  (:title (pretty-hydra-title "Jump to directory" 'octicon "nf-oct-file_directory_open_fill") :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
-  ("Base"
-   (("h" (find-file "~/") "Home")
-    ("d" (find-file "~/Downloads") "Downloads")
-    ("f" (find-file "~/Documents/") "Documents"))
-   "Program"
-   (("c" (find-file "~/.emacs.d") "Emacs Config")
-    ("g" (find-file "~/github") "Github")
-    ("p" (find-file "~/MyProject") "Project"))
-   "Search"
-   (("s" (lambda ()
-           (interactive)
-           (autoload 'consult-fd-dir "init-func" nil t)
-           (consult-fd-dir)) "Fuzzy search Dir")
-    ("j" dired-jump "Dired jump")
-    ("J" dired-jump-other-window "Dired jump other"))
-   "Dirvish"
-   (("v" (lambda ()
-           (interactive)
-           (when user/dirvish
-             (call-interactively #'dirvish-dwim))) "Dirvish"))))
 
 (pretty-hydra-define-e hydra-git
   (:title "Git" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
@@ -159,12 +111,12 @@
 (pretty-hydra-define-e hydra-language
   (:title "Language" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
   ("dict"
-   (("s" sdcv-search-pointer+ "sdcv dict")
-    ("f" fanyi-dwim2 "Fanyi Point")
+   (("f" fanyi-dwim2 "Fanyi Point")
     ("F" fanyi-dwim "Fanyi Input"))
    "english"
-   (("t" gt-do-translate "translate")
-    ("e" lsp-bridge-toggle-sdcv-helper "english helper"))))
+   (("t" gt-do-translate "translate"))))
+
+
+
 
 (provide 'init-hydra)
-;;; init-hydra.el ends here

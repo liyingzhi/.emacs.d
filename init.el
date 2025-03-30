@@ -1,93 +1,63 @@
 
-;; (setq-default inhibit-redisplay t
-;;               inhibit-message t)
-;; (add-hook 'window-setup-hook
-;;           (lambda ()
-;;             (setq-default inhibit-redisplay nil
-;;                           inhibit-message nil)
-;;             (redisplay)))
+(setq user-emacs-directory "D:\\EmacsConfig\\.emacs.d\\")
 
-;; (toggle-debug-on-error)
-;; 启动必须加载
-;; Need install packages
-(require 'init-packages)
+(let ((file-name-handler-alist nil))
+  (add-to-list 'load-path
+               (expand-file-name
+                (concat user-emacs-directory "lisp")))
+  (add-to-list 'load-path
+               (expand-file-name
+                (concat user-emacs-directory "lib"))))
 
-(setq custom-file (locate-user-emacs-file "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
 
+(require 'init-const)
+(require 'init-startup)
+
+(require 'init-utils)
 (require 'init-mode)
-(require 'init-hook)
 (require 'init-gcmh)
-;; (require 'init-auto-save)
 (require 'init-super-save)
 
+(require 'lazy-load)
+(require 'one-key)
+(require 'consult)
+(require 'nerd-icons)
 
 (require 'init-key)
-(require 'init-hydra)
-(require 'init-meow)
-(require 'init-transient)
+(require 'mini-emacs)
+(require 'init-font)
+(require 'init-theme)
 (require 'init-ui)
-
-(require 'init-edit)
-(require 'init-spell)
-(require 'init-input)
-(require 'init-auto-insert)
-(require 'init-separedit)
 (require 'init-auto-revert)
-
-(require 'init-minibuffer)
 (require 'init-corfu)
+(use-package treesit-auto
+  :ensure t
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
+(require 'init-minibuffer)
+(require 'init-edit)
+(require 'init-magit)
+(require 'init-difftastic)
+(require 'init-fingertip)
+(require 'init-color-rg)
+(require 'init-modeline)
+(require 'init-citre)
+(require 'init-dired)
+(require 'init-helpful)
+(require 'init-transient)
+(require 'init-go-translate)
+(require 'init-input)
+(require 'init-program)
+(require 'init-eglot)
 (unless (or (not user/completion-preview-mode-use) user/ai-completion)
   (require 'init-completion-preview))
 (require 'init-snippet)
-(require 'init-color-rg)
-(require 'init-blink-search)
-(require 'init-tramp)
-
-(require 'init-dired)
-(require 'init-helpful)
-(require 'init-calender)
-
+(require 'init-separedit)
 (require 'init-org)
 (require 'init-denote)
 (require 'init-pangu)
-;; (require 'init-hugo)
-;; (require 'init-reader)
-;; (require 'init-paper)
-;;(require 'crefactor)
-
-(require 'init-go-translate)
-
-(require 'init-rsync)
-;; (require 'init-code-stats)
-
-(require 'init-ai)
-
-;;; Programming
-(require 'init-magit)
-(require 'init-difftastic)
-(require 'init-lsp)
-(require 'init-citre)
-(require 'init-program)
-
-;; (require 'codeium)
-;; (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
-
-;; ;; Enable Completion Preview mode in code buffers
-;; (add-hook 'prog-mode-hook #'completion-preview-mode)
-;; (setq completion-preview-minimum-symbol-length 2)
-
-
-(when (and user/telega-start (display-graphic-p))
-  (message "start telega")
-  (autoload '+lizqwer/toggle-telega "init-telega" nil t)
-  (+lizqwer/toggle-telega))
-
-(when user/load-eaf
-  (require 'init-eaf))
-
-(when user/load-elfeed
-  (require 'init-elfeed))
-
-;;; init.el ends here.
+(require 'init-eshell)
+(server-mode 1)

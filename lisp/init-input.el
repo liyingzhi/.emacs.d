@@ -1,8 +1,8 @@
 
-;; (require 'init-pyim)
-(require 'init-rime)
+(require 'init-pyim)
+;; (require 'init-rime)
 
-(setq default-input-method "rime")
+(setq default-input-method "pyim")
 ;;
 
 (provide 'init-input)

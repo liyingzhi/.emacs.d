@@ -62,19 +62,19 @@
       (insert (format "启动时长: %s" (emacs-init-time)))
       (insert "\n")
       (insert-button "Quit Emacs"
-                     'action (lambda (_button)
-                               (save-buffers-kill-emacs)))
+		             'action (lambda (_button)
+			                   (save-buffers-kill-emacs)))
       (insert "\n")
       ;; (insert "Recent Files\n")
       ;; (dolist (f recentf-list)
-      ;;   (insert-button f
-      ;;                  'action (lambda (region)
-      ;;                         (require 'f)
-      ;;                         (let* ((f (buffer-substring-no-properties (overlay-start region) (overlay-end region)))
-      ;;                                (fname (f-filename f)))
-      ;;                           (find-file-noselect f)
-      ;;                           (switch-to-buffer fname))))
-      ;;   (insert "\n"))
+	  ;;   (insert-button f
+	  ;;                  'action (lambda (region)
+	  ;;   		                 (require 'f)
+	  ;;   		                 (let* ((f (buffer-substring-no-properties (overlay-start region) (overlay-end region)))
+	  ;;   			                    (fname (f-filename f)))
+	  ;;   		                   (find-file-noselect f)
+	  ;;   		                   (switch-to-buffer fname))))
+	  ;;   (insert "\n"))
       ))
   (goto-char (point-max)))
 
@@ -137,7 +137,7 @@
   (defun my-dashboard-insert-copyright ()
     "Insert copyright in the footer."
     (dashboard-insert-center
-     (propertize (format "\nPowered by Lizqwer Scott, %s\n" (format-time-string "%Y"))
+     (propertize (format "\nPowered by  Fly Lilee, %s\n" (format-time-string "%Y"))
                  'face 'font-lock-comment-face)))
   (advice-add #'dashboard-insert-footer :after #'my-dashboard-insert-copyright))
 

@@ -13,7 +13,7 @@
 ;;; Org base
 (require 'org)
 
-(setq org-default-notes-file "~/Documents/Org/index.org")
+(setq org-default-notes-file "~\Documents\Org\index.org")
 
 (setq org-tags-column -80
       org-log-done 'time
@@ -28,10 +28,7 @@
 
 (setq org-todo-keywords
       '((sequence "TODO(t)" "DOING(i)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)")
-        (sequence "⚑(T)" "🏴(I)" "❓(H)" "|" "✔(D)" "✘(C)")
-        (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
-        (sequence "PROJECT(p)" "|" "DONE(d!/!)" "CANCELLED(c/!)")
-        (sequence "WAITING(w/!)" "DELEGATED(e!)" "HOLD(h)" "|" "CANCELLED(c/!)")))
+        (sequence "⚑(T)" "🏴(I)" "❓(H)" "|" "✔(D)" "✘(C)")))
 ;; (setq org-todo-keywords
 ;;       '((sequence "TODO(t!)" "WAIT(w@/!)" "|" "DONE(d@/!)" "CANCEL(c@/!)")
 ;;         (sequence "REPORT(r!)" "BUG(b@/!)" "|" "FIXED(f@/!)")))
@@ -68,7 +65,7 @@
     (shell-command
      (format "pandoc %s -o %s --reference-doc=%s"
              (buffer-file-name)
-             docx-file
+             docx-filea
              template-file))
     (message "Convert finish: %s" docx-file)))
 
@@ -152,8 +149,11 @@
 (add-hook 'org-mode-hook
           #'visual-line-mode)
 
+;; (add-hook 'org-mode-hook
+;;           #'org-modern-indent-mode 90)
+
 (add-hook 'org-mode-hook
-          #'org-modern-indent-mode 90)
+          #'org-indent-mode 90)
 
 ;;; Org key
 (define-key org-mode-map (kbd "C-c TAB") 'org-insert-item)
@@ -166,26 +166,19 @@
 (keymap-unset org-mode-map "M-<left>")
 (keymap-unset org-mode-map "M-<right>")
 
-;;; Org capf
-(defun my/org-capf ()
-  (setq-local completion-at-point-functions
-              `(cape-file
-                cape-emoji
-                ,(cape-capf-super
-                  #'cape-dict
-                  #'cape-dabbrev)
-                pcomplete-completions-at-point)))
-
-(add-hook 'org-mode-hook #'my/org-capf)
-
 ;;; Org consult
+;; set consult-notes-1 source file names
 (setq consult-notes-file-dir-sources
       '(("Org"             ?o "~/Documents/Org/")))
+
+;; set consult-notes-2 headings file names
 (setq consult-notes-org-headings-files
       '("~/Documents/Org/idea.org"
         "~/Documents/Org/quote.org"))
 
+;; 在 consult-notes 指令中加入 org roam node 还有特定 org 文件中的 headings
 (consult-notes-org-headings-mode)
+;; set consult-notes-4 roam nodes 列表
 (consult-notes-org-roam-mode)
 
 (setq org-latex-compiler "xelatex")
@@ -248,14 +241,8 @@
           (dired-toggle-marks)))
     (message "Error: Does not work outside dired-mode")))
 
-(require 'init-org-roam)
-
 (require 'init-org-capture)
 
 (require 'init-org-agenda)
-
-(require 'init-org-reveal)
-
-;; (require 'init-org-media-note)
 
 (provide 'init-org)

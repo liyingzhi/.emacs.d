@@ -8,8 +8,6 @@
 
 ;;; Code:
 
-;;; theme
-(require 'init-theme)
 
 ;;; Optimization
 (setq idle-update-delay 1.0)
@@ -25,30 +23,23 @@
       icon-title-format frame-title-format)
 
 (setq default-frame-alist
-      `((alpha-background . ,(if user/start-transparent
-                                 user/init-alpha-background
-                               100))
+      '((alpha-background . 50)
         ;; (fullscreen . maximized)
         ))
 
 (setq initial-frame-alist
       '((top . 0.5)
         (left . 0.5)
-        (width . 0.628)
-        (height . 0.8)
+        (width . 0.9)
+        (height . 0.9)
         ;; (fullscreen . maximized)
         ))
 
-(when user/start-fullscreen
-  (unless sys/macp
-    (toggle-frame-fullscreen)))
-
-;;; modeline
-(require 'init-modeline)
-;;; tab bar
-;; (require 'sort-tab)
-;; (sort-tab-mode 1)
-(require 'init-tab-bar)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+;; (toggle-frame-maximized)
+;; (toggle-frame-fullscreen)
 
 ;;; Head line
 ;; Show the current function name in the header line
@@ -72,11 +63,10 @@
 ;; (setq header-line-format nil)
 
 ;;; Line number
-(unless sys/win32p
-  (add-hooks '(prog-mode text-mode conf-mode)
+(add-hooks '(prog-mode text-mode conf-mode)
              #'(lambda ()
                  (setq display-line-numbers-type 'relative)
-                 (display-line-numbers-mode 1))))
+                 (display-line-numbers-mode 1)))
 
 ;;; Suppress GUI features
 (setq use-file-dialog nil
@@ -107,17 +97,9 @@
 ;;; Logo
 (setq fancy-splash-image user/logo)
 
-;;; Dashboard
 (require 'init-dashboard)
-
-;;; Child frame
 (require 'init-posframe)
-
-;;; Highlight
 (require 'init-highlight)
-
-;;; Window
-
 (require 'init-window)
 
 ;; (require 'init-holo-layer)
@@ -126,6 +108,7 @@
 (require 'buffer-name-relative)
 (setq buffer-name-relative-prefix '("<" . "> ")
       buffer-name-relative-fallback 'default)
+
 
 (defun buffer-name-relative-root-path-from-project (filepath)
   "Return the PROJECT directory from FILEPATH or nil."
@@ -140,24 +123,19 @@
             (error (message "Error finding PROJECT root name: %s" err))))))
     result))
 (setq buffer-name-relative-root-functions '(buffer-name-relative-root-path-from-project))
+(add-hook 'after-init-hook #'buffer-name-relative-mode)
 
-(add-hook 'after-init-hook
-          #'buffer-name-relative-mode)
 
 ;;; Another
 
 ;; (require 'zone)
 ;; (zone-when-idle 600)
 
-(which-key-mode)
 (global-so-long-mode 1)
 
-;;; Click to browse URL or to send to e-mail address
-(add-hook 'text-mode-hook
-          #'goto-address-mode)
+(global-hl-line-mode 1)
+(add-hook 'emacs-lisp-mode-hook 'outshine-mode)
 
-(add-hook 'prog-mode-hook
-          #'goto-address-prog-mode)
 
 ;;; Ibuffer
 (add-hook 'ibuffer-mode-hook #'nerd-icons-ibuffer-mode)
@@ -167,9 +145,6 @@
                 (require 'projection-ibuffer)
                 (ibuffer-projection-set-filter-groups))))
 
-(require 'init-imenu-list)
-
-;;; Eww image slice
 (require 'init-image-slicing)
 
 (provide 'init-ui)

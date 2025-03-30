@@ -26,62 +26,27 @@
 
 (require 'denote)
 (require 'consult-denote)
-(setq denote-directory "~/Documents/denote")
+(setq denote-directory "~/Documents/Org/denote")
+;; consult-denote 支持使用 fd 查找文件名称
+;; consult-denote 支持使用 riggrep 查找文件内容
 (setq consult-denote-grep-command #'consult-ripgrep)
 (setq consult-denote-find-command #'consult-fd)
 (setq denote-date-prompt-use-org-read-date t)
 
+;; set consult-notes-3 设置须要查询的 denote 文件夹
 (add-list-to-list  'consult-notes-file-dir-sources
-                   `(("Denote Notes"  ?d ,denote-directory)))
+                   `(("Denote Notes"  ?d ,denote-directory)
+                     ("Denote Notes"  ?d ,(concat denote-directory "/journal"))
+                     ("Denote Notes"  ?d ,(concat denote-directory "/work"))))
 
 (defun create-denote--in-journal-subdir ()
   (interactive)
   (let ((denote-directory (concat denote-directory "/journal")))
     (denote-org-capture)))
 
-(defun create-denote--in-work-subdir ()
-  (interactive)
-  (let ((denote-directory (concat denote-directory "/work")))
-    (denote-org-capture)))
-
-(defun create-denote--in-robot-subdir ()
-  (interactive)
-  (let ((denote-directory (concat denote-directory "/robot")))
-    (denote-org-capture)))
-
-(defun create-denote--in-personal-subdir ()
-  (interactive)
-  (let ((denote-directory (concat denote-directory "/personal")))
-    (denote-org-capture)))
-
-
-(push '("d" "New journal note (with Denote)" plain
+(push '("d" "New note (with Denote)" plain
         (file denote-last-path)
         #'create-denote--in-journal-subdir
-        :no-save t
-        :immediate-finish nil
-        :kill-buffer t
-        :jump-to-captured t) org-capture-templates)
-
-(push '("w" "New work note (with Denote)" plain
-        (file denote-last-path)
-        #'create-denote--in-work-subdir
-        :no-save t
-        :immediate-finish nil
-        :kill-buffer t
-        :jump-to-captured t) org-capture-templates)
-
-(push '("r" "New robot note (with Denote)" plain
-        (file denote-last-path)
-        #'create-denote--in-robot-subdir
-        :no-save t
-        :immediate-finish nil
-        :kill-buffer t
-        :jump-to-captured t) org-capture-templates)
-
-(push '("p" "New personal note (with Denote)" plain
-        (file denote-last-path)
-        #'create-denote--in-personal-subdir
         :no-save t
         :immediate-finish nil
         :kill-buffer t
@@ -93,14 +58,15 @@
 ;;         :kill-buffer t
 ;;         :empty-lines 1) org-capture-templates)
 
-(defun my-denote-create-note-in-any-directory ()
+(defun my/denote-create-note-in-any-directory ()
   "Create new Denote note in any directory.
 Prompt for the directory using minibuffer completion."
   (declare (interactive-only t))
   (interactive)
-  (let ((denote-directory (read-directory-name "New note in: " nil nil :must-match)))
+  (let ((denote-directory (read-directory-name "New note in: " (concat denote-directory "/")  nil :must-match)))
     (call-interactively 'denote)))
-
+;; 当 consult-denote 开启后, consult-buffer 有更多 section 片段,
+;; denote buffer, denote subdir, denote silo buffer
 (consult-denote-mode 1)
 (provide 'init-denote)
 ;;; init-denote.el ends here

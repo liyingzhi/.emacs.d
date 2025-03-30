@@ -2,17 +2,12 @@
 
 (defun lizqwer/setup-org-capture ()
   (setq org-capture-templates nil)
-  ;; (push '("i" "我的闪念" entry (file+headline "~/Documents/Org/idea.org" "闪念") "* %U - %^{标题} %^g\n  %?\n")
-  ;;       org-capture-templates)
-  (push `("i" "我的闪念" entry (file "~/Documents/Org/inbox.org") ,(concat "* TODO %?\n%U"))
+  (push '("i" "我的闪念" entry (file+headline "~/Documents/Org/idea.org" "闪念") "* %U - %^{标题} %^g\n  %?\n")
         org-capture-templates)
-
   (push '("q" "收藏名言" entry (file+headline "~/Documents/Org/quote.org" "名言") "* %U - %^{标题} %^g\n  %?\n")
         org-capture-templates)
-  ;; (push '("n" "LNKS" entry (file+headline "~/Documents/Org/lnks.org" "链接") "* [[%^{link-url}][%^{link-description}]] %^g\n:PROPERTIES:\n:LINK-CREATE-TIME: %T\n:END:\n  %?\n")
-  ;;       org-capture-templates)
-  (push  '("n" "note" entry (file "~/Documents/Org/note.org") "* %? :NOTE:\n%U\n%a\n" :clock-resume t)
-         org-capture-templates)
+  (push '("n" "LNKS" entry (file+headline "~/Documents/Org/lnks.org" "链接") "* [[%^{link-url}][%^{link-description}]] %^g\n:PROPERTIES:\n:LINK-CREATE-TIME: %T\n:END:\n  %?\n")
+        org-capture-templates)
   (push '("t" "任务" entry (file+headline "~/Documents/Org/tasks.org" "任务") "* TODO %^{标题} %t %^g\n** \_From: %f\_
 \=File-Line:\= %l \n\=Description:\= %?\n") org-capture-templates))
 

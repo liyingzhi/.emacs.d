@@ -15,19 +15,6 @@
                          ("nongnu" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 
-;; HACK: DO NOT save `package-selected-packages' to `custom-file'
-;; @see https://github.com/jwiegley/use-package/issues/383#issuecomment-247801751
-(defun my-package--save-selected-packages (&optional value)
-  "Set `package-selected-packages' to VALUE but don't save to option `custom-file'."
-  (when value
-    (setq package-selected-packages value))
-  (unless after-init-time
-    (add-hook 'after-init-hook #'my-package--save-selected-packages)))
-(advice-add 'package--save-selected-packages :override #'my-package--save-selected-packages)
-
-;; More options
-(setq package-install-upgrade-built-in t)
-
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -94,16 +81,126 @@
   '(no-littering
     benchmark-init
     exec-path-from-shell
-
     pretty-mode
-    doom-themes
-    dracula-theme
-    ef-themes
     (standard-themes :fetcher github :repo "protesilaos/standard-themes")
     (lazy-load :fetcher github :repo "manateelazycat/lazy-load")
-    (one-key :fetcher github :repo "manateelazycat/one-key")))
+    (one-key :fetcher github :repo "manateelazycat/one-key")
+    (fingertip :fetcher github :repo "manateelazycat/fingertip")
+    (color-rg :fetcher github
+              :repo "manateelazycat/color-rg")
+    (awesome-tray :fetcher github
+                  :repo "manateelazycat/awesome-tray")
+    doom-modeline
+    (meow :fetcher github :repo "meow-edit/meow")
+    meow-tree-sitter
+    highlight-function-calls
+    lisp-extra-font-lock
+    diff-hl
+    hungry-delete
+    org-modern
+    hydra
+    pretty-hydra
+    outshine
+    aggressive-indent
+    difftastic
+    dashboard
+    gcmh
+    yasnippet
+    consult-yasnippet
+    macrostep
+    eglot
+    consult-eglot
+    (eglot-booster :fetcher github :repo "jdtsmith/eglot-booster")
+    apheleia
+    visual-replace
+    corfu
+    cape
+    eldoc-box
+    markdown-mode
+    nerd-icons
+    rainbow-delimiters
+    colorful-mode
+    color-identifiers-mode
+    (pulsar :fetcher github :repo "protesilaos/pulsar")
+    (lazy-revert :fetcher github :repo "yilin-zhang/lazy-revert")
+    page-break-lines
+    dired-quick-sort
+    dired-rsync
+    dired-rsync-transient
+    dired-git-info
+    diredfl
+    dired-subtree
+    diredfl
+    symbol-overlay
+    symbol-overlay-mc
+    separedit
+    casual
+    casual-symbol-overlay
+    fanyi
+    posframe
+    outline-indent
+    pyim
+    pyim-basedict
+    go-translate
+    (breadcrumb :fetcher github :repo "joaotavora/breadcrumb")
+    (watch-other-window :fetcher github :repo "manateelazycat/watch-other-window")
+    (org-modern-indent :fetcher github :repo "jdtsmith/org-modern-indent")
+    consult-notes
+    denote
+    denote-menu
+    consult-denote
+    valign
+    org-fancy-priorities
+    org-journal
+    org-appear
+    org-roam
+    (pangu-spacing
+     :fetcher github
+     :repo  "nailuoGG/pangu-spacing"
+     :branch "remove-old-version-support"
+     :files ("*.el"))
+    (indent-bars :fetcher github :repo  "jdtsmith/indent-bars")
+    (image-slicing :fetcher github :repo "ginqi7/image-slicing")))
 
 (packages! *package-early-install-list*)
+
+(defvar *package-miss-install-list*
+  '(
+    projection
+    doom-themes
+    dracula-theme
+    vundo
+    ace-window
+    highlight-parentheses
+    shackle
+    popper
+    buffer-name-relative
+    vertico
+    nerd-icons-corfu
+    marginalia
+    orderless
+    nerd-icons-completion
+    nerd-icons-dired
+    citre
+    magit
+    magit-delta
+    helpful
+    org-bullets
+    fussy
+    (flx-rs
+     :repo "jcs-elpa/flx-rs"
+     :fetcher github
+     :files (:defaults "bin"))
+    (pyim-tsinghua-dict
+     :fetcher github
+     :repo "redguardtoo/pyim-tsinghua-dict"
+     :files ("pyim-tsinghua-dict.el" "pyim-tsinghua-dict.pyim"))
+    super-save
+    eshell-prompt-extras
+    elisp-demos))
+
+(packages! *package-miss-install-list*)
+
 
 (provide 'init-package)
 ;;; init-package.el ends here

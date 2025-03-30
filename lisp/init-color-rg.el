@@ -24,13 +24,13 @@
 
 ;;; Code:
 
+(require 'color-rg)
 
 (with-eval-after-load 'color-rg
   (setq color-rg-show-lines-before-match 0)
   (setq color-rg-show-lines-after-match 0)
   (setq color-rg-search-no-ignore-file nil)
-  (define-key isearch-mode-map (kbd "C-c M-r") 'isearch-toggle-color-rg))
-
+  (setq color-rg-command-prefix "powershell"))
 
 (provide 'init-color-rg)
 ;;; init-color-rg.el ends here

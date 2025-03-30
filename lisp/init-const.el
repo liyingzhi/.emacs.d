@@ -56,7 +56,7 @@
 
 (defcustom user/logo (file-truename
                       (concat user-emacs-directory
-                              "logos/gnu_color.xpm"))
+                              "logos/gnu_color.svg"))
   "Show dashboard"
   :group 'user
   :type 'string)
@@ -70,32 +70,6 @@
   "User night theme"
   :group 'user
   :type 'symbol)
-
-(defcustom user/start-fullscreen t
-  "Is fullscreen in start"
-  :group 'user
-  :type 'boolean)
-
-(defcustom user/start-transparent t
-  "Is transparent in start"
-  :group 'user
-  :type 'boolean)
-
-
-(defcustom user/sidebar-magitblame nil
-  "use side bar to show commit id when magit-blame"
-  :group 'user
-  :type 'boolean)
-
-(defcustom user/load-eaf nil
-  "require init-eaf file"
-  :group 'user
-  :type 'boolean)
-
-(defcustom user/load-elfeed nil
-  "require init-elfeed file"
-  :group 'user
-  :type 'boolean)
 
 (defcustom user/run-python-command "python"
   "A python command for Some package use python package"
@@ -182,11 +156,6 @@
   :group 'user
   :type '(choice (const :tag "eglot" eglot)
                  (const :tag "lsp-bridge" lsp-bridge)))
-
-(defcustom user/dirvish t
-  "Is Use dirvish"
-  :group 'user
-  :type 'boolean)
 
 (provide 'init-const)
 ;;; init-const.el ends here.

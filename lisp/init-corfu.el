@@ -21,16 +21,14 @@
 ;;; Commentary:
 
 ;;
-
+(require 'yasnippet)
 ;;; Code:
-
 (defun +complete ()
   (interactive)
   (or ;; (tempel-complete t)
    (yas-expand)
    (if user/completion-preview-mode-use
-       (completion-preview-insert))
-   (ai-complete)
+          (completion-preview-insert))
    (corfu-next)))
 
 (require 'corfu)
@@ -44,6 +42,7 @@
 (custom-set-faces
  '(corfu-border ((t (:inherit region :background unspecified)))))
 
+
 (keymap-sets corfu-map
              '(("TAB" . +complete)
                ;; ("[tab]" . +complete)
@@ -51,16 +50,14 @@
                ;; ("[backtab]" . corfu-previous)
                ))
 
-(pcase user/lsp-client
-  ('eglot
-   (add-hook 'after-init-hook #'global-corfu-mode)
-   (advice-add #'meow-grab
-               :before
-               #'(lambda ()
-                   (call-interactively #'corfu-mode))))
-  ('lsp-bridge
-   (add-hooks '(rust-mode sly-mrepl-mode scheme-mode sql-mode eshell-mode inferior-python-mode elvish-mode telega-chat-mode)
-              #'corfu-mode)))
+
+
+(add-hook 'after-init-hook #'global-corfu-mode)
+(advice-add #'meow-grab
+            :before
+            #'(lambda ()
+                (call-interactively #'corfu-mode)))
+
 
 (add-hook 'global-corfu-mode-hook #'corfu-popupinfo-mode)
 
@@ -81,9 +78,12 @@
 (defun my/eglot-capf ()
   (setq-local completion-at-point-functions
               `(cape-file
-                ,@(when citre-mode
-                    '(citre-completion-at-point))
-                eglot-completion-at-point)))
+                ,(cape-capf-super
+                  #'eglot-completion-at-point
+                  #'cape-dabbrev)
+                ,(when citre-mode
+                   #'citre-completion-at-point))
+              cape-dabbrev-min-length 7))
 
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
@@ -102,6 +102,15 @@
                 cape-file)
               cape-dabbrev-min-length 5))
 (add-hook 'emacs-lisp-mode-hook #'my/setup-elisp)
+
+;;; kind icon
+;; (require 'kind-icon)
+;; (setq kind-icon-default-face 'corfu-default
+;;       kind-icon-use-icons nil)
+;; (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+
+;; (setq completion-cycle-threshold 3)
+;; (setq tab-always-indent 'complete)
 
 ;;; nerd icons corfu
 (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)

@@ -1,5 +1,4 @@
 (require 'meow)
-;; (setq meow-expand-hint-remove-delay 5.0)
 (setq meow-esc-delay 0.001)
 (setq meow-keypad-leader-dispatch "C-c")
 (setq meow-mode-state-list
@@ -11,25 +10,12 @@
         (helpful-mode . normal)
         (cargo-process-mode . normal)
         (compilation-mode . normal)
-        (message-mode . normal)
         (messages-buffer-mode . normal)
-        (blink-search-mode . insert)
+        (eww-mode . normal)
         (color-rg-mode . insert)
-        (Info-mode . motion)
-        (help-mode . normal)
-        (devdocs-mode . normal)
+        (lsp-bridge-ref-mode . insert)
         (vterm-mode . insert)
-        (fanyi-mode . normal)
-        (eww-mode . normal)))
-
-(when user/load-eaf
-  (add-to-list 'meow-mode-state-list '(eaf-mode . motion)))
-;; overwrite default j,k key function in motion state
-;; (meow-motion-overwrite-define-key '("j" . dired-next-line))
-;; (meow-motion-overwrite-define-key '("n" . "H-j"))
-;; (meow-motion-overwrite-define-key '("k" . dired-previous-line))
-;; (meow-motion-overwrite-define-key '("p" . "H-k"))
-
+        (Info-mode-hook . motion)))
 (setq meow-use-clipboard t)
 (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
 
@@ -37,65 +23,6 @@
 
 (add-to-list 'meow-char-thing-table
              '(?u . url))
-
-(defun lazy-meow-leader-define-key (&rest keybinds)
-  (let* ((meow-leader-keybinds))
-    (dolist (ele  keybinds)
-      (let ((func (cdar ele))
-            (key (caar ele))
-            (filename (cadr ele)))
-        (autoload func filename nil t)
-        (meow-define-keys 'leader (cons key func))))))
-
-(defun lazy-meow-insert-define-key (&rest keybinds)
-  (let* ((meow-insert-keybinds))
-    (dolist (ele  keybinds)
-      (let ((func (cdar ele))
-            (key (caar ele))
-            (filename (cadr ele)))
-        (autoload func filename nil t)
-        (meow-define-keys 'insert (cons key func))))))
-
-(one-key-create-menu
- "Rust"
- '((("r" . "Rust Run") . cargo-process-run)
-   (("c" . "Rust check") . cargo-process-clippy)
-   (("b" . "Rust Compile") . cargo-process-build)))
-
-(one-key-create-menu
- "Compile"
- '((("c" . "compile") . run-or-compile)
-   (("r" . "recompile") . project-recompile)))
-
-
-(defun run-or-compile ()
-  "Run or compile this project or file."
-  (interactive)
-  (if (bound-and-true-p sly-mode)
-      (call-interactively #'sly-switch-mrepl)
-    (autoload 'project-root-path "init-project" nil t)
-    (let ((project-path (project-root-path)))
-      (pcase major-mode
-        ('python-ts-mode
-         (let ((command (if project-path
-                            "pdm run start"
-                          (concat "python "
-                                  (file-truename (buffer-file-name))))))
-           (setq command (compilation-read-command command))
-           (require 'multi-vterm)
-           (multi-vterm-run command)))
-        ('rust-ts-mode (one-key-menu-rust))
-        ('haskell-mode
-         (progn
-           (setq command
-                 (compilation-read-command
-                  (concat "cabal run")))
-           (require 'multi-vterm)
-           (multi-vterm-run command)))
-        ('emacs-lisp-mode (message "Not support"))
-        (_ (if project-path
-               (call-interactively #'projection-commands-build-project)
-             (call-interactively #'compile)))))))
 
 (defun kill-now-buffer ()
   "Close the current buffer."
@@ -110,22 +37,6 @@
     (if (delete-window)
         (message "finish"))))
 
-(defun help-helpful-lsp-sly ()
-  "Help function with lsp and sly info"
-  (interactive)
-  (if (bound-and-true-p sly-mode)
-      (call-interactively #'sly-documentation)
-    (if (or (equal major-mode 'emacs-lisp-mode)
-           (equal major-mode 'lisp-interaction-mode))
-        (helpful-at-point)
-      (pcase user/lsp-client
-        ('eglot
-         (eldoc-box-help-at-point))
-        ('lsp-bridge
-         (if (bound-and-true-p lsp-bridge-mode)
-             (lsp-bridge-popup-documentation)
-           (message "dont't know how to help")))))))
-
 (defun meow-setup ()
   ;; (meow-motion-overwrite-define-key
   ;;  '("j" . meow-next)
@@ -139,11 +50,11 @@
   ;;  '("C-j" . (lambda ()
   ;;              (interactive)
   ;;              (dotimes (i 2)
-  ;;             (call-interactively 'meow-next))))
+  ;;   	         (call-interactively 'meow-next))))
   ;;  '("C-k" . (lambda ()
   ;;              (interactive)
   ;;              (dotimes (i 2)
-  ;;             (call-interactively 'meow-prev))))
+  ;;   	         (call-interactively 'meow-prev))))
   ;;  '("<escape>" . ignore))
 
   (meow-leader-define-key
@@ -162,42 +73,23 @@
    '("?" . meow-cheatsheet))
 
   (meow-leader-define-key
-   '("w" . hydra-window/body)
-   '("t" . hydra-toggles/body)
-   '("u" . one-key-menu-useful)
-   '("j" . one-key-menu-code)
-   '("s" . one-key-menu-search)
-   '("f" . one-key-menu-file)
-   '("b" . one-key-menu-buffer)
-   '("o" . one-key-menu-org)
-   ;; '("v" . one-key-menu-sort-tab)
-   '("v" . hydra-git/body)
-   '("l" . one-key-menu-workspace)
-   '("z" . hydra-language/body)
-   '("d" . hydra-jump-dir/body)
-   '("i" . one-key-menu-insert)
-   '("a" . one-key-menu-agenda)
-   '("n" . one-key-menu-roam)
-   )
-
-  (lazy-meow-leader-define-key
-   '(("p" . project-menu) "init-project"))
-
-  (when user/load-eaf
-    (meow-leader-define-key
-     '("e" . one-key-menu-eaf)))
-
-  (meow-leader-define-key
    '("1" . delete-other-windows)
    '("2" . split-window-below)
    '("3" . split-window-horizontally)
-   '("0" . delete-window)
-   '("r" . run-or-compile)
-   ;;'("r" . one-key-menu-compile)
-   )
+   '("0" . delete-window))
 
-  (meow-define-keys 'insert
-    '("C-c i" . one-key-menu-insert))
+  (meow-leader-define-key
+   '("ff" . find-file)
+   '("fF" . find-file-other-window)
+   '("fh" . (lambda ()
+              (interactive)
+              (ido-find-file-in-dir "~/"))))
+
+  (meow-leader-define-key
+   '("bb" . switch-to-buffer)
+   '("bB" . switch-to-buffer-other-window)
+   '("bk" . kill-buffer-and-window)
+   '("br" . revert-buffer))
 
   (meow-normal-define-key
    '("0" . meow-expand-0)
@@ -269,54 +161,21 @@
    '("'" . repeat)
    '("<escape>" . ignore))
 
-  (pcase user/lsp-client
-    ('eglot
-     (meow-normal-define-key
-      '("gr" . xref-find-references)
-      '("gd" . xref-find-definitions)
-      '("gD" . xref-find-definitions-other-window)
-      '("gi" . eglot-find-implementation)
-      '("gI" . eglot-find-implementation)
-      '("C-o" . xref-go-back)))
-    ('lsp-bridge
-     (meow-normal-define-key
-      '("gr" . lsp-bridge-find-references)
-      '("gd" . find-definition-with-lsp-bridge)
-      '("gD" . find-definition-with-lsp-bridge-other-window)
-      '("gi" . lsp-bridge-find-impl)
-      '("gI" . lsp-bridge-find-impl-other-window)
-      '("C-o" . return-find-def))))
+  (meow-normal-define-key
+   '("gr" . xref-find-references)
+   '("gd" . xref-find-definitions)
+   '("gD" . xref-find-definitions-other-window)
+   '("C-o" . xref-go-back))
 
   (meow-normal-define-key
    '("C-;" . grugru)
    '("C-y" . meow-clipboard-yank)
    '("Q" . kill-now-buffer)
+   '("?" . helpful-at-point)
    '("gf" . find-file-at-point)
-   '("gp" . goto-percent)
-   '("gl" . consult-goto-line)
-   '("gL" . avy-goto-line)
-   '("gc" . my/string-case-cycle-auto)
-   '("/" . consult-ripgrep)
-   '("?" . help-helpful-lsp-sly)))
+   '("gp" . goto-percent)))
 
-(meow-vterm-enable)
 (meow-setup)
 (meow-global-mode 1)
-
-(require 'eww)
-(keymap-sets eww-mode-map
-             '(("M-n" . scroll-up-1/3)
-               ("M-p" . scroll-down-1/3)))
-
-(require 'meow-tree-sitter)
-(meow-tree-sitter-register-defaults)
-
-(setq repeat-fu-preset 'meow)
-(add-hook 'meow-mode-hook
-          #'(lambda ()
-              (when (and (not (minibufferp)) (not (derived-mode-p 'special-mode)))
-                (repeat-fu-mode)
-                (define-key meow-normal-state-keymap (kbd "C-'") 'repeat-fu-execute)
-                (define-key meow-insert-state-keymap (kbd "C-'") 'repeat-fu-execute))))
 
 (provide 'init-meow)

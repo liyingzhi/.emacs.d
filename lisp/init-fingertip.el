@@ -84,6 +84,7 @@
                        (fingertip-mode 1)))))
 (require 'fingertip)
 
+
 (define-key fingertip-mode-map (kbd "(") 'fingertip-open-round)
 (define-key fingertip-mode-map (kbd "[") 'fingertip-open-bracket)
 (define-key fingertip-mode-map (kbd "{") 'fingertip-open-curly)
@@ -91,7 +92,6 @@
 (define-key fingertip-mode-map (kbd "]") 'fingertip-close-bracket)
 (define-key fingertip-mode-map (kbd "}") 'fingertip-close-curly)
 (define-key fingertip-mode-map (kbd "=") 'fingertip-equal)
-
 (define-key fingertip-mode-map (kbd "（") 'fingertip-open-chinese-round)
 (define-key fingertip-mode-map (kbd "「") 'fingertip-open-chinese-bracket)
 (define-key fingertip-mode-map (kbd "【") 'fingertip-open-chinese-curly)

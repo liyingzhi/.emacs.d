@@ -33,4 +33,26 @@ Use popper manager eshell buffer."
          (require 'fish-completion nil t))
   (global-fish-completion-mode))
 
+(setq explicit-shell-file-name "c:/Users/liyin/scoop/apps/git/current/bin/bash.exe")
+(setq shell-file-name explicit-shell-file-name)
+(add-to-list 'exec-path "c:/Users/liyin/scoop/apps/git/current/bin")
+
+(defun shell-toggle--new-buffer (buf-name)
+  "Init BUF-NAME."
+  (let ((default-directory (project-root (project-current t)))
+        (shell-buffer-name buf-name))
+    (with-temp-buffer
+      (shell shell-buffer-name))))
+
+(defun shell-project-toggle ()
+  "Show eshell at the bottom of current window and cd to current buffer's path.
+Use popper manager eshell buffer."
+  (interactive)
+  (let ((buf-name (project-prefixed-buffer-name "shell")))
+    (if (get-buffer buf-name)
+        ;; buffer is already created
+        (or (-some-> buf-name get-buffer-window delete-window)
+           (switch-to-buffer-other-window buf-name))
+      ;; buffer is not created, create it
+      (shell-toggle--new-buffer buf-name))))
 (provide 'init-eshell)

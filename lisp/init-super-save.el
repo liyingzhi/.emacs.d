@@ -34,12 +34,14 @@
       super-save-exclude '(".gpg")
       super-save-silent t
 
+      super-save-delete-trailing-whitespace t
       super-save-delete-trailing-whitespace 'except-current-line
 
       super-save-all-buffers t)
 
-(add-list-to-list 'super-save-triggers
-                  '(ace-window magit-status))
+(with-eval-after-load 'magit-status
+  (add-list-to-list 'super-save-triggers '(ace-window magit-status)))
+
 (add-to-list 'super-save-hook-triggers 'find-file-hook)
 
 (super-save-mode +1)

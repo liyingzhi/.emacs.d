@@ -1,8 +1,3 @@
-;;; Highlight the current line
-(global-hl-line-mode 1)
-(add-hooks '(dashboard-mode eshell-mode shell-mode term-mode vterm-mode)
-           #'(lambda () (setq-local global-hl-line-mode nil)))
-
 ;;; Highlight matching parens
 (require 'paren)
 (setq show-paren-when-point-inside-paren t
@@ -25,14 +20,13 @@
 (add-hook 'prog-mode-hook
           #'highlight-parentheses-mode)
 
-;;; Highlight symbol
 (setq symbol-overlay-idle-time 0.1)
-
 (add-hooks '(prog-mode yaml-ts-mode)
            #'symbol-overlay-mode)
 
 ;;; Highlight indentions
 (require 'indent-bars)
+(setq indent-bars-prefer-character t)
 (setq indent-bars-color '(highlight :face-bg t :blend 0.15)
       indent-bars-pattern "."
       indent-bars-width-frac 1
@@ -40,7 +34,7 @@
       indent-bars-zigzag nil
       indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1) ; blend=1: blend with BG only
       indent-bars-highlight-current-depth '(:blend 0.5) ; pump up the BG blend on current
-      indent-bars-display-on-blank-lines nil)
+      indent-bars-display-on-blank-lines t)
 
 (setq indent-bars-treesit-support t
       indent-bars-no-descend-string t
@@ -67,8 +61,6 @@
                (require 'rainbow-delimiters)
                (rainbow-delimiters-mode 1)))
 
-;;; Highlight todo
-(require 'init-hl-todo)
 
 ;;; Highlight uncommitted changes using VC
 (require 'diff-hl)
@@ -88,7 +80,7 @@
   (defun my-diff-hl-fringe-bmp-function (_type _pos)
     "Fringe bitmap function for use as `diff-hl-fringe-bmp-function'."
     (define-fringe-bitmap 'my-diff-hl-bmp
-      (vector (if sys/linuxp #b11111100 #b11100000))
+      (vector (if (or sys/linuxp sys/win32p) #b11111100 #b11100000))
       1 8
       '(center t)))
   (setq diff-hl-fringe-bmp-function #'my-diff-hl-fringe-bmp-function)
@@ -113,51 +105,6 @@
 
 (diff-hl-flydiff-mode)
 
-;;; Pulse current line
-
-;; (use-package pulse
-;;   :ensure nil
-;;   :custom-face
-;;   (pulse-highlight-start-face ((t (:inherit region :background unspecified))))
-;;   (pulse-highlight-face ((t (:inherit region :background unspecified :extend t))))
-;;   :hook (((dumb-jump-after-jump imenu-after-jump) . my-recenter-and-pulse)
-;;          ((bookmark-after-jump magit-diff-visit-file next-error) . my-recenter-and-pulse-line))
-;;   :init
-;;   (with-no-warnings
-;;     (defun my-pulse-momentary-line (&rest _)
-;;       "Pulse the current line."
-;;       (pulse-momentary-highlight-one-line (point)))
-
-;;     (defun my-pulse-momentary (&rest _)
-;;       "Pulse the region or the current line."
-;;       (if (fboundp 'xref-pulse-momentarily)
-;;           (xref-pulse-momentarily)
-;;         (my-pulse-momentary-line)))
-
-;;     (defun my-recenter-and-pulse(&rest _)
-;;       "Recenter and pulse the region or the current line."
-;;       (recenter)
-;;       (my-pulse-momentary))
-
-;;     (defun my-recenter-and-pulse-line (&rest _)
-;;       "Recenter and pulse the current line."
-;;       (recenter)
-;;       (my-pulse-momentary-line))
-
-;;     (dolist (cmd '(recenter-top-bottom
-;;                    other-window switch-to-buffer
-;;                    aw-select toggle-window-split
-;;                    windmove-do-window-select
-;;                    pager-page-down pager-page-up
-;;                    treemacs-select-window
-;;                    symbol-overlay-basic-jump))
-;;       (advice-add cmd :after #'my-pulse-momentary-line))
-
-;;     (dolist (cmd '(pop-to-mark-command
-;;                    pop-global-mark
-;;                    goto-last-change))
-;;       (advice-add cmd :after #'my-recenter-and-pulse))))
-
 ;;; Pulse modified region
 (require 'init-pulsar)
 
@@ -166,21 +113,9 @@
 (add-hook 'prog-mode-hook
           'color-identifiers-mode)
 
-;;; Highlight web mode matching tag
-(add-hook 'web-mode-hook
-          #'(lambda ()
-              (require 'highlight-matching-tag)
-              (highlight-matching-tag 1)))
 
-;; (use-package highlight-defined
-;;   :ensure t
-;;   ;; :hook (elisp-lisp-mode . highlight-defined-mode)
-;;   )
-
-;;; Highlight lisp
 (add-hooks '(lisp-mode emacs-lisp-mode)
            #'(lambda ()
                (highlight-function-calls-mode 1)
                (lisp-extra-font-lock-mode 1)))
-
 (provide 'init-highlight)

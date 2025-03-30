@@ -27,8 +27,9 @@
 (require 'citre-config)
 (require 'citre)
 (setq citre-auto-enable-citre-mode-modes '(prog-mode))
-(setq citre-ctags-program "/usr/local/bin/ctags")
-(setq citre-global-program "/usr/bin/global")
+(setq citre-ctags-program "D:\\EmacsConfig\\emacs-tool-bin\\ctags\\ctags")
+(setq citre-readtags-program "D:\\EmacsConfig\\emacs-tool-bin\\ctags\\readtags")
+(setq citre-tags-file-global-cache-dir "D:\\EmacsConfig\\emacs-tool-data")
 
 (add-hook 'find-file-hook #'citre-auto-enable-citre-mode)
 (setq citre-find-definition-backends '(tags global))
@@ -39,6 +40,11 @@
 (setq citre-peek-auto-restore-after-jump nil)
 (setq citre-peek-fill-fringe t)
 (setq citre-peek-use-dashes-as-horizontal-border t)
+
+;;; Xref
+(setq xref-show-xrefs-function 'consult-xref)
+(setq xref-show-definitions-function 'consult-xref)
+
 
 (defun my/citre-delete-tags-files ()
   (interactive)

@@ -7,9 +7,7 @@
 (setq dired-hide-details-hide-symlink-targets nil)
 (setq dired-dwim-target t)
 (setq dired-listing-switches "-AFhlv --group-directories-first")
-(unless user/dirvish
-  (setq dired-movement-style 'bounded)
-  (setq dired-kill-when-opening-new-dired-buffer t))
+(setq dired-kill-when-opening-new-dired-buffer t)
 
 ;; Dont prompt about killing buffer visiting delete file
 (setq dired-clean-confirm-killing-deleted-buffers nil)
@@ -68,8 +66,8 @@
 (require 'dired-subtree)
 
 ;;; dired-sort
-(require 'dired-quick-sort)
-(dired-quick-sort-setup)
+;; (require 'dired-quick-sort)
+;; (dired-quick-sort-setup)
 
 ;;; Find file auto
 (defcustom user/find-file-auto-regexp-list '("\\.xlsx?\\'" "\\.pptx?\\'" "\\.docx?\\'" "\\.mp4\\'" "\\.app\\'")
@@ -102,14 +100,28 @@ At 2nd time it copy current directory to kill-buffer."
 (defun dired-do-open-default ()
   "Open the current default directory using the external app."
   (interactive)
-  (shell-command-do-open
-   (list (file-truename default-directory))))
+  (my/open-explorer))
+
+(defun my/open-explorer ()
+  "Open explorer of current buffer directory."
+  (interactive)
+  (when (and default-directory (file-directory-p default-directory)
+	       (eq system-type 'windows-nt))
+    (let ((dir default-directory)
+	      ;; (explorer (replace-regexp-in-string "/" "\\\\" (executable-find "C:/Windows/SysWOW64/explorer")))
+          (explorer "start")
+	      (command))
+      (setq dir (encode-coding-string
+                 dir 'gbk-dos))
+
+      (setq command (concat explorer " " dir))
+      (shell-command command nil nil)
+      (message command))))
 
 ;;; Hook
 (add-hook 'dired-mode-hook
           #'(lambda ()
-              (unless (bound-and-true-p dirvish-override-dired-mode)
-                (nerd-icons-dired-mode))
+              (nerd-icons-dired-mode)
               (diredfl-mode)
               (dired-omit-mode)))
 
@@ -128,47 +140,13 @@ At 2nd time it copy current directory to kill-buffer."
                ("h" . dired-up-directory)
                ("C-c C-r" . dired-rsync)
                ("C-c C-x" . dired-rsync-transient)
-               ("C-c e" . dired-do-open-default)
-               ("C-c E" . dired-do-open)
-               (("M-j" "s-j") . dired-other-window)))
+               ("C-c e" . my/open-explorer)
+               ("M-j" . dired-other-window)))
 
-;;; dirvish
-(when user/dirvish
-  (with-eval-after-load 'dirvish
-    (setq dirvish-attributes
-          '(nerd-icons file-time file-size collapse subtree-state vc-state))
-
-    (custom-set-variables
-     '(dirvish-quick-access-entries ; It's a custom option, `setq' won't work
-       '(("h" "~/"                          "Home")
-         ("d" "~/Downloads/"                "Downloads")
-         ("D" "~/Documents/"                "Documents")
-         ("p" "~/MyProject/"                "MyProject")
-         ("g" "~/github/"                   "Github")
-         ("m" "/mnt/"                       "Drives")
-         ("t" "~/.local/share/Trash/files/" "TrashCan"))))
-
-    (when (executable-find "eza")
-      (dirvish-define-preview eza (file)
-        "Use `eza' to generate directory preview."
-        :require ("eza") ; tell Dirvish to check if we have the executable
-        (when (file-directory-p file) ; we only interest in directories here
-          `(shell . ("eza" "-al" "--color=always" "--icons=always"
-                     "--group-directories-first" ,file))))
-
-      (setq dirvish-preview-dispatchers
-            (cl-substitute 'eza 'dired dirvish-preview-dispatchers)))
-
-    (keymap-unset dired-jump-map "C-j")
-    (keymap-sets dirvish-mode-map
-                 '(("a" . dirvish-quick-access)
-                   ("TAB" . dirvish-subtree-toggle)
-                   (("M-i" "s-i") . dirvish-layout-toggle)
-                   ("C-j" . (lambda ()
-                              (interactive)
-                              (dirvish-fd-jump 16)))
-                   ("C-M-o" . dirvish-dispatch))))
-
-  (dirvish-override-dired-mode))
+(if (not sys/win32p)
+    (keymap-set dired-mode-map "C-c E"  #'dired-do-open)
+  (keymap-sets dired-mode-map
+               '(("E" . my/open-explorer)
+                 ("C-c E" . my/open-explorer))))
 
 (provide 'init-dired)
