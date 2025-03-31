@@ -21,3 +21,4 @@ tree-sitter/*
 /site-lisp/emacs-application-framework/
 *~
 /server/
+/server/
