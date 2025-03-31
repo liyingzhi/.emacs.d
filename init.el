@@ -60,4 +60,5 @@
 (require 'init-denote)
 (require 'init-pangu)
 (require 'init-eshell)
+(require 'init-calender)
 (server-mode 1)

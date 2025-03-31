@@ -197,7 +197,8 @@
      :files ("pyim-tsinghua-dict.el" "pyim-tsinghua-dict.pyim"))
     super-save
     eshell-prompt-extras
-    elisp-demos))
+    elisp-demos
+    cal-china-x))
 
 (packages! *package-miss-install-list*)
 

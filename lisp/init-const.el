@@ -157,5 +157,9 @@
   :type '(choice (const :tag "eglot" eglot)
                  (const :tag "lsp-bridge" lsp-bridge)))
 
+(defcustom user/birthday-dic nil
+  "A dictionary to store user birthday information."
+  :type '(alist :key-type symbol :value-type (cons integer integer))
+  :group 'user)
 (provide 'init-const)
 ;;; init-const.el ends here.
