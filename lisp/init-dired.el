@@ -108,12 +108,26 @@ At 2nd time it copy current directory to kill-buffer."
   (when (and default-directory (file-directory-p default-directory)
 	       (eq system-type 'windows-nt))
     (let ((dir default-directory)
-	      ;; (explorer (replace-regexp-in-string "/" "\\\\" (executable-find "C:/Windows/SysWOW64/explorer")))
           (explorer "start")
 	      (command))
       (setq dir (encode-coding-string
                  dir 'gbk-dos))
 
+      (setq command (concat explorer " " dir))
+      (shell-command command nil nil)
+      (message command))))
+
+(defun my/cmd-open-explorer ()
+  "Open explorer of current buffer directory."
+  (interactive)
+  (when (and default-directory (file-directory-p default-directory)
+	       (eq system-type 'windows-nt))
+    (let ((dir default-directory)
+	      (explorer (replace-regexp-in-string "/" "\\\\" (executable-find "C:/Windows/SysWOW64/explorer")))
+          (shell-file-name "D:/Program Files/emacs-29.4/libexec/emacs/29.4/x86_64-w64-mingw32/cmdproxy.exe")
+	      (command))
+      (setq dir (encode-coding-string
+		         (replace-regexp-in-string "/" "\\\\" dir) 'gbk-dos))
       (setq command (concat explorer " " dir))
       (shell-command command nil nil)
       (message command))))
