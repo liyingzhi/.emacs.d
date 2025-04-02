@@ -193,5 +193,15 @@
   :type '(alist :key-type symbol :value-type (cons integer integer))
   :group 'user)
 
+(defcustom user/ai-backend "deepseek"
+  "use what ai backend"
+  :group 'user
+  :type 'string)
+
+(defcustom user/ai-model 'deepseek-chat
+  "use what ai model"
+  :group 'user
+  :type 'symbol)
+
 (provide 'init-const)
 ;;; init-const.el ends here.
