@@ -61,10 +61,9 @@
             tools)))
 
 (setq mcp-hub-servers
-      `(;; ("github" . (
-        ;;              :command "npx"
-        ;;              :args ("-y" "@modelcontextprotocol/server-github")
-        ;;              :env (:GITHUB_PERSONAL_ACCESS_TOKEN ,(lizqwer/api-key-from-auth-source "api.github.com" "lizqwerscott^mcp"))))
+      `(("github" . (:command "npx"
+                              :args ("-y" "@modelcontextprotocol/server-github")
+                              :env (:GITHUB_PERSONAL_ACCESS_TOKEN ,(lizqwer/api-key-from-auth-source "api.github.com" "lizqwerscott^mcp"))))
         ("ddg-search" . (:command "uvx" :args ("duckduckgo-mcp-server")))))
 
 ;; (setq mcp-hub-servers
