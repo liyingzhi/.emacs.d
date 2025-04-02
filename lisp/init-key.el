@@ -72,7 +72,8 @@
  (:key "s" :description "Blink Search" :command blink-search :filename "init-blink-search")
  (:key "j" :description "color rg search symbol in current file" :command color-rg-search-input)
  (:key "p" :description "color rg search symbol in project" :command color-rg-search-input-in-project)
- (:key "b" :description "Google this" :command one-key-menu-google :filename "init-google-this")
+ (:key "b" :description "Webjump" :command webjump :filename "init-webjump")
+ (:key "g" :description "Google this" :command one-key-menu-google :filename "init-google-this")
  (:key "f" :description "Search file in home" :command consult-fd-in-home)
  (:key "y" :description "Search YASsnippet" :command consult-yasnippet))
 

@@ -30,4 +30,15 @@
         ("Wikipedia" .
          [simple-query "wikipedia.org" "wikipedia.org/wiki/" ""])))
 
+(advice-add #'webjump-read-string
+            :override
+            #'(lambda (prompt)
+                (message prompt)
+                (let ((input (read-string
+                              (concat prompt
+                                      ": ")
+                              (when (use-region-p)
+                                (buffer-substring-no-properties (region-beginning) (region-end))))))
+                  (if (webjump-null-or-blank-string-p input) nil input))))
+
 (provide 'init-webjump)
