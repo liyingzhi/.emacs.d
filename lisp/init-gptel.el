@@ -60,11 +60,11 @@
   :models '(cognitivecomputations/dolphin3.0-r1-mistral-24b:free deepseek/deepseek-r1:free))
 
 (setq gptel-backend
-      (gptel-get-backend "OpenRouter"))
+      (gptel-get-backend user/ai-backend))
 
-(setq gptel-model 'deepseek/deepseek-r1:free)
+;; (setq gptel-model 'deepseek/deepseek-r1:free)
+(setq gptel-model user/ai-model)
 ;; (setq gptel-model 'moonshot-v1-8k)
-;; (setq gptel-model 'deepseek-chat)
 ;; (setq gptel-model 'claude-3-5-sonnet-20241022)
 
 (require 'gptel)
