@@ -78,7 +78,8 @@
       (pcase major-mode
         ('python-ts-mode
          (let ((command (if project-path
-                            "pdm run start"
+                            (concat "uv run "
+                                    (file-truename (buffer-file-name)))
                           (concat "python "
                                   (file-truename (buffer-file-name))))))
            (setq command (compilation-read-command command))
