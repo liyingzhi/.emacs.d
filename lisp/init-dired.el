@@ -114,7 +114,6 @@ At 2nd time it copy current directory to kill-buffer."
       (message dir)
       (setq dir (encode-coding-string
 		         (replace-regexp-in-string "/" "\\\\" dir) 'gbk-dos))
-      (setq command (concat ))
       (setq command (concat "cd" " " dir " & " explorer " ." ))
       (shell-command command nil nil)
       (message command))))
