@@ -43,7 +43,7 @@
         ))
 
 (setq eglot-stay-out-of
-      '(imenu))
+      '(imenu flymake))
 
 (add-hook 'prog-mode-hook
           #'(lambda ()
