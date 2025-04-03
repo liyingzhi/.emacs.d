@@ -161,5 +161,11 @@
   "A dictionary to store user birthday information."
   :type '(alist :key-type symbol :value-type (cons integer integer))
   :group 'user)
+
+(defcustom user/bash nil
+  "Is start aider ai"
+  :group 'user
+  :type 'boolean)
+
 (provide 'init-const)
 ;;; init-const.el ends here.
