@@ -102,6 +102,24 @@ At 2nd time it copy current directory to kill-buffer."
   (interactive)
   (my/open-explorer))
 
+(defun my/open-explorer-2 ()
+  "Open explorer of current buffer directory."
+  (interactive)
+  (when (and default-directory (file-directory-p default-directory)
+	       (eq system-type 'windows-nt))
+    (let ((dir default-directory)
+	      ;; (explorer (replace-regexp-in-string "/" "\\\\" (executable-find "C:/Windows/SysWOW64/explorer")))
+          (explorer "explorer")
+	      (command))
+      (message dir)
+      (setq dir (encode-coding-string
+		         (replace-regexp-in-string "/" "\\\\" dir) 'gbk-dos))
+      (setq command (concat ))
+      (setq command (concat "cd" " " dir " & " explorer " ." ))
+      (shell-command command nil nil)
+      (message command))))
+
+
 (defun my/open-explorer ()
   "Open explorer of current buffer directory."
   (interactive)
