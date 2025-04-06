@@ -86,6 +86,8 @@
  (:key "i" :description "Switch telega important chat" :command telega-switch-important-chat :filename "init-telega")
  (:key "t" :description "Switch telega chat" :command telega-chat-with :filename "init-telega")
  (:key "r" :description "Revert buffer" :command revert-buffer)
+ (:key "h" :description "bury buffer" :command bury-buffer)
+ (:key "l" :description "unbury buffer" :command unbury-buffer)
  (:key "s" :description "Save buffer" :command save-buffer))
 
 (lazy-one-key-create-menu
