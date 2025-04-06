@@ -327,6 +327,12 @@
    '("C-;" . grugru)
    '("C-y" . meow-clipboard-yank)
    '("Q" . kill-now-buffer)
+
+   '("ge" . one-key-menu-thing-edit)
+   '("gG" . one-key-menu-mark-macro)
+   '("gt" . one-key-menu-tool-kit)
+   '("gn" . fingertip-jump-out-pair-and-newline)
+
    '("gf" . find-file-at-point)
    '("gp" . goto-percent)
    '("gl" . consult-goto-line)
