@@ -259,6 +259,14 @@
 (defvar *package-sql-install-list*
   '(sql-indent))
 
+(defvar *package-toolkit-install-list*
+  '((thing-edit :fetcher github :repo "manateelazycat/thing-edit")
+    (delete-block :fetcher github :repo "manateelazycat/delete-block")
+    (move-text :fetcher github :repo "manateelazycat/move-text")
+    (open-newline :fetcher github :repo "manateelazycat/open-newline")
+    (duplicate-line :fetcher github :repo "manateelazycat/duplicate-line")
+    (markmacro :fetcher github :repo "manateelazycat/markmacro")))
+
 (defvar *package-another-install-list*
   '(elfeed
     code-stats
@@ -288,6 +296,7 @@
 (packages! *package-python-install-list*)
 (packages! *package-unity-install-list*)
 (packages! *package-sql-install-list*)
+(packages! *package-toolkit-install-list*)
 (packages! *package-another-install-list*)
 
 (provide 'init-packages)

@@ -45,6 +45,8 @@
 (require 'init-blink-search)
 (require 'init-tramp)
 
+(require 'init-toolkit)
+
 (require 'init-dired)
 (require 'init-helpful)
 (require 'init-calender)
