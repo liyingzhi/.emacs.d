@@ -203,5 +203,10 @@
   :group 'user
   :type 'symbol)
 
+(defcustom user/move-sytle-motion t
+  "Is Use cusor motion style when moving"
+  :group 'user
+  :type 'boolean)
+
 (provide 'init-const)
 ;;; init-const.el ends here.

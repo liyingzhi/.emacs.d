@@ -150,6 +150,18 @@
              (lsp-bridge-popup-documentation)
            (message "dont't know how to help")))))))
 
+(defun meow-next-enhance ()
+  (interactive)
+  (if (and (fboundp #'scroll-up-one-line) (not user/move-sytle-motion))
+      (call-interactively #'scroll-up-one-line)
+    (call-interactively #'meow-next)))
+
+(defun meow-prev-enhance ()
+  (interactive)
+  (if (and (fboundp #'scroll-up-one-line) (not user/move-sytle-motion))
+      (call-interactively #'scroll-down-one-line)
+    (call-interactively #'meow-prev)))
+
 (defun meow-setup ()
   ;; (meow-motion-overwrite-define-key
   ;;  '("j" . meow-next)
@@ -257,9 +269,9 @@
    '("H" . meow-left-expand)
    '("i" . meow-insert)
    '("I" . meow-open-above)
-   '("j" . meow-next)
+   '("j" . meow-next-enhance)
    '("J" . meow-next-expand)
-   '("k" . meow-prev)
+   '("k" . meow-prev-enhance)
    '("K" . meow-prev-expand)
    '("l" . meow-right)
    '("L" . meow-right-expand)
