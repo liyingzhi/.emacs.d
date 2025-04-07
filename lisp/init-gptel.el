@@ -57,7 +57,10 @@
   :endpoint "/api/v1/chat/completions"
   :stream t
   :key #'gptel-api-key                   ;can be a function that returns the key
-  :models '(cognitivecomputations/dolphin3.0-r1-mistral-24b:free deepseek/deepseek-r1:free))
+  :models '(cognitivecomputations/dolphin3.0-r1-mistral-24b:free
+            google/gemini-2.5-pro-exp-03-25:free
+            deepseek/deepseek-r1:free
+            deepseek/deepseek-chat-v3-0324:free))
 
 (setq gptel-backend
       (gptel-get-backend user/ai-backend))
