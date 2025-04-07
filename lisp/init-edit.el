@@ -440,8 +440,8 @@
    ("C" "capitalize-dwim" capitalize-dwim)
    ("U" "upcase-dwim" upcase-dwim)
    ("D" "downcase-dwim" downcase-dwim)
-   ("u" "upcase-dwim" subword-upcase)
-   ("d" "downcase-dwim" subword-downcase)]
+   ("u" "subword-upcase" subword-upcase)
+   ("d" "subword-downcase" subword-downcase)]
 
   [("q" "Quit"           transient-quit-one)])
 
