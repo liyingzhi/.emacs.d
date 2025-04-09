@@ -98,6 +98,7 @@
     pretty-mode
     doom-themes
     dracula-theme
+    modus-themes
     ef-themes
     (standard-themes :fetcher github :repo "protesilaos/standard-themes")
     (lazy-load :fetcher github :repo "manateelazycat/lazy-load")
