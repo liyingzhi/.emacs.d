@@ -208,7 +208,10 @@ Support Lisp, python, c++."
    "Other"
    (("v" magit-project-status "git")
     ("t" multi-vterm-project "vterm")
-    ("e" eshell-project-toggle "eshell")
+    ("e" (lambda ()
+           (interactive)
+           (autoload 'eshell-project-toggle "init-eshell" nil t)
+           (eshell-project-toggle)) "eshell")
     ("s" project-blink-search "blink search"))))
 
 (provide 'init-project)
