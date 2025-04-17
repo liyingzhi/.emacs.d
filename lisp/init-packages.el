@@ -81,6 +81,7 @@
     apheleia
     avy
     vundo
+    outline-indent
     visual-replace
     visual-regexp
     visual-regexp-steroids
