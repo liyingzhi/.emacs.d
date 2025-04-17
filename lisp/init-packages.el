@@ -128,6 +128,7 @@
     nerd-icons-completion
     nerd-icons-ibuffer
     page-break-lines
+    ligature
     dashboard
     doom-modeline
     pretty-mode

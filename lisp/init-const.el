@@ -208,5 +208,10 @@
   :group 'user
   :type 'boolean)
 
+(defcustom user/ligature nil
+  "Is Use ligature"
+  :group 'user
+  :type 'boolean)
+
 (provide 'init-const)
 ;;; init-const.el ends here.

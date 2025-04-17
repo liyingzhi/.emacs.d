@@ -54,25 +54,25 @@
 (add-hook 'server-after-make-frame-hook #'setup-fonts)
 
 ;;; 连体字体
-;; (use-package ligature
-;;   :quelpa (ligature :fetcher git :url "https://github.com/mickeynp/ligature.el.git")
-;;   :hook
-;;   (after-init . global-ligature-mode)
-;;   :config
-;;   ;; Enable the www ligature in every possible major mode
-;;   (ligature-set-ligatures 't '("www"))
-;;   ;; Enable ligatures in programming modes
-;;   (ligature-set-ligatures 'prog-mode
-;;                           '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
-;;                             ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
-;;                             "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
-;;                             "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
-;;                             "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
-;;                             "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
-;;                             "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
-;;                             "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
-;;                             "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
-;;                             "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%")))
+(with-eval-after-load 'ligature
+  (ligature-set-ligatures 't '("www"))
+  ;; Enable the www ligature in every possible major mode
+  (ligature-set-ligatures 'prog-mode
+                          '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                            ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                            "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                            "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                            "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                            "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                            "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                            "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                            "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                            "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%")))
+
+(add-hook 'after-init-hook
+          #'(lambda ()
+              (when user/ligature
+                (global-ligature-mode))))
 
 ;;; 替换符号
 (add-hooks '(emacs-lisp-mode lisp-mode)
