@@ -174,6 +174,12 @@
       (popper--delete-popup (selected-window))
     (meow-quit)))
 
+(defun my/gn-key-function()
+  (interactive)
+  (if (derived-mode-p 'org-mode)
+      (call-interactively #'org-insert-todo-heading)
+    (fingertip-jump-out-pair-and-newline)))
+
 (defun meow-setup ()
   ;; (meow-motion-overwrite-define-key
   ;;  '("j" . meow-next)
@@ -343,7 +349,7 @@
    '("ge" . one-key-menu-thing-edit)
    '("gG" . one-key-menu-mark-macro)
    '("gt" . one-key-menu-tool-kit)
-   '("gn" . fingertip-jump-out-pair-and-newline)
+   '("gn" . my/gn-key-function)
 
    '("gf" . find-file-at-point)
    '("gp" . goto-percent)
