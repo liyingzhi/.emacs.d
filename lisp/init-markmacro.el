@@ -42,13 +42,13 @@
    (("j" . "Secondary region mark cursor") . markmacro-secondary-region-mark-cursors) ;标记二级选中区域内的光标对象
 
    (("a" . "Apply all") . markmacro-apply-all)
-   (("f" . "Apply all except first") . markmacro-apply-all-except-first)
+   (("e" . "Apply all except first") . markmacro-apply-all-except-first)
 
-   (("r" . "Rect set") . markmacro-rect-set)
+   (("R" . "Rect set") . markmacro-rect-set)
    (("C" . "Rect mark column") . markmacro-rect-mark-columns)
    (("S" . "Rect mark symbol") . markmacro-rect-mark-symbols)
    (("D" . "Rect delete") . markmacro-rect-delete)
-   (("R" . "Rect replace") . markmacro-rect-replace)
+   (("r" . "Rect replace") . markmacro-rect-replace)
    (("I" . "Rect insert") . markmacro-rect-insert)
    )
  t)
