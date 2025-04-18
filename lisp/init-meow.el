@@ -346,16 +346,19 @@
    '("C-y" . meow-clipboard-yank)
    '("Q" . kill-now-buffer)
 
-   '("ge" . one-key-menu-thing-edit)
+   '("ge" . my/copy-select-utils-dispatch)
+   '("gE" . one-key-menu-thing-edit)
    '("gG" . one-key-menu-mark-macro)
    '("gt" . one-key-menu-tool-kit)
    '("gn" . my/gn-key-function)
+   '("gc" . my/string-case-cycle-auto)
+   '("gC" . my/string-convert-dispatch)
+   '("go" . casual-editkit-main-tmenu)
 
    '("gf" . find-file-at-point)
    '("gp" . goto-percent)
    '("gl" . consult-goto-line)
    '("gL" . avy-goto-line)
-   '("gc" . my/string-case-cycle-auto)
    '("/" . consult-ripgrep)
    '("?" . help-helpful-lsp-sly)))
 
