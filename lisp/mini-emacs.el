@@ -224,6 +224,12 @@
           (and first-comment-pos
              last-comment-pos))))
 
+(defun my/gn-key-function()
+  (interactive)
+  (if (derived-mode-p 'org-mode)
+      (call-interactively #'org-insert-todo-heading)
+    (fingertip-jump-out-pair-and-newline)))
+
 (defun mark-next-comment ()
   "Mark next line comment"
   (interactive)
@@ -340,6 +346,7 @@
    '("gp" . goto-percent)
    '("gl" . consult-goto-line)
    '("gL" . avy-goto-line)
+   '("gn" . my/gn-key-function)
    '("?" . help-helpful-lsp-sly))
 
   (meow-normal-define-key

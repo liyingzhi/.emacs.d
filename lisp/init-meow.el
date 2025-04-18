@@ -32,10 +32,20 @@
 
 (defun my/meow-quit ()
   (interactive)
-  (if (derived-mode-p 'dired-mode)
-      (kill-now-buffer)
-    (if (delete-window)
-        (message "finish"))))
+  (if (match-in #'(lambda (regex)
+                    (buffer-match-p (if (symbolp regex)
+                                        (cons 'derived-mode regex)
+                                      regex)
+                                    (buffer-name)))
+                popper-reference-buffers)
+      (popper--delete-popup (selected-window))
+    (meow-quit)))
+
+(defun my/gn-key-function()
+  (interactive)
+  (if (derived-mode-p 'org-mode)
+      (call-interactively #'org-insert-todo-heading)
+    (fingertip-jump-out-pair-and-newline)))
 
 (defun meow-setup ()
   ;; (meow-motion-overwrite-define-key
@@ -173,7 +183,8 @@
    '("Q" . kill-now-buffer)
    '("?" . helpful-at-point)
    '("gf" . find-file-at-point)
-   '("gp" . goto-percent)))
+   '("gp" . goto-percent)
+   '("gn" . my/gn-key-function)))
 
 (meow-setup)
 (meow-global-mode 1)
