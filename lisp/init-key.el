@@ -2,6 +2,8 @@
  '(("s-." . embark-act)
    ("M-<left>" . previous-buffer)
    ("M-<right>" . next-buffer)
+   ;; ("M-<left>" . bury-buffer)
+   ;; ("M-<right>" . unbury-buffer)
    ("C-s-;" . embark-dwim)
    ("C-h B" . embark-bindings)))
 
