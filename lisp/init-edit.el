@@ -101,9 +101,15 @@
     (occur query)))
 
 (with-eval-after-load 'isearch
+  (defun my/isearch-forward-symbol-at-point ()
+    "Search for symbol at point and ensure escape exits isearch."
+    (interactive)
+    (let (search-nonincremental-instead)
+      (ignore-errors (isearch-done t t)))
+    (isearch-forward-symbol-at-point))
   (keymap-sets isearch-mode-map
                '(("<escape>" . isearch-exit)
-                 ("C-d" . isearch-forward-symbol-at-point)
+                 ("C-d" . my/isearch-forward-symbol-at-point)
                  ("C-l" . my-isearch-consult-line-from-isearch)
                  ("C-o" . my-occur-from-isearch))))
 
@@ -318,6 +324,7 @@
   (forward-char)
   (newline-and-indent))
 
+;;; edit buffer content
 (defun my/copy-current-line ()
   "Copy the current line."
   (interactive)
