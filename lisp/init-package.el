@@ -198,6 +198,7 @@
     super-save
     eshell-prompt-extras
     elisp-demos
+    modus-themes
     cal-china-x))
 
 (packages! *package-miss-install-list*)
