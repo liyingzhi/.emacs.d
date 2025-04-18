@@ -61,4 +61,5 @@
 (require 'init-pangu)
 (require 'init-eshell)
 (require 'init-calender)
+(require 'init-toolkit)
 (server-mode 1)

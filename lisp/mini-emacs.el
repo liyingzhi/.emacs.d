@@ -346,8 +346,18 @@
    '("gp" . goto-percent)
    '("gl" . consult-goto-line)
    '("gL" . avy-goto-line)
-   '("gn" . my/gn-key-function)
    '("?" . help-helpful-lsp-sly))
+  (meow-normal-define-key
+   '("ge" . my/copy-select-utils-dispatch)
+   '("gE" . one-key-menu-thing-edit)
+   '("gG" . one-key-menu-mark-macro)
+   '("gt" . one-key-menu-tool-kit)
+   '("gn" . my/gn-key-function)
+   '("gc" . my/string-case-cycle-auto)
+   '("gC" . my/string-convert-dispatch)
+   '("go" . casual-editkit-main-tmenu)
+
+   )
 
   (meow-normal-define-key
    '("gr" . xref-find-references)

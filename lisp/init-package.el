@@ -203,6 +203,16 @@
 
 (packages! *package-miss-install-list*)
 
+(defvar *package-toolkit-install-list*
+  '((thing-edit :fetcher github :repo "manateelazycat/thing-edit")
+    (delete-block :fetcher github :repo "manateelazycat/delete-block")
+    (move-text :fetcher github :repo "manateelazycat/move-text")
+    (open-newline :fetcher github :repo "manateelazycat/open-newline")
+    (duplicate-line :fetcher github :repo "manateelazycat/duplicate-line")
+    (markmacro :fetcher github :repo "manateelazycat/markmacro")))
+
+(packages! *package-toolkit-install-list*)
+
 
 (provide 'init-package)
 ;;; init-package.el ends here
