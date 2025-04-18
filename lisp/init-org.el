@@ -103,8 +103,9 @@
                            (2 (prog1 () (compose-region (match-beginning 2) (match-end 2) "")))))
                         'append)
 
-(require 'org-bullets)
-(add-hook 'org-mode-hook 'org-bullets-mode)
+;; (require 'org-bullets)
+;; (add-hook 'org-mode-hook 'org-bullets-mode)
+(add-hook 'org-mode-hook 'org-modern-mode)
 
 ;; Make verbatim with highlight text background.
 ;; (add-to-list 'org-emphasis-alist
