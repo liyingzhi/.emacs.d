@@ -73,6 +73,7 @@
  (:key "h" :description "Home" :command (lambda () (interactive) (find-file "~/")))
  (:key "d" :description "Downloads" :command (lambda () (interactive) (find-file "C:\\Users\\liyin\\Downloads")))
  (:key "f" :description "Home" :command (lambda () (interactive) (find-file "D:/EmacsConfig/Documents")))
+ (:key "t" :description "Trashed" :command trashed)
  (:key "c" :description "Emacs Config" :command (lambda () (interactive) (find-file "D:\\EmacsConfig\\.emacs.d")))
  (:key "g" :description "Github" :command (lambda () (interactive) (find-file "D:\\emacs-work-dir\\github")))
  (:key "p" :description "Project" :command (lambda () (interactive) (find-file "D:\\emacs-work-dir\\project")))

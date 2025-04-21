@@ -199,6 +199,7 @@
     eshell-prompt-extras
     elisp-demos
     modus-themes
+    trashed
     cal-china-x))
 
 (packages! *package-miss-install-list*)
