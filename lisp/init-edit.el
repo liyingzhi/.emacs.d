@@ -77,7 +77,8 @@
 
 ;;; isearch
 (setq isearch-lazy-count t
-      lazy-count-prefix-format "%s/%s ")
+      lazy-count-prefix-format "%s/%s "
+      search-whitespace-regexp ".*?")
 
 (defun my-isearch-consult-line-from-isearch ()
   "Invoke `consult-line' from isearch."
