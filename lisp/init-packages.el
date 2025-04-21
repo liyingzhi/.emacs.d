@@ -40,6 +40,7 @@
     dired-subtree
     dired-quick-sort
     dirvish
+    trashed
     elisp-demos
     vterm
     (lazy-revert :fetcher github :repo "yilin-zhang/lazy-revert")
