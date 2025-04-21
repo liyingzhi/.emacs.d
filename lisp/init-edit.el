@@ -107,12 +107,30 @@
     (let (search-nonincremental-instead)
       (ignore-errors (isearch-done t t)))
     (isearch-forward-symbol-at-point))
+
   (keymap-sets isearch-mode-map
                '(("<escape>" . isearch-exit)
                  ("C-d" . my/isearch-forward-symbol-at-point)
                  ("C-l" . my-isearch-consult-line-from-isearch)
-                 ("C-o" . my-occur-from-isearch))))
+                 ("C-o" . my-occur-from-isearch)))
+  
+  ;; (with-eval-after-load 'casual-isearch
+  ;;   (transient-define-suffix isearch-consult-line ()
+  ;;     (interactive)
+  ;;     (call-interactively #'my-isearch-consult-line-from-isearch))
+  ;;   (transient-append-suffix 'casual-isearch-tmenu "u"
+  ;;     '("c" "Use consult line" isearch-consult-line)))
+  )
 
+;;; nxml
+(with-eval-after-load 'nxml-mode
+  (keymap-sets nxml-mode-map
+               '(("C-s-f" . nxml-down-element)
+                 ("C-s-n" . nxml-forward-element)
+                 ("C-s-p" . nxml-backward-element)
+                 ("C-s-b" . nxml-backward-up-element))))
+
+;;; aggressive-indent
 (add-hooks '(emacs-lisp-mode lisp-mode)
            #'aggressive-indent-mode )
 
