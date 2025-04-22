@@ -87,6 +87,7 @@ Can be used in `rime-disable-predicates' and `rime-inline-predicates'."
                 pyim-probe-meow-normal-mode
                 pyim-probe-org-structure-template))
 (setq-default pyim-punctuation-translate-p '(no))
+(setq pyim-outcome-trigger nil)
 ;; (require 'pyim-basedict)
 ;; (pyim-basedict-enable)
 (require 'pyim-tsinghua-dict)
