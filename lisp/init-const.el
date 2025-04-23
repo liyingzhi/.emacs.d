@@ -203,6 +203,16 @@
   :group 'user
   :type 'symbol)
 
+(defcustom user/ai-backend-free "deepseek"
+  "use what ai backend"
+  :group 'user
+  :type 'string)
+
+(defcustom user/ai-model-free 'deepseek-chat
+  "use what ai model"
+  :group 'user
+  :type 'symbol)
+
 (defcustom user/move-sytle-motion t
   "Is Use cusor motion style when moving"
   :group 'user

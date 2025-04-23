@@ -102,7 +102,8 @@
     ("c" global-centered-cursor-mode "centered cursor" :toggle t)
     ("l" interaction-log-mode "interactive log" :toggle t)
     ("i" immersive-translate-auto-mode "immersive translate" :toggle t)
-    ("t" +lizqwer/toggle-telega "telega" :toggle (get-buffer "*Telega Root*")))
+    ("t" +lizqwer/toggle-telega "telega" :toggle (get-buffer "*Telega Root*"))
+    ("G" my/switch-gptel-llm "llm free" :toggle (string= (gptel-backend-name gptel-backend) user/ai-backend-free)))
    "Ui"
    (("n" (display-line-numbers-mode (if display-line-numbers-mode -1 1))
      "line number"
