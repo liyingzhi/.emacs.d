@@ -51,6 +51,14 @@
   :host "api.openai-proxy.org/anthropic"
   :key #'gptel-api-key)
 
+(gptel-make-openai "Qwen"
+  :stream t
+  :protocol "https"
+  :host "dashscope.aliyuncs.com"
+  :endpoint "/compatible-mode/v1/chat/completions"
+  :key #'gptel-api-key
+  :models user/qwen-models)
+
 ;; OpenRouter offers an OpenAI compatible API
 (gptel-make-openai "OpenRouter"               ;Any name you want
   :host "openrouter.ai"

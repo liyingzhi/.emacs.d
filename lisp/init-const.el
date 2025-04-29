@@ -132,6 +132,14 @@
   :group 'user
   :type 'symbol)
 
+(defcustom user/qwen-models nil
+  "List of available models for Qwen GPTel backend.
+Each element should be a symbol representing a model name."
+  :group 'user
+  :type '(choice
+          (const :tag "No models" nil)
+          (list :tag "Model list" (repeat symbol))))
+
 (defcustom user/aider nil
   "Is start aider ai"
   :group 'user
