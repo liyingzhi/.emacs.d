@@ -152,7 +152,7 @@
 (which-key-mode)
 (global-so-long-mode 1)
 
-;;; Click to browse URL or to send to e-mail address
+;;; Click (C-c RET) to browse URL or to send to e-mail address
 (add-hook 'text-mode-hook
           #'goto-address-mode)
 

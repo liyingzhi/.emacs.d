@@ -124,7 +124,6 @@
     ["Quick Tools"
      ("q t" "Translate select regions to english" gptel-translate-to-english)]))
 
-(global-set-key (kbd "C-c RET") #'gptel-send)
 
 (require 'gptel-quick)
 (setq gptel-quick-system-message
