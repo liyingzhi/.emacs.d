@@ -90,4 +90,10 @@
         consult--source-project-buffer-hidden
         ;; consult--source-project-recent-file-hidden
         ))
+
+;; use narrow
+(setq consult-narrow-key "<")
+;; not auto preview
+(setq consult-preview-key "C-o")
+
 (provide 'init-minibuffer)
