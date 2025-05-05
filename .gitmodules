@@ -12,3 +12,6 @@ url = https://github.com/manateelazycat/blink-search.git
 [submodule "site-lisp/holo-layer"]
 	path = site-lisp/holo-layer
 	url = https://github.com/manateelazycat/holo-layer.git
+[submodule "site-lisp/consult-omni"]
+	path = site-lisp/consult-omni
+	url = https://github.com/armindarvish/consult-omni.git

@@ -55,7 +55,9 @@
      :repo "lizqwerscott/rsync-project-mode")
     gif-screencast
     keycast
-    cal-china-x))
+    cal-china-x
+    consult-gh
+    consult-gh-forge))
 
 (defvar *package-language-mode-install-list*
   '(markdown-mode
