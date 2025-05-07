@@ -114,7 +114,7 @@
                  ("C-d" . my/isearch-forward-symbol-at-point)
                  ("C-l" . my-isearch-consult-line-from-isearch)
                  ("C-o" . my-occur-from-isearch)))
-  
+
   ;; (with-eval-after-load 'casual-isearch
   ;;   (transient-define-suffix isearch-consult-line ()
   ;;     (interactive)
@@ -411,28 +411,28 @@
     ;; default
     (string-inflection-ruby-style-cycle))))
 
-(setq my-string-case-cycle-auto--Cnt 0)
-
 (defun my/string-case-cycle-auto ()
-  "string-case-cycle-auto"
+  "Intelligently cycle through word case formats:
+- If all lowercase → convert to capitalized
+- If capitalized → convert to all uppercase
+- If all uppercase → convert to all lowercase
+Moves cursor to word start (virtually, without affecting actual position) before conversion."
   (interactive)
-  (cond
-   ;; for emacs-lisp-mode
-   ((eq my-string-case-cycle-auto--Cnt 0)
-    (setq my-string-case-cycle-auto--Cnt 1)
-    (call-interactively #'downcase-dwim))
-   ;; for python
-   ((eq my-string-case-cycle-auto--Cnt 1)
-    (setq my-string-case-cycle-auto--Cnt 2)
-    (call-interactively #'capitalize-dwim))
-   ;; for java
-   ((eq my-string-case-cycle-auto--Cnt 2)
-    (setq my-string-case-cycle-auto--Cnt 0)
-    (call-interactively #'upcase-dwim))
-   (t
-    ;; default
-    (setq my-string-case-cycle-auto--Cnt 0)
-    (call-interactively #'downcase-dwim))))
+  (let* ((bounds (bounds-of-thing-at-point 'word))
+         (word (when bounds (buffer-substring-no-properties (car bounds) (cdr bounds)))))
+    (cond
+     ((null word) (user-error "No word at point"))
+     (t
+      (save-excursion
+        (goto-char (car bounds))
+        (cond
+         ((string-equal word (downcase word))   ; All lowercase → Capitalized
+          (call-interactively #'capitalize-dwim))
+         ((string-equal word (capitalize word)) ; Capitalized → All uppercase
+          (call-interactively #'upcase-dwim))
+         ((string-equal word (upcase word))     ; All uppercase → All lowercase
+          (call-interactively #'downcase-dwim))
+         (t (call-interactively #'downcase-dwim))))))))
 
 (defun my/string-customize-convert-with-parameter (&optional args)
   "string customize convert with parameter"
@@ -482,7 +482,6 @@
 
 (defun my-string--cycle-description ()
   "Return a Transient menu headline to indicate the currently selected project."
-  (setq my-string-case-cycle-auto--Cnt 0)
   (format (propertize "Cycle Style: \n [%s %s \n %s %s]"
                       'face 'transient-heading)
           (propertize "string-inflection-cycle-auto:"
