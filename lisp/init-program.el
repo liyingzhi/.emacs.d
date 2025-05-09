@@ -70,6 +70,23 @@
 (setq compilation-auto-jump-to-first-error nil)
 (setq compilation-max-output-line-length nil)
 
+;; (defun ar/compile-autoclose-or-jump-first-error (buffer string)
+;;   "Hide successful builds window with BUFFER and STRING."
+;;   (when (with-current-buffer buffer
+;;           (eq major-mode 'compilation-mode))
+;;     (if (and (string-match "finished" string)
+;;            (not (string-match "^.*warning.*" string)))
+;;         (progn
+;;           (message "Build finished :)")
+;;           (run-with-timer 1 nil
+;;                           (lambda ()
+;;                             (when-let* ((multi-window (> (count-windows) 1))
+;;                                         (live (buffer-live-p buffer))
+;;                                         (window (get-buffer-window buffer t)))
+;;                               (delete-window window)))))
+;;       (progn
+;;         (message "Compilation %s" string)
+;;         (call-interactively #'compilation-next-error)))))
 (defun ar/compile-autoclose-or-jump-first-error (buffer string)
   "Hide successful builds window with BUFFER and STRING."
   (when (with-current-buffer buffer
@@ -86,8 +103,11 @@
                               (delete-window window)))))
       (progn
         (message "Compilation %s" string)
-        (call-interactively #'compilation-next-error)))))
-
+        ;; 跳转到第一个错误
+        (with-current-buffer buffer
+          (goto-char (point-min)) ; 跳到缓冲区开头
+          (when (compilation-next-error 1) ; 查找第一个错误
+            (compilation-display-error (match-beginning 0))))))))
 (require 'alert)
 (setq alert-default-style 'mode-line)
 (defun ar/alert-after-finish-in-background (buffer string)
