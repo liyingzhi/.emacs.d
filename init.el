@@ -67,8 +67,7 @@
 (require 'init-ai)
 
 ;;; Programming
-(require 'init-magit)
-(require 'init-difftastic)
+(require 'init-git)
 (require 'init-lsp)
 (require 'init-citre)
 (require 'init-program)
