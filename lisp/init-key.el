@@ -172,7 +172,7 @@
  (:key "g" :description "gptel" :command gptel)
  (:key "G" :description "gptel menu" :command gptel-menu)
  (:key "h" :description "gptel aibo" :command gptel-aibo)
- (:key "a" :description "Aider" :command aider-transient-menu)
+ (:key "a" :description "Aider" :command aidermacs-transient-menu)
  (:key "o" :description "Casual-main-tmenu" :command casual-editkit-main-tmenu)
  (:key "t" :description "Copy-Select utils dispatch" :command my/copy-select-utils-dispatch)
  (:key "c" :description "Up-down convert dispatch" :command my/string-convert-dispatch))

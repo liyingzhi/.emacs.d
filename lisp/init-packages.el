@@ -223,9 +223,8 @@
          :repo "lizqwerscott/mcp.el")
     (gptel-aibo :fetcher github
                 :repo "dolmens/gptel-aibo")
-    (aider :fetcher github
-           :repo "tninja/aider.el"
-           :files ("aider.el"))
+    (aidermacs :fetcher github
+               :repo "MatthewZMD/aidermacs")
     (codeium :fetcher github :repo "Exafunction/codeium.el")
     (codeium-overlay :fetcher github
                      :repo "liyingzhi/codeium-overlay.el")
