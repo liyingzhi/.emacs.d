@@ -99,11 +99,11 @@
                 eglot-completion-at-point)))
 
 (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-(add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+(add-hook 'eglot-managed-mode-hook #'my/eglot-capf-with-dabbrev)
 
 (defun my/ignore-elisp-keywords (cand)
   (or (not (keywordp cand))
-     (eq (char-after (car completion-in-region--data)) ?:)))
+      (eq (char-after (car completion-in-region--data)) ?:)))
 
 (defun my/setup-elisp ()
   (setq-local completion-at-point-functions
