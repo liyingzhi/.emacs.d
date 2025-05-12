@@ -69,65 +69,51 @@
 (setq compilation-auto-jump-to-first-error nil)
 (setq compilation-max-output-line-length nil)
 
-;; (defun ar/compile-autoclose-or-jump-first-error (buffer string)
-;;   "Hide successful builds window with BUFFER and STRING."
-;;   (when (with-current-buffer buffer
-;;           (eq major-mode 'compilation-mode))
-;;     (if (and (string-match "finished" string)
-;;            (not (string-match "^.*warning.*" string)))
-;;         (progn
-;;           (message "Build finished :)")
-;;           (run-with-timer 1 nil
-;;                           (lambda ()
-;;                             (when-let* ((multi-window (> (count-windows) 1))
-;;                                         (live (buffer-live-p buffer))
-;;                                         (window (get-buffer-window buffer t)))
-;;                               (delete-window window)))))
-;;       (progn
-;;         (message "Compilation %s" string)
-;;         (call-interactively #'compilation-next-error)))))
-(defun ar/compile-autoclose-or-jump-first-error (buffer string)
-  "Hide successful builds window with BUFFER and STRING."
-  (when (with-current-buffer buffer
-          (eq major-mode 'compilation-mode))
-    (if (and (string-match "finished" string)
-           (not (string-match "^.*warning.*" string)))
-        (progn
-          (message "Build finished :)")
-          (run-with-timer 1 nil
-                          (lambda ()
-                            (when-let* ((multi-window (> (count-windows) 1))
-                                        (live (buffer-live-p buffer))
-                                        (window (get-buffer-window buffer t)))
-                              (delete-window window)))))
-      (progn
-        (message "Compilation %s" string)
-        ;; 跳转到第一个错误
-        (with-current-buffer buffer
-          (goto-char (point-min)) ; 跳到缓冲区开头
-          (when (compilation-next-error 1) ; 查找第一个错误
-            (compilation-display-error (match-beginning 0))))))))
 (require 'alert)
 (setq alert-default-style 'mode-line)
-(defun ar/alert-after-finish-in-background (buffer string)
-  (when (and (with-current-buffer buffer
-             (eq major-mode 'compilation-mode))
-           (or (not (get-buffer-window buffer 'visible))
-              (not (frame-focus-state))))
-    (if (and (string-match "finished" string)
-           (not (string-match "^.*warning.*" string)))
-        (alert string :buffer buffer :severity 'normal)
-      (alert string :buffer buffer :severity 'high))))
+
+(defun get-first-compilation-error ()
+  (when (compilation-buffer-p (current-buffer))
+    (compilation--ensure-parse (point-min))
+    (save-excursion
+      (goto-char (point-min))
+      (= (point)
+         (next-single-property-change (point-min) 'compilation-message nil (point-max))))))
+
+(defun ar/compile-autoclose-or-jump-first-error (buffer string)
+  "Hide successful builds window with BUFFER and STRING."
+  (with-current-buffer buffer
+    (when (eq major-mode 'compilation-mode)
+      (if (or (string-match "^.*warning.*" string)
+             (get-first-compilation-error)
+             (string-match ".*exited abnormally.*" string))
+          (progn
+            (message "Compilation %s" string)
+            (goto-char (point-min))
+            (call-interactively #'compilation-next-error)
+            (when (or (not (get-buffer-window buffer 'visible))
+                     (not (frame-focus-state)))
+              (alert string :buffer buffer :severity 'high)))
+        (message "Build finished :)")
+        (run-with-timer 1 nil
+                        (lambda ()
+                          (when-let* ((multi-window (> (count-windows) 1))
+                                      (live (buffer-live-p buffer))
+                                      (window (get-buffer-window buffer t)))
+                            (delete-window window))))
+        (when (or (not (get-buffer-window buffer 'visible))
+                 (not (frame-focus-state)))
+          (alert string :buffer buffer :severity 'normal))))))
 
 (setq compilation-finish-functions
-      (list #'ar/alert-after-finish-in-background
-            #'ar/compile-autoclose-or-jump-first-error))
+      (list #'ar/compile-autoclose-or-jump-first-error))
+
 ;;; lisp
 (add-hook 'before-save-hook
           #'(lambda ()
               (when (or (equal major-mode 'emacs-lisp-mode)
-                        (equal major-mode 'lisp-mode)
-                        (equal major-mode 'scheme-mode))
+                       (equal major-mode 'lisp-mode)
+                       (equal major-mode 'scheme-mode))
                 (call-interactively #'check-parens))))
 
 ;;; language
@@ -141,7 +127,6 @@
 ;; (require 'init-rust)
 ;; (require 'init-sql)
 ;; (require 'init-go)
-
 
 (provide 'init-program)
 ;;; init-program.el ends heres.
