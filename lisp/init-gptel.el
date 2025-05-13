@@ -82,10 +82,12 @@
   (interactive)
   (if (string= (gptel-backend-name gptel-backend) user/ai-backend-free)
       (progn (setq gptel-backend (gptel-get-backend user/ai-backend))
-             (setq gptel-model user/ai-model))
+             (setq gptel-model user/ai-model)
+             (setq gptel-use-tools t))
     (setq gptel-backend
           (gptel-get-backend user/ai-backend-free))
-    (setq gptel-model user/ai-model-free)))
+    (setq gptel-model user/ai-model-free)
+    (setq gptel-use-tools nil)))
 
 
 (require 'gptel)
