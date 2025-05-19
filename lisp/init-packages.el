@@ -126,6 +126,7 @@
 
 (defvar *package-ui-install-list*
   '(solarized-theme
+    (koishi-theme :fetcher github :repo "gynamics/koishi-theme.el")
     nerd-icons
     nerd-icons-dired
     nerd-icons-completion
