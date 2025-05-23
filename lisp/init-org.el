@@ -93,6 +93,15 @@
    (latex . t)
    (shell . t)))
 
+(setq org-confirm-babel-evaluate
+      (lambda (lang body)
+        (let* ((context (org-element-context))
+               (parameters (org-element-property :parameters context)))
+          ;; check if exist :eval yes
+          (if parameters
+              (not (string-match-p ":eval +yes" parameters))
+            t))))
+
 ;;; UI
 
 ;;; Make invisible parts of Org elements appear visible
@@ -194,7 +203,7 @@
 (defun log-todo-next-creation-date (&rest ignore)
   "Log NEXT creation time in the property drawer under the key 'ACTIVATED'"
   (when (and (string= (org-get-todo-state) "NEXT")
-             (not (org-entry-get nil "ACTIVATED")))
+           (not (org-entry-get nil "ACTIVATED")))
     (org-entry-put nil "ACTIVATED" (format-time-string "[%Y-%m-%d]"))))
 ;; Copy Done To-Dos to Today
 (defun org-roam-copy-todo-to-today ()
