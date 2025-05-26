@@ -280,7 +280,8 @@
  (:key "s" :description "Org search" :command consult-notes)
  (:key "r" :description "Org roam" :command one-key-menu-roam)
  (:key "t" :description "Vterm" :command multi-vterm-open :filename "multi-vterm")
- (:key "m" :description "Media note" :command org-media-note-show-interface))
+ (:key "m" :description "Media note" :command org-media-note-show-interface)
+ (:key "d" :description "Denote" :command denote-open-or-create))
 
 (lazy-one-key-create-menu
  "Insert"
