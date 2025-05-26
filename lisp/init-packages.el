@@ -43,6 +43,7 @@
     trashed
     elisp-demos
     vterm
+    eat
     (lazy-revert :fetcher github :repo "yilin-zhang/lazy-revert")
     (psearch
      :fetcher github
@@ -111,6 +112,7 @@
     wucuo
     projection
     eshell-prompt-extras
+    esh-help
     fish-completion
     dape
     citre

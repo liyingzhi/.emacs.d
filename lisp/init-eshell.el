@@ -22,6 +22,15 @@ Use popper manager eshell buffer."
       ;; buffer is not created, create it
       (eshell-toggle--new-buffer buf-name))))
 
+(defun eshell/clear ()
+  "Clear the eshell buffer."
+  (interactive)
+  (recenter-top-bottom t))
+
+(keymap-set eshell-mode-map
+            "C-l"
+            #'eshell/clear)
+
 ;;; eshell prompt
 (with-eval-after-load "esh-opt"
   (autoload 'epe-theme-pipeline "eshell-prompt-extras")
@@ -32,5 +41,13 @@ Use popper manager eshell buffer."
 (when (and (executable-find "fish")
          (require 'fish-completion nil t))
   (global-fish-completion-mode))
+
+;;; eshell `eldoc' support
+(setup-esh-help-eldoc)
+
+(add-hook 'eshell-mode-hook
+          #'(lambda ()
+              (corfu-mode -1)
+              (completion-preview-mode)))
 
 (provide 'init-eshell)
