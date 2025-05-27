@@ -91,10 +91,10 @@
   (unless (buffer-file-name)
     (error "No file is currently being edited"))
   (let ((current-file (buffer-file-name)))
-    (if (file-directory-p new-path)
-        (setq new-path (concat (file-name-as-directory new-path)
-                               (file-name-nondirectory current-file))))
-    (copy-file current-file new-path t)
+    (when (file-directory-p new-path)
+      (setq new-path (concat (file-name-as-directory new-path)
+                             (file-name-nondirectory current-file))))
+    (copy-file current-file new-path nil)
     (message "Copied '%s' to '%s'" current-file new-path)
     (find-file new-path))) ;; Open the newly created file
 
