@@ -84,6 +84,21 @@
     (kill-this-buffer)))
 
 ;;;###autoload
+(defun copy-this-file-to (new-path)
+  "Copy the current file to a new location specified by NEW-PATH and open the new file."
+  (interactive
+   (list (read-file-name "Copy file to: ")))
+  (unless (buffer-file-name)
+    (error "No file is currently being edited"))
+  (let ((current-file (buffer-file-name)))
+    (if (file-directory-p new-path)
+        (setq new-path (concat (file-name-as-directory new-path)
+                               (file-name-nondirectory current-file))))
+    (copy-file current-file new-path t)
+    (message "Copied '%s' to '%s'" current-file new-path)
+    (find-file new-path))) ;; Open the newly created file
+
+;;;###autoload
 (defun rename-this-file (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME."
   (interactive "sNew name: ")

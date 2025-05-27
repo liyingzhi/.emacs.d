@@ -104,7 +104,8 @@
 (lazy-one-key-create-menu
  "FileAction"
  (:key "c" :description "Copy File name" :command +lizqwer/copy-file-name-to-clipboard :filename "init-func")
- (:key "C" :description "Copy File Path" :command +lizqwer/copy-file-path-to-clipboard :filename "init-func")
+ (:key "C" :description "Copy this file to" :command copy-this-file-to :filename "init-func")
+ (:key "p" :description "Copy File Path" :command +lizqwer/copy-file-path-to-clipboard :filename "init-func")
  (:key "d" :description "Delete this file" :command delete-this-file :filename "init-func")
  (:key "r" :description "Rename this file" :command rename-this-file :filename "init-func")
  (:key "b" :description "Browse this file" :command browse-this-file :filename "init-func"))
