@@ -15,6 +15,7 @@
         (messages-buffer-mode . normal)
         (blink-search-mode . insert)
         (color-rg-mode . insert)
+        (rg-mode . insert)
         (Info-mode . motion)
         (help-mode . normal)
         (devdocs-mode . normal)
