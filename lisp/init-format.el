@@ -9,12 +9,15 @@
 ;; (setf (alist-get 'c++-ts-mode apheleia-mode-alist)
 ;;       'astyle)
 
-;;;###autoload
-(defun format-code ()
-  "Format code."
+(setf (alist-get 'rust-ts-mode apheleia-mode-alist)
+      'cargo-fmt)
+
+(setf (alist-get 'cargo-fmt apheleia-formatters)
+      '("cargo" "fmt"))
+
+(defun format-code-buffer ()
   (interactive)
-  (if (equal major-mode 'rust-ts-mode)
-      (cargo-process-fmt)
-    (call-interactively 'apheleia-format-buffer)))
+  (call-interactively #'save-buffer)
+  (call-interactively #'apheleia-format-buffer))
 
 (provide 'init-format)
