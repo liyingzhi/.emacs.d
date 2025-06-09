@@ -37,5 +37,8 @@
       ;; aidermacs-backend 'vterm
       )
 
+(unless aidermacs--read-string-history
+  (setq aidermacs--read-string-history aidermacs-common-prompts))
+
 (provide 'init-aider)
 ;;; init-aider.el ends here
