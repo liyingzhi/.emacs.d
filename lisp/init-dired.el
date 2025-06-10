@@ -235,7 +235,10 @@ V is either nil or non-nil."
                    (("M-i" "s-i") . dirvish-layout-toggle)
                    ("C-j" . (lambda ()
                               (interactive)
-                              (dirvish-fd-jump 16)))
+                              (let ((current-prefix-arg '(4)))
+                                (call-interactively #'dirvish-fd))
+                              (dirvish-narrow)))
+
                    ("C-M-o" . dirvish-dispatch))))
 
   (dirvish-override-dired-mode))
