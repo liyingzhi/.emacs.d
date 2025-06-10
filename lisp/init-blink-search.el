@@ -12,6 +12,10 @@
         ("Project"  "~/MyProject/")
         ("Config"  "~/.emacs.d/")))
 
+(keymap-set blink-search-mode-map
+            "C-c C-k"
+            #'blink-search-quit)
+
 (setq blink-search-python-command user/run-python-command)
 (setq blink-search-grep-pdf-search-paths "~/tankData/pdf")
 
