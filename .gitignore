@@ -20,3 +20,4 @@ popweb
 tree-sitter/*
 /site-lisp/emacs-application-framework/
 .aider*
+/eln-cache/
