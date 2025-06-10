@@ -79,7 +79,7 @@
  (:key "g" :description "Google this" :command one-key-menu-google :filename "init-google-this")
  (:key "f" :description "Search file in home" :command consult-fd-in-home)
  (:key "y" :description "Search YASsnippet" :command consult-yasnippet)
- (:key "w" :description "Search in web" :command consult-omni-multi :filename "init-consult-omni"))
+ (:key "w" :description "Search in omni sources" :command consult-omni-multi :filename "init-consult-omni"))
 
 (defun ibuffer-refersh ()
   (interactive)
