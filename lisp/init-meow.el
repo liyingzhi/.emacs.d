@@ -30,6 +30,12 @@
   (kill-buffer (current-buffer))
   (delete-window))
 
+(defun match-in (pred lst)
+  (catch 'found
+    (dolist (x lst)
+      (when (funcall pred x)
+        (throw 'found t)))))
+
 (defun my/meow-quit ()
   (interactive)
   (if (match-in #'(lambda (regex)
@@ -39,7 +45,11 @@
                                     (buffer-name)))
                 popper-reference-buffers)
       (popper--delete-popup (selected-window))
-    (meow-quit)))
+    (if (equal major-mode 'blink-search-mode)
+        (blink-search-quit)
+      (if (> (seq-length (window-list (selected-frame))) 1)
+          (delete-window)
+        (meow-quit)))))
 
 (defun my/gn-key-function()
   (interactive)
