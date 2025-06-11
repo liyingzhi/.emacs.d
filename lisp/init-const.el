@@ -122,6 +122,11 @@
   :group 'user
   :type 'boolean)
 
+(defcustom user/telega-tdlib-path "/usr/local"
+  "tdlib install path"
+  :group 'user
+  :type 'string)
+
 (defcustom user/java-lsp nil
   "Is start java lsp"
   :group 'user

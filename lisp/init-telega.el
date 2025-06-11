@@ -2,6 +2,8 @@
 (require 'telega-url-shorten-nerd)
 (require 'telega-mnz)
 
+(setq telega-server-libs-prefix user/telega-tdlib-path)
+
 (setq telega-mnz-languages
       '((ada . ada-mode)
         (awk . awk-mode)
