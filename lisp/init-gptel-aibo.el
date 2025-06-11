@@ -31,7 +31,7 @@
         and even novels.
         使用中文回复")
   (keymap-set gptel-aibo-complete-mode-map
-              "C-c i"
+              "C-c TAB"
               #'gptel-aibo-complete-at-point))
 
 (add-hook 'prog-mode-hook #'gptel-aibo-complete-mode)
