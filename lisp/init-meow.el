@@ -183,7 +183,9 @@
       (popper--delete-popup (selected-window))
     (if (equal major-mode 'blink-search-mode)
         (blink-search-quit)
-      (meow-quit))))
+      (if (> (seq-length (window-list (selected-frame))) 1)
+          (delete-window)
+        (meow-quit)))))
 
 (defun my/gn-key-function()
   (interactive)
