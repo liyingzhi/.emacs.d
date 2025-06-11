@@ -236,5 +236,10 @@ Each element should be a symbol representing a model name."
   :group 'user
   :type 'boolean)
 
+(defcustom user/pretty-mode nil
+  "Is Use pretty-mode"
+  :group 'user
+  :type 'boolean)
+
 (provide 'init-const)
 ;;; init-const.el ends here.

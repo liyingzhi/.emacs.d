@@ -78,6 +78,7 @@
 (add-hooks '(emacs-lisp-mode lisp-mode)
            #'(lambda ()
                (require 'pretty-mode)
-               (pretty-mode 1)))
+               (when user/pretty-mode
+                 (pretty-mode 1))))
 
 (provide 'init-font)
