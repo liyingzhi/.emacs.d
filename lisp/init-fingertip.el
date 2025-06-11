@@ -128,7 +128,7 @@
 
 (define-key fingertip-mode-map (kbd "M-C-p") 'fingertip-jump-right)
 (define-key fingertip-mode-map (kbd "M-C-n") 'fingertip-jump-left)
-(define-key fingertip-mode-map (kbd "M-:") 'fingertip-jump-out-pair-and-newline)
+;; (define-key fingertip-mode-map (kbd "M-:") 'fingertip-jump-out-pair-and-newline)
 
 (define-key fingertip-mode-map (kbd "s-C-p") 'fingertip-jump-right)
 (define-key fingertip-mode-map (kbd "s-C-n") 'fingertip-jump-left)
