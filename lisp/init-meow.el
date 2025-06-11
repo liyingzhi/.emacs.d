@@ -181,7 +181,9 @@
                                     (buffer-name)))
                 popper-reference-buffers)
       (popper--delete-popup (selected-window))
-    (meow-quit)))
+    (if (equal major-mode 'blink-search-mode)
+        (blink-search-quit)
+      (meow-quit))))
 
 (defun my/gn-key-function()
   (interactive)
