@@ -19,7 +19,7 @@
         (Info-mode . motion)
         (help-mode . normal)
         (devdocs-mode . normal)
-        (vterm-mode . insert)
+        (vterm-mode . normal)
         (fanyi-mode . normal)
         (eww-mode . normal)))
 
