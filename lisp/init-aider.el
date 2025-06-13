@@ -40,5 +40,9 @@
 (unless aidermacs--read-string-history
   (setq aidermacs--read-string-history aidermacs-common-prompts))
 
+(keymap-set aidermacs-comint-mode-map
+            "C-M-o"
+            #'aidermacs-transient-menu)
+
 (provide 'init-aider)
 ;;; init-aider.el ends here
