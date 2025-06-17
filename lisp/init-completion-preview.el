@@ -26,10 +26,11 @@
 (require 'completion-preview)
 
 ;; Disable when meow beacon mode
-(advice-add #'meow-grab
-            :before
-            #'(lambda ()
-                (call-interactively #'completion-preview-mode)))
+(when user/completion-preview-mode-use
+  (advice-add #'meow-grab
+              :before
+              #'(lambda ()
+                  (call-interactively #'completion-preview-mode))))
 
 (setq completion-preview-minimum-symbol-length 1)
 (add-list-to-list 'completion-preview-commands
