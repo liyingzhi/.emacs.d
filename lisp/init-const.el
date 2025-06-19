@@ -150,6 +150,11 @@ Each element should be a symbol representing a model name."
   :group 'user
   :type 'boolean)
 
+(defcustom user/aider-deepseek-api t
+  "Is use deepseek-api for aider ai"
+  :group 'user
+  :type 'boolean)
+
 ;;;###autoload
 (defun get-socks-proxy ()
   (concat "socks5://"

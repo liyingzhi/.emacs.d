@@ -24,18 +24,28 @@
 
 ;;; Code:
 
-(let* ((info (lizqwer/api-key-from-auth-source "deepseek.com")))
-  (setenv "DEEPSEEK_API_KEY" info))
-
 (require 'aidermacs)
-(setq aidermacs-show-diff-after-change t
-      aidermacs-use-architect-mode t
-      aidermacs-default-model "deepseek/deepseek-reasoner"
-      aidermacs-architect-model "deepseek/deepseek-reasoner"
-      aidermacs-editor-model "deepseek/deepseek-chat"
-      aidermacs-extra-args (list "--chat-language" "zh-cn")
-      ;; aidermacs-backend 'vterm
-      )
+
+(if user/aider-deepseek-api
+    (let* ((info (lizqwer/api-key-from-auth-source "deepseek.com")))
+      (setenv "DEEPSEEK_API_KEY" info)
+      (setq aidermacs-show-diff-after-change t
+            aidermacs-use-architect-mode t
+            aidermacs-default-model "deepseek/deepseek-reasoner"
+            aidermacs-architect-model "deepseek/deepseek-reasoner"
+            aidermacs-editor-model "deepseek/deepseek-chat"
+            aidermacs-extra-args (list "--chat-language" "zh-cn")
+            ;; aidermacs-backend 'vterm
+            ))
+  (let* ((info (lizqwer/api-key-from-auth-source "dashscope.aliyuncs.com")))
+    (setenv "OPENAI_API_KEY" info)
+    (setenv "OPENAI_API_BASE" "https://dashscope.aliyuncs.com/compatible-mode/v1")
+    (setq aidermacs-show-diff-after-change t
+          aidermacs-use-architect-mode t
+          aidermacs-default-model "openai/deepseek-r1"
+          aidermacs-architect-model "openai/deepseek-r1"
+          aidermacs-editor-model "openai/deepseek-v3"
+          aidermacs-extra-args (list "--chat-language" "zh-cn"))))
 
 (unless aidermacs--read-string-history
   (setq aidermacs--read-string-history aidermacs-common-prompts))
