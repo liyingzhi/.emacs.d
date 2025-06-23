@@ -11,7 +11,7 @@
     fussy
     (flx-rs
      :repo "jcs-elpa/flx-rs"
-     :fetcher github
+     :host github
      :files (:defaults "bin"))
     posframe
     request
@@ -42,23 +42,25 @@
     dirvish
     trashed
     elisp-demos
-    vterm
-    eat
-    (lazy-revert :fetcher github :repo "yilin-zhang/lazy-revert")
+    (lazy-revert :host github :repo "yilin-zhang/lazy-revert")
     (psearch
-     :fetcher github
+     :host github
      :repo "twlz0ne/psearch.el"
      :files ("psearch.el"))
-    (p-search :repo "zkry/p-search" :fetcher github)
+    (p-search :repo "zkry/p-search" :host github)
     heap
     (rsync-project-mode
-     :fetcher github
+     :host github
      :repo "lizqwerscott/rsync-project-mode")
     gif-screencast
     keycast
     cal-china-x
     consult-gh
-    consult-gh-forge))
+    consult-gh-forge
+    (blink-search
+     :host github
+     :repo "manateelazycat/blink-search"
+     :files (:defaults "*.el" "*.py" "backend" "core" "icons"))))
 
 (defvar *package-language-mode-install-list*
   '(markdown-mode
@@ -72,9 +74,9 @@
     csv-mode))
 
 (defvar *package-edit-install-list*
-  '((meow :fetcher github :repo "meow-edit/meow")
+  '((meow :host github :repo "meow-edit/meow")
     meow-tree-sitter
-    (repeat-fu :fetcher codeberg :repo "ideasman42/emacs-repeat-fu")
+    (repeat-fu :host codeberg :repo "ideasman42/emacs-repeat-fu")
     grugru
     auto-rename-tag
     hungry-delete
@@ -89,16 +91,24 @@
     visual-replace
     visual-regexp
     visual-regexp-steroids
-    (fingertip :fetcher github :repo "manateelazycat/fingertip")
-    (meow-vterm :fetcher github :repo "accelbread/meow-vterm")))
+    (fingertip :host github :repo "manateelazycat/fingertip")))
 
 (defvar *package-program-install-list*
-  '(dumb-jump
+  `(dumb-jump
     yasnippet
     macrostep
-    eglot
-    consult-eglot
-    (eglot-booster :fetcher github :repo "jdtsmith/eglot-booster")
+    ,@(pcase user/lsp-client
+        ('eglot
+         '(eglot
+           (eglot-booster :host github :repo "jdtsmith/eglot-booster")
+           consult-eglot))
+        ('lsp-bridge
+         `((lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
+                       :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
+                       :build (:not compile))
+           ,@(when (not (display-graphic-p))
+               '((popon :fetcher git :url "https://codeberg.org/akib/emacs-popon.git")
+                 (acm-terminal :fetcher git :url "https://github.com/twlz0ne/acm-terminal.git"))))))
     corfu
     cape
     nerd-icons-corfu
@@ -116,19 +126,19 @@
     fish-completion
     dape
     citre
-    (xmake :fetcher github :repo "lizqwerscott/xmake-emacs")
-    (quicktype :fetcher github :repo "artawower/quicktype.el")
-    (color-rg :fetcher github
+    (xmake :host github :repo "lizqwerscott/xmake-emacs")
+    (quicktype :host github :repo "artawower/quicktype.el")
+    (color-rg :host github
               :repo "manateelazycat/color-rg")
-    (peek :fetcher sourcehut :repo "meow_king/peek")
+    (peek :host sourcehut :repo "meow_king/peek")
 
-    (auto-save :fetcher github :repo "manateelazycat/auto-save")
+    (auto-save :host github :repo "manateelazycat/auto-save")
     super-save
-    (image-slicing :fetcher github :repo "ginqi7/image-slicing")))
+    (image-slicing :host github :repo "ginqi7/image-slicing")))
 
 (defvar *package-ui-install-list*
   '(solarized-theme
-    (koishi-theme :fetcher github :repo "gynamics/koishi-theme.el")
+    (koishi-theme :host github :repo "gynamics/koishi-theme.el")
     nerd-icons
     nerd-icons-dired
     nerd-icons-completion
@@ -153,16 +163,16 @@
     hl-todo
     imenu-list
     outshine
-    (indent-bars :fetcher github :repo "jdtsmith/indent-bars")
-    (sort-tab :fetcher github
+    (indent-bars :host github :repo "jdtsmith/indent-bars")
+    (sort-tab :host github
               :repo "manateelazycat/sort-tab")
-    (awesome-tray :fetcher github
+    (awesome-tray :host github
                   :repo "manateelazycat/awesome-tray")
-    (breadcrumb :fetcher github
+    (breadcrumb :host github
                 :repo "joaotavora/breadcrumb")
-    (highlight-matching-tag :fetcher github :repo "manateelazycat/highlight-matching-tag")
+    (highlight-matching-tag :host github :repo "manateelazycat/highlight-matching-tag")
     buffer-name-relative
-    (prism :fetcher github :repo "alphapapa/prism.el")
+    (prism :host github :repo "alphapapa/prism.el")
     casual
     casual-symbol-overlay))
 
@@ -170,13 +180,13 @@
   '(shackle
     popper
     ace-window
-    (watch-other-window :fetcher github :repo "manateelazycat/watch-other-window")
+    (watch-other-window :host github :repo "manateelazycat/watch-other-window")
     ))
 
 (defvar *package-language-install-list*
   '(immersive-translate
     (sdcv
-     :fetcher github
+     :host github
      :repo "manateelazycat/sdcv")
     fanyi
     go-translate
@@ -184,7 +194,7 @@
     pyim
     pyim-basedict
     (pyim-tsinghua-dict
-     :fetcher github
+     :host github
      :repo "redguardtoo/pyim-tsinghua-dict"
      :files ("pyim-tsinghua-dict.el" "pyim-tsinghua-dict.pyim"))
     ))
@@ -200,38 +210,38 @@
     org-journal
     valign
     (pangu-spacing
-     :fetcher github
+     :host github
      :repo  "nailuoGG/pangu-spacing"
      :branch "remove-old-version-support"
      :files ("*.el"))
 
-    (org-modern-indent :fetcher github :repo "jdtsmith/org-modern-indent")
+    (org-modern-indent :host github :repo "jdtsmith/org-modern-indent")
     pdf-tools
     org-ref
-    (org-media-note :fetcher github :repo "yuchen-lea/org-media-note")
+    (org-media-note :host github :repo "yuchen-lea/org-media-note")
     denote
     consult-denote
     denote-menu))
 
 (defvar *package-ai-install-list*
-  '((copilot :fetcher github
+  '((copilot :host github
              :repo "zerolfx/copilot.el"
              :branch "main"
              :files ("dist" "*.el"))
-    (gptel :fetcher github
+    (gptel :host github
            :repo "karthink/gptel")
-    (gptel-quick :fetcher github
+    (gptel-quick :host github
                  :repo "karthink/gptel-quick")
-    (mcp :fetcher github
+    (mcp :host github
          :repo "lizqwerscott/mcp.el")
-    (gptel-aibo :fetcher github
+    (gptel-aibo :host github
                 :repo "dolmens/gptel-aibo")
-    (aidermacs :fetcher github
+    (aidermacs :host github
                :repo "MatthewZMD/aidermacs")
-    (codeium :fetcher github :repo "Exafunction/codeium.el")
-    (codeium-overlay :fetcher github
+    (codeium :host github :repo "Exafunction/codeium.el")
+    (codeium-overlay :host github
                      :repo "liyingzhi/codeium-overlay.el")
-    (minuet :fetcher github
+    (minuet :host github
             :repo "milanglacier/minuet-ai.el")
     ))
 
@@ -264,31 +274,39 @@
     zig-ts-mode))
 
 (defvar *package-unity-install-list*
-  '((unity :fetcher github :repo "elizagamedev/unity.el")))
+  '((unity :host github :repo "elizagamedev/unity.el")))
 
 (defvar *package-sql-install-list*
   '(sql-indent))
 
 (defvar *package-toolkit-install-list*
-  '((thing-edit :fetcher github :repo "manateelazycat/thing-edit")
-    (delete-block :fetcher github :repo "manateelazycat/delete-block")
-    (move-text :fetcher github :repo "manateelazycat/move-text")
-    (open-newline :fetcher github :repo "manateelazycat/open-newline")
-    (duplicate-line :fetcher github :repo "manateelazycat/duplicate-line")
-    (markmacro :fetcher github :repo "manateelazycat/markmacro")))
+  '((thing-edit :host github :repo "manateelazycat/thing-edit")
+    (delete-block :host github :repo "manateelazycat/delete-block")
+    (move-text :host github :repo "manateelazycat/move-text")
+    (open-newline :host github :repo "manateelazycat/open-newline")
+    (duplicate-line :host github :repo "manateelazycat/duplicate-line")
+    (markmacro :host github :repo "manateelazycat/markmacro")))
 
 (defvar *package-another-install-list*
   '(elfeed
     code-stats
     ;; tabspaces
     docker
-    (screenshot :fetcher github :repo "tecosaur/screenshot")
-    (telega-url-shorten-nerd :fetcher github
+    (screenshot :host github :repo "tecosaur/screenshot")
+    (telega-url-shorten-nerd :host github
                              :repo "lizqwerscott/telega-url-shorten-nerd")
-    (telega :fetcher github
+    (telega :host github
             :repo "zevlg/telega.el"
             :branch "master"
-            :files (:defaults "contrib" "etc" "server" "Makefile"))))
+            :files (:defaults "contrib" "etc" "server" "Makefile"))
+    (consult-omni :type git :host github :repo "armindarvish/consult-omni" :branch "main" :files (:defaults "sources/*.el"))))
+
+(setq vterm-always-compile-module t)
+(packages!
+ '(eat
+   vterm
+   (meow-vterm :host github :repo "accelbread/meow-vterm")
+   (multi-vterm :host github :repo "lizqwerscott/multi-vterm")))
 
 (packages! *package-base-install-list*)
 (packages! *package-tool-install-list*)

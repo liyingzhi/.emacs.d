@@ -19,10 +19,8 @@
       (remove 'telega-chat-mode-hook
               lsp-bridge-default-mode-hooks))
 
-(unless (display-graphic-p)
+(when (not (display-graphic-p))
   (with-eval-after-load 'acm
-    (quelpa '(popon :fetcher git :url "https://codeberg.org/akib/emacs-popon.git"))
-    (quelpa '(acm-terminal :fetcher git :url "https://github.com/twlz0ne/acm-terminal.git"))
     (require 'popon)
     (require 'acm-terminal)))
 

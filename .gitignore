@@ -21,3 +21,6 @@ tree-sitter/*
 /site-lisp/emacs-application-framework/
 .aider*
 /eln-cache/
+/straight/repos/
+/straight/build/
+/straight/build-cache.el
