@@ -23,4 +23,5 @@ tree-sitter/*
 /eln-cache/
 /straight/repos/
 /straight/build/
+/straight/modified/
 /straight/build-cache.el
