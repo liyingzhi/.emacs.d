@@ -200,7 +200,8 @@
     ))
 
 (defvar *package-org-install-list*
-  '(org-bullets
+  '((org :type built-in)
+    org-bullets
     org-fancy-priorities
     org-roam
     org-roam-ui
