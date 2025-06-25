@@ -46,9 +46,9 @@
   ;; (setq toggle-debug-on-error t)
   (require 'init-utils)
 
-  ;; (add-subdirs-to-load-path
-  ;;  (concat user-emacs-directory
-  ;;          "site-lisp/"))
+  (add-subdirs-to-load-path
+   (concat user-emacs-directory
+           "site-lisp/"))
 
   (defvar *package-early-install-list*
     '(no-littering
