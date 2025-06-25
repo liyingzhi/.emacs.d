@@ -308,6 +308,24 @@
    (meow-vterm :host github :repo "accelbread/meow-vterm")
    (multi-vterm :host github :repo "lizqwerscott/multi-vterm")))
 
+(defun site-lisp-update ()
+  "Update site-lisp packages."
+  (interactive)
+  (let ((output-buffer (get-buffer-create "*Update site lisp*")))
+    (async-shell-command
+     (concat "cd "
+             user-emacs-directory
+             " && git submodule foreach git pull")
+     output-buffer)
+    (switch-to-buffer-other-window output-buffer)))
+
+
+(defun emacs-update ()
+  "Update Emacs all packages."
+  (interactive)
+  (site-lisp-update)
+  (straight-pull-all))
+
 (packages! *package-base-install-list*)
 (packages! *package-tool-install-list*)
 (packages! *package-language-mode-install-list*)
