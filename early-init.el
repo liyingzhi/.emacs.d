@@ -12,6 +12,15 @@
 (setq warning-minimum-level :error)
 (setq warning-suppress-types '((lexical-binding)))
 
+;; If watchexec and Python are installed, use file watchers to detect
+;; package modifications. This saves time at startup. Otherwise, use
+;; the ever-reliable find(1).
+(if (and (executable-find "watchexec")
+         (executable-find "python3"))
+    (setq straight-check-for-modifications '(watch-files find-when-checking))
+  (setq straight-check-for-modifications
+        '(find-at-startup find-when-checking)))
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name
