@@ -145,6 +145,11 @@ Each element should be a symbol representing a model name."
           (const :tag "No models" nil)
           (list :tag "Model list" (repeat symbol))))
 
+(defcustom user/gt-chatgpt-model "qwen-turbo"
+  "model for gt-chatgpt-model qwen"
+  :group 'user
+  :type 'string)
+
 (defcustom user/aider nil
   "Is start aider ai"
   :group 'user
@@ -152,6 +157,11 @@ Each element should be a symbol representing a model name."
 
 (defcustom user/aider-deepseek-api t
   "Is use deepseek-api for aider ai"
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/gt-deepseek-api nil
+  "Is use deepseek-api for go-translate ai"
   :group 'user
   :type 'boolean)
 
