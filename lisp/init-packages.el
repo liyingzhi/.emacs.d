@@ -1,3 +1,6 @@
+(defvar *package-build-in-install-list*
+  '((org :type built-in)))
+
 (defvar *package-base-install-list*
   '(gcmh
     vertico
@@ -25,8 +28,7 @@
     pretty-hydra))
 
 (defvar *package-tool-install-list*
-  '(try
-    alert
+  '(alert
     centered-cursor-mode
     sudo-edit
     google-this
@@ -200,8 +202,7 @@
     ))
 
 (defvar *package-org-install-list*
-  '((org :type built-in)
-    org-bullets
+  '(org-bullets
     org-fancy-priorities
     org-roam
     org-roam-ui
@@ -327,24 +328,26 @@
   (site-lisp-update)
   (straight-pull-all))
 
-(packages! *package-base-install-list*)
-(packages! *package-tool-install-list*)
-(packages! *package-language-mode-install-list*)
-(packages! *package-edit-install-list*)
-(packages! *package-program-install-list*)
-(packages! *package-ui-install-list*)
-(packages! *package-window-install-list*)
-(packages! *package-language-install-list*)
-(packages! *package-org-install-list*)
-(packages! *package-ai-install-list*)
-(packages! *package-rust-install-list*)
-(packages! *package-common-lisp-install-list*)
-(packages! *package-web-install-list*)
-(packages! *package-python-install-list*)
-(packages! *package-zig-install-list*)
-(packages! *package-unity-install-list*)
-(packages! *package-sql-install-list*)
-(packages! *package-toolkit-install-list*)
-(packages! *package-another-install-list*)
-
+(packages!
+ (append *package-build-in-install-list*
+         *package-base-install-list*
+         *package-tool-install-list*
+         *package-language-mode-install-list*
+         *package-edit-install-list*
+         *package-program-install-list*
+         *package-ui-install-list*
+         *package-window-install-list*
+         *package-language-install-list*
+         *package-org-install-list*
+         *package-ai-install-list*
+         *package-rust-install-list*
+         *package-common-lisp-install-list*
+         *package-web-install-list*
+         *package-python-install-list*
+         *package-zig-install-list*
+         (when user/unity
+           *package-unity-install-list*)
+         *package-sql-install-list*
+         *package-toolkit-install-list*
+         *package-another-install-list*))
 (provide 'init-packages)

@@ -38,7 +38,6 @@
   (load bootstrap-file nil 'nomessage))
 
 (setq package-enable-at-startup nil)
-(setq straight-vc-git-default-clone-depth 1)
 
 (defun packages! (packages)
   (dolist (package packages)

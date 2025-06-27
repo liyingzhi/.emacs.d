@@ -256,5 +256,10 @@ Each element should be a symbol representing a model name."
   :group 'user
   :type 'boolean)
 
+(defcustom user/unity nil
+  "Is Use unity"
+  :group 'user
+  :type 'boolean)
+
 (provide 'init-const)
 ;;; init-const.el ends here.
