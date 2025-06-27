@@ -25,3 +25,4 @@ tree-sitter/*
 /straight/build/
 /straight/modified/
 /straight/build-cache.el
+/straight/watcher/
