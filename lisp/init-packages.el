@@ -73,7 +73,8 @@
     haskell-mode
     elvish-mode
     git-modes
-    csv-mode))
+    csv-mode
+    sxhkdrc-mode))
 
 (defvar *package-edit-install-list*
   '((meow :host github :repo "meow-edit/meow")
