@@ -175,7 +175,8 @@
         "\\*docker-.+\\*"
         "\\*prolog\\*" inferior-python-mode inf-ruby-mode swift-repl-mode
         "\\*rustfmt\\*$" rustic-compilation-mode rustic-cargo-clippy-mode
-        rustic-cargo-outdated-mode rustic-cargo-run-mode rustic-cargo-test-mode))
+        rustic-cargo-outdated-mode rustic-cargo-run-mode rustic-cargo-test-mode
+        "\\*gt-result\\*$"))
 
 (with-no-warnings
   (defun my-popper-fit-window-height (win)
