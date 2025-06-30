@@ -106,7 +106,7 @@
        :engines (list (gt-bing-engine)   ; 指定多引擎 bing
                       (gt-chatgpt-engine ; 指定多引擎 chatgpt
                        :prompt "Translate the text to {{lang}} and return result:\n\n{{text}}"))
-       :render  (gt-posframe-pop-render))) ; 配置渲染器
+       :render  (gt-buffer-render))) ; 配置渲染器
 
 
 (provide 'init-go-translate)

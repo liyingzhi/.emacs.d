@@ -187,7 +187,8 @@
      :host github
      :repo "manateelazycat/sdcv")
     fanyi
-    go-translate
+    (pdd :fetcher github :repo "lorniu/pdd.el")
+    (go-translate :fetcher github :repo "lorniu/go-translate")
     rime
     pyim
     pyim-basedict
