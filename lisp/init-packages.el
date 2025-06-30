@@ -19,7 +19,6 @@
     posframe
     request
     websocket
-    ag
     rg
     xclip
     helpful
@@ -45,10 +44,6 @@
     trashed
     elisp-demos
     (lazy-revert :host github :repo "yilin-zhang/lazy-revert")
-    (psearch
-     :host github
-     :repo "twlz0ne/psearch.el"
-     :files ("psearch.el"))
     (p-search :repo "zkry/p-search" :host github)
     heap
     (rsync-project-mode
@@ -126,7 +121,6 @@
     projection
     eshell-prompt-extras
     esh-help
-    fish-completion
     dape
     citre
     (xmake :host github :repo "lizqwerscott/xmake-emacs")
@@ -161,7 +155,6 @@
     highlight-parentheses
     colorful-mode
     visual-fill-column
-    olivetti
     redacted
     hl-todo
     imenu-list
