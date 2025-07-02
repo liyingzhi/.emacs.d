@@ -21,7 +21,8 @@
         (devdocs-mode . normal)
         (vterm-mode . normal)
         (fanyi-mode . normal)
-        (eww-mode . normal)))
+        (eww-mode . normal)
+        (difftastic-mode . motion)))
 
 (when user/load-eaf
   (add-to-list 'meow-mode-state-list '(eaf-mode . motion)))
