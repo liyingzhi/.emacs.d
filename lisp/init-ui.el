@@ -172,5 +172,8 @@
 ;;; Eww image slice
 (require 'init-image-slicing)
 
+;;; pdf-tools
+(pdf-loader-install)
+
 (provide 'init-ui)
 ;;; init-ui.el ends here.
