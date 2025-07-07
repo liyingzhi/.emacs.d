@@ -100,7 +100,7 @@ Prompt for the directory using minibuffer completion."
   (interactive)
   (let ((denote-directory (read-directory-name "New note in: " nil nil :must-match)))
     (call-interactively 'denote)))
-
+(setq denote-org-store-link-to-heading 'context)
 (consult-denote-mode 1)
 (provide 'init-denote)
 ;;; init-denote.el ends here
