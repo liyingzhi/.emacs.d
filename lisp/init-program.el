@@ -36,8 +36,7 @@
 (setq flyover-use-theme-colors t
       flyover-checkers '(flycheck)
       flyover-show-at-eol t
-      flyover-virtual-line-icon (concat (nerd-icons-faicon "nf-fa-arrow_right_long")
-                                        " ")
+      flyover-virtual-line-icon "-> "
       flyover-virtual-line-type nil)
 
 ;;; debug
@@ -87,14 +86,14 @@
   (with-current-buffer buffer
     (when (eq major-mode 'compilation-mode)
       (if (or (string-match "^.*warning.*" string)
-             (get-first-compilation-error)
-             (string-match ".*exited abnormally.*" string))
+              (get-first-compilation-error)
+              (string-match ".*exited abnormally.*" string))
           (progn
             (message "Compilation %s" string)
             (goto-char (point-min))
             (call-interactively #'compilation-next-error)
             (when (or (not (get-buffer-window buffer 'visible))
-                     (not (frame-focus-state)))
+                      (not (frame-focus-state)))
               (alert string :buffer buffer :severity 'high)))
         (message "Build finished :)")
         (run-with-timer 1 nil
@@ -104,7 +103,7 @@
                                       (window (get-buffer-window buffer t)))
                             (delete-window window))))
         (when (or (not (get-buffer-window buffer 'visible))
-                 (not (frame-focus-state)))
+                  (not (frame-focus-state)))
           (alert string :buffer buffer :severity 'normal))))))
 
 (setq compilation-finish-functions
@@ -117,8 +116,8 @@
 (add-hook 'before-save-hook
           #'(lambda ()
               (when (or (equal major-mode 'emacs-lisp-mode)
-                       (equal major-mode 'lisp-mode)
-                       (equal major-mode 'scheme-mode))
+                        (equal major-mode 'lisp-mode)
+                        (equal major-mode 'scheme-mode))
                 (call-interactively #'check-parens))))
 
 ;;; language
