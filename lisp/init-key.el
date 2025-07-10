@@ -177,7 +177,8 @@
  (:key "a" :description "Aider" :command aidermacs-transient-menu)
  (:key "o" :description "Casual-main-tmenu" :command casual-editkit-main-tmenu)
  (:key "t" :description "llm task with gt engine" :command my/gt-ai-oneshot)
- (:key "c" :description "Up-down convert dispatch" :command my/string-convert-dispatch))
+ (:key "c" :description "Up-down convert dispatch" :command my/string-convert-dispatch)
+ (:key "j" :description "Calculator" :command calc))
 
 (lazy-one-key-create-menu
  "EAF"
