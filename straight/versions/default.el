@@ -195,7 +195,7 @@
  ("page-break-lines" . "982571749c8fe2b5e2997dd043003a1b9fe87b38")
  ("pangu-spacing" . "4590bd51f49f35089a7874cd1093e943efcdf97f")
  ("parsebib" . "7bfde4e4679413424a9a9af099203d5c23e32cd2")
- ("pdd.el" . "2192a0d526b821170dfe4662e2853c67c76de84e")
+ ("pdd.el" . "8e64faf0c54e6dfc68e270cb7b102cb5881dd975")
  ("pdf-tools" . "30b50544e55b8dbf683c2d932d5c33ac73323a16")
  ("peek" . "999c39e700709330edc5686a4ac5bcc56134fa87")
  ("plz" . "981a4d09521ef59439713624702efcad996840a0")
