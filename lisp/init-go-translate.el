@@ -105,7 +105,8 @@
        ;; :taker   (gt-taker :text 'buffer :pick 'paragraph) ; 配置拾取器
        :engines (list (gt-bing-engine)   ; 指定多引擎 bing
                       (gt-chatgpt-engine ; 指定多引擎 chatgpt
-                       :prompt "Translate the text to {{lang}} and return result:\n\n{{text}}"))
+                       :prompt "Translate the text to {{lang}} and return result:\n\n{{text}}"
+                       :stream t))
        :render  (gt-buffer-render))) ; 配置渲染器
 
 
