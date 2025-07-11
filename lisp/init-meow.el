@@ -36,9 +36,9 @@
 (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
 
 (meow-thing-register 'url 'url 'url)
+(require 'mark-comment)
+(meow-thing-register 'comment #'mark-comment-inner-of-comment #'mark-comment-inner-of-comment)
 
-(add-to-list 'meow-char-thing-table
-             '(?u . url))
 (setq wrap-keymap (let ((map (make-keymap)))
                     (suppress-keymap map)
                     (dolist (k '("(" "[" "{" "<"))
@@ -59,7 +59,8 @@
                               (?l  . line)
                               (?b  . buffer)
                               (?p  . paragraph)
-                              (?u . url)))
+                              (?u . url)
+                              (?c . comment)))
 
 (meow-normal-define-key (cons "\\" wrap-keymap))
 
@@ -321,8 +322,6 @@
    '("L" . meow-right-expand)
    '("m" . meow-join)
    '("n" . meow-search)
-   ;; '("N" . lizqwer/mark-line-comment)
-   '("N" . mark-next-comment)
    '("o" . meow-block)
    '("O" . meow-to-block)
    '("p" . meow-yank)
