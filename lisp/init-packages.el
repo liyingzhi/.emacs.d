@@ -210,6 +210,11 @@
     ox-hugo
     org-appear
     org-journal
+    plantuml-mode
+    (plantuml-emacs
+     :host github
+     :repo  "ginqi7/plantuml-emacs"
+     :files ("*.el"))
     valign
     (pangu-spacing
      :host github

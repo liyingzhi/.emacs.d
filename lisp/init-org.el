@@ -91,7 +91,8 @@
    (C . t)
    (python . t)
    (latex . t)
-   (shell . t)))
+   (shell . t)
+   (plantuml . t)))
 
 (setq org-confirm-babel-evaluate
       (lambda (lang body)

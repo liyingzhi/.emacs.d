@@ -59,6 +59,7 @@
 (require 'init-org)
 (require 'init-denote)
 (require 'init-pangu)
+(require 'init-plantuml)
 ;; (require 'init-hugo)
 ;; (require 'init-reader)
 ;; (require 'init-paper)
