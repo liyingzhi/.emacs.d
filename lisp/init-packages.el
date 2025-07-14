@@ -326,6 +326,7 @@
   "Update Emacs all packages."
   (interactive)
   (site-lisp-update)
+  (straight-pull-recipe-repositories)
   (straight-pull-all))
 
 (packages!
