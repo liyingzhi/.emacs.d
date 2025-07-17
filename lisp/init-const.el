@@ -122,6 +122,11 @@
   :group 'user
   :type 'boolean)
 
+(defcustom user/flyover-start nil
+  "Is start flyover"
+  :group 'user
+  :type 'boolean)
+
 (defcustom user/telega-tdlib-path "/usr/local"
   "tdlib install path"
   :group 'user

@@ -114,7 +114,8 @@
     cape
     nerd-icons-corfu
     eldoc-box
-    (flyover :host github :repo "konrad1977/flyover")
+    ,@(when user/flyover-start
+      '(flyover :host github :repo "konrad1977/flyover"))
     magit
     magit-delta
     forge

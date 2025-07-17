@@ -32,13 +32,14 @@
 (global-flycheck-mode)
 
 ;; flyover
-(require 'flyover)
-(add-hook 'flycheck-mode-hook #'flyover-mode)
-(setq flyover-use-theme-colors t
-      flyover-checkers '(flycheck)
-      flyover-show-at-eol t
-      flyover-virtual-line-icon "-> "
-      flyover-virtual-line-type nil)
+(when user/flyover-start
+  (require 'flyover)
+  (add-hook 'flycheck-mode-hook #'flyover-mode)
+  (setq flyover-use-theme-colors t
+        flyover-checkers '(flycheck)
+        flyover-show-at-eol t
+        flyover-virtual-line-icon "-> "
+        flyover-virtual-line-type nil))
 
 ;;; debug
 (require 'init-dap)
