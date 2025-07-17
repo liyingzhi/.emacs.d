@@ -262,7 +262,7 @@
    )
 
   (lazy-meow-leader-define-key
-   '(("p" . hydra-project/body) "init-project"))
+   '(("p" . project-dispatch) "init-project"))
 
   (when user/load-eaf
     (meow-leader-define-key
