@@ -167,5 +167,13 @@
   (add-hook 'after-init-hook
             #'+evan/scratch-setup))
 
+(defun lock-*scratch*-buffer()
+  "Lock *scratch* buffer."
+  (interactive)
+  (with-current-buffer (get-buffer-create "*scratch*")
+    (emacs-lock-mode 'kill)))
+
+(add-hook 'after-init-hook #'lock-*scratch*-buffer)
+
 (provide 'init-dashboard)
 ;;; init-dashboard.el ends here
