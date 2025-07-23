@@ -65,7 +65,7 @@
 ;; (require 'init-paper)
 ;;(require 'crefactor)
 
-(require 'init-go-translate)
+(require 'init-gt)
 
 (require 'init-rsync)
 ;; (require 'init-code-stats)

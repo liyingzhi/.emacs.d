@@ -1,6 +1,6 @@
-;;; init-go-translate.el --- init go translate package  -*- lexical-binding: t; -*-
+;;; init-gt.el --- emacs lisp                        -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2024  lizqwer scott
+;; Copyright (C) 2025  lizqwer scott
 
 ;; Author: lizqwer scott <lizqwerscott@gmail.com>
 ;; Keywords: lisp
@@ -24,7 +24,8 @@
 
 ;;; Code:
 
-(require 'go-translate)
+
+(require 'gt)
 (setq gt-langs '(en zh))
 
 (if user/aider-deepseek-api
@@ -55,7 +56,7 @@
   (interactive)
   (let ((prompt nil)
         (model (or my-ai-oneshot-last-model
-                  (setq my-ai-oneshot-last-model (or (car my-ai-oneshot-models) gt-chatgpt-model)))))
+                   (setq my-ai-oneshot-last-model (or (car my-ai-oneshot-models) gt-chatgpt-model)))))
     (cl-flet ((get-cands ()
                 (cl-delete-duplicates
                  (append my-ai-oneshot-history my-ai-oneshot-prompts) :from-end t :test #'equal))
@@ -109,6 +110,5 @@
                        :stream t))
        :render  (gt-buffer-render))) ; 配置渲染器
 
-
-(provide 'init-go-translate)
-;;; init-go-translate.el ends here
+(provide 'init-gt)
+;;; init-gt.el ends here

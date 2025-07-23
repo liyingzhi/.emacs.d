@@ -168,7 +168,7 @@
     ("f" fanyi-dwim2 "Fanyi Point")
     ("F" fanyi-dwim "Fanyi Input"))
    "english"
-   (("t" gt-do-translate "translate")
+   (("t" gt-translate "translate")
     ("e" lsp-bridge-toggle-sdcv-helper "english helper"))))
 
 (defhydra hydra-straight-helper (:hint nil)
