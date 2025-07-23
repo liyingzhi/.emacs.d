@@ -242,6 +242,8 @@
                  :repo "karthink/gptel-quick")
     (mcp :host github
          :repo "lizqwerscott/mcp.el")
+    (macher :host github
+            :repo "kmontag/macher")
     (gptel-aibo :host github
                 :repo "dolmens/gptel-aibo")
     (aidermacs :host github
