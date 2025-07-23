@@ -102,8 +102,7 @@
     ("c" global-centered-cursor-mode "centered cursor" :toggle t)
     ("l" interaction-log-mode "interactive log" :toggle t)
     ("i" immersive-translate-auto-mode "immersive translate" :toggle t)
-    ("t" +lizqwer/toggle-telega "telega" :toggle (get-buffer "*Telega Root*"))
-    ("G" my/switch-gptel-llm "llm free" :toggle (string= (gptel-backend-name gptel-backend) user/ai-backend-free)))
+    ("t" +lizqwer/toggle-telega "telega" :toggle (get-buffer "*Telega Root*")))
    "Ui"
    (("n" (display-line-numbers-mode (if display-line-numbers-mode -1 1))
      "line number"
@@ -121,7 +120,10 @@
    (("E" toggle-debug-on-error "debug on error" :toggle (bound-and-true-p debug-on-error)))
    "Program"
    (("f" flycheck-mode "flycheck" :toggle (bound-and-true-p flycheck-mode))
-    ("u" unity-mode "unity develop" :toggle t))))
+    ("u" unity-mode "unity develop" :toggle t))
+   "LLM"
+   (("G" my/switch-gptel-llm "llm free" :toggle (equal gptel-model user/ai-model-free))
+    ("C" my/switch-gptel-llm-coder "llm coder" :toggle (equal gptel-model user/ai-model-coder)))))
 
 (pretty-hydra-define-e hydra-jump-dir
   (:title (pretty-hydra-title "Jump to directory" 'octicon "nf-oct-file_directory_open_fill") :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)

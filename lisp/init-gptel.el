@@ -72,15 +72,15 @@
 
 (setq gptel-backend
       (gptel-get-backend user/ai-backend-free))
+(setq gptel-model user/ai-model-free)
 
 ;; (setq gptel-model 'deepseek/deepseek-r1:free)
-(setq gptel-model user/ai-model-free)
 ;; (setq gptel-model 'moonshot-v1-8k)
 ;; (setq gptel-model 'claude-3-5-sonnet-20241022)
 
 (defun my/switch-gptel-llm ()
   (interactive)
-  (if (string= (gptel-backend-name gptel-backend) user/ai-backend-free)
+  (if (equal gptel-model user/ai-model-free)
       (progn (setq gptel-backend (gptel-get-backend user/ai-backend))
              (setq gptel-model user/ai-model)
              (setq gptel-use-tools t))
@@ -88,6 +88,14 @@
           (gptel-get-backend user/ai-backend-free))
     (setq gptel-model user/ai-model-free)
     (setq gptel-use-tools nil)))
+
+(defun my/switch-gptel-llm-coder ()
+  (interactive)
+  (when (not (equal gptel-model user/ai-model-coder))
+    (setq gptel-backend
+          (gptel-get-backend user/ai-backend))
+    (setq gptel-model user/ai-model-coder)
+    (setq gptel-use-tools t)))
 
 
 (require 'gptel)

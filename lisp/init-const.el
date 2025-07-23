@@ -246,6 +246,11 @@ Each element should be a symbol representing a model name."
   :group 'user
   :type 'symbol)
 
+(defcustom user/ai-model-coder 'qwen3-coder-480b-a35b-instruct
+  "use what ai model to code"
+  :group 'user
+  :type 'symbol)
+
 (defcustom user/move-sytle-motion t
   "Is Use cusor motion style when moving"
   :group 'user
