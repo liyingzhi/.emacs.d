@@ -114,7 +114,7 @@
  ("gntp.el" . "767571135e2c0985944017dc59b0be79af222ef5")
  ("gnu-elpa-mirror" . "141f44c4867eb56e3f8b5aa36bdde9ee78575b06")
  ("go-mode.el" . "0ed3c5227e7f622589f1411b4939c3ee34711ebd")
- ("gptel" . "9caf7684c3a4182e173afe57fa06e53aafc53434")
+ ("gptel" . "7218aedd6f8294af5be876c0c18a733863156b7b")
  ("gptel-aibo" . "36a5b96332c88e7157023e41f6dafc5b5e84dccb")
  ("gptel-quick" . "495b5e0b5348dbced1448bd12cbf8847e30b5175")
  ("grugru" . "3f1bc431f4dc919a7b04e519f1c8add9fb2949f3")
