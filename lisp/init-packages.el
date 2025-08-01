@@ -115,7 +115,7 @@
     nerd-icons-corfu
     eldoc-box
     ,@(when user/flyover-start
-      '(flyover :host github :repo "konrad1977/flyover"))
+        '(flyover :host github :repo "konrad1977/flyover"))
     magit
     magit-delta
     forge
@@ -137,6 +137,7 @@
 
     (auto-save :host github :repo "manateelazycat/auto-save")
     super-save
+    org-sliced-images
     (image-slicing :host github :repo "ginqi7/image-slicing")))
 
 (defvar *package-ui-install-list*

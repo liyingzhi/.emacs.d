@@ -24,11 +24,17 @@
 
 ;;; Code:
 
+;;; image-slicing
 (require 'image-slicing)
-
 (add-to-list 'shr-external-rendering-functions
              '(img . image-slicing-tag-img))
 (push #'image-slicing-mode eww-after-render-hook)
+
+;;; org-sliced-images
+(require 'org-sliced-images)
+(setq org-sliced-images-round-image-height t)
+(setq org-sliced-images-consume-dummies t)
+(org-sliced-images-mode 1)
 
 (provide 'init-image-slicing)
 ;;; init-image-slicing.el ends here
