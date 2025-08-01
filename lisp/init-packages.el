@@ -150,6 +150,7 @@
     ligature
     dashboard
     doom-modeline
+    bufferfile
     pretty-mode
     color-identifiers-mode
     lisp-extra-font-lock

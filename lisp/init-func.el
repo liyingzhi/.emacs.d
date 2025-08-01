@@ -73,52 +73,12 @@
       (message "Copied buffer file path '%s' to the clipboard." filepath))))
 
 ;;;###autoload
-(defun delete-this-file ()
-  "Delete the current file, and kill the buffer."
-  (interactive)
-  (unless (buffer-file-name)
-    (error "No file is currently being edited"))
-  (when (yes-or-no-p (format "Really delete '%s'?"
-                             (file-name-nondirectory buffer-file-name)))
-    (delete-file (buffer-file-name))
-    (kill-this-buffer)))
-
-;;;###autoload
-(defun copy-this-file-to (new-path)
-  "Copy the current file to a new location specified by NEW-PATH and open the new file."
-  (interactive
-   (list (read-file-name "Copy file to: ")))
-  (unless (buffer-file-name)
-    (error "No file is currently being edited"))
-  (let ((current-file (buffer-file-name)))
-    (when (file-directory-p new-path)
-      (setq new-path (concat (file-name-as-directory new-path)
-                             (file-name-nondirectory current-file))))
-    (copy-file current-file new-path nil)
-    (message "Copied '%s' to '%s'" current-file new-path)
-    (find-file new-path))) ;; Open the newly created file
-
-;;;###autoload
-(defun rename-this-file (new-name)
-  "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive "sNew name: ")
-  (let ((name (buffer-name))
-        (filename (buffer-file-name)))
-    (unless filename
-      (error "Buffer '%s' is not visiting a file!" name))
-    (progn
-      (when (file-exists-p filename)
-        (rename-file filename new-name 1))
-      (set-visited-file-name new-name)
-      (rename-buffer new-name))))
-
-;;;###autoload
 (defun browse-this-file ()
   "Open the current file as a URL using `browse-url'."
   (interactive)
   (let ((file-name (buffer-file-name)))
     (if (and (fboundp 'tramp-tramp-file-p)
-           (tramp-tramp-file-p file-name))
+             (tramp-tramp-file-p file-name))
         (error "Cannot open tramp file")
       (browse-url (concat "file://" file-name)))))
 
