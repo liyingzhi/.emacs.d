@@ -97,4 +97,10 @@
 (when user/load-elfeed
   (require 'init-elfeed))
 
+;; browse support
+(setq browse-url-browser-function
+      (if sys/macp
+          #'browse-url-default-macosx-browser
+        #'browse-url-firefox))
+
 ;;; init.el ends here.

@@ -9,12 +9,6 @@
 
 ;;; Code:
 
-;; vivaldi support
-(if user/vivaldi-use
-    (setq browse-url-browser-function
-          #'browse-url-vivaldi)
-  (setq browse-url-browser-function #'browse-url-chrome))
-
 (require 'web-mode)
 (setq web-mode-indent-style 4)
 (setq web-mode-imenu-regexp-list
