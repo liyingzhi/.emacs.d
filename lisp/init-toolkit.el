@@ -36,6 +36,7 @@
 
 ;;;###autoload
 (defun +lizqwer/toggle-move-style ()
+  "Toggle window move style."
   (interactive)
   (if (null user/move-style-motion)
       (setq user/move-style-motion t)
