@@ -68,7 +68,7 @@
  "Search"
  (:key "l" :description "Search in buffer" :command consult-line)
  (:key "i" :description "Search imenu" :command consult-imenu)
- (:key "m" :description "Search imenu in multi buffer" :command consult-imenu-multi)
+ (:key "I" :description "Search imenu in multi buffer" :command consult-imenu-multi)
  (:key "o" :description "Search outline" :command consult-outline)
  (:key "B" :description "Bookmark" :command consult-bookmark)
  (:key "s" :description "Blink Search" :command blink-search :filename "init-blink-search")
@@ -79,7 +79,8 @@
  (:key "g" :description "Google this" :command one-key-menu-google :filename "init-google-this")
  (:key "f" :description "Search file in home" :command consult-fd-in-home)
  (:key "y" :description "Search YASsnippet" :command consult-yasnippet)
- (:key "w" :description "Search in omni sources" :command consult-omni-multi :filename "init-consult-omni"))
+ (:key "w" :description "Search in omni sources" :command consult-omni-multi :filename "init-consult-omni")
+ (:key "m" :description "Search global mark" :command consult-global-mark))
 
 (defun ibuffer-refersh ()
   (interactive)
