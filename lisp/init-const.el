@@ -19,31 +19,6 @@
   (eq system-type 'darwin)
   "Are we running on a Mac system?")
 
-(defcustom user/use-proxy nil
-  "The proxy host of all."
-  :group 'user
-  :type 'boolean)
-
-(defcustom user/proxy-host "127.0.0.1"
-  "The proxy host of all."
-  :group 'user
-  :type 'string)
-
-(defcustom user/proxy-all-port 20170
-  "The all proxy port of all"
-  :group 'user
-  :type 'number)
-
-(defcustom user/proxy-http-port 20171
-  "The http proxy port of all"
-  :group 'user
-  :type 'number)
-
-(defcustom user/proxy-rule-port 20172
-  "The rule proxy  port of all"
-  :group 'user
-  :type 'number)
-
 (defcustom user/show-modeline t
   "Show modeline."
   :group 'user
@@ -165,31 +140,6 @@ Each element should be a symbol representing a model name."
   "Is use deepseek-api for go-translate ai."
   :group 'user
   :type 'boolean)
-
-;;;###autoload
-(defun get-socks-proxy ()
-  (concat "socks5://"
-          user/proxy-host
-          ":"
-          (format "%d" user/proxy-all-port)))
-
-;;;###autoload
-(defun get-http-proxy ()
-  (concat "http://"
-          user/proxy-host
-          ":"
-          (format "%d" user/proxy-http-port)))
-
-;;;###autoload
-(defun get-url-proxy ()
-  `(("http" . ,(concat
-                user/proxy-host
-                ":"
-                (format "%d" user/proxy-http-port)))
-    ("https" . ,(concat
-                 user/proxy-host
-                 ":"
-                 (format "%d" user/proxy-http-port)))))
 
 (defcustom user/font-mac-size 230
   "The font size in mac."

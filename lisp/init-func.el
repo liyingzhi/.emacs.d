@@ -20,16 +20,7 @@
           (run-with-idle-timer 0.1 nil #'toggle-frame-fullscreen)))
     (set-frame-parameter (selected-frame) 'alpha-background 100)))
 
-;;;###autoload
-(defun +lizqwer/toggle-proxy ()
-  (interactive)
-  (if (null url-proxy-services)
-      (setq url-proxy-services
-            (get-url-proxy))
-    (setq url-proxy-services nil)))
-
 ;;some tool function
-
 (defun remember-init ()
   "Remember current position and setup."
   (interactive)
