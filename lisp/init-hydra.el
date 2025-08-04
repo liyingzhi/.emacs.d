@@ -115,7 +115,7 @@
    "Edit"
    (("w" toggle-sub-word-or-super-word "sub or super word" :toggle (bound-and-true-p subword-mode))
     ("e" electric-pair-mode "electric pair" :toggle t)
-    ("m" +lizqwer/toggle-move-style "move style" :toggle user/move-sytle-motion))
+    ("m" +lizqwer/toggle-move-style "move style" :toggle user/move-style-motion))
    "Debug"
    (("E" toggle-debug-on-error "debug on error" :toggle (bound-and-true-p debug-on-error)))
    "Program"

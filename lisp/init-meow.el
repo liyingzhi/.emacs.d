@@ -158,13 +158,13 @@
 
 (defun meow-next-enhance ()
   (interactive)
-  (if (and (fboundp #'scroll-up-one-line) (not user/move-sytle-motion))
+  (if (and (fboundp #'scroll-up-one-line) (not user/move-style-motion))
       (call-interactively #'scroll-up-one-line)
     (call-interactively #'meow-next)))
 
 (defun meow-prev-enhance ()
   (interactive)
-  (if (and (fboundp #'scroll-up-one-line) (not user/move-sytle-motion))
+  (if (and (fboundp #'scroll-up-one-line) (not user/move-style-motion))
       (call-interactively #'scroll-down-one-line)
     (call-interactively #'meow-prev)))
 

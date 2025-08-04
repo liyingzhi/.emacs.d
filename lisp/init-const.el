@@ -251,8 +251,8 @@ Each element should be a symbol representing a model name."
   :group 'user
   :type 'symbol)
 
-(defcustom user/move-sytle-motion t
-  "Is Use cusor motion style when moving"
+(defcustom user/move-style-motion t
+  "Is Use cursor motion style when moving."
   :group 'user
   :type 'boolean)
 

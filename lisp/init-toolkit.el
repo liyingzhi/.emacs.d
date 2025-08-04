@@ -37,9 +37,9 @@
 ;;;###autoload
 (defun +lizqwer/toggle-move-style ()
   (interactive)
-  (if (null user/move-sytle-motion)
-      (setq user/move-sytle-motion t)
-    (setq user/move-sytle-motion nil)))
+  (if (null user/move-style-motion)
+      (setq user/move-style-motion t)
+    (setq user/move-style-motion nil)))
 
 ;;some tool function
 ;;;###autoload
