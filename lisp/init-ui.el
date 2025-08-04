@@ -176,5 +176,10 @@
 ;;; pdf-tools
 (pdf-loader-install)
 
+(with-eval-after-load 'pdf-view
+  (keymap-sets pdf-view-mode-map
+               '(("j" . pdf-view-next-line-or-next-page)
+                 ("k" . pdf-view-previous-line-or-previous-page))))
+
 (provide 'init-ui)
 ;;; init-ui.el ends here.
