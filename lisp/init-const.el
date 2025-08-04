@@ -45,102 +45,98 @@
   :type 'number)
 
 (defcustom user/show-modeline t
-  "Show modeline"
+  "Show modeline."
   :group 'user
   :type 'boolean)
 
 (defcustom user/dashboard t
-  "Show dashboard"
+  "Show dashboard."
   :group 'user
   :type 'boolean)
 
 (defcustom user/logo (file-truename
                       (concat user-emacs-directory
                               "logos/gnu_color.xpm"))
-  "Show dashboard"
+  "The logo."
   :group 'user
   :type 'string)
 
 (defcustom user/day-theme 'ef-spring
-  "User day theme"
+  "Day theme name."
   :group 'user
   :type 'symbol)
 
 (defcustom user/night-theme 'doom-dracula
-  "User night theme"
+  "Night theme name."
   :group 'user
   :type 'symbol)
 
 (defcustom user/start-fullscreen t
-  "Is fullscreen in start"
+  "Is fullscreen in start."
   :group 'user
   :type 'boolean)
 
 (defcustom user/start-transparent t
-  "Is transparent in start"
+  "Is transparent in start."
   :group 'user
   :type 'boolean)
 
 
 (defcustom user/sidebar-magitblame nil
-  "use side bar to show commit id when magit-blame"
+  "Use side bar to show commit id when magit-blame."
   :group 'user
   :type 'boolean)
 
 (defcustom user/load-eaf nil
-  "require init-eaf file"
+  "Require init-eaf file."
   :group 'user
   :type 'boolean)
 
 (defcustom user/load-elfeed nil
-  "require init-elfeed file"
+  "Require init-elfeed file."
   :group 'user
   :type 'boolean)
 
 (defcustom user/run-python-command "python"
-  "A python command for Some package use python package"
+  "A python command for Some package use python package."
   :group 'user
   :type 'string)
 
 (defcustom user/eaf-python-command "python"
-  "A python command for Some package use python package"
+  "A python command for eaf use python package."
   :group 'user
   :type 'string)
 
 (defcustom user/completion-preview-mode-use nil
-  "Is use `completion-preview-mode'"
-  :group 'user
-  :type 'boolean)
-
-(defcustom user/vivaldi-use nil
-  "Is use vivaldi"
+  "Is use `completion-preview-mode'."
   :group 'user
   :type 'boolean)
 
 (defcustom user/telega-start nil
-  "Is start telega"
+  "Is start telega."
   :group 'user
   :type 'boolean)
 
 (defcustom user/flyover-start nil
-  "Is start flyover"
+  "Is start flyover."
   :group 'user
   :type 'boolean)
 
 (defcustom user/telega-tdlib-path "/usr/local"
-  "tdlib install path"
+  "Tdlib install path."
   :group 'user
   :type 'string)
 
 (defcustom user/java-lsp nil
-  "Is start java lsp"
+  "Is start java lsp for lsp-bridge."
   :group 'user
   :type 'boolean)
 
 (defcustom user/ai-completion nil
-  "use what ai to completion: codeium, copilot, minuet"
+  "Use what ai to completion: copilot, minuet."
   :group 'user
-  :type 'symbol)
+  :type '(choice (const :tag "copilot" copilot)
+                 (const :tag "minuet" minuet)))
 
 (defcustom user/qwen-models nil
   "List of available models for Qwen GPTel backend.
@@ -151,22 +147,22 @@ Each element should be a symbol representing a model name."
           (list :tag "Model list" (repeat symbol))))
 
 (defcustom user/gt-chatgpt-model "qwen-turbo"
-  "model for gt-chatgpt-model qwen"
+  "Model for gt-chatgpt-model qwen."
   :group 'user
   :type 'string)
 
 (defcustom user/aider nil
-  "Is start aider ai"
+  "Aider support."
   :group 'user
   :type 'boolean)
 
 (defcustom user/aider-deepseek-api t
-  "Is use deepseek-api for aider ai"
+  "Is use deepseek-api for aider ai."
   :group 'user
   :type 'boolean)
 
 (defcustom user/gt-deepseek-api nil
-  "Is use deepseek-api for go-translate ai"
+  "Is use deepseek-api for go-translate ai."
   :group 'user
   :type 'boolean)
 
@@ -196,28 +192,28 @@ Each element should be a symbol representing a model name."
                  (format "%d" user/proxy-http-port)))))
 
 (defcustom user/font-mac-size 230
-  "The font size in mac"
+  "The font size in mac."
   :group 'user
   :type 'number)
 
 (defcustom user/font-win-size 110
-  "The font size in window"
+  "The font size in windows."
   :group 'user
   :type 'number)
 
 (defcustom user/font-linux-size 190
-  "The font size in linux"
+  "The font size in linux."
   :group 'user
   :type 'number)
 
 (defcustom user/lsp-client 'lsp-bridge
-  "The lsp client"
+  "The lsp client."
   :group 'user
   :type '(choice (const :tag "eglot" eglot)
                  (const :tag "lsp-bridge" lsp-bridge)))
 
 (defcustom user/dirvish t
-  "Is Use dirvish"
+  "Is Use dirvish."
   :group 'user
   :type 'boolean)
 
@@ -227,27 +223,27 @@ Each element should be a symbol representing a model name."
   :group 'user)
 
 (defcustom user/ai-backend "deepseek"
-  "use what ai backend"
+  "Use what ai backend."
   :group 'user
   :type 'string)
 
 (defcustom user/ai-model 'deepseek-chat
-  "use what ai model"
+  "Use what ai model."
   :group 'user
   :type 'symbol)
 
 (defcustom user/ai-backend-free "deepseek"
-  "use what ai backend"
+  "Use what ai backend."
   :group 'user
   :type 'string)
 
 (defcustom user/ai-model-free 'deepseek-chat
-  "use what ai model"
+  "Use what ai model."
   :group 'user
   :type 'symbol)
 
 (defcustom user/ai-model-coder 'qwen3-coder-480b-a35b-instruct
-  "use what ai model to code"
+  "Use what ai model to code."
   :group 'user
   :type 'symbol)
 
@@ -257,17 +253,67 @@ Each element should be a symbol representing a model name."
   :type 'boolean)
 
 (defcustom user/ligature nil
-  "Is Use ligature"
+  "Is Use ligature."
   :group 'user
   :type 'boolean)
 
 (defcustom user/pretty-mode nil
-  "Is Use pretty-mode"
+  "Is Use pretty-mode."
   :group 'user
   :type 'boolean)
 
-(defcustom user/unity nil
-  "Is Use unity"
+(defcustom user/python nil
+  "Python support."
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/haskell nil
+  "Haskell support."
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/c++ nil
+  "C++ support."
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/web nil
+  "Web support."
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/common-lisp nil
+  "Common-Lisp support."
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/scheme nil
+  "Scheme support."
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/rust nil
+  "Rust support."
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/golang nil
+  "Golang support."
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/zig nil
+  "Zig support."
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/sql nil
+  "Sql support."
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/java nil
+  "Java support."
   :group 'user
   :type 'boolean)
 

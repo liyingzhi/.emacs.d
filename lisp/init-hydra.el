@@ -119,8 +119,7 @@
    "Debug"
    (("E" toggle-debug-on-error "debug on error" :toggle (bound-and-true-p debug-on-error)))
    "Program"
-   (("f" flycheck-mode "flycheck" :toggle (bound-and-true-p flycheck-mode))
-    ("u" unity-mode "unity develop" :toggle t))
+   (("f" flycheck-mode "flycheck" :toggle (bound-and-true-p flycheck-mode)))
    "LLM"
    (("G" my/switch-gptel-llm "llm free" :toggle (equal gptel-model user/ai-model-free))
     ("C" my/switch-gptel-llm-coder "llm coder" :toggle (equal gptel-model user/ai-model-coder)))))
