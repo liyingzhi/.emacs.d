@@ -156,7 +156,7 @@ Each element should be a symbol representing a model name."
   :group 'user
   :type 'number)
 
-(defcustom user/lsp-client 'lsp-bridge
+(defcustom user/lsp-client 'eglot
   "The lsp client."
   :group 'user
   :type '(choice (const :tag "eglot" eglot)
