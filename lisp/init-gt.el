@@ -56,7 +56,7 @@
   (interactive)
   (let ((prompt nil)
         (model (or my-ai-oneshot-last-model
-                   (setq my-ai-oneshot-last-model (or (car my-ai-oneshot-models) gt-chatgpt-model)))))
+                  (setq my-ai-oneshot-last-model (or (car my-ai-oneshot-models) gt-chatgpt-model)))))
     (cl-flet ((get-cands ()
                 (cl-delete-duplicates
                  (append my-ai-oneshot-history my-ai-oneshot-prompts) :from-end t :test #'equal))
@@ -89,7 +89,7 @@
                                    (message "Processing...")))
                  :engines (gt-chatgpt-engine
                            :cache nil
-                           ;; :stream t
+                           :stream t
                            :model model
                            :timeout 300
                            :prompt #'identity)
@@ -109,6 +109,19 @@
                        :prompt "Translate the text to {{lang}} and return result:\n\n{{text}}"
                        :stream t))
        :render  (gt-buffer-render))) ; 配置渲染器
+
+(defun pop-to-gt-result-buffer-if-exists ()
+  "If the buffer name is \"gt-buffer-render-buffer-name\", then call \"pop-to-buffer\" to switch it."
+  (interactive)
+  (let* ((buf (get-buffer gt-buffer-render-buffer-name))
+         (wins (and buf (get-buffer-window-list buf nil 0))))
+    (if wins
+        ;; 有一个或多个窗口显示该 buffer，则切换焦点到第一个窗口
+        (pop-to-buffer buf)
+      (message "No *gt‑result* buffer"))))
+
+(add-hook #'gt-buffer-render-output-hook  #'(lambda ()
+                                              (pop-to-gt-result-buffer-if-exists)))
 
 (provide 'init-gt)
 ;;; init-gt.el ends here
