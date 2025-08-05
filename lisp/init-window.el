@@ -14,7 +14,7 @@
 
 (pretty-hydra-define-e hydra-window
   (:title (pretty-hydra-title "Window Management" 'faicon "nf-fa-th")
-          :foreign-keys warn :quit-key ("q" "C-g") :posframe t)
+          :foreign-keys warn :quit-key ("<ESC>" "q" "C-g") :posframe t)
   ("Actions"
    (("TAB" other-window "switch")
     ("x" ace-delete-window "delete")
