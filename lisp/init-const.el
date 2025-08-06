@@ -41,7 +41,7 @@
   :group 'user
   :type 'symbol)
 
-(defcustom user/night-theme 'doom-dracula
+(defcustom user/night-theme 'modus-vivendi-tinted
   "Night theme name."
   :group 'user
   :type 'symbol)
