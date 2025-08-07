@@ -44,8 +44,6 @@
   (pcase user/ai-completion
     ('copilot
      (copilot-accept-completion))
-    ('codeium
-     (codeium-overlay-tab-command))
     ('minuet
      (minuet-accept-suggestion))))
 
