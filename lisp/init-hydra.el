@@ -101,14 +101,15 @@
    (("c" global-centered-cursor-mode "centered cursor" :toggle t)
     ("l" interaction-log-mode "interactive log" :toggle t)
     ("i" immersive-translate-auto-mode "immersive translate" :toggle t)
-    ("t" +lizqwer/toggle-telega "telega" :toggle (get-buffer "*Telega Root*")))
+    ("t" +lizqwer/toggle-telega "telega" :toggle (get-buffer "*Telega Root*"))
+    ("r" a-random-theme "rand theme"))
    "Ui"
    (("n" (display-line-numbers-mode (if display-line-numbers-mode -1 1))
      "line number"
      :toggle (bound-and-true-p display-line-numbers-mode))
     ("d" +lizqwer/toggle-dark-theme "dark theme" :toggle (cl-find user/night-theme custom-enabled-themes))
     ("T" +lizqwer/toggle-transparent "transparent" :toggle (not (eq (frame-parameter (selected-frame) 'alpha-background) 100)))
-    ("r" redacted-mode "redacted" :toggle t)
+    ("R" redacted-mode "redacted" :toggle t)
     ("b" imenu-list-smart-toggle "imenu list" :toggle imenu-list-minor-mode)
     ("k" keycast-header-line-mode "keycast" :toggle t))
    "Edit"

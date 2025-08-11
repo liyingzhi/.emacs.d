@@ -46,6 +46,18 @@
   :group 'user
   :type 'symbol)
 
+(defcustom a-theme-whitelist-light
+  '(modus-operandi-tinted)
+  "List of light themes available for random selection."
+  :type '(repeat symbol)
+  :group 'appearance)
+
+(defcustom a-theme-whitelist-dark
+  '(modus-vivendi-tinted)
+  "List of dark themes available for random selection."
+  :type '(repeat symbol)
+  :group 'appearance)
+
 (defcustom user/start-fullscreen t
   "Is fullscreen in start."
   :group 'user
