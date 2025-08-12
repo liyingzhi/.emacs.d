@@ -1,3 +1,29 @@
+;;; init-font.el --- init font                       -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2025  lizqwer scott
+
+;; Author: lizqwer scott <lizqwerscott@gmail.com>
+;; Keywords: lisp
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;;
+
+;;; Code:
+
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."
   (find-font (font-spec :name font-name)))
@@ -6,11 +32,14 @@
   "Setup fonts."
   (when (display-graphic-p)
     ;; Set default font
-    (cl-loop for font in '( "Jetbrains Mono" "Source Code Pro" "MonoLisa Lucius" "Cascadia Code" "Fira Code"
-                            "SF Mono" "Hack" "Menlo" "Monaco" "DejaVu Sans Mono" "Consolas")
+    (cl-loop for font in '("MonoLisa Lucius" "Jetbrains Mono" "Source Code Pro" "PragmataPro Mono Liga"
+                           "Aporetic Sans Mono" "Aporetic Sans" "Cascadia Code" "Fira Code"
+                           "SF Mono" "Hack" "Menlo" "Monaco" "DejaVu Sans Mono" "Consolas")
              when (font-installed-p font)
              return (set-face-attribute 'default nil
                                         :family font
+                                        ;; :slant 'italic
+                                        ;; :weight 'medium
                                         :height (cond (sys/macp user/font-mac-size)
                                                       (sys/win32p user/font-win-size)
                                                       (t user/font-linux-size))))
@@ -49,9 +78,55 @@
                       (setq face-font-rescale-alist `((,font . 1.2)))
                       (set-fontset-font t 'han (font-spec :family font))))))
 
+;;; setup default font
 (setup-fonts)
 (add-hook 'window-setup-hook #'setup-fonts)
 (add-hook 'server-after-make-frame-hook #'setup-fonts)
+
+(defun set-buffer-font (font face-name)
+  "Set the current buffer's font to FONT using FACE-NAME."
+  (unless (facep face-name)
+    (make-face face-name))
+  (set-face-attribute face-name nil :font font)
+  (setq buffer-face-mode-face face-name)
+  (buffer-face-mode))
+
+(defun set-font-for-modes (font-alist)
+  "Set fonts for different modes based on FONT-ALIST."
+  (dolist (entry font-alist)
+    (let ((mode (car entry))
+          (font (cdr entry)))
+      (add-hook (intern (format "%s-hook" mode))
+                (lambda ()
+                  (let ((face-name (intern (format "%s-font-face" mode))))
+                    (set-buffer-font font face-name)))))))
+
+;;; setup buffer-specified font
+;; (defconst *fallback-fonts* '("Jigmo" "Jigmo2" "Jigmo3"))
+;; (defconst *font-size* 15)
+;; (defconst *default-font* (format "MonoLisa Lucius %d" *font-size*))
+;; (defconst *org-font* (format "Aporetic Serif Mono %d" *font-size*))
+;; (defconst *term-default-font* (format "Aporetic Serif Mono %d" *font-size*))
+;; (defconst *prog-font* (format "Aporetic Serif Mono %d" *font-size*))
+;; (defconst *zh-default-font* "LXGW WenKai")
+;; (defconst *nerd-icons-font* "Symbols Nerd Font Mono")
+;; (defconst *emoji-fonts* '("Apple Color Emoji"
+;;                           "Noto Color Emoji"
+;;                           "Noto Emoji"
+;;                           "Segoe UI Emoji"))
+;; (defconst *symbol-font* '("Apple Symbols"
+;;                           "Segoe UI Symbol"
+;;                           "Symbola"
+;;                           "Symbol"))
+
+;; (add-hook 'after-init-hook
+;;           (lambda ()
+;;             (set-font-for-modes
+;;              `((vterm-mode . ,*term-default-font*)
+;;                (nxml-mode  . ,*prog-font*)
+;;                (org-mode   . ,*org-font*)
+;;                (latex-mode . ,*prog-font*)
+;;                (prog-mode  . ,*prog-font*)))))
 
 ;;; 连体字体
 (with-eval-after-load 'ligature
