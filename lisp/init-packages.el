@@ -144,6 +144,7 @@
   '(solarized-theme
     (koishi-theme :host github :repo "gynamics/koishi-theme.el")
     miasma-theme
+    catppuccin-theme
     nerd-icons
     nerd-icons-dired
     nerd-icons-completion

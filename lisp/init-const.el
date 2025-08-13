@@ -46,6 +46,11 @@
   :group 'user
   :type 'symbol)
 
+(defcustom user/catppuccin-flavor 'mocha
+  "Flavor for catppuccin theme."
+  :group 'user
+  :type 'symbol)
+
 (defcustom a-theme-whitelist-light
   '(modus-operandi-tinted)
   "List of light themes available for random selection."
