@@ -101,7 +101,8 @@
            consult-eglot
            flycheck
            consult-flycheck
-           flycheck-eglot))
+           flycheck-eglot
+           flycheck-posframe))
         ('lsp-bridge
          `((lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
                        :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
@@ -113,7 +114,7 @@
     cape
     nerd-icons-corfu
     eldoc-box
-    ,@(when user/flyover-start
+    ,@(when user/flyoverp
         '(flyover :host github :repo "konrad1977/flyover"))
     magit
     magit-delta

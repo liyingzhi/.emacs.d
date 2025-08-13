@@ -23,7 +23,7 @@
 (global-flycheck-mode)
 
 ;; flyover
-(when user/flyover-start
+(when user/flyoverp
   (require 'flyover)
   (add-hook 'flycheck-mode-hook #'flyover-mode)
   (setq flyover-use-theme-colors t
@@ -31,6 +31,12 @@
         flyover-show-at-eol t
         flyover-virtual-line-icon "-> "
         flyover-virtual-line-type nil))
+
+;; flycheck posframe
+(unless user/flyoverp
+  (require 'flycheck-posframe)
+  (add-hook 'flycheck-mode-hook
+            #'flycheck-posframe-mode))
 
 ;;; debug
 (require 'init-dap)

@@ -104,7 +104,7 @@
   :group 'user
   :type 'boolean)
 
-(defcustom user/flyover-start nil
+(defcustom user/flyoverp nil
   "Is start flyover."
   :group 'user
   :type 'boolean)
