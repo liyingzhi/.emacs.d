@@ -254,7 +254,7 @@
    '("b" . one-key-menu-buffer)
    '("o" . one-key-menu-org)
    ;; '("v" . one-key-menu-sort-tab)
-   '("v" . hydra-git/body)
+   '("v" . git-dispatch)
    '("l" . one-key-menu-workspace)
    '("z" . hydra-language/body)
    '("d" . hydra-jump-dir/body)
