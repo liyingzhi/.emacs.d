@@ -32,14 +32,6 @@
             "q"
             #'transient-quit-one)
 
-(keymap-set transient-map
-            "C-n"
-            #'transient-scroll-up)
-
-(keymap-set transient-map
-            "C-p"
-            #'transient-scroll-down)
-
 (with-eval-after-load 'calc
   (keymap-set calc-mode-map "C-o" #'casual-calc-tmenu))
 
