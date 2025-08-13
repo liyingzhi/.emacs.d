@@ -66,6 +66,7 @@
 ;;(require 'crefactor)
 
 (require 'init-gt)
+(require 'init-fanyi)
 
 (require 'init-rsync)
 ;; (require 'init-code-stats)
