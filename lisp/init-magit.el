@@ -87,7 +87,11 @@ command was called, go to its unstaged changes section."
                        t)
                do (condition-case nil
                       (magit-section-forward)
-                    (error (cl-return (magit-status-goto-initial-section))))))))
+                    (error
+                     (cl-return
+                      (progn
+                        (goto-char (point-min))
+                        (magit-status-goto-initial-section)))))))))
 ;;;###autoload
 (defun unpackaged/magit-status ()
   "Open a `magit-status' buffer.
@@ -103,5 +107,7 @@ If a file was visited in the buffer that was active when this
 command was called, go to its unstaged changes section."
   (interactive)
   (unpackaged/open-magit-status #'magit-project-status))
+
+(setq magit-status-initial-section '(2))
 
 (provide 'init-magit)
