@@ -1,3 +1,4 @@
+;; init.el -*- lexical-binding: t; -*-
 
 ;; (setq-default inhibit-redisplay t
 ;;               inhibit-message t)
