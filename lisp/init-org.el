@@ -165,13 +165,14 @@
 (add-hook 'org-mode-hook
           #'org-modern-indent-mode 90)
 
-;;; Org key
-(define-key org-mode-map (kbd "C-c TAB") 'org-insert-item)
-(define-key org-mode-map (kbd "M-K") 'org-metaup)
-(define-key org-mode-map (kbd "M-J") 'org-metadown)
-(define-key org-mode-map (kbd "M-H") 'org-metaleft)
-(define-key org-mode-map (kbd "M-L") 'org-metaright)
-(define-key org-mode-map (kbd "C-c C-'") 'separedit/edit-org-any-block)
+;;; keymap
+(keymap-sets org-mode-map
+             '(("C-c TAB" . org-insert-item)
+               ("M-P" . org-metaup)
+               ("M-N" . org-metadown)
+               ("M-H" . org-metaleft)
+               ("M-L" . org-metaright)
+               ("C-c C-'" . separedit/edit-org-any-block)))
 
 (keymap-unset org-mode-map "M-<left>")
 (keymap-unset org-mode-map "M-<right>")
