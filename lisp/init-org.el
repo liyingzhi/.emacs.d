@@ -167,12 +167,12 @@
 
 ;;; keymap
 (keymap-sets org-mode-map
-             '(("C-c TAB" . org-insert-item)
-               ("M-P" . org-metaup)
-               ("M-N" . org-metadown)
-               ("M-H" . org-metaleft)
-               ("M-L" . org-metaright)
-               ("C-c C-'" . separedit/edit-org-any-block)))
+  '(("C-c TAB" . org-insert-item)
+    ("M-P" . org-metaup)
+    ("M-N" . org-metadown)
+    ("M-H" . org-metaleft)
+    ("M-L" . org-metaright)
+    ("C-c C-'" . separedit/edit-org-any-block)))
 
 (keymap-unset org-mode-map "M-<left>")
 (keymap-unset org-mode-map "M-<right>")

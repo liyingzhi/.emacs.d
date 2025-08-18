@@ -27,10 +27,10 @@
 (require 'rg)
 
 (keymap-sets rg-mode-map
-             '(("s-n" . compilation-next-error)
-               ("s-p" . compilation-previous-error)
-               ("s-N" . rg-next-file)
-               ("s-P" . rg-prev-file)))
+  '(("s-n" . compilation-next-error)
+    ("s-p" . compilation-previous-error)
+    ("s-N" . rg-next-file)
+    ("s-P" . rg-prev-file)))
 
 (defun rg/rg-finish-function (buffer string)
   "Hook function called after rg search completes.

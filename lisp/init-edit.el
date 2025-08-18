@@ -49,16 +49,16 @@
 (require 'visual-replace)
 (global-set-key (kbd "C-c C-r") #'visual-replace)
 (keymap-sets visual-replace-mode-map
-             '(("C-r" . visual-replace-toggle-regexp)
-               ("C-q" . visual-replace-toggle-query)
-               ("C-w" . visual-replace-toggle-word)
-               ("C-f" . visual-replace-toggle-case-fold)
-               ("C-u" . visual-replace-undo)
-               ("C-s" . visual-replace-toggle-scope)))
+  '(("C-r" . visual-replace-toggle-regexp)
+    ("C-q" . visual-replace-toggle-query)
+    ("C-w" . visual-replace-toggle-word)
+    ("C-f" . visual-replace-toggle-case-fold)
+    ("C-u" . visual-replace-undo)
+    ("C-s" . visual-replace-toggle-scope)))
 (setq visual-replace-min-length 1)
 
 (keymap-sets isearch-mode-map
-             '(("C-c C-r" . visual-replace-from-isearch)))
+  '(("C-c C-r" . visual-replace-from-isearch)))
 
 (transient-define-prefix visual-replace-dispatch ()
   "Visual replace menu."
@@ -111,10 +111,10 @@
     (isearch-forward-symbol-at-point))
 
   (keymap-sets isearch-mode-map
-               '(("<escape>" . isearch-exit)
-                 ("C-d" . my/isearch-forward-symbol-at-point)
-                 ("C-l" . my-isearch-consult-line-from-isearch)
-                 ("C-o" . my-occur-from-isearch)))
+    '(("<escape>" . isearch-exit)
+      ("C-d" . my/isearch-forward-symbol-at-point)
+      ("C-l" . my-isearch-consult-line-from-isearch)
+      ("C-o" . my-occur-from-isearch)))
 
   ;; (with-eval-after-load 'casual-isearch
   ;;   (transient-define-suffix isearch-consult-line ()
@@ -127,10 +127,10 @@
 ;;; nxml
 (with-eval-after-load 'nxml-mode
   (keymap-sets nxml-mode-map
-               '(("C-s-f" . nxml-down-element)
-                 ("C-s-n" . nxml-forward-element)
-                 ("C-s-p" . nxml-backward-element)
-                 ("C-s-b" . nxml-backward-up-element))))
+    '(("C-s-f" . nxml-down-element)
+      ("C-s-n" . nxml-forward-element)
+      ("C-s-p" . nxml-backward-element)
+      ("C-s-b" . nxml-backward-up-element))))
 
 ;;; aggressive-indent
 (add-hooks '(emacs-lisp-mode lisp-mode)

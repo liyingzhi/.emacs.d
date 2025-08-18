@@ -26,9 +26,9 @@
           #'(lambda ()
               (with-eval-after-load 'meow
                 (keymap-sets macrostep-mode-map
-                             '(("j" . meow-next)
-                               ("k" . meow-prev)
-                               ("h" . meow-left)
-                               ("l" . meow-right))))))
+                  '(("j" . meow-next)
+                    ("k" . meow-prev)
+                    ("h" . meow-left)
+                    ("l" . meow-right))))))
 
 (provide 'init-hook)

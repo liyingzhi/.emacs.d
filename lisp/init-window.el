@@ -113,9 +113,9 @@
       popper-display-control nil)
 
 (keymap-sets popper-mode-map
-             '(("C-h z" . popper-toggle)
-               ("C-<tab>" . popper-cycle)
-               ("C-M-<tab>" . popper-toggle-type)))
+  '(("C-h z" . popper-toggle)
+    ("C-<tab>" . popper-cycle)
+    ("C-M-<tab>" . popper-toggle-type)))
 
 (setq popper-reference-buffers
       '("\\*Messages\\*$"

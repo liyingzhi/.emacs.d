@@ -372,7 +372,7 @@
 ;;;###autoload
 (defun global-set-keys (key-bindings)
   (keymap-sets (current-global-map)
-               key-bindings))
+    key-bindings))
 
 (require 'simple)
 (global-set-keys

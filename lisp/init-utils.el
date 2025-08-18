@@ -26,6 +26,7 @@
 
 ;;;###autoload
 (defmacro keymap-sets (key-map key-bindings)
+  (declare (indent 1))
   `(dolist (key-b ,key-bindings)
      (when-let* ((keys (car key-b))
                  (command (cdr key-b)))
@@ -41,7 +42,7 @@
 ;;;###autoload
 (defun global-set-keys (key-bindings)
   (keymap-sets (current-global-map)
-               key-bindings))
+    key-bindings))
 
 ;;;###autoload
 (defun add-list-to-list (list-var elements)
