@@ -127,10 +127,10 @@
 ;;; nxml
 (with-eval-after-load 'nxml-mode
   (keymap-sets nxml-mode-map
-    '(("C-s-f" . nxml-down-element)
-      ("C-s-n" . nxml-forward-element)
-      ("C-s-p" . nxml-backward-element)
-      ("C-s-b" . nxml-backward-up-element))))
+    '(("C-c C-f" . nxml-down-element)
+      ("C-c C-n" . nxml-forward-element)
+      ("C-c C-p" . nxml-backward-element)
+      ("C-c C-b" . nxml-backward-up-element))))
 
 ;;; aggressive-indent
 (add-hooks '(emacs-lisp-mode lisp-mode)
