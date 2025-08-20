@@ -40,12 +40,8 @@
 (require 'init-auto-revert)
 
 (require 'init-minibuffer)
-(require 'init-corfu)
-(require 'init-completion-preview)
-(unless (or (not user/completion-preview-mode-use) user/ai-completion)
-  ;; Enable Completion Preview mode in code buffers
-  (add-hook 'prog-mode-hook #'completion-preview-mode)
-  (add-hook 'text-mode-hook #'completion-preview-mode))
+(require 'init-completion)
+
 (require 'init-snippet)
 (require 'init-color-rg)
 (require 'init-blink-search)

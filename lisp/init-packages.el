@@ -8,6 +8,7 @@
     consult
     consult-notes
     consult-yasnippet
+    consult-dir
     embark
     embark-consult
     orderless
