@@ -142,7 +142,7 @@
     outline-indent
     pyim
     pyim-basedict
-    go-translate
+    (gt :fetcher github :repo "lorniu/gt.el")
     (breadcrumb :fetcher github :repo "joaotavora/breadcrumb")
     (watch-other-window :fetcher github :repo "manateelazycat/watch-other-window")
     (org-modern-indent :fetcher github :repo "jdtsmith/org-modern-indent")

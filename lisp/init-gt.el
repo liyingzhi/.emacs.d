@@ -24,15 +24,15 @@
 
 ;;; Code:
 
-(require 'go-translate)
+(require 'gt)
 (setq gt-langs '(en zh))
 
 (setq gt-default-translator
       (gt-translator
        ;; :taker   (gt-taker :text 'buffer :pick 'paragraph)       ; 配置拾取器
        :engines (list (gt-bing-engine)) ; 指定多引擎
-       :render  (gt-posframe-pop-render)))                            ; 配置渲染器
+       :render  (gt-buffer-render)))                            ; 配置渲染器
 
 
-(provide 'init-go-translate)
+(provide 'init-gt)
 ;;; init-go-translate.el ends here

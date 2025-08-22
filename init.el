@@ -48,7 +48,7 @@
 (require 'init-dired)
 (require 'init-helpful)
 (require 'init-transient)
-(require 'init-go-translate)
+(require 'init-gt)
 (require 'init-input)
 (require 'init-program)
 (require 'init-eglot)
