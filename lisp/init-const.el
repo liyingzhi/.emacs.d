@@ -181,6 +181,11 @@ Each element should be a symbol representing a model name."
   :group 'user
   :type 'number)
 
+(defcustom user/init-alpha-background 98
+  "Alpha value for background."
+  :group 'user
+  :type 'number)
+
 (defcustom user/lsp-client 'eglot
   "The lsp client."
   :group 'user
