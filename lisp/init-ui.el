@@ -34,6 +34,23 @@
         (height . 0.9)
         ;; (fullscreen . maximized)
         ))
+(set-frame-parameter nil 'alpha user/init-alpha-background)
+
+(defun my/toggle-frame-transparency ()
+  "Toggle frame transparency with user-specified opacity value.
+Prompts user whether to enable transparency. If yes, asks for opacity value (0-100).
+If no, restores full opacity. Only affects the active frame."
+  (interactive)
+  (if (y-or-n-p "Enable frame transparency? ")
+      (let ((alpha-value (read-number "Enter transparency value (0-100, default 90): " 90)))
+        (if (and (>= alpha-value 0) (<= alpha-value 100))
+            (progn
+              (set-frame-parameter nil 'alpha alpha-value)
+              (message "Frame transparency set to %d%%" alpha-value))
+          (message "Invalid transparency value. Please enter a number between 0 and 100.")))
+    (progn
+      (set-frame-parameter nil 'alpha 100)
+      (message "Frame transparency disabled (full opacity restored)"))))
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)

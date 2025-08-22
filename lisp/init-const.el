@@ -151,6 +151,11 @@
   :group 'user
   :type 'number)
 
+(defcustom user/init-alpha-background 98
+  "Alpha value for background."
+  :group 'user
+  :type 'number)
+
 (defcustom user/lsp-client 'lsp-bridge
   "The lsp client"
   :group 'user
