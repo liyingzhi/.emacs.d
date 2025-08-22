@@ -47,7 +47,6 @@
 (require 'init-citre)
 (require 'init-dired)
 (require 'init-helpful)
-(require 'init-transient)
 (require 'init-gt)
 (require 'init-input)
 (require 'init-program)
@@ -62,4 +61,5 @@
 (require 'init-eshell)
 (require 'init-calender)
 (require 'init-toolkit)
+(require 'init-transient)
 (server-mode 1)

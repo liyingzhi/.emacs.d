@@ -204,6 +204,7 @@
     elisp-demos
     modus-themes
     trashed
+    transient
     cal-china-x))
 
 (packages! *package-miss-install-list*)
