@@ -106,7 +106,7 @@
 (diff-hl-flydiff-mode)
 
 ;;; Pulse modified region
-(require 'init-pulsar)
+;; (require 'init-pulsar)
 
 ;;; Color identifiers
 (setq color-identifiers:recoloring-delay 1)
