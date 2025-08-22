@@ -26,9 +26,8 @@
 
 (require 'super-save)
 
-(setq super-save-auto-save-when-idle t
+(setq super-save-auto-save-when-idle nil
       super-save-idle-duration 1
-
       super-save-remote-files nil
 
       super-save-exclude '(".gpg")
@@ -40,7 +39,7 @@
       super-save-all-buffers t)
 
 (with-eval-after-load 'magit-status
-  (add-list-to-list 'super-save-triggers '(ace-window magit-status)))
+  (add-list-to-list 'super-save-triggers '(ace-window unpackaged/magit-status unpackaged/magit-project-status)))
 
 (add-to-list 'super-save-hook-triggers 'find-file-hook)
 
