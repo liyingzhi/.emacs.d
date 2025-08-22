@@ -9,6 +9,22 @@
                 (read-directory-name "Dired open: " (project-root (project-current)))))
   (dired dired-dir))
 
+;;; project-prefix-map
+;; (defalias 'project-prefix-map project-prefix-map)
+
+;; (define-key mode-specific-map "p" 'project-prefix-map)
+(define-key project-prefix-map (kbd "B") #'project-switch-to-buffer-other-window)
+(define-key project-prefix-map (kbd "v") #'magit-project-status)
+
+;;; project-switch-commands
+(setq project-switch-commands nil)
+(add-to-list 'project-switch-commands '(project-find-file "Find file") t)
+(add-to-list 'project-switch-commands '(project-switch-to-buffer "switch to buffer") t)
+(add-to-list 'project-switch-commands '(project-switch-to-buffer-other-window "switch to buffer other window") t)
+(add-to-list 'project-switch-commands '(magit-project-status "Git Status") t)
+(add-to-list 'project-switch-commands '(project-find-dir "Find Dir") t)
+(add-to-list 'project-switch-commands '(project-dired "Dired") t)
+
 
 (lazy-one-key-create-menu
  "Project"
