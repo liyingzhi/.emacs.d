@@ -294,8 +294,8 @@
  (:key "f" :description "Insert file" :command hydra-insert-file/body)
  (:key "j" :description "Insert json to type" :command quicktype))
 
-;; ;;; ### Watch other window ###
-;; ;;; --- 滚动其他窗口
+;;; ### Watch other window ###
+;;; --- 滚动其他窗口
 (require 'watch-other-window)
 (global-set-keys
  '((("M-N" "s-N") . (lambda ()
