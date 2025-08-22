@@ -66,7 +66,8 @@
    (("r" . "Recent file") . recentf-open)
    (("h" . "Find in main dir") . (lambda ()
                                    (interactive)
-                                   (ido-find-file-in-dir "~/")))))
+                                   (ido-find-file-in-dir "~/")))
+   (("c" . "Find custom file") . find-custom-file)))
 
 (lazy-one-key-create-menu
  "Directory"

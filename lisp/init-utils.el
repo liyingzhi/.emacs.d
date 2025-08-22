@@ -153,4 +153,9 @@ The optional argument NEW-WINDOW is not used."
         emacs-basic-display
         (not (display-graphic-p)))))
 
+(defun find-custom-file()
+  "Open custom files."
+  (interactive)
+  (find-file custom-file))
+
 (provide 'init-utils)
