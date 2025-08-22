@@ -161,7 +161,9 @@ At 2nd time it copy current directory to kill-buffer."
 ;;; Hook
 (add-hook 'dired-mode-hook
           #'(lambda ()
-              (nerd-icons-dired-mode)
+              (dired-async-mode)
+              (unless (bound-and-true-p dirvish-override-dired-mode)
+                (nerd-icons-dired-mode))
               (diredfl-mode)
               (dired-omit-mode)))
 
@@ -188,5 +190,33 @@ At 2nd time it copy current directory to kill-buffer."
   (keymap-sets dired-mode-map
                '(("E" . my/open-explorer)
                  ("C-c E" . my/open-explorer))))
+(when user/dirvish
+  (with-eval-after-load 'dirvish
+    (setq dirvish-attributes
+          '(nerd-icons file-time file-size collapse subtree-state vc-state))
+
+    (custom-set-variables
+     '(dirvish-quick-access-entries ; It's a custom option, `setq' won't work
+       '(("h" "~/"                          "Home")
+         ("d" "~/Downloads/"                "Downloads")
+         ("D" "~/Documents/"                "Documents")
+         ("p" "~/MyProject/"                "MyProject")
+         ("g" "~/github/"                   "Github")
+         ("m" "/mnt/"                       "Drives")
+         ("t" "~/.local/share/Trash/files/" "TrashCan"))))
+
+    (keymap-unset dired-jump-map "C-j")
+    (keymap-sets dirvish-mode-map
+                 '(("a" . dirvish-quick-access)
+                   ("TAB" . dirvish-subtree-toggle)
+                   (("M-i" "s-i") . dirvish-layout-toggle)
+                   ("C-j" . (lambda ()
+                              (interactive)
+                              (let ((current-prefix-arg '(4)))
+                                (call-interactively #'dirvish-fd))
+                              (dirvish-narrow)))
+
+                   ("C-M-o" . dirvish-dispatch))))
+  (dirvish-override-dired-mode))
 
 (provide 'init-dired)

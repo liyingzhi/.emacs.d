@@ -131,6 +131,7 @@
     diredfl
     dired-subtree
     diredfl
+    dirvish
     symbol-overlay
     symbol-overlay-mc
     separedit

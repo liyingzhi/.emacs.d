@@ -156,6 +156,11 @@
   :group 'user
   :type 'number)
 
+(defcustom user/dirvish t
+  "Is Use dirvish."
+  :group 'user
+  :type 'boolean)
+
 (defcustom user/lsp-client 'lsp-bridge
   "The lsp client"
   :group 'user
