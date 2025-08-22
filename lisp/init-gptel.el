@@ -59,6 +59,13 @@
   :key #'gptel-api-key
   :models user/qwen-models)
 
+(gptel-make-openai "ModelScope"
+  :stream t
+  :protocol "https"
+  :host "api-inference.modelscope.cn"
+  :key #'gptel-api-key
+  :models user/modelscope-models)
+
 ;; OpenRouter offers an OpenAI compatible API
 (gptel-make-openai "OpenRouter"               ;Any name you want
   :host "openrouter.ai"

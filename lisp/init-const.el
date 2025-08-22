@@ -138,6 +138,14 @@ Each element should be a symbol representing a model name."
           (const :tag "No models" nil)
           (list :tag "Model list" (repeat symbol))))
 
+(defcustom user/modelscope-models '(deepseek-ai/DeepSeek-V3)
+  "List of available models for modelscope GPTel backend.
+Each element should be a symbol representing a model name."
+  :group 'user
+  :type '(choice
+          (const :tag "No models" nil)
+          (list :tag "Model list" (repeat symbol))))
+
 (defcustom user/gt-chatgpt-model "qwen-turbo"
   "Model for gt-chatgpt-model qwen."
   :group 'user
@@ -208,6 +216,11 @@ Each element should be a symbol representing a model name."
   "Use what ai model."
   :group 'user
   :type 'symbol)
+
+(defcustom user/ai-backend-coder "Qwen"
+  "Use what ai backend for coder with tool calling."
+  :group 'user
+  :type 'string)
 
 (defcustom user/ai-model-coder 'qwen3-coder-480b-a35b-instruct
   "Use what ai model to code."
