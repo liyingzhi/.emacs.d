@@ -30,6 +30,7 @@
 (require 'init-ui)
 (require 'init-auto-revert)
 (require 'init-corfu)
+(require 'init-transient)
 (use-package treesit-auto
   :ensure t
   :custom
@@ -61,5 +62,4 @@
 (require 'init-eshell)
 (require 'init-calender)
 (require 'init-toolkit)
-(require 'init-transient)
 (server-mode 1)
