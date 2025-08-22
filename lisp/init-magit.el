@@ -47,7 +47,48 @@ It is assumed that the author has only one or two names."
 (add-hook 'magit-mode-hook
           #'(lambda ()
               (magit-wip-mode t)
-              (magit-delta-mode t)
+              ;; (magit-delta-mode t)
               ))
+
+(defun unpackaged/open-magit-status (status-fn)
+  "Use STATUS-FN Open a `magit-status' buffer.
+If a file was visited in the buffer that was active when this
+command was called, go to its unstaged changes section."
+  (interactive)
+  (let* ((buffer-file-path (when buffer-file-name
+                             (file-relative-name buffer-file-name
+                                                 (locate-dominating-file buffer-file-name ".git"))))
+         (section-ident `((file . ,buffer-file-path) (unstaged) (status))))
+    (call-interactively status-fn)
+    (when buffer-file-path
+      (goto-char (point-min))
+      (cl-loop until (when (equal section-ident (magit-section-ident (magit-current-section)))
+                       (magit-section-show (magit-current-section))
+                       (recenter)
+                       t)
+               do (condition-case nil
+                      (magit-section-forward)
+                    (error
+                     (cl-return
+                      (progn
+                        (goto-char (point-min))
+                        (magit-status-goto-initial-section)))))))))
+;;;###autoload
+(defun unpackaged/magit-status ()
+  "Open a `magit-status' buffer.
+If a file was visited in the buffer that was active when this
+command was called, go to its unstaged changes section."
+  (interactive)
+  (unpackaged/open-magit-status #'magit-status))
+
+;;;###autoload
+(defun unpackaged/magit-project-status ()
+  "Open a `magit-project-status' buffer.
+If a file was visited in the buffer that was active when this
+command was called, go to its unstaged changes section."
+  (interactive)
+  (unpackaged/open-magit-status #'magit-project-status))
+
+(setq magit-status-initial-section '(2))
 
 (provide 'init-magit)

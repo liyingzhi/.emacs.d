@@ -372,7 +372,7 @@
    '("f" . one-key-menu-file)
    '("s" . one-key-menu-search)
    '("p" . one-key-menu-project)
-   '("v" . hydra-git/body)
+   '("v" . git-dispatch)
    '("z" . hydra-language/body)
    '("j" . one-key-menu-code)
    '("d" . one-key-menu-directory)

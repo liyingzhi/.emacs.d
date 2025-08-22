@@ -108,6 +108,24 @@
     ("l" magit-log-buffer-file "File log")
     ("h" vc-region-history "History"))))
 
+(transient-define-prefix git-dispatch ()
+  "Git dispatch menu"
+  :transient-non-suffix 'transient--do-stay
+  [["Hunk"
+    ("n" "Next hunk" diff-hl-next-hunk  :transient t)
+    ("p" "Previous hunk" diff-hl-previous-hunk :transient t)
+    ("r" "Revert hunk" diff-hl-revert-hunk :transient t)
+    ("s" "Show hunk" diff-hl-show-hunk)]
+   ["Magit"
+    ("v" "magit status" unpackaged/magit-status)
+    ("d" "magit dispatch" magit-dispatch)
+    ("b" "Blame" magit-blame)
+    ("f" "Find git file" magit-find-file)]
+   ["Log"
+    ("oh" "Region history" vc-region-history)
+    ("ol" "File log" magit-log-buffer-file)]]
+  [("q" "Quit" transient-quit-one)])
+
 (pretty-hydra-define-e hydra-language
   (:title "Language" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
   ("dict"
