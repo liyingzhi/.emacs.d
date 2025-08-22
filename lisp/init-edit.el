@@ -45,9 +45,10 @@
   ["Utils"
    ("y" "Yank from point to endline" my/copy-from-point-to-end-of-current-line)
    ("Y" "Yank current line" my/copy-current-line)
-   ("e" "Mark from point to endline" my/select-end-of-current-line-to-point)
-   ("G" "Mark from point to endbuffer" my/select-end-of-buffer-to-point)
-   ("c" "Yank name of current buffer" my/copy-current-buffer-name)])
+   ("q" "Mark from point to endline" my/select-end-of-current-line-to-point)
+   ("w" "Mark from point to endbuffer" my/select-end-of-buffer-to-point)
+   ("c" "Yank name of current buffer" my/copy-current-buffer-name)
+   ("r" "visual-replace" visual-replace)])
 
 ;;; string inflection
 (defun my/string-inflection-cycle-auto ()
