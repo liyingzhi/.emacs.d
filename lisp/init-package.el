@@ -169,6 +169,9 @@
     projection
     doom-themes
     dracula-theme
+    (koishi-theme :fetcher github :repo "gynamics/koishi-theme.el")
+    miasma-theme
+    catppuccin-theme
     vundo
     ace-window
     highlight-parentheses
