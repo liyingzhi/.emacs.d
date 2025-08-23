@@ -62,4 +62,5 @@
 (require 'init-eshell)
 (require 'init-calender)
 (require 'init-toolkit)
+(require 'init-func)
 (server-mode 1)
