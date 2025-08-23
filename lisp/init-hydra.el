@@ -114,7 +114,7 @@
    (("f" fanyi-dwim2 "Fanyi Point")
     ("F" fanyi-dwim "Fanyi Input"))
    "english"
-   (("t" gt-do-translate "translate"))))
+   (("t" gt-translate "translate"))))
 
 
 

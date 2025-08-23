@@ -33,6 +33,18 @@
        :engines (list (gt-bing-engine)) ; 指定多引擎
        :render  (gt-buffer-render)))                            ; 配置渲染器
 
+(defun pop-to-gt-result-buffer-if-exists ()
+  "If the buffer name is \"gt-buffer-render-buffer-name\", then call \"pop-to-buffer\" to switch it."
+  (interactive)
+  (let* ((buf (get-buffer gt-buffer-render-buffer-name))
+         (wins (and buf (get-buffer-window-list buf nil 0))))
+    (if wins
+        ;; 有一个或多个窗口显示该 buffer，则切换焦点到第一个窗口
+        (pop-to-buffer buf)
+      (message "No *gt‑result* buffer"))))
+
+(add-hook #'gt-buffer-render-output-hook  #'(lambda ()
+                                              (pop-to-gt-result-buffer-if-exists)))
 
 (provide 'init-gt)
 ;;; init-go-translate.el ends here
