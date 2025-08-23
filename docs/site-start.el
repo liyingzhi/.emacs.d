@@ -3,3 +3,4 @@
   (message (format "HOME location is %s" (getenv "HOME"))))
 
 (set-home-dir "D:/EmacsConfig")
+;; (set-home-dir "C:/EmacsConfig")
