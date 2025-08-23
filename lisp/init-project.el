@@ -2,6 +2,7 @@
 ;; To create a file, visit it with ‘C-x C-f’ and enter text in its buffer.
 
 (require 'project)
+(require 'project-x)
 (require 'projection)
 
 (defun project-dired-dir (dired-dir)
