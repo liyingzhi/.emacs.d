@@ -22,3 +22,5 @@ tree-sitter/*
 *~
 /server/
 config/*
+!config/yasnippet/
+!config/yasnippet/*
