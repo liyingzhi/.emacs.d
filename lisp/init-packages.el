@@ -45,7 +45,6 @@
     trashed
     elisp-demos
     eros
-    (lazy-revert :host github :repo "yilin-zhang/lazy-revert")
     (p-search :repo "zkry/p-search" :host github)
     heap
     (rsync-project-mode

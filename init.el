@@ -40,7 +40,6 @@
 (require 'init-input)
 (require 'init-auto-insert)
 (require 'init-separedit)
-(require 'init-auto-revert)
 
 (require 'init-minibuffer)
 (require 'init-completion)
