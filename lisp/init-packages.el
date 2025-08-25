@@ -116,6 +116,7 @@
     eldoc-box
     ,@(when user/flyoverp
         '(flyover :host github :repo "konrad1977/flyover"))
+    (cond-let :host github :repo "tarsius/cond-let")
     magit
     magit-delta
     git-link
