@@ -1,3 +1,7 @@
+;;; mini-emacs.el --- init meow keybindings             -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
+
 ;; A minimum .emacs config to test Emacs plugins
 ;; (show-paren-mode 1)
 ;; (eval-when-compile (require 'cl))
@@ -275,6 +279,38 @@
           (goto-char p)
           (message "pos: %s" pre-comment-pos))))))
 
+(defun run-or-compile ()
+  "Run or compile this project or file."
+  (interactive)
+  (if (bound-and-true-p sly-mode)
+      (call-interactively #'sly-switch-mrepl)
+    (autoload 'project-root-path "init-project" nil t)
+    (let ((project-path (project-root-path)))
+      (pcase major-mode
+        ((or 'python-ts-mode 'python-mode)
+         (let* ((command (concat (if project-path
+                                     (cond ((file-exists-p (file-name-concat project-path "uv.lock")) "uv run")
+                                           ((file-exists-p (file-name-concat project-path "pdm.lock")) "pdm run")
+                                           (t "python"))
+                                   "python")
+                                 " "
+                                 (file-truename (buffer-file-name))))
+                (buffer (generate-new-buffer (format "*%s*" command))))
+           (setq command (compilation-read-command command))
+           (switch-to-buffer buffer)
+           (setq proc (start-process-shell-command (nth 0 (split-string command)) buffer command))
+           (with-current-buffer buffer
+             (shell-command-save-pos-or-erase)
+             (require 'shell)
+             (shell-mode)
+             (view-mode +1))
+           (set-process-filter proc #'comint-output-filter)
+           ))
+        ('emacs-lisp-mode (eval-buffer))
+        (_ (if project-path
+               (call-interactively #'projection-commands-build-project)
+             (call-interactively #'compile)))))))
+
 (setq meow-esc-delay 0.001)
 (setq meow-keypad-leader-dispatch "C-c")
 
@@ -400,6 +436,7 @@
    '("f" . one-key-menu-file)
    '("s" . one-key-menu-search)
    '("p" . one-key-menu-project)
+   '("r" . run-or-compile)
    '("v" . git-dispatch)
    '("z" . hydra-language/body)
    '("j" . one-key-menu-code)
