@@ -30,6 +30,9 @@
 (require 'init-hydra)
 (require 'init-meow)
 (require 'init-transient)
+
+(require 'init-func)
+
 (require 'init-ui)
 
 (require 'init-edit)
