@@ -54,7 +54,23 @@
   (setq process-coding-system-alist
         '(("[pP][lL][iI][nN][kK]" utf-8-dos . gbk-dos)
           ("[cC][mM][dD][pP][rR][oO][xX][yY]" utf-8-dos . gbk-dos)
-          ("*" utf-8 . utf-8))))
+          ("*" utf-8 . utf-8)))
+  )
+
+;; 解决 Shell Mode(cmd) 下中文乱码问题
+(defun change-shell-mode-coding ()
+  (progn
+    (set-terminal-coding-system 'gbk)
+    (set-keyboard-coding-system 'gbk)
+    (set-selection-coding-system 'gbk)
+    (set-buffer-file-coding-system 'gbk)
+    (set-file-name-coding-system 'gbk)
+    (modify-coding-system-alist 'process "*" 'utf-8)
+    (set-buffer-process-coding-system 'gbk'gbk)
+    (set-file-name-coding-system 'gbk)))
+(add-hook 'shell-mode-hook 'change-shell-mode-coding)
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 (setq visible-bell nil
       inhibit-compacting-font-caches t  ; Don’t compact font caches during GC
