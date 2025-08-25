@@ -120,8 +120,10 @@
         (pop-to-buffer buf)
       (message "No *gt‑result* buffer"))))
 
-(add-hook #'gt-buffer-render-output-hook  #'(lambda ()
-                                              (pop-to-gt-result-buffer-if-exists)))
+;; (add-hook #'gt-buffer-render-output-hook  #'(lambda ()
+;;                                               (pop-to-gt-result-buffer-if-exists)))
+(add-hook #'gt-buffer-render-output-hook  #'visual-line-mode)
+(add-hook #'gt-buffer-render-output-hook  #'pop-to-gt-result-buffer-if-exists)
 
 (provide 'init-gt)
 ;;; init-gt.el ends here
