@@ -118,6 +118,7 @@
         '(flyover :host github :repo "konrad1977/flyover"))
     magit
     magit-delta
+    git-link
     forge
     difftastic
     devdocs
