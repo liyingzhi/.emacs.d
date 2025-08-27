@@ -108,6 +108,6 @@ command was called, go to its unstaged changes section."
   (interactive)
   (unpackaged/open-magit-status #'magit-project-status))
 
-(setq magit-status-initial-section '(2))
+(setq magit-status-initial-section '(((unstaged) (status)) 1))
 
 (provide 'init-magit)
