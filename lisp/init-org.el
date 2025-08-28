@@ -172,7 +172,8 @@
     ("M-N" . org-metadown)
     ("M-H" . org-metaleft)
     ("M-L" . org-metaright)
-    ("C-c C-'" . separedit/edit-org-any-block)))
+    ("C-c C-'" . separedit/edit-org-any-block)
+    ("M-g o" . consult-org-heading)))
 
 (keymap-unset org-mode-map "M-<left>")
 (keymap-unset org-mode-map "M-<right>")

@@ -66,6 +66,7 @@
 (lazy-one-key-create-menu
  "Search"
  (:key "l" :description "Search in buffer" :command consult-line)
+ (:key "L" :description "Search in line in multi buffer" :command consult-line-multi)
  (:key "i" :description "Search imenu" :command consult-imenu)
  (:key "I" :description "Search imenu in multi buffer" :command consult-imenu-multi)
  (:key "o" :description "Search outline" :command consult-outline)

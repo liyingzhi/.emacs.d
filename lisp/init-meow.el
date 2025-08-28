@@ -213,6 +213,40 @@
       (call-interactively #'org-insert-todo-heading)
     (fingertip-jump-out-pair-and-newline)))
 
+(pcase user/lsp-client
+  ('eglot
+   (keymap-sets goto-map
+     '(("r" . find-references-with-sly)
+       ("d" . find-definition-with-sly)
+       ("D" . find-definition-with-sly-other-window)
+       ("u" . find-implementation-with-sly))))
+  ('lsp-bridge
+   (keymap-sets goto-map
+     '(("r" . lsp-bridge-find-references)
+       ("d" . find-definition-with-lsp-bridge)
+       ("D" . find-definition-with-lsp-bridge-other-window)
+       ("u" . lsp-bridge-find-impl)
+       ("U" . lsp-bridge-find-impl-other-window)))))
+
+(keymap-sets goto-map
+  '(("f" . find-file-at-point)
+    ("p" . goto-percent)
+    ("l" . consult-goto-line)
+    ("L" . avy-goto-line)
+    ("o" . consult-outline)
+    ("m" . consult-mark)
+    ("k" . consult-global-mark)
+    ("i" . consult-imenu)
+    ("I" . consult-imenu-multi)
+    ("e" . my/copy-select-utils-dispatch)
+    ("E" . one-key-menu-thing-edit)
+    ("G" . one-key-menu-mark-macro)
+    ("t" . one-key-menu-tool-kit)
+    ("n" . my/gn-key-function)
+    ("c" . my/string-case-cycle-auto)
+    ("C" . my/string-convert-dispatch)
+    ("O" . casual-editkit-main-tmenu)))
+
 (defun meow-setup ()
   ;; (meow-motion-overwrite-define-key
   ;;  '("j" . meow-next)
@@ -357,39 +391,18 @@
   (pcase user/lsp-client
     ('eglot
      (meow-normal-define-key
-      '("gr" . xref-find-references)
-      '("gd" . xref-find-definitions)
-      '("gD" . xref-find-definitions-other-window)
-      '("gi" . eglot-find-implementation)
-      '("gI" . eglot-find-implementation)
       '("C-o" . xref-go-back)))
     ('lsp-bridge
      (meow-normal-define-key
-      '("gr" . lsp-bridge-find-references)
-      '("gd" . find-definition-with-lsp-bridge)
-      '("gD" . find-definition-with-lsp-bridge-other-window)
-      '("gi" . lsp-bridge-find-impl)
-      '("gI" . lsp-bridge-find-impl-other-window)
       '("C-o" . return-find-def))))
+
+  (meow-normal-define-key
+   '("g" . "M-g"))
 
   (meow-normal-define-key
    '("C-;" . grugru)
    '("C-y" . meow-clipboard-yank)
    '("Q" . kill-now-buffer)
-
-   '("ge" . my/copy-select-utils-dispatch)
-   '("gE" . one-key-menu-thing-edit)
-   '("gG" . one-key-menu-mark-macro)
-   '("gt" . one-key-menu-tool-kit)
-   '("gn" . my/gn-key-function)
-   '("gc" . my/string-case-cycle-auto)
-   '("gC" . my/string-convert-dispatch)
-   '("go" . casual-editkit-main-tmenu)
-
-   '("gf" . find-file-at-point)
-   '("gp" . goto-percent)
-   '("gl" . consult-goto-line)
-   '("gL" . avy-goto-line)
    '("/" . consult-ripgrep)
    '("?" . help-helpful-lsp-sly)))
 
