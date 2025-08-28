@@ -103,12 +103,21 @@
 
 (setq gt-default-translator
       (gt-translator
-       ;; :taker   (gt-taker :text 'buffer :pick 'paragraph) ; 配置拾取器
-       :engines (list (gt-bing-engine)   ; 指定多引擎 bing
-                      (gt-chatgpt-engine ; 指定多引擎 chatgpt
-                       :prompt "Translate the text to {{lang}} and return result:\n\n{{text}}"
-                       :stream t))
-       :render  (gt-buffer-render))) ; 配置渲染器
+       :taker   (list (gt-taker :pick nil :if 'selection)
+                      (gt-taker :text 'paragraph
+                                :if '(Info-mode help-mode))
+                      (gt-taker :text 'word))
+       :engines (list
+                 (gt-google-engine :if '(and not-word))         ; 只有翻译中文时启用
+                 (gt-bing-engine :if '(and not-word))   ; 只有翻译内容不是单词时启用
+                 (gt-youdao-dict-engine :if '(word))    ; 只有翻译中文时启用
+                 (gt-youdao-suggest-engine :if '(word)) ; 只有翻译英文单词时启用
+                 (gt-chatgpt-engine                     ; 指定多引擎 chatgpt
+                  :prompt "Translate the text to {{lang}} and return result:\n\n{{text}}"
+                  :stream t
+                  :if '(and not-word)))
+       :render  (list (gt-overlay-render :if 'read-only)
+                      (gt-buffer-render)))) ; 配置渲染器
 
 (defun pop-to-gt-result-buffer-if-exists ()
   "If the buffer name is \"gt-buffer-render-buffer-name\", then call \"pop-to-buffer\" to switch it."
