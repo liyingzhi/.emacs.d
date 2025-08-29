@@ -57,7 +57,7 @@
 
 ;;; orderless
 (require 'orderless)
-(setq completion-styles '(orderless basic)
+(setq completion-styles '(orderless fussy)
       completion-category-defaults nil
       completion-category-overrides '((file (styles basic partial-completion)))
       orderless-component-separator #'orderless-escapable-split-on-space)
