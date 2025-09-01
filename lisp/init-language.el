@@ -11,6 +11,11 @@
                      fanyi-youdao-thesaurus-provider
                      fanyi-longman-provider)))
 
+(with-eval-after-load 'fanyi
+  (keymap-sets fanyi-mode-map
+    '(("M-<left>" . previous-buffer-dedicated-window)
+      ("M-<right>" . next-buffer-dedicated-window))))
+
 (pretty-hydra-define-e hydra-language
   (:title "Language" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
   ("dict"

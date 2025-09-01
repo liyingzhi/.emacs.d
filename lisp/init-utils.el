@@ -171,4 +171,16 @@ and \"apikey\" as USER."
   (interactive)
   (find-file custom-file))
 
+(defun previous-buffer-dedicated-window ()
+  (interactive)
+  (toggle-window-dedicated (get-buffer-window (current-buffer)) nil nil)
+  (previous-buffer)
+  (toggle-window-dedicated (get-buffer-window (current-buffer)) t nil))
+
+(defun next-buffer-dedicated-window ()
+  (interactive)
+  (toggle-window-dedicated (get-buffer-window (current-buffer)) nil nil)
+  (next-buffer)
+  (toggle-window-dedicated (get-buffer-window (current-buffer)) t nil))
+
 (provide 'init-utils)
