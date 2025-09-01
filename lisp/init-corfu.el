@@ -38,6 +38,7 @@
       corfu-quit-no-match t
       corfu-auto-prefix 2
       corfu-preview-current nil
+      corfu-on-exact-match nil
       corfu-auto-delay 0.2
       corfu-popupinfo-delay '(0.4 . 0.2))
 
@@ -78,6 +79,11 @@
 
 (require 'cape)
 
+(advice-add 'comint-completion-at-point :around #'cape-wrap-nonexclusive)
+(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+(advice-add 'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
+(advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive)
+
 (defun my/eglot-capf-with-dabbrev ()
   (setq-local completion-at-point-functions
               `(cape-file
@@ -98,7 +104,6 @@
                     (list #'citre-completion-at-point))
                 eglot-completion-at-point)))
 
-(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
 (add-hook 'eglot-managed-mode-hook #'my/eglot-capf-with-dabbrev)
 
 (defun my/ignore-elisp-keywords (cand)
