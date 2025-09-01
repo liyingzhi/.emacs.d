@@ -116,8 +116,7 @@
                   :prompt "Translate the text to {{lang}} and return result:\n\n{{text}}"
                   :stream t
                   :if '(and not-word)))
-       :render  (list (gt-overlay-render :if 'read-only)
-                      (gt-buffer-render)))) ; 配置渲染器
+       :render  (list (gt-buffer-render)))) ; 配置渲染器
 
 (defun pop-to-gt-result-buffer-if-exists ()
   "If the buffer name is \"gt-buffer-render-buffer-name\", then call \"pop-to-buffer\" to switch it."
