@@ -41,6 +41,24 @@
 ;;; debug
 (require 'init-dap)
 
+(defun my/eldoc-box-or-other-window-scroll-down ()
+  "If eldoc-box child frame and buffer exist, scroll down within the child frame.
+Otherwise scroll down other windos."
+  (interactive)
+  (if (frame-visible-p eldoc-box--frame)
+      (eldoc-box-scroll-down 3)
+    (watch-other-window-internal "down"
+                                 (/ (window-body-height) 3))))
+
+(defun my/eldoc-box-or-other-window-scroll-up ()
+  "If eldoc-box child frame and buffer exist, scroll up within the child frame.
+Otherwise scroll up other window."
+  (interactive)
+  (if (frame-visible-p eldoc-box--frame)
+      (eldoc-box-scroll-up 3)
+    (watch-other-window-internal "up"
+                                 (/ (window-body-height) 3))))
+
 ;;; eldoc
 (with-eval-after-load 'eldoc
   (when (childframe-workable-p)
@@ -57,7 +75,12 @@
     ;;           #'eldoc-box-hover-at-point-mode)
 
     (setf (alist-get 'left-fringe eldoc-box-frame-parameters) 8
-          (alist-get 'right-fringe eldoc-box-frame-parameters) 8)))
+          (alist-get 'right-fringe eldoc-box-frame-parameters) 8)
+
+    (with-eval-after-load 'eglot
+      (keymap-sets eglot-mode-map
+        '((("M-N" "s-N") . my/eldoc-box-or-other-window-scroll-up)
+          (("M-P" "s-P") . my/eldoc-box-or-other-window-scroll-down))))))
 
 ;;; complile
 (setq compilation-scroll-output t)
