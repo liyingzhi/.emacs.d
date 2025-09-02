@@ -9,14 +9,16 @@
       ("C-h B" . embark-bindings)))
 
 (global-set-keys
- '(("RET" . newline-and-indent)
-   ("S-<return>" . comment-indent-new-line)
-   (("s-o" "M-o") . ace-window)
-   (("s-n" "M-n") . scroll-up-1/3)
-   (("s-p" "M-p") . scroll-down-1/3)
-   (("s-x" "M-x") . execute-extended-command)
-   ("C-s-f" . forward-sexp)
-   ("C-s-b" . backward-sexp)))
+    '(("RET" . newline-and-indent)
+      ("S-<return>" . comment-indent-new-line)
+      (("s-o" "M-o") . ace-window)
+      (("s-n" "M-n") . scroll-up-1/3)
+      (("s-p" "M-p") . scroll-down-1/3)
+      (("M-N" "s-N") . scroll-other-window-up-1/3)
+      (("M-P" "s-P") . scroll-other-window-down-1/3)
+      (("s-x" "M-x") . execute-extended-command)
+      ("C-s-f" . forward-sexp)
+      ("C-s-b" . backward-sexp)))
 
 (global-set-keys
  '(("C-M-c" . kill-emacs)
@@ -296,18 +298,6 @@
  (:key "f" :description "Insert file" :command hydra-insert-file/body)
  (:key "j" :description "Insert json to type" :command quicktype))
 
-;;; ### Watch other window ###
-;;; --- 滚动其他窗口
-(require 'watch-other-window)
-(global-set-keys
- '((("M-N" "s-N") . (lambda ()
-                      (interactive)
-                      (watch-other-window-internal "up"
-                                                   (/ (window-body-height) 3))))
-   (("M-P" "s-P") . (lambda ()
-                      (interactive)
-                      (watch-other-window-internal "down"
-                                                   (/ (window-body-height) 3))))))
 ;;; symbol overlay
 (lazy-load-global-keys
  '(("M-i" . symbol-overlay-put))

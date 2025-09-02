@@ -185,11 +185,8 @@
     casual-symbol-overlay))
 
 (defvar *package-window-install-list*
-  '(shackle
-    popper
-    ace-window
-    (watch-other-window :host github :repo "manateelazycat/watch-other-window")
-    ))
+  '(popper
+    ace-window))
 
 (defvar *package-language-install-list*
   '(immersive-translate

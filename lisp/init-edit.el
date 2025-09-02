@@ -441,6 +441,14 @@ Moves cursor to word start (virtually, without affecting actual position) before
   (interactive)
   (scroll-down (/ (window-body-height) 3)))
 
+(defun scroll-other-window-up-1/3 ()
+  (interactive)
+  (scroll-other-window (/ (window-body-height) 3)))
+
+(defun scroll-other-window-down-1/3 ()
+  (interactive)
+  (scroll-other-window-down (/ (window-body-height) 3)))
+
 ;;; insert something
 (defun +lizqwer/insert-file-path (filename)
   (interactive "*fInsert file path: \n")
