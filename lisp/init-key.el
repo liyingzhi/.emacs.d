@@ -1,11 +1,12 @@
 (global-set-keys
- '(("s-." . embark-act)
-   ("M-<left>" . previous-buffer)
-   ("M-<right>" . next-buffer)
-   ;; ("M-<left>" . bury-buffer)
-   ;; ("M-<right>" . unbury-buffer)
-   ("C-s-;" . embark-dwim)
-   ("C-h B" . embark-bindings)))
+    '(("s-." . embark-act)
+      ("M-<left>" . previous-buffer)
+      ("M-<right>" . next-buffer)
+      ;; ("M-<left>" . bury-buffer)
+      ;; ("M-<right>" . unbury-buffer)
+      ("C-s-;" . embark-dwim)
+      ("C-M-;" . embark-dwim)
+      ("C-h B" . embark-bindings)))
 
 (global-set-keys
  '(("RET" . newline-and-indent)
