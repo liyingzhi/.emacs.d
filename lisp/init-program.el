@@ -64,6 +64,7 @@ Otherwise scroll up other window."
     (setq eldoc-box-lighter nil
           eldoc-box-only-multi-line t
           eldoc-box-clear-with-C-g t)
+    (setq eldoc-echo-area-use-multiline-p nil)
 
     (custom-set-faces
      '(eldoc-box-border ((t (:inherit posframe-border :background unspecified))))
