@@ -47,8 +47,7 @@ Otherwise scroll down other windos."
   (interactive)
   (if (frame-visible-p eldoc-box--frame)
       (eldoc-box-scroll-down 3)
-    (watch-other-window-internal "down"
-                                 (/ (window-body-height) 3))))
+    (scroll-other-window-down-1/3)))
 
 (defun my/eldoc-box-or-other-window-scroll-up ()
   "If eldoc-box child frame and buffer exist, scroll up within the child frame.
@@ -56,8 +55,7 @@ Otherwise scroll up other window."
   (interactive)
   (if (frame-visible-p eldoc-box--frame)
       (eldoc-box-scroll-up 3)
-    (watch-other-window-internal "up"
-                                 (/ (window-body-height) 3))))
+    (scroll-other-window-up-1/3)))
 
 ;;; eldoc
 (with-eval-after-load 'eldoc
