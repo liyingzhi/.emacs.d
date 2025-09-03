@@ -26,6 +26,11 @@
 
 (require 'rg)
 
+(defun quit-rg-window ()
+  (interactive)
+  (winner-undo)
+  (kill-buffer-and-window))
+
 (keymap-sets rg-mode-map
   '(("s-n" . compilation-next-error)
     ("s-p" . compilation-previous-error)
@@ -34,7 +39,8 @@
     ("h" . rg-next-file)
     ("l" . rg-prev-file)
     ("j" . next-error-no-select)
-    ("k" . previous-error-no-select)))
+    ("k" . previous-error-no-select)
+    ("Q" . quit-rg-window)))
 
 (defun rg/rg-finish-function (buffer string)
   "Hook function called after rg search completes.
