@@ -119,7 +119,10 @@
                                     (gt-youdao-dict-engine :if '(word))
                                     (gt-youdao-suggest-engine :if '(and word src:en))
                                     (gt-chatgpt-engine                     ; 指定多引擎 chatgpt
-                                     :prompt "Translate the text to {{lang}} and return result:\n\n{{text}}"
+                                     :prompt (concat "You are a translating assistant. Respond concisely."
+                                                     " Generate ONLY the translated result text,"
+                                                     " without any explanation or sentence incomplete reminder."
+                                                     "\n\nTranslate the text to {{lang}} and return result:\n\n{{text}}")
                                      :stream t
                                      :if '(and not-word)))
                      :render  (gt-buffer-render)))
@@ -130,7 +133,20 @@
                                                      (gt-google-engine))
                                       :render (gt-buffer-render)))
         (Text-Utility . ,(gt-text-utility :taker (gt-taker :pick nil)
-                                          :render (gt-buffer-render)))))
+                                          :render (gt-buffer-render)))
+        (korean-gt . ,(gt-translator
+                       :taker   (list (gt-taker :langs '(ko zh) :pick nil :if 'selection)
+                                      (gt-taker :langs '(ko zh) :text 'word))
+                       :engines (list (gt-bing-engine)
+                                      (gt-google-engine)
+                                      (gt-chatgpt-engine                     ; 指定多引擎 chatgpt
+                                       :prompt (concat "You are a translating assistant. Respond concisely."
+                                                       " Generate ONLY the translated result text,"
+                                                       " without any explanation or sentence incomplete reminder."
+                                                       "\n\nTranslate the text to {{lang}} and return result:\n\n{{text}}")
+                                       :stream t
+                                       :if '(and not-word)))
+                       :render  (gt-buffer-render)))))
 
 (defun gt--translate (dict)
   "Translate using DICT from the preset tranlators."
@@ -145,6 +161,11 @@
   "Handle the texts with the utilities."
   (interactive)
   (gt--translate 'Text-Utility))
+
+(defun gt-use-korean-gt ()
+  "Handle the texts with the utilities."
+  (interactive)
+  (gt--translate 'korean-gt))
 
 ;; (global-set-keys
 ;;  '(("C-c G"   . gt-translate-prompt)

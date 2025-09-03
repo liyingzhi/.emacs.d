@@ -26,8 +26,9 @@
    (("t" gt-translate "translate")
     ("e" gptel-translate-to-english-insert "Translate to english"))
    "preset"
-   (("g" gt-translate-prompt "gt-translate-prompt")
-    ("u" gt-use-text-utility "gt-use-text-utility"))))
+   (("g" gt-translate-prompt "translate with prompt")
+    ("u" gt-use-text-utility "text utility")
+    ("k" gt-use-korean-gt "translate Korean"))))
 
 (provide 'init-language)
 ;;; init-language.el ends here
