@@ -26,7 +26,12 @@
 
 
 (require 'gt)
-(setq gt-langs '(en zh))
+(setq gt-langs '(en zh)
+      gt-buffer-render-follow-p t
+      gt-buffer-render-window-config
+      '((display-buffer-reuse-window display-buffer-in-direction)
+        (direction . right)
+        (window-width . 0.35)))
 
 (if user/aider-deepseek-api
     (let* ((info (lizqwer/api-key-from-auth-source "deepseek.com")))
@@ -56,7 +61,7 @@
   (interactive)
   (let ((prompt nil)
         (model (or my-ai-oneshot-last-model
-                  (setq my-ai-oneshot-last-model (or (car my-ai-oneshot-models) gt-chatgpt-model)))))
+                   (setq my-ai-oneshot-last-model (or (car my-ai-oneshot-models) gt-chatgpt-model)))))
     (cl-flet ((get-cands ()
                 (cl-delete-duplicates
                  (append my-ai-oneshot-history my-ai-oneshot-prompts) :from-end t :test #'equal))
@@ -101,37 +106,53 @@
                           :dislike-source t
                           :window-config '((display-buffer-below-selected))))))))
 
-(setq gt-default-translator
-      (gt-translator
-       :taker   (list (gt-taker :pick nil :if 'selection)
-                      (gt-taker :text 'paragraph
-                                :if '(Info-mode help-mode))
-                      (gt-taker :text 'word))
-       :engines (list
-                 (gt-google-engine :if '(and not-word))         ; 只有翻译中文时启用
-                 (gt-bing-engine :if '(and not-word))   ; 只有翻译内容不是单词时启用
-                 (gt-youdao-dict-engine :if '(word))    ; 只有翻译中文时启用
-                 (gt-youdao-suggest-engine :if '(word)) ; 只有翻译英文单词时启用
-                 (gt-chatgpt-engine                     ; 指定多引擎 chatgpt
-                  :prompt "Translate the text to {{lang}} and return result:\n\n{{text}}"
-                  :stream t
-                  :if '(and not-word)))
-       :render  (list (gt-buffer-render)))) ; 配置渲染器
+(setq gt-preset-translators
+      `((default . ,(gt-translator
+                     :taker   (list (gt-taker :pick nil :if 'selection)
+                                    (gt-taker :text 'paragraph :if '(Info-mode help-mode helpful-mode devdocs-mode))
+                                    (gt-taker :text 'buffer :pick 'fresh-word
+                                              :if (lambda (translatror)
+                                                    (and (not (derived-mode-p 'fanyi-mode)) buffer-read-only)))
+                                    (gt-taker :text 'word))
+                     :engines (list (gt-google-engine :if '(and not-word))
+                                    (gt-bing-engine :if '(and not-word))
+                                    (gt-youdao-dict-engine :if '(word))
+                                    (gt-youdao-suggest-engine :if '(and word src:en))
+                                    (gt-chatgpt-engine                     ; 指定多引擎 chatgpt
+                                     :prompt "Translate the text to {{lang}} and return result:\n\n{{text}}"
+                                     :stream t
+                                     :if '(and not-word)))
+                     :render  (gt-buffer-render)))
+        (multi-dict . ,(gt-translator :taker (gt-taker :prompt t)
+                                      :engines (list (gt-bing-engine)
+                                                     (gt-youdao-dict-engine)
+                                                     (gt-youdao-suggest-engine :if 'word)
+                                                     (gt-google-engine))
+                                      :render (gt-buffer-render)))
+        (Text-Utility . ,(gt-text-utility :taker (gt-taker :pick nil)
+                                          :render (gt-buffer-render)))))
 
-(defun pop-to-gt-result-buffer-if-exists ()
-  "If the buffer name is \"gt-buffer-render-buffer-name\", then call \"pop-to-buffer\" to switch it."
+(defun gt--translate (dict)
+  "Translate using DICT from the preset tranlators."
+  (gt-start (alist-get dict gt-preset-translators)))
+
+(defun gt-translate-prompt ()
+  "Translate with prompt using the multiple dictionaries."
   (interactive)
-  (let* ((buf (get-buffer gt-buffer-render-buffer-name))
-         (wins (and buf (get-buffer-window-list buf nil 0))))
-    (if wins
-        ;; 有一个或多个窗口显示该 buffer，则切换焦点到第一个窗口
-        (pop-to-buffer buf)
-      (message "No *gt‑result* buffer"))))
+  (gt--translate 'multi-dict))
 
-;; (add-hook #'gt-buffer-render-output-hook  #'(lambda ()
-;;                                               (pop-to-gt-result-buffer-if-exists)))
+(defun gt-use-text-utility ()
+  "Handle the texts with the utilities."
+  (interactive)
+  (gt--translate 'Text-Utility))
+
+;; (global-set-keys
+;;  '(("C-c G"   . gt-translate-prompt)
+;;    ("C-c d g" . gt-translate)
+;;    ("C-c d G" . gt-translate-prompt)
+;;    ("C-c d u" . gt-use-text-utility)))
+
 (add-hook #'gt-buffer-render-output-hook  #'visual-line-mode)
-(add-hook #'gt-buffer-render-output-hook  #'pop-to-gt-result-buffer-if-exists)
 
 (provide 'init-gt)
 ;;; init-gt.el ends here
