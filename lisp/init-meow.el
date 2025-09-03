@@ -285,7 +285,7 @@
    ;; '("8" . meow-digit-argument)
    ;; '("9" . meow-digit-argument)
    ;; '("0" . meow-digit-argument)
-   ;; '("/" . meow-keypad-describe-key)
+   '("/" . meow-keypad-describe-key)
    '("?" . meow-cheatsheet))
 
   (meow-leader-define-key
