@@ -244,6 +244,7 @@
     ("k" . consult-global-mark)
     ("i" . consult-imenu)
     ("I" . consult-imenu-multi)
+    ("b" . consult-bookmark)
     ("e" . my/copy-select-utils-dispatch)
     ("E" . one-key-menu-thing-edit)
     ("G" . one-key-menu-mark-macro)
