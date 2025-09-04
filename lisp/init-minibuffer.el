@@ -14,7 +14,7 @@
 ;;; Vertico
 (require 'vertico)
 
-(setq vertico-count 20)
+(setq vertico-count 15)
 
 ;; Configure directory extension.
 (keymap-sets vertico-map
