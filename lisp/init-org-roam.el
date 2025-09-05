@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (defconst *org-path* "~/Documents/Org/roam/")
 (setq org-roam-directory (file-truename *org-path*))
 
@@ -146,6 +148,7 @@
       (let* ((fullpath (concat (file-name-as-directory dir) file))
              (tree (with-temp-buffer
                      (insert-file-contents fullpath)
+                     (setq-local tab-width 8)
                      (org-element-parse-buffer)))
              (headlines (org-element-map tree 'headline 'identity))
              (buffer (find-buffer-visiting fullpath)))
