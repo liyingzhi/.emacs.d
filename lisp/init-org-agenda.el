@@ -37,7 +37,7 @@ Otherwise, calculate the age of the current entry."
                      (org-time-string-to-time stamp)))))
 
 (setq org-agenda-custom-commands
-      '(("e" "Agenda, next actions and waiting"
+      `(("e" "Agenda, next actions and waiting"
          ((agenda "" ((org-agenda-overriding-header "Next three days:")
                       (org-agenda-span 3)
                       (org-agenda-start-on-weekday nil)))
@@ -59,13 +59,13 @@ Otherwise, calculate the age of the current entry."
                       (org-tags-match-list-sublevels t)
                       (org-agenda-sorting-strategy
                        '(todo-state-down effort-up category-keep))))
-          (tags-todo "-reading/PROJECT"
+          (tags-todo "-reading+PROJECT"
                      ((org-agenda-overriding-header "Project")
                       (org-agenda-prefix-format "%-11c%5(org-todo-age) ")
                       (org-tags-match-list-sublevels t)
                       (org-agenda-sorting-strategy
                        '(category-keep))))
-          (tags-todo "+reading/PROJECT"
+          (tags-todo "+reading+PROJECT"
                      ((org-agenda-overriding-header "Reading")
                       (org-agenda-prefix-format "%-11c%5(org-todo-age) ")
                       (org-tags-match-list-sublevels t)
@@ -91,7 +91,13 @@ Otherwise, calculate the age of the current entry."
                             (org-agenda-skip-entry-if 'nottodo '("HOLD")))))
                       (org-tags-match-list-sublevels nil)
                       (org-agenda-sorting-strategy
-                       '(category-keep))))))))
+                       '(category-keep)))))
+         nil
+         (,(concat user/org-base-dir-path "/eamcs-agenda.html")))))
+
+(keymap-set org-agenda-mode-map
+            "C-c C-e" #'org-store-agenda-views)
+
 
 ;; Use a function to decide what to change the state to.
 (setq org-clock-in-switch-to-state #'sodaware/switch-task-on-clock-start)
