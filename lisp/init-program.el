@@ -16,27 +16,33 @@
 (setq xref-show-xrefs-function 'consult-xref)
 (setq xref-show-definitions-function 'consult-xref)
 
+;; Use faster search tool
+(when (executable-find "rg")
+  (setq xref-search-program 'ripgrep))
+
 ;;; check error
-;; flycheck
-(require 'flycheck)
-(setq flycheck-emacs-lisp-load-path 'inherit)
-(global-flycheck-mode)
+(pcase user/lsp-client
+  ('eglot
+   ;; flycheck
+   (require 'flycheck)
+   (setq flycheck-emacs-lisp-load-path 'inherit)
+   (global-flycheck-mode)
 
-;; flyover
-(when user/flyoverp
-  (require 'flyover)
-  (add-hook 'flycheck-mode-hook #'flyover-mode)
-  (setq flyover-use-theme-colors t
-        flyover-checkers '(flycheck)
-        flyover-show-at-eol t
-        flyover-virtual-line-icon "-> "
-        flyover-virtual-line-type nil))
+   ;; flyover
+   (when user/flyoverp
+     (require 'flyover)
+     (add-hook 'flycheck-mode-hook #'flyover-mode)
+     (setq flyover-use-theme-colors t
+           flyover-checkers '(flycheck)
+           flyover-show-at-eol t
+           flyover-virtual-line-icon "-> "
+           flyover-virtual-line-type nil))
 
-;; flycheck posframe
-(unless user/flyoverp
-  (require 'flycheck-posframe)
-  (add-hook 'flycheck-mode-hook
-            #'flycheck-posframe-mode))
+   ;; flycheck posframe
+   (unless user/flyoverp
+     (require 'flycheck-posframe)
+     (add-hook 'flycheck-mode-hook
+               #'flycheck-posframe-mode))))
 
 ;;; debug
 (require 'init-dap)
