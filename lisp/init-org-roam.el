@@ -17,6 +17,18 @@
    (("d" . "Capture roam dailies note") . org-roam-dailies-capture-today)
    (("j" . "Show open or delete journal menu") . journal-transient)))
 
+(setq org-roam-capture-templates
+      '(("d" "default" plain "%?"
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: %U\n")
+         :unnarrowed t)
+        ("w" "work" plain
+         "\n%?\n* 本周工作总结\n\n* 下周工作计划\n\n"
+         :if-new (file+head "%<%Y%m%d%H%M%S>-工作计划_%<%Y>_${slug}.org" "#+title: 工作计划 %<%Y>.${title}\n#+filetags: :work:")
+         :unnarrowed t)
+        ("p" "project" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: Project")
+         :unnarrowed t)))
+
 (setq org-roam-dailies-capture-templates
       '(
         ("d" "Default" entry "** %<%H:%M> %?"
