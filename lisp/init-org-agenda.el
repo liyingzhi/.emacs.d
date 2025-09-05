@@ -93,7 +93,7 @@ Otherwise, calculate the age of the current entry."
                       (org-agenda-sorting-strategy
                        '(category-keep)))))
          nil
-         (,(concat user/org-base-dir-path "/eamcs-agenda.html")))))
+         (,(concat user/org-base-dir-path "/emacs-agenda.html") ,(concat user/org-base-dir-path "/emacs-agenda.ps")))))
 
 (keymap-set org-agenda-mode-map
             "C-c C-e" #'org-store-agenda-views)
