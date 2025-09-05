@@ -1,16 +1,17 @@
 (require 'org-agenda)
 (require 'org-journal)
 (require 'org-archive)
-(setq org-archive-location "~/Documents/Org/archive.org::* finish-tasks")
-(setq org-refile-targets '(("~/Documents/Org/archive.org" :maxlevel . 1)
-                           ("~/Documents/Org/inbox.org" :maxlevel . 1)
-                           ("~/Documents/Org/tasks.org" :maxlevel . 4)))
+(setq org-archive-location (concat user/org-base-dir-path "/archive.org::* finish-tasks"))
+(setq org-refile-targets `((,(concat user/org-base-dir-path "/archive.org") :maxlevel . 1)
+                           (,(concat user/org-base-dir-path "/inbox.org") :maxlevel . 1)
+                           (,(concat user/org-base-dir-path "/tasks.org") :maxlevel . 4)))
+
 (add-list-to-list 'org-agenda-files
-                  '("~/Documents/Org/idea.org"
-                    "~/Documents/Org/quote.org"
-                    "~/Documents/Org/tasks.org"
-                    "~/Documents/Org/archive.org"
-                    "~/Documents/Org/inbox.org"))
+                  `(,(concat user/org-base-dir-path "/idea.org")
+                    ,(concat user/org-base-dir-path "/quote.org")
+                    ,(concat user/org-base-dir-path "/tasks.org")
+                    ,(concat user/org-base-dir-path "/archive.org")
+                    ,(concat user/org-base-dir-path "/inbox.org")))
 
 (add-list-to-list 'org-agenda-files (file-expand-wildcards (concat *org-path* "daily/*.org")))
 

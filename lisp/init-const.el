@@ -119,6 +119,11 @@
   :group 'user
   :type 'string)
 
+(defcustom user/org-base-dir-path "~/Documents/Org"
+  "Dir path for org mode file."
+  :group 'user
+  :type 'string)
+
 (defcustom user/java-lsp nil
   "Is start java lsp for lsp-bridge."
   :group 'user

@@ -1,6 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
-(defconst *org-path* "~/Documents/Org/roam/")
+(defconst *org-path* (concat user/org-base-dir-path "/roam/"))
 (setq org-roam-directory (file-truename *org-path*))
 
 (org-roam-db-autosync-mode)
