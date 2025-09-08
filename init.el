@@ -21,8 +21,6 @@
 ;; Need install packages
 (require 'init-packages)
 
-
-(require 'init-mode)
 (require 'init-hook)
 (require 'init-gcmh)
 ;; (require 'init-auto-save)
