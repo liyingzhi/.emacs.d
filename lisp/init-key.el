@@ -320,35 +320,10 @@
     '(("<f8>" . gif-screencast-toggle-pause)
       ("<f9>" . gif-screencast-stop))))
 
-;; config through function name
-;; (defmacro define-one-key-menu-auto-popup (menu-func &optional popup-window)
-;;   "Define an interactive function named \"MENU-FUNC-popup\" that calls MENU-FUNC.
-;; POPUP-WINDOW controls whether to use a popup window (default nil)."
-;;   (let ((func-name (intern (concat (symbol-name menu-func) "-popup"))))
-;;     `(defun ,func-name ()
-;;        ,(format "Call `%s' interactively with optional popup window." menu-func)
-;;        (interactive)
-;;        (let ((one-key-popup-window ,(or popup-window nil)))
-;;          (call-interactively #',menu-func)))))
-
-;; (define-one-key-menu-auto-popup one-key-menu-thing-edit t)
-;; (define-one-key-menu-auto-popup one-key-menu-mark-macro t)
-;; (define-one-key-menu-auto-popup one-key-menu-tool-kit t)
-
-;; config through function symbol
-;; (defmacro define-one-key-menu-auto-popup (menu-func &optional popup-window)
-;;   "Define an interactive function that calls MENU-FUNC.
-;; POPUP-WINDOW controls whether to use a popup window (default nil)."
-;;   (let ((func-name (intern (concat (symbol-name (cadr menu-func)) "-popup"))))
-;;     `(defun ,func-name ()
-;;        ,(format "Call `%s' interactively with optional popup window." (cadr menu-func))
-;;        (interactive)
-;;        (let ((one-key-popup-window ,popup-window))
-;;          (call-interactively ,menu-func)))))
-
-;; (define-one-key-menu-auto-popup #'one-key-menu-thing-edit t)
-;; (define-one-key-menu-auto-popup #'one-key-menu-mark-macro t)
-;; (define-one-key-menu-auto-popup #'one-key-menu-tool-kit t)
+;;; vterm
+(with-eval-after-load 'vterm
+  (keymap-sets vterm-mode-map
+    '(("C-y" . vterm-yank))))
 
 (defun my/one-key-menu-auto-popup-advice (fn)
   (let ((one-key-popup-window t))
