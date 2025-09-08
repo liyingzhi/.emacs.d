@@ -1,3 +1,7 @@
+;;; init-utils.el --- utils                          -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
+
 (require 'cl-lib)
 
 ;;;###autoload
@@ -184,3 +188,4 @@ and \"apikey\" as USER."
   (toggle-window-dedicated (get-buffer-window (current-buffer)) t nil))
 
 (provide 'init-utils)
+;;; init-utils.el ends here
