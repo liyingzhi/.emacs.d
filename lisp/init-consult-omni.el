@@ -25,6 +25,8 @@
 ;;; Code:
 
 (require 'consult-omni-sources)
+(require 'consult-omni-embark)
+
 (setq consult-omni-sources-modules-to-load
       '(consult-omni-duckduckgo consult-omni-calc consult-omni-wikipedia consult-omni-gh))
 (consult-omni-sources-load-modules)
