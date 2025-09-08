@@ -17,5 +17,15 @@
           #'(lambda ()
               (c-toggle-auto-hungry-state)))
 
+(with-eval-after-load 'c++-ts-mode
+  (defun run-or-compile-c++ ()
+    "Run or compile c++ project."
+    (interactive)
+    (require 'init-project)
+    (call-interactively #'projection-commands-build-project))
+
+  (keymap-sets (c++-mode-map c++-ts-mode-map)
+    '(("C-c r" . run-or-compile-c++))))
+
 (provide 'init-c++)
 ;;; init-c++.el ends here

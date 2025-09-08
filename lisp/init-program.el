@@ -206,6 +206,8 @@ ARGS is ORIG-FN args."
   (require 'init-rust))
 (when user/golang
   (require 'init-go))
+(when user/zig
+  (require 'init-zig))
 (when user/sql
   (require 'init-sql))
 
