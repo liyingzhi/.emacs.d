@@ -92,7 +92,11 @@
     visual-replace
     visual-regexp
     visual-regexp-steroids
-    (fingertip :host github :repo "manateelazycat/fingertip")))
+    (fingertip :host github :repo "manateelazycat/fingertip")
+    (expreg :host github
+            :repo "bommbo/expreg"
+            :branch "add-numbered-selection"
+            :files ("*.el"))))
 
 (defvar *package-program-install-list*
   `(dumb-jump

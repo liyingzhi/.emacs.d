@@ -250,6 +250,7 @@
    ("Y" "Yank current line" my/copy-current-line)
    ("q" "Mark from point to endline" my/select-end-of-current-line-to-point)
    ("w" "Mark from point to endbuffer" my/select-end-of-buffer-to-point)
+   ("o" "Mark row expreg expand" home-row-expreg-expand-with-letters)
    ("c" "Yank name of current buffer" my/copy-current-buffer-name)
    ("r" "visual-replace" visual-replace)])
 
