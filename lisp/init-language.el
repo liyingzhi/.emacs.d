@@ -23,8 +23,8 @@
     ("f" fanyi-dwim2 "Fanyi Point")
     ("F" fanyi-dwim "Fanyi Input"))
    "english"
-   (("t" gt-translate "translate")
-    ("e" gptel-translate-to-english-insert "Translate to english"))
+   (("t" gt-translate "show translated from")
+    ("e" gptel-translate-to-english-insert "Insert translated to"))
    "preset"
    (("g" gt-translate-prompt "translate with prompt")
     ("u" gt-use-text-utility "text utility")
