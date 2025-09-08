@@ -1,3 +1,7 @@
+;;; init-packages.el --- straight packages configuration -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
+
 (defvar *package-build-in-install-list*
   '((org :type built-in)))
 
@@ -390,4 +394,6 @@
 
          *package-toolkit-install-list*
          *package-another-install-list*))
+
 (provide 'init-packages)
+;;; init-packages.el ends here

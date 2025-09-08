@@ -1,10 +1,8 @@
-(require 'separedit)
-(keymap-set prog-mode-map "C-c '" #'separedit)
-(keymap-set minibuffer-local-map "C-c '" #'separedit)
-(keymap-set help-mode-map        "C-c '" #'separedit)
+;;; init-separedit.el --- separedit                  -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
 
-(with-eval-after-load 'helpful
-  (keymap-set helpful-mode-map     "C-c '" #'separedit))
+(require 'separedit)
 
 (setq separedit-default-mode 'org-mode)
 (setq separedit-remove-trailing-spaces-in-comment t)
@@ -70,8 +68,9 @@
   (let ((case-fold-search t))
     (save-excursion
       (and (re-search-backward "^#\\+BEGIN_QUOTE" nil t)
-         (re-search-forward "^#\\+END_QUOTE" nil t)
-         (<= (point) (point))))))  ; 确保光标在 END_QUOTE 之前
+           (re-search-forward "^#\\+END_QUOTE" nil t)
+           (<= (point) (point))))))  ; 确保光标在 END_QUOTE 之前
+
 (defun separedit/edit-org-quote-block ()
   "Edit org src code block."
   (interactive)
@@ -129,4 +128,11 @@
       (with-current-buffer buf
         (setq-local kill-buffer-hook (append (list ad) kill-buffer-hook))))))
 
+(keymap-sets (prog-mode-map minibuffer-local-map help-mode-map)
+  '(("C-c '" . separedit)))
+
+(with-eval-after-load 'helpful
+  (keymap-set helpful-mode-map "C-c '" #'separedit))
+
 (provide 'init-separedit)
+;;; init-separedit.el ends here

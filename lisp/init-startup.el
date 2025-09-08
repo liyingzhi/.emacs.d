@@ -1,3 +1,7 @@
+;;; init-startup.el --- startup                      -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
+
 ;;; early init
 (setq load-prefer-newer noninteractive)
 

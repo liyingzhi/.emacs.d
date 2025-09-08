@@ -1,4 +1,7 @@
-;; init.el -*- lexical-binding: t; -*-
+;;; init.el --- init                                 -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
+
 
 ;; (setq-default inhibit-redisplay t
 ;;               inhibit-message t)
@@ -100,5 +103,11 @@
       (if sys/macp
           #'browse-url-default-macosx-browser
         #'browse-url-firefox))
+
+;; Local Variables:
+;; no-byte-compile: t
+;; no-native-compile: t
+;; no-update-autoloads: t
+;; End:
 
 ;;; init.el ends here.

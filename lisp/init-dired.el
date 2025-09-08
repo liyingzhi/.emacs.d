@@ -1,3 +1,7 @@
+;;; init-dired.el --- dired                          -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
+
 ;;; dired
 (require 'dired)
 (setq delete-by-moving-to-trash t)
@@ -247,3 +251,4 @@ V is either nil or non-nil."
   (dirvish-override-dired-mode))
 
 (provide 'init-dired)
+;;; init-dired.el ends here

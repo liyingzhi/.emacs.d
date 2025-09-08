@@ -1,4 +1,6 @@
-;; early-init.el -*- lexical-binding: t; -*-
+;;; early-init.el --- early init                     -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -7,8 +9,6 @@
 ;; 增加IO性能
 (setq read-process-output-max (* 1024 1024 10))
 (setq gc-cons-threshold most-positive-fixnum)
-
-(add-to-list 'default-frame-alist '(background-color . "black"))
 
 (setq load-path-filter-function #'load-path-filter-cache-directory-files)
 
@@ -83,3 +83,10 @@
   (require 'lazy-load)
   (require 'one-key)
   (require 'init-font))
+
+;; Local Variables:
+;; no-byte-compile: t
+;; no-native-compile: t
+;; no-update-autoloads: t
+;; End:
+;;; early-init.el ends here
