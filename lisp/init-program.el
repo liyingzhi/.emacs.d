@@ -31,6 +31,19 @@
 ;;; project
 (add-hook 'after-init-hook 'global-projection-hook-mode)
 
+(defun run-project-compile ()
+  "Run project compile."
+  (interactive)
+  (autoload 'project-root-path "init-project" nil t)
+  (if-let* ((project-path (project-root-path)))
+      (call-interactively #'projection-commands-build-project)
+    (call-interactively #'compile)))
+
+(keymap-sets prog-mode-map
+  '(("C-c r" . run-project-compile)))
+
+
+
 ;;; Xref
 (setq xref-show-xrefs-function 'consult-xref)
 (setq xref-show-definitions-function 'consult-xref)
