@@ -294,7 +294,7 @@
    '("o" . one-key-menu-org)
    ;; '("v" . one-key-menu-sort-tab)
    '("v" . git-dispatch)
-   '("l" . one-key-menu-workspace)
+   ;; '("l" . one-key-menu-workspace)
    '("z" . hydra-language/body)
    '("d" . hydra-jump-dir/body)
    '("i" . one-key-menu-insert)
