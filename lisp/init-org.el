@@ -216,16 +216,16 @@ prepended to the element after the #+HEADER: tag."
     ("H" (hot-expand "<H") "HTML")
     ("L" (hot-expand "<L") "LaTeX"))
    "Source"
-   (("s" (hot-expand "<s") "src")
-    ("e" (hot-expand "<s" "emacs-lisp") "emacs-lisp")
-    ("p" (hot-expand "<s" "python :results output") "python")
-    ("b" (hot-expand "<s" "bash") "bash")
-    ("C" (hot-expand "<s" "c++") "c++")
-    ("r" (hot-expand "<s" "rust") "rust")
-    ("S" (hot-expand "<s" "sh") "sh")
-    ("g" (hot-expand "<s" "go :imports '\(\"fmt\"\)") "golang")
-    ("x" (hot-expand "<s" "xml") "xml")
-    ("y" (hot-expand "<s" "ymal-ts") "yaml"))
+   (("ss" (hot-expand "<s") "src")
+    ("se" (hot-expand "<s" "emacs-lisp") "emacs-lisp")
+    ("sp" (hot-expand "<s" "python :results output") "python")
+    ("sb" (hot-expand "<s" "bash") "bash")
+    ("sc" (hot-expand "<s" "c++") "c++")
+    ("sr" (hot-expand "<s" "rust") "rust")
+    ("sS" (hot-expand "<s" "sh") "sh")
+    ("sg" (hot-expand "<s" "go :imports '\(\"fmt\"\)") "golang")
+    ("sx" (hot-expand "<s" "xml") "xml")
+    ("sy" (hot-expand "<s" "ymal-ts") "yaml"))
    "Misc"
    (("m" (hot-expand "<s" "mermaid :file chart.png") "mermaid")
     ("u" (hot-expand "<s" "plantuml :file chart.png") "plantuml")
@@ -235,6 +235,9 @@ prepended to the element after the #+HEADER: tag."
            (insert "#+HEADERS: :results output :exports both :shebang \"#!/usr/bin/env perl\"\n")
            (hot-expand "<s" "perl")) "Perl tangled")
     ("<" self-insert-command "ins"))))
+
+;; Add new template
+(add-to-list 'org-structure-template-alist '("n" . "note"))
 
 ;;; keymap
 (keymap-sets org-mode-map
