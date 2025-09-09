@@ -79,24 +79,24 @@
 ;;; debug
 (require 'init-dap)
 
-(defun my/eldoc-box-or-other-window-scroll-down ()
-  "If eldoc-box child frame and buffer exist, scroll down within the child frame.
-Otherwise scroll down other windos."
-  (interactive)
-  (if (frame-visible-p eldoc-box--frame)
-      (eldoc-box-scroll-down 3)
-    (scroll-other-window-down-1/3)))
-
-(defun my/eldoc-box-or-other-window-scroll-up ()
-  "If eldoc-box child frame and buffer exist, scroll up within the child frame.
-Otherwise scroll up other window."
-  (interactive)
-  (if (frame-visible-p eldoc-box--frame)
-      (eldoc-box-scroll-up 3)
-    (scroll-other-window-up-1/3)))
-
 ;;; eldoc
 (with-eval-after-load 'eldoc
+  (defun my/eldoc-box-or-other-window-scroll-down ()
+    "If eldoc-box child frame exist and visible, scroll down within the child frame.
+  Otherwise scroll down other window."
+    (interactive)
+    (if (and (bound-and-true-p eldoc-box--frame) (frame-visible-p eldoc-box--frame))
+        (eldoc-box-scroll-down 3)
+      (scroll-other-window-down-1/3)))
+
+  (defun my/eldoc-box-or-other-window-scroll-up ()
+    "If eldoc-box child frame exist and visible, scroll up within the child frame.
+  Otherwise scroll up other window."
+    (interactive)
+    (if (and (bound-and-true-p eldoc-box--frame) (frame-visible-p eldoc-box--frame))
+        (eldoc-box-scroll-up 3)
+      (scroll-other-window-up-1/3)))
+
   (when (childframe-workable-p)
     (require 'eldoc-box)
     (setq eldoc-box-lighter nil
