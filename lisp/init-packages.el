@@ -236,6 +236,8 @@
 
     (org-modern-indent :host github :repo "jdtsmith/org-modern-indent")
     pdf-tools
+    (org-count-words :host github :repo "Elilif/org-count-words")
+    org-rich-yank
     org-ref
     (org-media-note :host github :repo "yuchen-lea/org-media-note")
     denote
