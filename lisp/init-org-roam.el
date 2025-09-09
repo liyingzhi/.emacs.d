@@ -19,7 +19,9 @@
 
 (setq org-roam-capture-templates
       '(("d" "default" plain "%?"
-         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: %U\n")
+         ;; #+OPTIONS: toc:nil 为了导出 .md 的格式更加符合使用
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                            "#+title: ${title}\n#+date: %U\n#+AUTHOR: Fly_lee\n#+EMAIL: liyingli2018@gmail.com\n#+STARTUP: content showstars indent inlineimages hideblocks\n#+OPTIONS: toc:nil")
          :unnarrowed t)
         ("w" "work" plain
          "\n%?\n* 本周工作总结\n\n* 下周工作计划\n\n"
@@ -135,21 +137,6 @@
    ((= code 96) "Thunderstorm with slight hail")
    ((= code 99) "Thunderstorm with heavy hail")
    (t "Unknown weather condition")))
-
-(setq org-roam-capture-templates
-      '(
-        ;; #+OPTIONS: toc:nil 为了导出 .md 的格式更加符合使用
-        ("d" "default" plain
-         "# ------------------------------------------------------------------------------
-#+title: ${title}
-#+AUTHOR: Fly_lee
-#+EMAIL: liyingli2018@gmail.com
-#+STARTUP: content showstars indent inlineimages hideblocks
-#+OPTIONS: toc:nil
-# ------------------------------------------------------------------------------"
-         :if-new (file "main/%<%Y%m%d%H%M%S>-${slug}.org")
-         :unnarrowed t)))
-
 
 (defun +delete-archived-daily-log-files ()
   "Delete Daily log files that have no titles in them."
