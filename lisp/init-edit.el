@@ -35,6 +35,10 @@
 ;;; fingertip
 (require 'init-fingertip)
 
+;;;
+(eval-after-load 'expreg
+  (setq expreg-restore-point-on-quit t))
+
 ;;; vundo
 (require 'vundo)
 (setq vundo-glyph-alist vundo-unicode-symbols)
