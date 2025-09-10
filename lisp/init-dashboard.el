@@ -157,10 +157,48 @@
   (delete-other-windows)
 
   ;; Refresh dashboard buffer
-  (dashboard-refresh-buffer)
+  (dashboard-refresh-buffer))
 
-  ;; Jump to the first section
-  (dashboard-goto-recent-files))
+(defun quit-dashboard ()
+  "Quit dashboard window."
+  (interactive)
+  (quit-window t)
+
+  ;; Recover layout
+  (and dashboard-recover-layout-p
+       (and (bound-and-true-p winner-mode) (winner-undo))
+       (setq dashboard-recover-layout-p nil)))
+
+;;; menu
+(pretty-hydra-define hydra-dashboard
+  (:title (pretty-hydra-title "Dashboard" 'mdicon "nf-md-view_dashboard")
+          :color pink :quit-key ("q" "C-g"))
+  ("Navigator"
+   (("P" elpaca-dispath "package manage" :exit t)
+    ("S" find-custom-file "settings" :exit t))
+   "Item"
+   (("RET" widget-button-press "open" :exit t)
+    ("<tab>" widget-forward "next")
+    ("C-i" widget-forward "next")
+    ("<backtab>" widget-backward "previous")
+    ("C-n" next-line "next line")
+    ("C-p" previous-line "previous  line"))
+   "Misc"
+   (("<f2>" open-dashboard "open" :exit t)
+    ("g" dashboard-refresh-buffer "refresh" :exit t)
+    ("Q" quit-dashboard "quit" :exit t))))
+
+(global-set-keys
+ '(("<f2>" . open-dashboard)))
+
+(with-eval-after-load 'dashboard
+  (keymap-sets dashboard-mode-map
+    '(("H" . browse-homepage)
+      ("S" . find-custom-file)
+      ("P" . elpaca-dispath)
+      ("q" . quit-dashboard)
+      ("h" . hydra-dashboard/body)
+      ("?" . hydra-dashboard/body))))
 
 (if user/dashboard
     (dashboard-setup-startup-hook)
