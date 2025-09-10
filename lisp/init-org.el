@@ -263,6 +263,7 @@ prepended to the element after the #+HEADER: tag."
 (defun my/org-capf ()
   (setq-local completion-at-point-functions
               `(cape-file
+                cape-elisp-block
                 cape-emoji
                 ,(cape-capf-super
                   #'cape-dict
