@@ -200,6 +200,14 @@
     ("C" . my/string-convert-dispatch)
     ("O" . casual-editkit-main-tmenu)))
 
+(defvar-keymap find-map
+  :doc "Keymap for find commands."
+  "c" #'find-custom-file
+  "l" #'find-library
+  "v" #'find-variable)
+
+(defalias 'find-map find-map)
+
 (defun meow-setup ()
   ;; (meow-motion-overwrite-define-key
   ;;  '("j" . meow-next)
@@ -339,7 +347,8 @@
    '("<escape>" . ignore))
 
   (meow-normal-define-key
-   '("g" . "M-g"))
+   '("g" . "M-g")
+   (cons "F" find-map))
 
   (meow-normal-define-key
    '("C-;" . grugru)
