@@ -85,10 +85,6 @@
 (add-hook 'embark-collect-mode
           #'consult-preview-at-point-mode)
 
-(global-set-key (kbd "M-.") #'embark-act)
-(global-set-key (kbd "M-;") #'embark-dwim)
-(global-set-key (kbd "C-h B") #'embark-bindings)
-
 (keymap-sets minibuffer-local-map
   '(("M-s" . consult-history)
     ("M-r" . consult-history)
