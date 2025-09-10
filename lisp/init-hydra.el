@@ -145,11 +145,12 @@
 (defhydra hydra-straight-helper (:hint nil)
   "
 Straight:
-_c_heck all       |_f_etch all     |_m_erge all      |_n_ormalize all   |p_u_sh all
-_C_heck package   |_F_etch package |_M_erge package  |_N_ormlize package|p_U_sh package
-----------------^^+--------------^^+---------------^^+----------------^^+------------||_q_uit||
-_r_ebuild all     |_p_ull all      |_v_ersions freeze|_w_atcher start   |_g_et recipe
-_R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |prun_e_ build"
+_c_heck all       |_f_etch all     |_m_erge all      |_n_ormalize all   |p_u_sh all        |
+_C_heck package   |_F_etch package |_M_erge package  |_N_ormlize package|p_U_sh package    |prun_e_ build
+----------------^^+--------------^^+---------------^^+----------------^^+----------------^^+--------------
+_r_ebuild all     |_p_ull all      |_v_ersions freeze|_w_atcher start   |_g_et recipe entry|||_q_uit||
+_R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |_G_et recipe repos|
+"
   ("c" straight-check-all)
   ("C" straight-check-package)
   ("r" straight-rebuild-all)
@@ -169,6 +170,7 @@ _R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |prun_e_
   ("w" straight-watcher-start)
   ("W" straight-watcher-quit)
   ("g" straight-get-recipe)
+  ("G" straight-pull-recipe-repositories)
   ("e" straight-prune-build)
   ("q" nil))
 
