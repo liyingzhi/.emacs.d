@@ -6,6 +6,7 @@
    ;; ("M-<right>" . unbury-buffer)
    ("C-s-;" . embark-dwim)
    ("C-M-;" . embark-dwim)
+   ("M-." . embark-act)
    ("M-;" . embark-dwim)
    ("C-h B" . embark-bindings)))
 
