@@ -1,3 +1,7 @@
+;;; init-spell.el --- spell                          -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
+
 (require 'wucuo)
 ;; (setq wucuo-flyspell-start-mode "normal")
 (setq ispell-program-name "aspell")

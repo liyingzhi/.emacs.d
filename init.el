@@ -37,7 +37,6 @@
 (require 'init-ui)
 
 (require 'init-edit)
-(require 'init-spell)
 (require 'init-input)
 (require 'init-auto-insert)
 (require 'init-separedit)

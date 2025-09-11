@@ -30,5 +30,8 @@
     ("u" gt-use-text-utility "text utility")
     ("k" gt-use-korean-gt "translate Korean"))))
 
+;;; spell
+(require 'init-spell)
+
 (provide 'init-language)
 ;;; init-language.el ends here
