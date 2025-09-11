@@ -147,8 +147,7 @@
 
     (auto-save :host github :repo "manateelazycat/auto-save")
     super-save
-    org-sliced-images
-    (image-slicing :host github :repo "ginqi7/image-slicing")))
+    org-sliced-images))
 
 (defvar *package-ui-install-list*
   '(solarized-theme

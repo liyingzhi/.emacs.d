@@ -173,6 +173,12 @@
           (org-rich-yank--trim-nl contents)
           link))
 
+;;; org-sliced-images
+(require 'org-sliced-images)
+(setq org-sliced-images-round-image-height t)
+(setq org-sliced-images-consume-dummies t)
+(org-sliced-images-mode 1)
+
 ;;; menu
 (defun hot-expand (str &optional mod)
   "Expand org template.

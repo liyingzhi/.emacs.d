@@ -151,9 +151,6 @@
                  (window-parameters . ((no-delete-other-windows . t)
                                        (no-other-window . t))))))
 
-;;; Eww image slice
-(require 'init-image-slicing)
-
 ;;; pdf-tools
 (pdf-loader-install)
 
