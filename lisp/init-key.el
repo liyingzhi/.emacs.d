@@ -87,12 +87,6 @@
  (:key "w" :description "Search in omni sources" :command consult-omni-multi :filename "init-consult-omni")
  (:key "m" :description "Search global mark" :command consult-global-mark))
 
-(defun ibuffer-refersh ()
-  (interactive)
-  (when-let* ((buffer (get-buffer "*Ibuffer*")))
-    (kill-buffer buffer))
-  (ibuffer))
-
 (lazy-one-key-create-menu
  "Buffer"
  (:key "b" :description "Switch buffer" :command consult-buffer)

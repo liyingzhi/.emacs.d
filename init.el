@@ -53,6 +53,7 @@
 (require 'init-toolkit)
 
 (require 'init-dired)
+(require 'init-ibuffer)
 (require 'init-helpful)
 (require 'init-calender)
 
