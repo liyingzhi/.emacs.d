@@ -291,7 +291,6 @@
 (lazy-one-key-create-menu
  "Insert"
  (:key "i" :description "Insert import" :command insert-import :filename "init-func")
- (:key "f" :description "Insert file" :command hydra-insert-file/body)
  (:key "j" :description "Insert json to type" :command quicktype))
 
 ;;; symbol overlay
