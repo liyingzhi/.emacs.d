@@ -302,7 +302,6 @@
    '("c" . meow-change)
    '("C" . comment-or-uncomment-region)
    '("s" . meow-delete)
-   '("S" . "M-s")
    '("e" . meow-next-word)
    '("E" . meow-next-symbol)
    '("f" . meow-find)
@@ -348,6 +347,7 @@
 
   (meow-normal-define-key
    '("g" . "M-g")
+   '("S" . "M-s")
    (cons "F" find-map))
 
   (meow-normal-define-key
