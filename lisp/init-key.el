@@ -320,6 +320,23 @@
   (keymap-sets vterm-mode-map
     '(("C-y" . vterm-yank))))
 
+;;; rg
+(lazy-load-global-keys
+ '(("M-s s" . rg-dwim)
+   ("M-s R" . rg-menu)
+   ("M-s r" . rg)
+   ("M-s t" . rg-literal)
+   ("M-s p" . rg-project))
+ "init-rg")
+
+;;; consult
+(global-set-keys
+ '(("M-s l" . consult-line)
+   ("M-s L" . consult-line-multi)
+   ("M-s u" . consult-isearch-history)
+   ("M-s f" . ("Search file" . consult-fd))
+   ("M-s d" . ("Search dir" . consult-fd-dir))))
+
 (defun my/one-key-menu-auto-popup-advice (fn)
   (let ((one-key-popup-window t))
     (funcall fn)))

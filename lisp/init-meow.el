@@ -302,7 +302,7 @@
    '("c" . meow-change)
    '("C" . comment-or-uncomment-region)
    '("s" . meow-delete)
-   '("S" . meow-backward-delete)
+   '("S" . "M-s")
    '("e" . meow-next-word)
    '("E" . meow-next-symbol)
    '("f" . meow-find)
