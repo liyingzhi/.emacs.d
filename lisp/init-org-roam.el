@@ -1,12 +1,15 @@
-;;; -*- lexical-binding: t; -*-
+;;; init-org-roam.el --- org roam                    -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
 
 (defconst *org-path* (concat user/org-base-dir-path "/roam/"))
 (setq org-roam-directory (file-truename *org-path*))
 
-(org-roam-db-autosync-mode)
-
 (require 'find-lisp)
 (setq org-id-extra-files (find-lisp-find-files org-roam-directory "\.org$"))
+
+(with-eval-after-load 'org-roam
+  (org-roam-db-autosync-enable))
 
 (one-key-create-menu
  "Roam"
@@ -207,3 +210,4 @@ The files are located in the directory specified by `file-path-prefix`."
   [("q" "Quit"           transient-quit-one)])
 
 (provide 'init-org-roam)
+;;; init-org-roam.el ends here

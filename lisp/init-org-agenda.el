@@ -1,3 +1,7 @@
+;;; init-org-agenda.el --- org agenda                -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
+
 (require 'org-agenda)
 (require 'org-journal)
 (require 'org-archive)
@@ -98,7 +102,6 @@ Otherwise, calculate the age of the current entry."
 (keymap-set org-agenda-mode-map
             "C-c C-e" #'org-store-agenda-views)
 
-
 ;; Use a function to decide what to change the state to.
 (setq org-clock-in-switch-to-state #'sodaware/switch-task-on-clock-start)
 
@@ -148,3 +151,4 @@ Otherwise, calculate the age of the current entry."
    (("j" . "Show open or delete journal menu") . journal-transient)))
 
 (provide 'init-org-agenda)
+;;; init-org-agenda.el ends here
