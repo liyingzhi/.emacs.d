@@ -101,7 +101,7 @@
 
    ["Program"
     ("f" "Flycheck" flycheck-mode :toggle t :transient t)
-    ("v" "Diff-hl gutter" global-diff-hl-mode :toggle t :transient t)
+    ("v" "Diff-hl mode" global-diff-hl-mode :toggle t :transient t)
     ("M" "Margin gutter" diff-hl-margin-mode :toggle t :transient t)
     ("E" "Debug on error" toggle-debug-on-error
      :toggle (lambda () (default-value 'debug-on-error)) :transient t)
@@ -110,6 +110,7 @@
     ("Q" "Move Style" +lizqwer/toggle-move-style
      :toggle (lambda () (bound-and-true-p user/move-style-motion)) :transient t)
     ]
+
    ["LLM"
     ("G" "llm free" my/switch-gptel-llm  :toggle (lambda () (equal gptel-model user/ai-model-free)) :transient t)
     ("C" "llm coder" my/switch-gptel-llm-coder :toggle (lambda () (equal gptel-model user/ai-model-coder)) :transient t)]]
