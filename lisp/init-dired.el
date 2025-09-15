@@ -3,7 +3,6 @@
 ;;; Code:
 
 (require 'lib-dired)
-(require 'dired-menu)
 
 ;;; dired
 (require 'dired)
@@ -92,6 +91,34 @@
                 (nerd-icons-dired-mode))
               (diredfl-mode)
               (dired-omit-mode)))
+
+(require 'lib-transient)
+(require 'casual-dired)
+(transient-define-prefix dired-dispatch ()
+  "Dired dispatch menu"
+  [["Directory"
+    ("h" "Hide Details" dired-hide-details-mode
+     :description
+     (lambda ()
+       (transient-show-checkbox-label dired-hide-details-mode "Hide Details"))
+     :transient t)
+    ("o" "Omit Mode" dired-omit-mode
+     :description
+     (lambda () (transient-show-checkbox-label dired-omit-mode "Omit Mode"))
+     :transient t)]
+   ["Sort By"
+    ("n" "Name" casual-dired--sort-by-name :transient t)
+    ("k" "Kind" casual-dired--sort-by-kind :transient t)
+    ("l" "Date Last Opened" casual-dired--sort-by-date-last-opened
+     :transient t)
+    ("a" "Date Added" casual-dired--sort-by-date-added :transient t)
+    ("m" "Date Modified" casual-dired--sort-by-date-modified :transient t)
+    ("M" "Date Metadata Changed" casual-dired--sort-by-date-metadata-changed
+     :transient t)
+    ("s" "Size" casual-dired--sort-by-size :transient t)]
+   ["Setting"
+    ("f" "dirvish-fd-switches-menu" dirvish-fd-switches-menu)]]
+  [("q" "Quit" transient-quit-all)])
 
 ;;; Keymap
 (keymap-sets dired-mode-map
