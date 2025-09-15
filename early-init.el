@@ -83,6 +83,7 @@
   ;; (benchmark-init/activate)
 
   (require 'init-const)
+  (require 'init-custom)
   (require 'init-startup)
   (require 'lazy-load)
   (require 'one-key)

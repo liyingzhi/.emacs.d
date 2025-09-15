@@ -2,20 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-
-;; (setq-default inhibit-redisplay t
-;;               inhibit-message t)
-;; (add-hook 'window-setup-hook
-;;           (lambda ()
-;;             (setq-default inhibit-redisplay nil
-;;                           inhibit-message nil)
-;;             (redisplay)))
-
-;; (toggle-debug-on-error)
-
-(setq custom-file (locate-user-emacs-file "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
+(and (file-readable-p custom-file) (load custom-file))
 
 ;; 启动必须加载
 ;; Need install packages
