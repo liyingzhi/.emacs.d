@@ -100,7 +100,7 @@
   (interactive)
   (when (not (equal gptel-model user/ai-model-coder))
     (setq gptel-backend
-          (gptel-get-backend user/ai-backend))
+          (gptel-get-backend user/ai-backend-coder))
     (setq gptel-model user/ai-model-coder)
     (setq gptel-use-tools t)))
 
