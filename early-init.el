@@ -49,6 +49,8 @@
   (dolist (package packages)
     (straight-use-package package)))
 
+(defalias 'wait-packages! #'packages!)
+
 (let ((file-name-handler-alist nil))
   (add-to-list 'load-path
                (expand-file-name

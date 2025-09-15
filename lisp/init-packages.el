@@ -264,45 +264,7 @@
     (codeium-overlay :host github
                      :repo "liyingzhi/codeium-overlay.el")
     (minuet :host github
-            :repo "milanglacier/minuet-ai.el")
-    ))
-
-(defvar *package-python-install-list*
-  '(conda
-    pyvenv))
-
-(defvar *package-haskell-install-list*
-  '(haskell-mode))
-
-(defvar *package-web-install-list*
-  '(web-mode
-    pnpm-mode))
-
-(defvar *package-common-lisp-install-list*
-  '(common-lisp-snippets
-    sly
-    sly-quicklisp
-    sly-asdf))
-
-(defvar *package-scheme-install-list*
-  '(geiser
-    geiser-guile))
-
-(defvar *package-rust-install-list*
-  '(rust-mode
-    cargo))
-
-(defvar *package-go-install-list*
-  '(go-mode))
-
-(defvar *package-zig-install-list*
-  '(zig-ts-mode))
-
-(defvar *package-java-install-list*
-  '(groovy-mode))
-
-(defvar *package-sql-install-list*
-  '(sql-indent))
+            :repo "milanglacier/minuet-ai.el")))
 
 (defvar *package-toolkit-install-list*
   '((thing-edit :host github :repo "manateelazycat/thing-edit")
@@ -315,7 +277,6 @@
 (defvar *package-another-install-list*
   '(elfeed
     code-stats
-    ;; tabspaces
     docker
     (screenshot :host github :repo "tecosaur/screenshot")
     (telega-url-shorten-nerd :host github
@@ -364,38 +325,6 @@
          *package-language-install-list*
          *package-org-install-list*
          *package-ai-install-list*
-
-
-         (when user/python
-           *package-python-install-list*)
-
-         (when user/haskell
-           *package-haskell-install-list*)
-
-         (when user/web
-           *package-web-install-list*)
-
-         (when user/common-lisp
-           *package-common-lisp-install-list*)
-
-         (when user/scheme
-           *package-scheme-install-list*)
-
-         (when user/rust
-           *package-rust-install-list*)
-
-         (when user/golang
-           *package-go-install-list*)
-
-         (when user/zig
-           *package-zig-install-list*)
-
-         (when user/sql
-           *package-sql-install-list*)
-
-         (when user/java
-           *package-java-install-list*)
-
          *package-toolkit-install-list*
          *package-another-install-list*))
 
