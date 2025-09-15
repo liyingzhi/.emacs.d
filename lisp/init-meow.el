@@ -214,7 +214,6 @@
 
   (meow-leader-define-key
    '("w" . hydra-window/body)
-   '("T" . hydra-toggles/body)
    '("u" . one-key-menu-useful)
    '("j" . one-key-menu-code)
    '("s" . one-key-menu-search)

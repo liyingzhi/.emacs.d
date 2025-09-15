@@ -94,9 +94,6 @@
 ;;; Dashboard
 (require 'init-dashboard)
 
-;;; Child frame
-(require 'init-posframe)
-
 ;;; Highlight
 (require 'init-highlight)
 
