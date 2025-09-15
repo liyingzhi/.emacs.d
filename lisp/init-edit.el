@@ -37,9 +37,13 @@
 ;;; fingertip
 (require 'init-fingertip)
 
-;;;
-(eval-after-load 'expreg
+;;; expreg
+(with-eval-after-load 'expreg
   (setq expreg-restore-point-on-quit t))
+
+(require 'home-row-expreg-diverted)
+(add-list-to-list 'home-row-expreg-diverted-commands '(meow-save indent-for-tab-command))
+(home-row-expreg-diverted-mode 1)
 
 ;;; vundo
 (require 'vundo)
