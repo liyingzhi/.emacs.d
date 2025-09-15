@@ -125,4 +125,21 @@
 
 (global-lsp-bridge-mode)
 
+(keymap-sets lsp-bridge-mode-map
+  '(("C-c j r" . lsp-bridge-rename)
+    ("C-c j R" . lsp-bridge-start-process)
+    ("C-c j a" . lsp-bridge-code-action)
+    ("C-c j s" . lsp-bridge-workspace-list-symbols)
+    ("C-c j p" . lsp-bridge-peek)
+
+    ("M-g r" . lsp-bridge-find-references)
+    ("M-g d" . find-definition-with-lsp-bridge)
+    ("M-g D" . find-definition-with-lsp-bridge-other-window)
+    ("M-g u" . lsp-bridge-find-impl)
+    ("M-g U" . lsp-bridge-find-impl-other-window)
+
+    ("C-h ?" . lsp-bridge-popup-documentation)
+
+    ("C-o" . return-find-def)))
+
 (provide 'init-lsp-bridge)

@@ -47,12 +47,17 @@
 (require 'mark-comment)
 (meow-thing-register 'comment #'mark-comment-inner-of-comment #'mark-comment-inner-of-comment)
 
-(setq wrap-keymap (let ((map (make-keymap)))
-                    (suppress-keymap map)
-                    (dolist (k '("(" "[" "{" "<"))
-                      (define-key map k #'insert-pair))
-                    map)
-      meow-char-thing-table '((?\( . round)
+(defvar wrap-keymap
+  (let ((map (make-keymap)))
+    (suppress-keymap map)
+    (dolist (k '("(" "[" "{" "<"))
+      (define-key map k #'insert-pair))
+    map)
+  "Keymap for wrap.")
+
+(meow-normal-define-key (cons "\\" wrap-keymap))
+
+(setq meow-char-thing-table '((?\( . round)
                               (?\) . round)
                               (?\g .  string)
                               (?\[ . square)
@@ -69,8 +74,6 @@
                               (?p  . paragraph)
                               (?u . url)
                               (?c . comment)))
-
-(meow-normal-define-key (cons "\\" wrap-keymap))
 
 (defun lazy-meow-leader-define-key (&rest keybinds)
   (let* ((meow-leader-keybinds))
@@ -118,13 +121,8 @@
       (call-interactively #'scroll-down-one-line)
     (call-interactively #'meow-prev)))
 
-(defun match-in (pred lst)
-  (catch 'found
-    (dolist (x lst)
-      (when (funcall pred x)
-        (throw 'found t)))))
-
 (defun my/meow-quit ()
+  "Meow quit."
   (interactive)
   (if (match-in #'(lambda (regex)
                     (buffer-match-p (if (symbolp regex)
@@ -143,11 +141,11 @@
                 (seq-filter (lambda (win)
                               (let ((buf (window-buffer win)))
                                 (not (match-in (lambda (regex)
-                                               (buffer-match-p (if (symbolp regex)
-                                                                   (cons 'derived-mode regex)
-                                                                 regex)
-                                                               (buffer-name buf)))
-                                             popper-reference-buffers))))
+                                                 (buffer-match-p (if (symbolp regex)
+                                                                     (cons 'derived-mode regex)
+                                                                   regex)
+                                                                 (buffer-name buf)))
+                                               popper-reference-buffers))))
                             all-windows)))
           (if (> (length non-popper-windows) 1)
               (delete-window)
@@ -209,37 +207,8 @@
 (defalias 'find-map find-map)
 
 (defun meow-setup ()
-  ;; (meow-motion-overwrite-define-key
-  ;;  '("j" . meow-next)
-  ;;  '("k" . meow-prev)
-  ;;  '("h" . meow-left)
-  ;;  '("l" . meow-right)
-  ;;  '("o" . meow-block)
-  ;;  '("x" . meow-line)
-  ;;  '("W" . meow-mark-symbol)
-  ;;  '("w" . meow-mark-word)
-  ;;  '("C-j" . (lambda ()
-  ;;              (interactive)
-  ;;              (dotimes (i 2)
-  ;;             (call-interactively 'meow-next))))
-  ;;  '("C-k" . (lambda ()
-  ;;              (interactive)
-  ;;              (dotimes (i 2)
-  ;;             (call-interactively 'meow-prev))))
-  ;;  '("<escape>" . ignore))
-
+  "Meow keymap setup."
   (meow-leader-define-key
-   ;; Use SPC (0-9) for digit arguments.
-   ;; '("1" . meow-digit-argument)
-   ;; '("2" . meow-digit-argument)
-   ;; '("3" . meow-digit-argument)
-   ;; '("4" . meow-digit-argument)
-   ;; '("5" . meow-digit-argument)
-   ;; '("6" . meow-digit-argument)
-   ;; '("7" . meow-digit-argument)
-   ;; '("8" . meow-digit-argument)
-   ;; '("9" . meow-digit-argument)
-   ;; '("0" . meow-digit-argument)
    '("/" . meow-keypad-describe-key)
    '("?" . meow-cheatsheet))
 
@@ -259,8 +228,7 @@
    '("d" . hydra-jump-dir/body)
    '("i" . one-key-menu-insert)
    '("a" . one-key-menu-agenda)
-   '("n" . one-key-menu-roam)
-   )
+   '("n" . one-key-menu-roam))
 
   (lazy-meow-leader-define-key
    '(("p" . project-dispatch) "init-project"))
@@ -366,6 +334,7 @@
 ;; (require 'meow-tree-sitter)
 ;; (meow-tree-sitter-register-defaults)
 
+(require 'repeat-fu)
 (setq repeat-fu-preset 'meow)
 (add-hook 'meow-mode-hook
           #'(lambda ()

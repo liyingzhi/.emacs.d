@@ -113,6 +113,10 @@
 
     (setf (alist-get 'left-fringe eldoc-box-frame-parameters) 8
           (alist-get 'right-fringe eldoc-box-frame-parameters) 8)
+    
+    (when (equal user/lsp-client 'eglot)
+      (global-set-keys
+       '(("C-h ?" . eldoc-box-help-at-point))))
 
     (with-eval-after-load 'eglot
       (keymap-sets eglot-mode-map
