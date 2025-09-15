@@ -69,13 +69,14 @@
     ("a" "Aggressive indent" global-aggressive-indent-mode :toggle t :transient t)
     ("c" "Centered cursor" global-centered-cursor-mode :toggle t :transient t)
     ("i" "Immersive translate" immersive-translate-auto-mode :toggle t :transient t)
-    ("t" "Telega" +lizqwer/toggle-telega :toggle (lambda () (get-buffer "*Telega Root*")) :transient t)]
+    ("t" "Telega" +lizqwer/toggle-telega :toggle (lambda () (get-buffer "*Telega Root*")) :transient t)
+    ("l" "Interactive log" interaction-log-mode :toggle t :transient t)]
 
    ["Highlight"
     ("h l" "Line highlight" global-hl-line-mode :toggle t :transient t)
     ("h p" "Paren highlight" show-paren-mode :toggle t :transient t)
     ("h s" "Symbol overlay" symbol-overlay-mode :toggle t :transient t)
-    ("h r" "colorful" colorful-mode :toggle t :transient t)
+    ("h r" "Colorful" colorful-mode :toggle t :transient t)
     ("h w" "Whitespace"
      (lambda ()
        (interactive)
@@ -93,9 +94,10 @@
      :toggle (lambda ()
                (not (eq (frame-parameter (selected-frame) 'alpha-background) 100)))
      :transient t)
-    ("r" "Redacted mode" redacted-mode :toggle t :transient t)
+    ("r" "Rand theme" a-random-theme)
+    ("R" "Redacted mode" redacted-mode :toggle t :transient t)
     ("b" "Imenu list" imenu-list-smart-toggle :toggle (lambda () (bound-and-true-p imenu-list-minor-mode)) :transient t)
-    ("k" "Keycast log" keycast-log-mode :toggle t :transient t)]
+    ("k" "Keycast log" keycast-header-line-mode :toggle t :transient t)]
 
    ["Program"
     ("f" "Flycheck" flycheck-mode :toggle t :transient t)
@@ -104,7 +106,13 @@
     ("E" "Debug on error" toggle-debug-on-error
      :toggle (lambda () (default-value 'debug-on-error)) :transient t)
     ("Q" "Debug on quit" toggle-debug-on-quit
-     :toggle (lambda () (default-value 'debug-on-quit)) :transient t)]]
+     :toggle (lambda () (default-value 'debug-on-quit)) :transient t)
+    ("Q" "Move Style" +lizqwer/toggle-move-style
+     :toggle (lambda () (bound-and-true-p user/move-style-motion)) :transient t)
+    ]
+   ["LLM"
+    ("G" "llm free" my/switch-gptel-llm  :toggle (lambda () (equal gptel-model user/ai-model-free)) :transient t)
+    ("C" "llm coder" my/switch-gptel-llm-coder :toggle (lambda () (equal gptel-model user/ai-model-coder)) :transient t)]]
 
   [("q" "Quit" transient-quit-one)])
 
