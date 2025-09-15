@@ -196,5 +196,10 @@
   ((emacs-lisp-mode lisp-mode)
    (symbol "when-let" "if-let")))
 
+(with-eval-after-load 'init-meow
+  (meow-normal-define-key
+   '("<" . remember-init)
+   '(">" . remember-jump)))
+
 (provide 'init-edit)
 ;;; init-edit.el ends here.

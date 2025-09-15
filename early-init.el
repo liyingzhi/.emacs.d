@@ -45,6 +45,7 @@
 (setq package-enable-at-startup nil)
 
 (defun packages! (packages)
+  "Install PACKAGES."
   (dolist (package packages)
     (straight-use-package package)))
 
@@ -56,8 +57,8 @@
                (expand-file-name
                 (concat user-emacs-directory "lib")))
 
-  ;; (setq toggle-debug-on-error t)
-  (require 'init-utils)
+  (require 'lib-elisp-utils)
+  (require 'lib-utils)
 
   (add-subdirs-to-load-path
    (concat user-emacs-directory
@@ -78,6 +79,7 @@
 
   ;; (require 'benchmark-init)
   ;; (benchmark-init/activate)
+
   (require 'init-const)
   (require 'init-startup)
   (require 'lazy-load)

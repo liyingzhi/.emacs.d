@@ -59,6 +59,13 @@
 
 (setq consult-buffer-list-function #'buffer-list-filter)
 
+(defun consult-fd-dir ()
+  (interactive)
+  (let ((consult-fd-args (append consult-fd-args
+                                 (list
+                                  "--type directory"))))
+    (consult-fd "~/")))
+
 ;; consult dir
 (require 'consult-dir)
 ;; A function that returns a list of directories
