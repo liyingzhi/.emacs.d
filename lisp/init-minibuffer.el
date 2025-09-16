@@ -37,9 +37,9 @@
 ;;; consult
 (require 'consult)
 
-(dolist (src consult-buffer-sources)
-  (unless (or (eq src 'consult--source-buffer) (string-match "denote" (symbol-name src) ))
-    (set src (plist-put (symbol-value src) :hidden t))))
+;; (dolist (src consult-buffer-sources)
+;;   (unless (or (eq src 'consult--source-buffer) (string-match "denote" (symbol-name src) ))
+;;     (set src (plist-put (symbol-value src) :hidden t))))
 
 ;; use narrow
 (setq consult-narrow-key "<")
