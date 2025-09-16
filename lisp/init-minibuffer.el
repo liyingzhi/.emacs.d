@@ -124,6 +124,27 @@ configuration of the virtual buffer sources."
 (add-hook 'embark-collect-mode
           #'consult-preview-at-point-mode)
 
+(with-eval-after-load 'embark
+  (setq embark-cycle-key "SPC")
+  (keymap-sets embark-library-map
+    '(("b" . straight-visit-package-website)
+      ("v" . straight-visit-package)))
+  (keymap-sets embark-buffer-map
+    '(("l" . eval-buffer)
+      ("B" . switch-to-buffer-other-window)))
+  (keymap-sets embark-file-map
+    '(("S" . sudo-edit-find-file)
+      ("F" . find-file-other-window)))
+  (keymap-sets embark-bookmark-map
+    '(("B" . bookmark-jump-other-window))))
+
+(global-set-keys
+ '(("C-s-;" . embark-dwim)
+   ("C-M-;" . embark-dwim)
+   ("M-;" . embark-dwim)
+   ("M-." . embark-act)
+   ("C-h B" . embark-bindings)))
+
 (keymap-sets minibuffer-local-map
   '(("M-s" . consult-history)
     ("M-r" . consult-history)
