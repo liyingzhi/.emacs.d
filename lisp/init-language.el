@@ -18,17 +18,17 @@
 
 (pretty-hydra-define-e hydra-language
   (:title "Language" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
-  ("dict"
+  ("Dict"
    (("s" sdcv-search-pointer+ "sdcv dict")
     ("f" fanyi-dwim2 "Fanyi Point")
     ("F" fanyi-dwim "Fanyi Input"))
-   "english"
-   (("t" gt-translate "show translated from")
-    ("e" gptel-translate-to-english-insert "Insert translated to"))
-   "preset"
-   (("g" gt-translate-prompt "translate with prompt")
+   "English"
+   (("t" gt-translate "show (en->zh) with taker")
+    ("e" gptel-translate-to-english-insert "Insert (*->en) with prompt"))
+   "Preset"
+   (("g" gt-translate-prompt "(en->zh) with taker & prompt")
     ("u" gt-use-text-utility "text utility")
-    ("k" gt-use-korean-gt "translate Korean"))))
+    ("k" gt-use-korean-gt "show (ko->zh) with taker"))))
 
 ;;; spell
 (require 'init-spell)
