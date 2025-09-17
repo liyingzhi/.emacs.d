@@ -111,9 +111,11 @@ It only adds the semicolon if it's not already at the end of the line."
 It only adds the semicolon if it's not already present.
 After inserting the semicolon, it moves to the next line and indents it."
   (interactive)
-  (insert-trailing-char ?\;)
-  (forward-char)
-  (newline-and-indent))
+  (if (nth 4 (syntax-ppss))
+      (insert ?\;)
+    (insert-trailing-char ?\;)
+    (forward-char)
+    (newline-and-indent)))
 
 (provide 'insert-trailing-semi)
 ;;; insert-trailing-semi.el ends here
