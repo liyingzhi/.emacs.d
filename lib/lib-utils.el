@@ -144,7 +144,7 @@ order from parent to child directories."
           ;; for gnome desktop, use twice toggle-frame-fullscreen to refresh alpha-background effect
           ;; for gnome desktop, need to install Blur my Shell gnome Extension
           (call-interactively 'toggle-frame-fullscreen))
-        (set-frame-parameter (selected-frame) 'alpha-background 90)
+        (set-frame-parameter (selected-frame) 'alpha-background user/init-alpha-background)
         (when full-screen-state
           (run-with-idle-timer 0.1 nil #'toggle-frame-fullscreen)))
     (set-frame-parameter (selected-frame) 'alpha-background 100)))
