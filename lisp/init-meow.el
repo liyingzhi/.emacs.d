@@ -164,8 +164,10 @@
        ("d" . xref-find-definitions)
        ("D" . xref-find-definitions-other-window)
        ("u" . eglot-find-implementation)))
-   (global-set-keys
-    '(("C-o" . xref-go-back))))
+   (defun go-back-and-recenter-top-bottom ()
+     (interactive)
+     (xref-go-back)
+     (recenter-top-bottom)))
   ('lsp-bridge
    (keymap-sets goto-map
      '(("r" . lsp-bridge-find-references)
@@ -173,8 +175,12 @@
        ("D" . find-definition-with-lsp-bridge-other-window)
        ("u" . lsp-bridge-find-impl)
        ("U" . lsp-bridge-find-impl-other-window)))
-   (global-set-keys
-    '(("C-o" . return-find-def)))))
+   (defun go-back-and-recenter-top-bottom ()
+     (interactive)
+     (return-find-def)
+     (recenter-top-bottom))))
+(global-set-keys
+ '(("C-o" . go-back-and-recenter-top-bottom)))
 
 ;; meow while translate i into TAB
 (keymap-unset goto-map "TAB")
