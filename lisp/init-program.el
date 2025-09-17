@@ -185,6 +185,14 @@ ARGS is ORIG-FN args."
 ;;; eat
 (require 'init-eat)
 
+;;; vterm
+(defun project-run-command-with-vterm ()
+  "Run COMMAND in vterm."
+  (interactive)
+  (let ((command (compilation-read-command compile-command)))
+    (require 'multi-vterm)
+    (multi-vterm-run command)))
+
 ;;; lisp
 (add-hook 'before-save-hook
           #'(lambda ()
