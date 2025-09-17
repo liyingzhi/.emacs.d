@@ -148,8 +148,8 @@
 
 ;;; indent yank
 (require 'indent-yank)
-(add-hook 'prog-mode-hook
-          #'indent-yank-mode)
+(add-hooks '(python-mode python-ts-mode)
+           #'indent-yank-mode)
 
 ;;; Outline indent
 (with-eval-after-load 'outline-indent
