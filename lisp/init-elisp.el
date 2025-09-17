@@ -8,7 +8,7 @@
   (eval-buffer)
   (message "Eval buffer finish!"))
 
-(keymap-sets emacs-lisp-mode-map
+(keymap-sets (emacs-lisp-mode-map lisp-interaction-mode-map)
   '(("C-c r" . eval-buffer-and-message)))
 
 (keymap-sets (emacs-lisp-mode-map lisp-interaction-mode-map)
