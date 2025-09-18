@@ -16,6 +16,14 @@
     ("C-h ?" . helpful-at-point)
     ("C-c e" . macrostep-expand)))
 
+;;; macrostep
+(with-eval-after-load 'macrostep
+  (keymap-sets macrostep-mode-map
+    '(("j" . meow-next)
+      ("k" . meow-prev)
+      ("h" . meow-left)
+      ("l" . meow-right))))
+
 (add-hook 'lisp-mode-hook #'(lambda () (treesit-parser-create 'elisp)))
 (add-hook 'emacs-lisp-mode-hook #'(lambda () (treesit-parser-create 'elisp)))
 (add-hook 'ielm-mode-hook #'(lambda () (treesit-parser-create 'elisp)))

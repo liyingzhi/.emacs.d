@@ -8,7 +8,6 @@
 ;; Need install packages
 (require 'init-packages)
 
-(require 'init-hook)
 (require 'init-gcmh)
 ;; (require 'init-auto-save)
 (require 'init-super-save)

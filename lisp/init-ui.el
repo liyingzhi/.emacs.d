@@ -147,6 +147,13 @@
                  (window-parameters . ((no-delete-other-windows . t)
                                        (no-other-window . t))))))
 
+;;; Redacted
+;; Enable `read-only-mode' to ensure that we don't change what we can't read.
+(add-hook 'redacted-mode-hook
+          (lambda ()
+            (read-only-mode
+             (if redacted-mode 1 -1))))
+
 ;;; pdf-tools
 (pdf-loader-install)
 
