@@ -51,17 +51,18 @@
     ("r" a-random-theme "rand theme")
     ("R" redacted-mode "redacted" :toggle t)
     ("b" imenu-list-smart-toggle "imenu list" :toggle imenu-list-minor-mode)
-    ("k" keycast-header-line-mode "keycast" :toggle t))
-  "Program"
-  (("f" flycheck-mode "flycheck" :toggle t)
-   ("v" global-diff-hl-mode "diff-hl mode" :toggle t)
-   ("M" diff-hl-margin-mode "margin gutter" :toggle t)
-   ("E" toggle-debug-on-error "debug on error" :toggle (default-value 'debug-on-error))
-   ("Q" toggle-debug-on-quit "debug on quit" :toggle (default-value 'debug-on-quit))
-   ("m" +lizqwer/toggle-move-style "move style" :toggle user/move-style-motion))
-  "LLM"
-  (("G" my/switch-gptel-llm "llm free" :toggle (equal gptel-model user/ai-model-free))
-   ("C" my/switch-gptel-llm-coder "llm coder" :toggle (equal gptel-model user/ai-model-coder)))))
+    ("k" keycast-header-line-mode "keycast" :toggle t)
+    ("o" outli-mode "Outline" :toggle t))
+   "Program"
+   (("f" flycheck-mode "flycheck" :toggle t)
+    ("v" global-diff-hl-mode "diff-hl mode" :toggle t)
+    ("M" diff-hl-margin-mode "margin gutter" :toggle t)
+    ("E" toggle-debug-on-error "debug on error" :toggle (default-value 'debug-on-error))
+    ("Q" toggle-debug-on-quit "debug on quit" :toggle (default-value 'debug-on-quit))
+    ("m" +lizqwer/toggle-move-style "move style" :toggle user/move-style-motion))
+   "LLM"
+   (("G" my/switch-gptel-llm "llm free" :toggle (equal gptel-model user/ai-model-free))
+    ("C" my/switch-gptel-llm-coder "llm coder" :toggle (equal gptel-model user/ai-model-coder)))))
 
 (global-set-keys
  '(("C-c T" . hydra-toggles/body)

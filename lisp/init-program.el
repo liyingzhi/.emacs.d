@@ -9,6 +9,10 @@
 
 ;;; Code:
 
+;;; outli
+(setq outli-allow-indented-headlines t)
+(add-hook 'prog-mode-hook #'outli-mode)
+
 ;;; Tree-Sitter
 (require 'treesit)
 (customize-set-variable 'treesit-font-lock-level 4)

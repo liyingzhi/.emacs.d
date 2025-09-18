@@ -178,7 +178,7 @@
     redacted
     hl-todo
     imenu-list
-    outshine
+    outli
     (indent-bars :host github :repo "jdtsmith/indent-bars")
     (sort-tab :host github
               :repo "manateelazycat/sort-tab")
