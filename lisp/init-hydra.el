@@ -93,7 +93,7 @@ _c_heck all       |_f_etch all     |_m_erge all      |_n_ormalize all   |p_u_sh 
 _C_heck package   |_F_etch package |_M_erge package  |_N_ormlize package|p_U_sh package    |_O_pen package web
 ----------------^^+--------------^^+---------------^^+----------------^^+----------------^^+------------------||_q_uit||
 _r_ebuild all     |_p_ull all      |_v_ersions freeze|_w_atcher start   |_g_et recipe entry|us_e_ package
-_R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |_G_et recipe repos|prun_E_ build
+_R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |_G_et recipe repos|remov_E_ unused packages
 "
   ("c" straight-check-all)
   ("C" straight-check-package)
@@ -118,7 +118,7 @@ _R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |_G_et r
   ("o" straight-visit-package)
   ("O" straight-visit-package-website)
   ("e" straight-use-package)
-  ("E" straight-prune-build)
+  ("E" straight-remove-unused-repos)
   ("q" nil))
 
 (provide 'init-hydra)
