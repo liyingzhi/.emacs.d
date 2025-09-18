@@ -39,6 +39,8 @@
 (require 'init-ibuffer)
 (require 'init-helpful)
 (require 'init-calender)
+(require 'init-tools)
+
 
 (require 'init-org)
 (require 'init-denote)

@@ -23,11 +23,6 @@
    ("C-M-y" . my/copy-current-line)
    ("C-M-e" . my/select-end-of-buffer-to-point)))
 
-(with-eval-after-load 'eww
-  (keymap-sets eww-mode-map
-    '(("M-n" . scroll-up-1/3)
-      ("M-p" . scroll-down-1/3))))
-
 (with-eval-after-load 'compile
   (keymap-sets compilation-mode-map
     '(("s-n" . compilation-next-error)
@@ -303,12 +298,6 @@
 
 ;;; yank
 (global-set-key (kbd "M-y") #'consult-yank-pop)
-
-;;; gif screenshot
-(with-eval-after-load 'gif-screencast
-  (keymap-sets gif-screencast-mode-map
-    '(("<f8>" . gif-screencast-toggle-pause)
-      ("<f9>" . gif-screencast-stop))))
 
 ;;; vterm
 (with-eval-after-load 'vterm
