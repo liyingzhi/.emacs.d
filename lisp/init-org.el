@@ -358,4 +358,10 @@ prepended to the element after the #+HEADER: tag."
 
 ;; (require 'init-org-media-note)
 
+;;; Local Variables
+
+;; Local Variables:
+;; eval: (outline-hide-sublevels 2)
+;; End:
+
 (provide 'init-org)

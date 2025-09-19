@@ -21,6 +21,9 @@
     (make-directory path))
   (setq temporary-file-directory path))
 
+(add-to-list 'safe-local-eval-forms
+             '(outline-hide-sublevels 2))
+
 ;;; Encoding
 ;; UTF-8 as the default coding system
 (when (fboundp 'set-charset-priority)
@@ -216,6 +219,12 @@
           (lambda ()
             (save-place-mode t)
             (recentf-mode t)))
+
+;;; Local Variables
+
+;; Local Variables:
+;; eval: (outline-hide-sublevels 2)
+;; End:
 
 (provide 'init-startup)
 ;;; init-startup.el ends here.

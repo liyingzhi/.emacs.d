@@ -162,5 +162,11 @@
     '(("j" . pdf-view-next-line-or-next-page)
       ("k" . pdf-view-previous-line-or-previous-page))))
 
+;;; Local Variables
+
+;; Local Variables:
+;; eval: (outline-hide-sublevels 2)
+;; End:
+
 (provide 'init-ui)
 ;;; init-ui.el ends here.
