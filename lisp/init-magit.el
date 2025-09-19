@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-;; ANCHOR: magit-t-o-dos keyword text
+;; ANCHOR: magit-todos keyword text
 ;; (require 'magit-todos)
 ;; (with-eval-after-load 'magit
 ;;   (magit-todos-mode 1))
