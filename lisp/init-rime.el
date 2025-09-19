@@ -59,6 +59,8 @@
             :font "TsangerJinKai03-6763-18"
             :internal-border-width 5))
 
+(keymap-sets rime-mode-map
+  '(("C-`" . rime-send-keybinding)))
 
 (require 'im-cursor-chg)
 (cursor-chg-mode t)
