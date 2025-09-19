@@ -1,3 +1,7 @@
+;;; init-webjump.el --- init webjump                 -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
+
 (require 'webjump)
 
 (setq webjump-sites
@@ -42,3 +46,4 @@
                   (if (webjump-null-or-blank-string-p input) nil input))))
 
 (provide 'init-webjump)
+;;; init-webjump.el ends here
