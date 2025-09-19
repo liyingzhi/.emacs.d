@@ -8,6 +8,8 @@
 
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 (add-hook 'after-init-hook
+          #'ace-window-posframe-mode)
+(add-hook 'after-init-hook
           #'ace-window-display-mode)
 
 (custom-set-faces
