@@ -40,6 +40,8 @@
         rime-predicate-prog-in-code-p
         rime-predicate-org-in-src-block-p
 
+        rime-predicate-punctuation-line-begin-p
+
         rime-predicate-after-alphabet-char-p
         rime-predicate-punctuation-after-space-cc-p))
 (setq rime-inline-predicates
