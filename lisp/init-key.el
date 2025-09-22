@@ -1,3 +1,7 @@
+;;; init-key.el --- key                              -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
+
 (global-set-keys
  '(("M-<left>" . previous-buffer)
    ("M-<right>" . next-buffer)
@@ -22,6 +26,17 @@
    ("C-M-r" . restart-emacs)
    ("C-M-y" . my/copy-current-line)
    ("C-M-e" . my/select-end-of-buffer-to-point)))
+
+;; repeat for scroll up
+(defvar-keymap scroll-repeat-map
+  :repeat t
+  "n" #'scroll-up-1/3
+  "p" #'scroll-down-1/3)
+
+(defvar-keymap scroll-other-window-repeat-map
+  :repeat t
+  "n" #'scroll-other-window-up-1/3
+  "p" #'scroll-other-window-down-1/3)
 
 (with-eval-after-load 'compile
   (keymap-sets compilation-mode-map
@@ -330,3 +345,4 @@
 (advice-add 'one-key-menu-tool-kit :around #'my/one-key-menu-auto-popup-advice)
 
 (provide 'init-key)
+;;; init-key.el ends here

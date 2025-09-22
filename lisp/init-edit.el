@@ -133,6 +133,11 @@
   ;;   (transient-append-suffix 'casual-isearch-tmenu "u"
   ;;     '("c" "Use consult line" isearch-consult-line)))
   )
+;; repeat for isearch
+(defvar-keymap isearch-repeat-map
+  :repeat t
+  "s" #'isearch-repeat-forward
+  "r" #'isearch-repeat-backward)
 
 ;;; nxml
 (with-eval-after-load 'nxml-mode
