@@ -90,7 +90,9 @@
  (:key "f" :description "Search file in home" :command consult-fd-in-home)
  (:key "y" :description "Search YASsnippet" :command consult-yasnippet)
  (:key "w" :description "Search in omni sources" :command consult-omni-multi :filename "init-consult-omni")
- (:key "m" :description "Search global mark" :command consult-global-mark))
+ (:key "m" :description "Search global mark" :command consult-global-mark)
+ (:key "t" :description "Search global mark" :command hl-todo-rg-project :filename "init-hl-todo")
+ (:key "T" :description "Search global mark" :command hl-todo-rg :filename "init-hl-todo"))
 
 (lazy-one-key-create-menu
  "Buffer"
@@ -296,7 +298,8 @@
 (lazy-one-key-create-menu
  "Insert"
  (:key "i" :description "Insert import" :command insert-import :filename "init-func")
- (:key "j" :description "Insert json to type" :command quicktype))
+ (:key "j" :description "Insert json to type" :command quicktype)
+ (:key "t" :description "Insert hl-todo key" :command hl-todo-insert))
 
 ;;; symbol overlay
 (lazy-load-global-keys
