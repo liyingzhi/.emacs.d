@@ -207,6 +207,10 @@
 
 (with-eval-after-load 'init-meow
   (meow-normal-define-key
+   '("C-;" . grugru)))
+
+(with-eval-after-load 'init-meow
+  (meow-normal-define-key
    '("<" . remember-init)
    '(">" . remember-jump)))
 
