@@ -122,17 +122,18 @@
 
   (keymap-sets isearch-mode-map
     '(("<escape>" . isearch-exit)
-      ("C-d" . my/isearch-forward-symbol-at-point)
-      ("C-l" . my-isearch-consult-line-from-isearch)
-      ("C-o" . my-occur-from-isearch)))
+      ("C-." . my/isearch-forward-symbol-at-point)
+      ("C-n" . my-isearch-consult-line-from-isearch)
+      ("C-b" . my-occur-from-isearch)))
 
-  ;; (with-eval-after-load 'casual-isearch
-  ;;   (transient-define-suffix isearch-consult-line ()
-  ;;     (interactive)
-  ;;     (call-interactively #'my-isearch-consult-line-from-isearch))
-  ;;   (transient-append-suffix 'casual-isearch-tmenu "u"
-  ;;     '("c" "Use consult line" isearch-consult-line)))
-  )
+  ;; add isearch-consult-line to casual-isearch-tmenu
+  (with-eval-after-load 'casual-isearch
+    (transient-define-suffix isearch-consult-line ()
+      (interactive)
+      (call-interactively #'my-isearch-consult-line-from-isearch))
+    (transient-append-suffix 'casual-isearch-tmenu "u"
+      '("c" "Use consult line" isearch-consult-line))))
+
 ;; repeat for isearch
 (defvar-keymap isearch-repeat-map
   :repeat t
