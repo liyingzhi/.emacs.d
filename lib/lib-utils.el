@@ -162,6 +162,8 @@ order from parent to child directories."
            emacs-basic-display
            (not (display-graphic-p)))))
 
+;;; auth
+
 (defun lizqwer/api-key-from-auth-source (&optional host user)
   "Lookup api key in the auth source.
 By default, the LLM host for the active backend is used as HOST,
@@ -178,6 +180,8 @@ and \"apikey\" as USER."
         secret)
     (user-error "No `api-key' found in the auth source")))
 
+;;; file
+
 (defun find-custom-file()
   "Open custom files."
   (interactive)
@@ -191,6 +195,25 @@ and \"apikey\" as USER."
              (tramp-tramp-file-p file-name))
         (error "Cannot open tramp file")
       (browse-url (concat "file://" file-name)))))
+
+;;; Navigation
+
+(defun previous-buffer-dedicated-window ()
+  "Switch to the previous buffer and make the window dedicated to it."
+  (interactive)
+  (toggle-window-dedicated (get-buffer-window (current-buffer)) nil nil)
+  (previous-buffer)
+  (toggle-window-dedicated (get-buffer-window (current-buffer)) t nil))
+
+(defun next-buffer-dedicated-window ()
+  "Switch to the next buffer and make the window dedicated to it."
+  (interactive)
+  (toggle-window-dedicated (get-buffer-window (current-buffer)) nil nil)
+  (next-buffer)
+  (toggle-window-dedicated (get-buffer-window (current-buffer)) t nil))
+
+
+;;; tools
 
 ;; From https://emacs.stackexchange.com/questions/5582/are-there-color-pickers-for-emacs
 (defun my-insert-color-hex (&optional arg)
@@ -253,20 +276,6 @@ With DEPTH, clone with --depth=1."
                                      (user-error (format "%s\n%s" command output))))))
     (set-process-filter proc #'comint-output-filter)))
 
-(defun previous-buffer-dedicated-window ()
-  "Switch to the previous buffer and make the window dedicated to it."
-  (interactive)
-  (toggle-window-dedicated (get-buffer-window (current-buffer)) nil nil)
-  (previous-buffer)
-  (toggle-window-dedicated (get-buffer-window (current-buffer)) t nil))
-
-(defun next-buffer-dedicated-window ()
-  "Switch to the next buffer and make the window dedicated to it."
-  (interactive)
-  (toggle-window-dedicated (get-buffer-window (current-buffer)) nil nil)
-  (next-buffer)
-  (toggle-window-dedicated (get-buffer-window (current-buffer)) t nil))
-
 (defun tianqi ()
   "获取天气."
   (interactive)
@@ -277,6 +286,12 @@ With DEPTH, clone with --depth=1."
   (split-window-below)
   (other-window 1)
   (goto-char (point-min)))
+
+;;; Local Variables
+
+;; Local Variables:
+;; eval: (when user/hidden-outline (outline-hide-sublevels 2))
+;; End:
 
 (provide 'lib-utils)
 ;;; lib-utils.el ends here
