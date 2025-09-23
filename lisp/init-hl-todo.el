@@ -36,5 +36,8 @@
   (require 'lib-hl-todo)
   (setq consult-todo-dir-function #'consult-todo--ripgrep))
 
+(lazy-load-global-keys
+ '(("M-g t" . consult-todo-project))
+ "consult-todo")
 
 (provide 'init-hl-todo)

@@ -5,6 +5,7 @@
 (require 'meow)
 ;; (setq meow-expand-hint-remove-delay 5.0)
 (setq meow-esc-delay 0.001)
+(setq meow-keypad-meta-prefix nil)
 (setq meow-keypad-leader-dispatch "C-c")
 (setq meow-mode-state-list
       '((fundamental-mode . normal)
@@ -198,7 +199,7 @@
     ("e" . my/copy-select-utils-dispatch)
     ("E" . one-key-menu-thing-edit)
     ("G" . one-key-menu-mark-macro)
-    ("t" . one-key-menu-tool-kit)
+    ("T" . one-key-menu-tool-kit)
     ("n" . my/gn-key-function)
     ("c" . my/string-case-cycle-auto)
     ("C" . my/string-convert-dispatch)
