@@ -202,7 +202,7 @@ targets."
 ;;; Local Variables
 
 ;; Local Variables:
-;; eval: (outline-hide-sublevels 2)
+;; eval: (when user/hidden-outline (outline-hide-sublevels 2))
 ;; End:
 
 (provide 'init-minibuffer)

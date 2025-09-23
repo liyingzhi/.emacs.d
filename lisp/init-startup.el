@@ -23,6 +23,8 @@
 
 (add-to-list 'safe-local-eval-forms
              '(outline-hide-sublevels 2))
+(add-to-list 'safe-local-eval-forms
+             '(when user/hidden-outline (outline-hide-sublevels 2)))
 
 ;;; Encoding
 ;; UTF-8 as the default coding system
@@ -223,7 +225,7 @@
 ;;; Local Variables
 
 ;; Local Variables:
-;; eval: (outline-hide-sublevels 2)
+;; eval: (when user/hidden-outline (outline-hide-sublevels 2))
 ;; End:
 
 (provide 'init-startup)

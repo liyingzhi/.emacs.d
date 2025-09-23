@@ -102,6 +102,11 @@
   :group 'user
   :type 'boolean)
 
+(defcustom user/hidden-outline t
+  "Is hiden outline."
+  :group 'user
+  :type 'boolean)
+
 ;;; utils
 
 (defcustom user/run-python-command "python"
