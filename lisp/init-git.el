@@ -167,7 +167,8 @@ _p_rev       _U_pper              _=_: upper/lower       _r_esolve
     ("ol" "File log" magit-log-buffer-file)]
    ["Git"
     ("b" "Switch Modified buffer" consult-switch-git-status-buffer)
-    ("g" "Git Link" git-link-dispatch)]]
+    ("g" "Git Link" git-link-dispatch)
+    ("c" "Git Clone" ar/git-clone-clipboard-url)]]
   [("q" "Quit" transient-quit-one)])
 
 (provide 'init-git)
