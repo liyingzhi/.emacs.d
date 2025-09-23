@@ -176,7 +176,11 @@
     colorful-mode
     visual-fill-column
     redacted
-    hl-todo
+    ;; hl-todo
+    (hl-todo :host github
+             :repo "lizqwerscott/hl-todo"
+             :branch "fix-hl-todo--regexp")
+    consult-todo
     imenu-list
     outli
     (indent-bars :host github :repo "jdtsmith/indent-bars")

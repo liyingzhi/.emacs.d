@@ -91,8 +91,8 @@
  (:key "y" :description "Search YASsnippet" :command consult-yasnippet)
  (:key "w" :description "Search in omni sources" :command consult-omni-multi :filename "init-consult-omni")
  (:key "m" :description "Search global mark" :command consult-global-mark)
- (:key "t" :description "Search global mark" :command hl-todo-rg-project :filename "init-hl-todo")
- (:key "T" :description "Search global mark" :command hl-todo-rg :filename "init-hl-todo"))
+ (:key "t" :description "Search project TODO" :command hl-todo-rg-project :filename "lib-hl-todo")
+ (:key "T" :description "Search TODO with prompt" :command hl-todo-rg :filename "lib-hl-todo"))
 
 (lazy-one-key-create-menu
  "Buffer"

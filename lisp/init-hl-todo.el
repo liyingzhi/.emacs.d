@@ -2,6 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
+(setq hl-todo-require-punctuation t
+      hl-todo-highlight-punctuation ":")
+
 (setq hl-todo-keyword-faces
       '(("TODO"   . "#00bfff")
         ("todo"   . "#00bfff")
@@ -26,38 +29,12 @@
         ("HACK"   . "#d0bf8f")
         ("TEMP"   . "#d0bf8f")))
 
-(setq hl-todo-require-punctuation t
-      hl-todo-highlight-punctuation ":")
-
 (global-hl-todo-mode)
 
-;;; hl-todo search
-(require 'rg)
+;;; consult-todo
+(with-eval-after-load 'consult-todo
+  (require 'lib-hl-todo)
+  (setq consult-todo-dir-function #'consult-todo--ripgrep))
 
-(defun hl-todo-rg (regexp &optional files dir)
-  "Use `rg' to find all TODO or similar keywords.
-This function interactively prompts for file types and directory to search.
-REGEXP is the regular expression to search for.
-FILES is the file type pattern to limit the search.
-DIR is the base directory for the search."
-  (interactive
-   (let ((regexp (replace-regexp-in-string "\\\\[_<>]*\\|?[0-9]+:" "" (hl-todo--setup-regexp))))
-     (list regexp
-           (rg-read-files)
-           (read-directory-name "Base directory: " nil default-directory t))))
-  (rg regexp files dir))
-
-(defun hl-todo-rg-project (regexp &optional files dir)
-  "Use `rg' to find all TODO or similar keywords in current project.
-When called interactively with `C-u', prompt for file types and confirm.
-Otherwise, search everything in the current project."
-  (interactive
-   (let ((regexp (replace-regexp-in-string "\\\\[_<>]*\\|?[0-9]+:" "" (hl-todo--setup-regexp))))
-     (if current-prefix-arg
-         (list regexp
-               (rg-read-files)
-               (project-root (project-current)))
-       (list regexp "everything" (project-root (project-current))))))
-  (rg regexp files dir))
 
 (provide 'init-hl-todo)
