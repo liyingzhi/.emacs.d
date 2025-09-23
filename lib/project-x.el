@@ -285,5 +285,24 @@ buffer, are identical."
                                   "--type directory"))))
     (consult-fd (project-root (project-current)))))
 
+
+(defun my/project--remove-from-project-list (pattern)
+  "Remove projects matching PATTERN from the project list.
+The PATTERN is matched against the project paths using `string-match-p'."
+  (interactive "sRemove projects matching pattern: ")
+  (project--ensure-read-project-list)
+  (if-let* ((removed-projects (cl-remove-if-not (lambda (x) (string-match-p pattern (car x))) project--list)))
+      (if (yes-or-no-p (format "Projects to be removed:\n%s\nRemove %d projects matching (\"%s\")?"
+                               (mapconcat (lambda (x) (format "  - %s" (car x))) removed-projects "\n")
+                               (length removed-projects)
+                               pattern))
+          (progn
+            (setq project--list (cl-remove-if (lambda (x) (string-match-p pattern (car x))) project--list))
+            (message "Removed projects: %s" removed-projects)
+            ;; (project--write-project-list)
+            (message "Projects matching \"%s\" have been removed and the list has been saved." pattern))
+        (message "Operation cancelled. No projects were removed."))
+    (message "No match projects")))
+
 (provide 'project-x)
 ;;; project-x.el ends here

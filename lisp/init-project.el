@@ -62,6 +62,7 @@
   "Manage Project menu"
   [["Manage"
     ("r" "Forget under" project-forget-projects-under)
+    ("R" "Forget with prompt" my/project--remove-from-project-list)
     ("z" "Forget zombie" project-forget-zombie-projects)
     ("a" "Remember under" project-remember-projects-under)]]
   [("q" "Quit" transient-quit-one)])
