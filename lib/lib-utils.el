@@ -195,24 +195,6 @@ and \"apikey\" as USER."
              (tramp-tramp-file-p file-name))
         (error "Cannot open tramp file")
       (browse-url (concat "file://" file-name)))))
-
-;;; Navigation
-
-(defun previous-buffer-dedicated-window ()
-  "Switch to the previous buffer and make the window dedicated to it."
-  (interactive)
-  (toggle-window-dedicated (get-buffer-window (current-buffer)) nil nil)
-  (previous-buffer)
-  (toggle-window-dedicated (get-buffer-window (current-buffer)) t nil))
-
-(defun next-buffer-dedicated-window ()
-  "Switch to the next buffer and make the window dedicated to it."
-  (interactive)
-  (toggle-window-dedicated (get-buffer-window (current-buffer)) nil nil)
-  (next-buffer)
-  (toggle-window-dedicated (get-buffer-window (current-buffer)) t nil))
-
-
 ;;; tools
 
 ;; From https://emacs.stackexchange.com/questions/5582/are-there-color-pickers-for-emacs

@@ -24,6 +24,7 @@
 
 ;;; Code:
 
+;;; insert
 ;;;###autoload
 (defun my/insert-number-lines (start-at end-at step format)
   "Insert numbered lines in rectangle selection.
@@ -71,6 +72,21 @@ For example, (goto-percent 50) moves to the middle of the buffer."
   (interactive)
   (scroll-other-window-down (/ (window-body-height) 3)))
 
+(defun previous-buffer-dedicated-window ()
+  "Switch to the previous buffer and make the window dedicated to it."
+  (interactive)
+  (toggle-window-dedicated (get-buffer-window (current-buffer)) nil nil)
+  (previous-buffer)
+  (toggle-window-dedicated (get-buffer-window (current-buffer)) t nil))
+
+(defun next-buffer-dedicated-window ()
+  "Switch to the next buffer and make the window dedicated to it."
+  (interactive)
+  (toggle-window-dedicated (get-buffer-window (current-buffer)) nil nil)
+  (next-buffer)
+  (toggle-window-dedicated (get-buffer-window (current-buffer)) t nil))
+
+;;; Other
 ;;;###autoload
 (defun toggle-sub-word-or-super-word ()
   "Toggle between subword mode and superword mode."
