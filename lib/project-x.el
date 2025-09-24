@@ -299,7 +299,7 @@ The PATTERN is matched against the project paths using `string-match-p'."
           (progn
             (setq project--list (cl-remove-if (lambda (x) (string-match-p pattern (car x))) project--list))
             (message "Removed projects: %s" removed-projects)
-            ;; (project--write-project-list)
+            (project--write-project-list)
             (message "Projects matching \"%s\" have been removed and the list has been saved." pattern))
         (message "Operation cancelled. No projects were removed."))
     (message "No match projects")))
