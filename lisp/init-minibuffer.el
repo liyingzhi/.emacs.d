@@ -98,7 +98,7 @@ configuration of the virtual buffer sources."
   (let ((consult--buffer-display #'switch-to-buffer-other-window))
     (consult-buffer-with-target 'window)))
 
-;; consult dir
+;;; consult dir
 (require 'consult-dir)
 ;; A function that returns a list of directories
 (defun consult-dir--quick-dir ()
@@ -119,6 +119,9 @@ configuration of the virtual buffer sources."
 
 ;; Adding to the list of consult-dir sources
 (add-to-list 'consult-dir-sources 'consult-dir--source-quick)
+
+(global-set-keys
+ '(("C-x C-d" . consult-dir)))
 
 ;;; embark
 
@@ -185,6 +188,7 @@ targets."
    ("M-." . embark-act)
    ("C-h B" . embark-bindings)))
 
+;;; Key-Binding
 (keymap-sets minibuffer-local-map
   '(("M-s" . consult-history)
     ("M-r" . consult-history)
