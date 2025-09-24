@@ -45,6 +45,23 @@ FORMAT is the format string for each number (e.g., \"%d \" or \"%02d.\")."
       (newline-and-indent))))
 
 ;;;###autoload
+(defun my/new-next-item-function-byScene ()
+  "Insert a new item based on the current context and scene.
+In `org-mode', insert a new TODO heading.
+In comments, insert a new commented line.
+Otherwise, jump out of the current pair and insert a newline."
+  (interactive)
+  (cond
+   ((derived-mode-p 'org-mode)
+    (call-interactively #'org-insert-todo-heading))
+   ((nth 4 (syntax-ppss)) ; Inside a comment
+    (comment-indent-new-line))
+   (t
+    (fingertip-jump-out-pair-and-newline))))
+
+;;; Navigation
+
+;;;###autoload
 (defun goto-percent (percent)
   "Goto PERCENT of buffer.
 Move point to the position that is PERCENT percent through the buffer.

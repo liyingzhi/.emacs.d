@@ -152,12 +152,6 @@
               (delete-window)
             (meow-quit)))))))
 
-(defun my/gn-key-function()
-  (interactive)
-  (if (derived-mode-p 'org-mode)
-      (call-interactively #'org-insert-todo-heading)
-    (fingertip-jump-out-pair-and-newline)))
-
 (pcase user/lsp-client
   ('eglot
    (keymap-sets goto-map
@@ -180,6 +174,7 @@
      (interactive)
      (return-find-def)
      (recenter-top-bottom))))
+
 (global-set-keys
  '(("C-o" . go-back-and-recenter-top-bottom)))
 
@@ -200,7 +195,7 @@
     ("E" . one-key-menu-thing-edit)
     ("G" . one-key-menu-mark-macro)
     ("T" . one-key-menu-tool-kit)
-    ("n" . my/gn-key-function)
+    ("n" . my/new-next-item-function-byScene)
     ("c" . my/string-case-cycle-auto)
     ("C" . my/string-convert-dispatch)
     ("O" . casual-editkit-main-tmenu)))

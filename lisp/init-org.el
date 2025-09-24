@@ -264,6 +264,7 @@ prepended to the element after the #+HEADER: tag."
 
 (keymap-unset org-mode-map "M-<left>")
 (keymap-unset org-mode-map "M-<right>")
+(keymap-unset org-mode-map "S-<return>")
 
 ;;; Org capf
 (defun my/org-capf ()
