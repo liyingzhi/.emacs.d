@@ -176,10 +176,10 @@
     colorful-mode
     visual-fill-column
     redacted
-    ;; hl-todo
-    (hl-todo :host github
-             :repo "lizqwerscott/hl-todo"
-             :branch "fix-hl-todo--regexp")
+    hl-todo
+    ;; (hl-todo :host github
+    ;;          :repo "lizqwerscott/hl-todo"
+    ;;          :branch "fix-hl-todo--regexp")
     consult-todo
     imenu-list
     outli
