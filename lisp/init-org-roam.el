@@ -21,17 +21,25 @@
    (("j" . "Show open or delete journal menu") . journal-transient)))
 
 (setq org-roam-capture-templates
-      '(("d" "default" plain "%?"
+      `(("d" "default" plain "%?"
          ;; #+OPTIONS: toc:nil 为了导出 .md 的格式更加符合使用
-         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                            "#+title: ${title}\n#+date: %U\n#+AUTHOR: Fly_lee\n#+EMAIL: liyingli2018@gmail.com\n#+STARTUP: content showstars indent inlineimages hideblocks\n#+OPTIONS: toc:nil")
+         :if-new `(file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                             ,(concat "#+title: ${title}\n",
+                                      " #+date: %U\n",
+                                      "#+AUTHOR: Fly_lee\n",
+                                      "#+EMAIL: liyingli2018@gmail.com\n",
+                                      "#+STARTUP: content showstars indent inlineimages hideblocks\n",
+                                      "#+OPTIONS: toc:nil"))
          :unnarrowed t)
         ("w" "work" plain
          "\n%?\n* 本周工作总结\n\n* 下周工作计划\n\n"
          :if-new (file+head "%<%Y%m%d%H%M%S>-工作计划_%<%Y>_${slug}.org" "#+title: 工作计划 %<%Y>.${title}\n#+filetags: :work:")
          :unnarrowed t)
-        ("p" "project" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
+        ("p" "project" plain "* Goals\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
          :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: Project")
+         :unnarrowed t)
+        ("s" "Summary" plain "* Summary\n%?\n\n** DONE Finished Tasks\n\n*** DONE tasks1\n\n** TODO Unfinished Tasks\n\n*** TODO tasks1\n\n"
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :work:summary:")
          :unnarrowed t)))
 
 (setq org-roam-dailies-capture-templates
