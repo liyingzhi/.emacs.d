@@ -114,6 +114,25 @@ order from parent to child directories."
 (eval-when-compile
   (require 'init-custom))
 
+;; 随机选择列表中的一个元素
+(defun a-random (list)
+  "Randomly select an element from LIST."
+  (nth (random (length list)) list))
+
+;; 随机加载一个白名单主题
+(defun a-random-theme (&optional use-light)
+  "Randomly load a theme from the whitelist.
+When called interactively, press t to select a light theme.
+The USE-LIGHT argument specifies whether to use light themes."
+  (interactive
+   (list (eq (read-char "Press `t' for light theme:") ?t)))
+  (let ((theme-pool (remove (car custom-enabled-themes)
+                            (if use-light
+                                a-theme-whitelist-light
+                              a-theme-whitelist-dark))))
+    (mapc #'disable-theme custom-enabled-themes)
+    (load-theme (a-random theme-pool) t)))
+
 (defun +lizqwer/load-theme (new-theme)
   "Disable now theme, and load NEW-THEME."
   (unless (cl-find new-theme custom-enabled-themes)
