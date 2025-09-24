@@ -34,7 +34,12 @@
 ;;; consult-todo
 (with-eval-after-load 'consult-todo
   (require 'lib-hl-todo)
-  (setq consult-todo-dir-function #'consult-todo--ripgrep))
+  (setq consult-todo-dir-function #'consult-todo--ripgrep)
+  (setq consult-todo--narrow
+        (mapcar (lambda (kw)
+                  (let ((key (downcase (substring (car kw) 0 1))))
+                    (cons (aref key 0) (concat (car kw) hl-todo-highlight-punctuation))))
+                hl-todo-keyword-faces)))
 
 (lazy-load-global-keys
  '(("M-g t" . consult-todo-project))
