@@ -72,7 +72,8 @@
    ("o" "Mark row expreg expand" home-row-expreg-expand-with-letters)
    ("c" "Yank name of current buffer" my/copy-current-buffer-name)
    ("r" "visual-replace" visual-replace)
-   ("s" "outline-show-all" outline-show-all)])
+   ("s" "outline-show-all" outline-show-all)
+   ("e" "org emphasize" org-emphasize)])
 
 (provide 'select-copy-utils)
 ;;; select-copy-utils.el ends here
