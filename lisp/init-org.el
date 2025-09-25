@@ -57,11 +57,12 @@
 ;;; Org function
 ;; space ww
 (defun open-my-org-file ()
-  "打开我的org文件."
+  "Open the default Org directory in dired mode."
   (interactive)
   (dired "~/Documents/Org/"))
 
 (defun org-export-docx ()
+  "Export current Org buffer to DOCX using Pandoc with a template."
   (interactive)
   (let ((docx-file (concat (file-name-sans-extension (buffer-file-name)) ".docx"))
         (template-file (expand-file-name "config/template/template.docx" user-emacs-directory)))
@@ -73,14 +74,17 @@
     (message "Convert finish: %s" docx-file)))
 
 (defun org-insert-html-head ()
+  "Insert HTML head link for Org export."
   (interactive)
   (insert "#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"http://gongzhitaao.org/orgcss/org.css\"/>"))
 
 (defun org-insert-html-theme-bigblow ()
+  "Insert setup file for Bigblow HTML theme."
   (interactive)
   (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-bigblow.setup"))
 
 (defun org-insert-html-theme-readtheorg ()
+  "Insert setup file for ReadTheOrg HTML theme."
   (interactive)
   (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup"))
 
