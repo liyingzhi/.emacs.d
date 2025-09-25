@@ -109,10 +109,10 @@
 
 ;;; UI
 
-;;; Make invisible parts of Org elements appear visible
+;; Make invisible parts of Org elements appear visible
 (add-hook 'org-mode-hook 'org-appear-mode)
 
-;;; 中文标记隐藏空格
+;; 中文标记隐藏空格
 (font-lock-add-keywords 'org-mode
                         '(("\\cc\\( \\)[/+*_=~][^a-zA-Z0-9/+*_=~\n]+?[/+*_=~]\\( \\)?\\cc?"
                            (1 (prog1 () (compose-region (match-beginning 1) (match-end 1) ""))))
@@ -120,8 +120,14 @@
                            (2 (prog1 () (compose-region (match-beginning 2) (match-end 2) "")))))
                         'append)
 
-(require 'org-bullets)
-(add-hook 'org-mode-hook 'org-bullets-mode)
+(with-eval-after-load 'org-superstar
+  (add-list-to-list 'org-superstar-todo-bullet-alist
+                    '(("TODO"   . ?☐)
+                      ("DOING"  . ?▶)
+                      ("HANGUP" . ?⏸)
+                      ("CANCEL" . ?✖))))
+(setq org-superstar-special-todo-items t)
+(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 
 ;; Make verbatim with highlight text background.
 ;; (add-to-list 'org-emphasis-alist

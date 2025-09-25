@@ -220,7 +220,7 @@
     ))
 
 (defvar *package-org-install-list*
-  '(org-bullets
+  '(org-superstar
     org-fancy-priorities
     org-roam
     org-roam-ui
