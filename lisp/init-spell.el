@@ -9,6 +9,7 @@
 ;; You could add extra option "--camel-case" for camel case code spell checking if Aspell 0.60.8+ is installed
 ;; @see https://github.com/redguardtoo/emacs.d/issues/796
 (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together" "--run-together-limit=16"))
+(setq ispell-silently-savep t)
 
 ;;; flyspell
 (set-face-attribute 'flyspell-incorrect nil
