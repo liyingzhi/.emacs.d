@@ -134,6 +134,7 @@
     difftastic
     devdocs
     wucuo
+    flyspell-correct
     compile-multi
     projection
     projection-multi

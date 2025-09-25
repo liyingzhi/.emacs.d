@@ -280,7 +280,8 @@
  (:key "a" :description "Lsp code action" :command lsp-code-action)
  (:key "s" :description "Lsp search symbol" :command lsp-search-symbol)
  (:key "p" :description "Code peek" :command code-peek)
- (:key "P" :description "Code peek" :command code-ace-peek))
+ (:key "P" :description "Code ace peek" :command code-ace-peek)
+ (:key "w" :description "Flyspell buffer" :command flyspell-buffer))
 
 (lazy-one-key-create-menu
  "Org"
