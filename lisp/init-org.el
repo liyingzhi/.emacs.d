@@ -9,8 +9,6 @@
 ;;; Code:
 
 ;;; Base Org
-
-;;; Org base
 (require 'org)
 
 (setq org-default-notes-file "~/Documents/Org/index.org")
@@ -23,9 +21,7 @@
       org-pretty-entities nil
       org-hide-emphasis-markers t)
 
-(setq org-format-latex-options
-      (plist-put org-format-latex-options :scale 2.0))
-
+(setq org-enforce-todo-dependencies t)
 (setq org-todo-keywords
       '((sequence "TODO(t)" "DOING(i)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)")
         (sequence "⚑(T)" "🏴(I)" "❓(H)" "|" "✔(D)" "✘(C)")
@@ -36,26 +32,9 @@
 ;;       '((sequence "TODO(t!)" "WAIT(w@/!)" "|" "DONE(d@/!)" "CANCEL(c@/!)")
 ;;         (sequence "REPORT(r!)" "BUG(b@/!)" "|" "FIXED(f@/!)")))
 
-;; (setq org-list-demote-modify-bullet
-;;       (quote (("+" . "-")
-;;               ("-" . "+")
-;;               ("*" . "-")
-;;               ("1." . "-")
-;;               ("1)" . "-")
-;;               ("A)" . "-")
-;;               ("B)" . "-")
-;;               ("a)" . "-")
-;;               ("b)" . "-")
-;;               ("A." . "-")
-;;               ("B." . "-")
-;;               ("a." . "-")
-;;               ("b." . "-"))))
-
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 4.0))
-(setq org-enforce-todo-dependencies t)
 
 ;;; Org function
-;; space ww
 (defun open-my-org-file ()
   "Open the default Org directory in dired mode."
   (interactive)
@@ -142,11 +121,9 @@
 ;;                                       :color "grey75"
 ;;                                       :style released-button))))
 
-(require 'valign)
 (setq valign-facy-bar t)
 (add-hook 'org-mode-hook #'valign-mode)
 
-(require 'org-fancy-priorities)
 (setq org-fancy-priorities-list
       '((?A . "A")
         (?B . "⬆")
@@ -158,16 +135,6 @@
         (?4 . "☕")
         (?I . "Important")))
 (add-hook 'org-mode-hook #'org-fancy-priorities-mode)
-
-;; (require 'org-bars)
-;; (add-hook 'org-mode-hook
-;;           #'org-bars-mode)
-;; (add-hook 'org-mode-hook
-;;           #'org-num-mode)
-
-;; (setq org-bars-stars '(:empty "◉"
-;;                        :invisible "▶"
-;;                        :visible "▼"))
 
 (add-hook 'org-mode-hook
           #'visual-line-mode)
