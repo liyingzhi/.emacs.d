@@ -86,7 +86,9 @@
 (setq isearch-lazy-count t
       isearch-case-fold-search t
       lazy-count-prefix-format "%s/%s "
-      search-whitespace-regexp ".*?")
+      search-whitespace-regexp ".*?"
+      isearch-repeat-on-direction-change t
+      isearch-wrap-pause nil)
 
 (defun my-isearch-consult-line-from-isearch ()
   "Invoke `consult-line' from isearch."
