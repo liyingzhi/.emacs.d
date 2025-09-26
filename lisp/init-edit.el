@@ -67,9 +67,6 @@
     ("C-s" . visual-replace-toggle-scope)))
 (setq visual-replace-min-length 1)
 
-(keymap-sets isearch-mode-map
-  '(("C-c C-r" . visual-replace-from-isearch)))
-
 (transient-define-prefix visual-replace-dispatch ()
   "Visual replace menu."
   ["Toggles"
@@ -124,7 +121,9 @@
     '(("<escape>" . isearch-exit)
       ("C-." . my/isearch-forward-symbol-at-point)
       ("C-n" . my-isearch-consult-line-from-isearch)
-      ("C-b" . my-occur-from-isearch)))
+      ("C-b" . my-occur-from-isearch)
+      ("C-c C-r" . visual-replace-from-isearch)
+      ("C-v" . visual-replace-from-isearch)))
 
   ;; add isearch-consult-line to casual-isearch-tmenu
   (with-eval-after-load 'casual-isearch
