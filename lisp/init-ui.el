@@ -39,11 +39,6 @@
         ;; (fullscreen . maximized)
         ))
 
-(when user/start-fullscreen
-  (unless sys/macp
-    (add-hook 'after-init-hook
-              #'toggle-frame-fullscreen)))
-
 ;;; modeline
 (require 'init-modeline)
 
