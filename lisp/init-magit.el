@@ -110,5 +110,8 @@ command was called, go to its unstaged changes section."
 
 (setq magit-status-initial-section '(((unstaged) (status)) 1))
 
+(keymap-unset magit-status-mode-map "M-n")
+(keymap-unset magit-status-mode-map "M-p")
+
 (provide 'init-magit)
 ;;; init-magit.el ends here
