@@ -301,7 +301,8 @@
  (:key "i" :description "Insert import" :command insert-import :filename "init-func")
  (:key "j" :description "Insert json to type" :command quicktype)
  (:key "t" :description "Insert hl-todo key" :command hl-todo-insert)
- (:key "e" :description "Insert org emphasize" :command org-emphasize))
+ (:key "e" :description "Insert org emphasize" :command org-emphasize)
+ (:key "w" :description "Insert web url" :command org-web-tools-insert-link-for-url))
 
 ;;; symbol overlay
 (lazy-load-global-keys
