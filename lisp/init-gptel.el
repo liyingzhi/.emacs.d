@@ -128,7 +128,9 @@
 (require 'init-gptel-tools)
 
 (defun gptel-translate-to-english (&optional dry-run)
-  "Use AI to translate the currently selected text into English."
+  "Use AI to translate the currently selected text into English.
+
+The DRY-RUN parameter is set to t, indicating that it will not actually run, but only simulate the run."
   (interactive "P")
   (unless (or gptel--rewrite-overlays (use-region-p))
     (user-error "`gptel-translate-to-english' requires an active region or rewrite in progress."))
@@ -148,8 +150,8 @@
     :callback #'gptel--rewrite-callback))
 
 (defun gptel-translate-to-english-insert (str)
-  "Use AI to translate the currently selected text into English."
-  (interactive (list (read-string "Input: ")))
+  "Use AI to translate the STR into English."
+  (interactive (list (read-string "Input: " nil nil nil default-input-method)))
   (let ((buffer (current-buffer))
         (pos (point)))
     (gptel-request str

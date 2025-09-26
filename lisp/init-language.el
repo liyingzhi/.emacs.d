@@ -22,9 +22,15 @@
    (("s" sdcv-search-pointer+ "sdcv dict")
     ("f" fanyi-dwim2 "Fanyi Point")
     ("F" fanyi-dwim "Fanyi Input"))
+
    "English"
    (("t" gt-translate "show (en->zh) with taker")
-    ("e" gptel-translate-to-english-insert "Insert (*->en) with prompt"))
+    ("e" (lambda ()
+           (interactive)
+           (activate-input-method default-input-method)
+           (call-interactively #'gptel-translate-to-english-insert))
+     "Insert (*->en) with prompt"))
+
    "Preset"
    (("g" gt-translate-prompt "(en->zh) with taker & prompt")
     ("u" gt-use-text-utility "text utility")
