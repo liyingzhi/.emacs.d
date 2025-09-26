@@ -288,6 +288,14 @@ With DEPTH, clone with --depth=1."
   (other-window 1)
   (goto-char (point-min)))
 
+(defun my/unsupport-battery-or-charging ()
+  "Return t if battery status is unsupported or device is charging."
+  (require 'battery)
+  (let* ((battery-infos (funcall battery-status-function))
+         (power-supply-status (alist-get ?L battery-infos)))
+    (or (string= power-supply-status "N/A")
+        (string= power-supply-status "AC"))))
+
 ;;; Local Variables
 
 ;; Local Variables:
