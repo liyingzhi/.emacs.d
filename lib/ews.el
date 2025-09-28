@@ -204,7 +204,9 @@ Configure the PARA names with `ews-denote-para-keywords'."
        file
        (denote-retrieve-title-or-filename file (denote-filetype-heuristics file))
        new-keywords
-       (denote-retrieve-filename-signature file))
+       (denote-retrieve-filename-signature file)
+       (denote-retrieve-front-matter-date-value file (denote-filetype-heuristics file))
+       (denote-retrieve-front-matter-identifier-value file (denote-filetype-heuristics file)))
     (message "Current buffer is not a Denote file.")))
 
 ;; Distraction-free writing
