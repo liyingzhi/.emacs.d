@@ -198,6 +198,9 @@
     casual
     casual-symbol-overlay))
 
+(defvar *package-mms-install-list*
+  '(emms))
+
 (defvar *package-window-install-list*
   '(popper
     ace-window))
@@ -340,6 +343,7 @@
          *package-edit-install-list*
          *package-program-install-list*
          *package-ui-install-list*
+         *package-mms-install-list*
          *package-window-install-list*
          *package-language-install-list*
          *package-org-install-list*

@@ -75,6 +75,9 @@
 (when user/telegap
   (require 'init-telega))
 
+(when user/mms
+  (require 'init-mms))
+
 (when user/load-eaf
   (require 'init-eaf))
 

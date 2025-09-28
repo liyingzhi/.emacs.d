@@ -134,6 +134,16 @@
   :group 'user
   :type 'boolean)
 
+(defcustom user/mms nil
+  "Is use mms."
+  :group 'user
+  :type 'boolean)
+
+(defcustom user/mms-playlist-file "~/Music/emms-playlist.pls"
+  "Emms playlist file."
+  :group 'user
+  :type '(file :must-match t))
+
 (defcustom user/telegap nil
   "Is use telega."
   :group 'user
