@@ -172,7 +172,7 @@
 
   ;; Display dashboard in maximized window
   (delete-other-windows)
-  (weather-fetch-weather-data nil #'dashboard-refresh-buffer)
+  (weather-fetch-weather-data nil #'dashboard-refresh-buffer dashboard-buffer-name)
   ;; Refresh dashboard buffer
   (dashboard-refresh-buffer))
 
@@ -220,7 +220,7 @@
     (progn (dashboard-setup-startup-hook)
            (add-hook 'after-init-hook
                      (lambda ()
-                       (weather-fetch-weather-data nil #'dashboard-refresh-buffer))))
+                       (weather-fetch-weather-data nil #'dashboard-refresh-buffer dashboard-buffer-name))))
   (add-hook 'after-init-hook
             #'+evan/scratch-setup))
 

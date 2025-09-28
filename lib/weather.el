@@ -92,10 +92,16 @@
     ((or `95 `96 `99) "Thunderstorm")
     (_ "Unknown")))
 
-(defun weather-fetch-weather-data (&optional initial fn)
-  "Fetch weather data from API.
+(defun weather--roi-window-is-active (roi-buffer)
+  "Check if ROI-BUFFER is the currently active and visible window."
+  (or (eq roi-buffer (window-buffer (selected-window)))
+      (get-buffer-window roi-buffer 'visible)))
+
+(defun weather-fetch-weather-data (&optional initial fn roi-buffer-name)
+  "Fetch weather data from Open-Meteo API.
 INITIAL indicates if this is the first fetch.
-FN callback when get weather info."
+FN is a callback function to execute after fetching weather info.
+ROI-BUFFER-NAME is the buffer name to check for visibility before calling FN."
   (let ((url-request-method "GET")
         (url-request-extra-headers '(("Content-Type" . "application/json")))
         (url (format "https://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&current_weather=true"
@@ -116,7 +122,8 @@ FN callback when get weather info."
                       (when initial
                         (run-with-timer 900 900 #'weather-fetch-weather-data))
                       (when fn
-                        (funcall fn))))
+                        (when (weather--roi-window-is-active roi-buffer-name)
+                          (funcall fn)))))
                   nil
                   t)))
 
