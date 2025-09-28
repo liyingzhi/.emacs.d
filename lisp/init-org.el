@@ -19,7 +19,8 @@
       org-startup-indented t
       org-startup-folded 'show2levels
       org-pretty-entities nil
-      org-hide-emphasis-markers t)
+      org-hide-emphasis-markers t
+      org-link-keep-stored-after-insertion t)
 
 (setq org-enforce-todo-dependencies t)
 (setq org-todo-keywords
@@ -273,7 +274,9 @@ prepended to the element after the #+HEADER: tag."
 (keymap-unset org-mode-map "S-<return>")
 
 (global-set-keys
- '(("M-s n" . consult-notes)
+ '(("C-c L" . org-store-link)
+   ("C-c C-o" . org-open-at-point)
+   ("M-s n" . consult-notes)
    ("M-s N" . consult-notes-search-in-all-notes)))
 
 ;;; Org capf
