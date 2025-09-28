@@ -25,6 +25,7 @@
 ;;; Code:
 
 (require 'nerd-icons)
+(require 'weather)
 
 (defvar *start-banner* (propertize ";;     *
 ;;      May the Code be with You!
@@ -112,6 +113,10 @@
       dashboard-startupify-list '(dashboard-insert-banner
                                   dashboard-insert-newline
                                   dashboard-insert-banner-title
+                                  dashboard-insert-newline
+                                  my-dashboard-insert-weather-info
+                                  dashboard-insert-newline
+                                  my-dashboard-insert-time
                                   ;; dashboard-insert-newline
                                   ;; dashboard-insert-navigator
                                   dashboard-insert-newline
@@ -141,7 +146,17 @@
     (dashboard-insert-center
      (propertize (format "\nPowered by Lizqwer Scott, %s\n" (format-time-string "%Y"))
                  'face 'font-lock-comment-face)))
-  (advice-add #'dashboard-insert-footer :after #'my-dashboard-insert-copyright))
+  (advice-add #'dashboard-insert-footer :after #'my-dashboard-insert-copyright)
+
+  (defun my-dashboard-insert-time ()
+    "Insert time info."
+    (dashboard-insert-center
+     (propertize (format "%s\n" (format-time-string "%A, %B %d %R")) 'face 'font-lock-comment-face)))
+
+  (defun my-dashboard-insert-weather-info ()
+    "Insert weather info."
+    (dashboard-insert-center
+     (weather-info))))
 
 (defun open-dashboard ()
   "Open the *dashboard* buffer and jump to the first widget."
@@ -150,14 +165,14 @@
   (if (length> (window-list-1)
                ;; exclude `treemacs' window
                (if (and (fboundp 'treemacs-current-visibility)
-                      (eq (treemacs-current-visibility) 'visible))
+                        (eq (treemacs-current-visibility) 'visible))
                    2
                  1))
       (setq dashboard-recover-layout-p t))
 
   ;; Display dashboard in maximized window
   (delete-other-windows)
-
+  (weather-fetch-weather-data nil #'dashboard-refresh-buffer)
   ;; Refresh dashboard buffer
   (dashboard-refresh-buffer))
 
@@ -202,7 +217,10 @@
       ("?" . hydra-dashboard/body))))
 
 (if user/dashboard
-    (dashboard-setup-startup-hook)
+    (progn (dashboard-setup-startup-hook)
+           (add-hook 'after-init-hook
+                     (lambda ()
+                       (weather-fetch-weather-data nil #'dashboard-refresh-buffer))))
   (add-hook 'after-init-hook
             #'+evan/scratch-setup))
 
