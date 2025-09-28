@@ -243,6 +243,10 @@ prepended to the element after the #+HEADER: tag."
 (keymap-unset org-mode-map "M-<right>")
 (keymap-unset org-mode-map "S-<return>")
 
+(global-set-keys
+ '(("M-s n" . consult-notes)
+   ("M-s N" . consult-notes-search-in-all-notes)))
+
 ;;; Org capf
 (defun my/org-capf ()
   (setq-local completion-at-point-functions

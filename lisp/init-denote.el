@@ -32,7 +32,6 @@
 (setq denote-date-prompt-use-org-read-date t)
 
 (setq denote-org-store-link-to-heading 'context)
-(consult-denote-mode 1)
 
 (add-list-to-list  'consult-notes-file-dir-sources
                    `(("Denote Notes"  ?d ,denote-directory)))

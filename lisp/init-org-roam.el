@@ -20,6 +20,9 @@
    (("d" . "Capture roam dailies note") . org-roam-dailies-capture-today)
    (("j" . "Show open or delete journal menu") . journal-transient)))
 
+(global-set-keys
+ '(("C-c n r" . one-key-menu-roam)))
+
 (setq org-roam-capture-templates
       `(("d" "default" plain "%?"
          ;; #+OPTIONS: toc:nil 为了导出 .md 的格式更加符合使用

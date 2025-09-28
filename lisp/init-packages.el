@@ -242,15 +242,31 @@
      :files ("*.el"))
 
     (org-modern-indent :host github :repo "jdtsmith/org-modern-indent")
-    pdf-tools
     (org-count-words :host github :repo "Elilif/org-count-words")
     org-web-tools
     org-rich-yank
     org-ref
-    (org-media-note :host github :repo "yuchen-lea/org-media-note")
+    (org-media-note :host github :repo "yuchen-lea/org-media-note")))
+
+(defvar *package-write-install-list*
+  '(nov
+    pdf-tools
+    ;; (reader :fetcher codeberg :repo "divyaranjan/emacs-reader"
+    ;;       	:files ("*.el" "render-core.so")
+    ;;       	:pre-build ("make" "all"))
+    biblio
+    citar
+    titlecase
     denote
+    denote-menu
     consult-denote
-    denote-menu))
+    denote-journal
+    denote-org
+    denote-sequence
+    citar-embark
+    citar-denote
+    denote-explore
+    ox-epub))
 
 (defvar *package-ai-install-list*
   '((copilot :host github
@@ -327,6 +343,7 @@
          *package-window-install-list*
          *package-language-install-list*
          *package-org-install-list*
+         *package-write-install-list*
          *package-ai-install-list*
          *package-toolkit-install-list*
          *package-another-install-list*))

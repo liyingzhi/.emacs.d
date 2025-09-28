@@ -50,9 +50,8 @@
 (require 'init-pangu)
 (require 'init-plantuml)
 ;; (require 'init-hugo)
-;; (require 'init-reader)
-;; (require 'init-paper)
 ;;(require 'crefactor)
+(require 'init-writer)
 
 (require 'init-language)
 (require 'init-rsync)
