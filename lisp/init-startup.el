@@ -205,9 +205,9 @@
 ;;; Emoji
 (setq emoji-alternate-names
       '(("😂" "haha")
-        ("👍" "好" "hc" "hao")
+        ("👍" "好" "hc" "hao" "niu" "lh" "牛")
         ("🧐" "?" "啊" "a")
-        ("😭" "悲" "大哭" "bei" "bw")))
+        ("😭" "悲" "大哭" "bei" "bw" "ku" "bs")))
 
 ;;; exec path from shell
 (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOROOT" "GOPATH" "EDITOR" "PYTHONPATH" "GTAGSOBJDIRPREFIX"))
