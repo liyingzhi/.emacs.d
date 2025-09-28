@@ -73,11 +73,8 @@
 ;; (add-hook 'prog-mode-hook #'completion-preview-mode)
 ;; (setq completion-preview-minimum-symbol-length 2)
 
-
-(when (and user/telega-start (display-graphic-p))
-  (message "start telega")
-  (autoload '+lizqwer/toggle-telega "init-telega" nil t)
-  (+lizqwer/toggle-telega))
+(when user/telegap
+  (require 'init-telega))
 
 (when user/load-eaf
   (require 'init-eaf))

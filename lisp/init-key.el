@@ -58,7 +58,7 @@
 
 (lazy-one-key-create-menu
  "Toggle"
- (:key "t" :description "Toggle telega" :command +lizqwer/toggle-telega :filename "init-telega")
+ (:key "t" :description "Toggle telega" :command +lizqwer/toggle-telega :filename "lib-telega")
  (:key "b" :description "Toggle imenu list mode" :command imenu-list-smart-toggle)
  (:key "T" :description "Toggle transparent" :command +lizqwer/toggle-transparent :filename "init-func")
  (:key "e" :description "Toggle dark theme" :command +lizqwer/toggle-dark-theme :filename "init-func")

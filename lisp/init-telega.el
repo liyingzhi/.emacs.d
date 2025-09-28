@@ -2,9 +2,12 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'telega)
-(require 'telega-url-shorten-nerd)
-(require 'telega-mnz)
+(wait-packages!
+ '((telega :fetcher github
+           :repo "zevlg/telega.el"
+           :branch "master")
+   (telega-url-shorten-nerd :fetcher github
+                            :repo "lizqwerscott/telega-url-shorten-nerd")))
 
 (setq telega-server-libs-prefix user/telega-tdlib-path)
 
@@ -57,52 +60,67 @@
         (zig . zig-mode)))
 
 ;;; Config
-(setq telega-chat-show-avatars t
-      telega-emoji-use-images nil
-      telega-sticker-animated-play t
-      telega-auto-translate-probe-language-codes nil
-      telega-translate-to-language-by-default "zh-CN"
-      telega-chat-input-markups (list "markdown2" "org"))
 
-;; (setf (alist-get 2 telega-avatar-factors-alist ) '(0.5 . 0.1))
+(with-eval-after-load 'telega
+  (require 'telega-url-shorten-nerd)
+  (require 'telega-mnz)
+  (require 'telega-chat)
+  (require 'lib-telega)
 
-(setq telega-mode-line-mode nil)
-(unless sys/macp
-  (telega-notifications-mode t))
-(global-telega-url-shorten-nerd-mode)
+  (setopt telega-chat-show-avatars t
+          telega-emoji-use-images nil
+          telega-sticker-animated-play t
+          telega-auto-translate-probe-language-codes nil
+          telega-translate-to-language-by-default "zh-CN"
+          telega-chat-input-markups (list "org" "markdown2")
+          telega-avatar-workaround-gaps-for '(return t))
 
-(defun +lizqwer/toggle-telega ()
-  "切换telega"
-  (interactive)
-  (if (get-buffer "*Telega Root*")
-      (progn (telega-kill t)
-             (message "杀死Telega"))
-    (progn (telega t)
-           (message "启动Telega"))))
+  ;; (setf (alist-get 2 telega-avatar-factors-alist ) '(0.5 . 0.1))
 
-(setq telega-avatar-workaround-gaps-for '(return t))
+  (when sys/macp
+    (setq telega-server-libs-prefix "/opt/homebrew/"))
 
-(defun my/telega-chat-capf ()
-  (setq-local completion-at-point-functions
-              `(cape-emoji
-                ,(cape-capf-super
-                  #'cape-dict
-                  #'cape-dabbrev))))
-(add-hook 'telega-chat-mode-hook #'my/telega-chat-capf)
+  ;;; keymap
+  (keymap-sets telega-msg-button-map
+    '(("k" . nil)
+      ("l" . nil)
+      ("SPC" . meow-keypad)))
 
-(define-key telega-msg-button-map "k" nil)
-(define-key telega-msg-button-map "l" nil)
-(define-key telega-msg-button-map (kbd "SPC") 'meow-keypad)
+  (keymap-sets telega-prefix-map
+    '(("p" . telega-chatbuf-filter-search)
+      ("d" . telega-chat-remove-member)
+      ("m" . telega-describe-chat-members)
+      ("h" . telega-notifications-history)
+      ("x" . telega-chatbuf-thread-cancel)))
 
-(keymap-sets telega-prefix-map
-  '(("p" . telega-chatbuf-filter-search)
-    ("d" . telega-chat-remove-member)
-    ("m" . telega-describe-chat-members)
-    ("h" . telega-notifications-history)
-    ("x" . telega-chatbuf-thread-cancel)))
+  (defalias 'telega-prefix-map telega-prefix-map)
 
-(defalias 'telega-prefix-map telega-prefix-map)
-(keymap-global-set "C-c t" '("Telega" . telega-prefix-map))
+  (global-set-keys
+   '(("C-c t" . ("Telega" . telega-prefix-map))
+
+     ("C-c l t" . ("Chat Tab" . tab-bar-switch-or-create-chat))))
+
+  ;;; notification
+  (add-hook 'telega-connection-state-hook #'+tab-bar-telega-icon-update)
+  (add-hook 'telega-kill-hook #'+tab-bar-telega-icon-update)
+
+  (advice-add #'telega--on-updateUnreadChatCount :after #'+tab-bar-telega-icon-update)
+  (advice-add #'telega--on-updateChatUnreadMentionCount :after #'+tab-bar-telega-icon-update)
+  (advice-add #'telega--on-updateChatUnreadReactionCount :after #'+tab-bar-telega-icon-update)
+  (advice-add #'telega-msg-observable-p :after  #'+tab-bar-telega-icon-update)
+
+  (add-hook 'telega-chat-mode-hook #'my/telega-chat-capf)
+  (unless sys/macp
+    (telega-notifications-mode t))
+
+  (global-telega-url-shorten-nerd-mode))
+
+(when (and user/telega-start (display-graphic-p))
+  (add-hook 'after-init-hook
+            (lambda ()
+              (message "start telega")
+              (autoload '+lizqwer/toggle-telega "lib-telega" nil t)
+              (+lizqwer/toggle-telega))))
 
 (provide 'init-telega)
 ;;; init-telega.el ends here

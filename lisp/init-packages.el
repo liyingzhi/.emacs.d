@@ -288,12 +288,6 @@
     code-stats
     docker
     (screenshot :host github :repo "tecosaur/screenshot")
-    (telega-url-shorten-nerd :host github
-                             :repo "lizqwerscott/telega-url-shorten-nerd")
-    (telega :host github
-            :repo "zevlg/telega.el"
-            :branch "master"
-            :files (:defaults "contrib" "etc" "server" "Makefile"))
     (consult-omni :type git :host github :repo "armindarvish/consult-omni" :branch "main" :files (:defaults "sources/*.el"))))
 
 (setq vterm-always-compile-module t)
