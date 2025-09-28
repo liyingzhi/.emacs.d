@@ -75,7 +75,8 @@
    (python . t)
    (latex . t)
    (shell . t)
-   (plantuml . t)))
+   (plantuml . t)
+   (dot . t)))
 
 (setq org-confirm-babel-evaluate
       (lambda (lang body)

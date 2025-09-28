@@ -137,5 +137,33 @@
    ("C-c n x v" . denote-explore-network-regenerate)
    ("C-c n x D" . denote-explore-barchart-degree)))
 
+;;; PUBLICATION
+
+;; Generic Org Export Settings
+(with-eval-after-load 'org
+  (setq org-export-with-drawers nil
+        org-export-with-todo-keywords nil
+        org-export-with-toc nil
+        org-export-with-smart-quotes t
+        org-export-date-timestamp-format "%e %B %Y"))
+
+;; epub export
+(require 'ox-org)
+
+;; LaTeX PDF Export settings
+;; Multiple LaTeX passes for bibliographies
+(setq org-latex-pdf-process
+      '("pdflatex -interaction nonstopmode -output-directory %o %f"
+        "bibtex %b"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+;; Clean temporary files after export
+(setq org-latex-logfiles-extensions
+      (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out"
+              "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk"
+              "blg" "brf" "fls" "entoc" "ps" "spl" "bbl"
+              "tex" "bcf")))
+
 (provide 'init-writer)
 ;;; init-writer.el ends here
