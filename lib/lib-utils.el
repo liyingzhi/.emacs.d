@@ -277,6 +277,36 @@ With DEPTH, clone with --depth=1."
                                      (user-error (format "%s\n%s" command output))))))
     (set-process-filter proc #'comint-output-filter)))
 
+(defun filter-lines-containing-and-save (substring output-file)
+  "Find all lines in the current buffer containing SUBSTRING.
+and save those lines to OUTPUT-FILE.
+SUBSTRING is a string; any line containing it will be preserved.
+OUTPUT-FILE is selected via minibuffer."
+  (interactive
+   (list (read-string "Substring to match: ")
+         (read-file-name "Save matching lines to file: ")))
+  (let ((matched-lines '()))
+    (save-excursion
+      (goto-char (point-min))
+      ;; 遍历每一行
+      (while (not (eobp))
+        (let ((line (buffer-substring-no-properties
+                     (line-beginning-position)
+                     (line-end-position))))
+          (when (string-match-p (regexp-quote substring) line)
+            (push line matched-lines)))
+        (forward-line 1)))
+    (setq matched-lines (nreverse matched-lines))
+    (when (and matched-lines
+               (y-or-n-p (format "Found %d matching lines. Save to %s? "
+                                 (length matched-lines) output-file)))
+      (with-temp-file output-file
+        (dolist (ml matched-lines)
+          (insert ml)
+          (insert "\n")))
+      (message "Wrote %d matching lines to %s"
+               (length matched-lines) output-file))))
+
 (defun tianqi ()
   "获取天气."
   (interactive)
