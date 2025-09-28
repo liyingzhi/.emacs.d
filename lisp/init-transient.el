@@ -54,6 +54,10 @@
 
 (with-eval-after-load 'org-agenda
   (keymap-set org-agenda-mode-map "C-o" #'casual-agenda-tmenu))
+
+(with-eval-after-load 'bibtex
+  (keymap-set bibtex-mode-map "C-o" #'casual-bibtex-tmenu))
+
 (with-eval-after-load 'symbol-overlay
   (keymap-set symbol-overlay-map "C-o" #'casual-symbol-overlay-tmenu))
 
