@@ -34,6 +34,34 @@
 
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 4.0))
 
+;;; org export
+
+;; Generic Org Export Settings
+(with-eval-after-load 'org
+  (setq org-export-with-drawers nil
+        org-export-with-todo-keywords nil
+        org-export-with-toc nil
+        org-export-with-smart-quotes t
+        org-export-date-timestamp-format "%e %B %Y"))
+
+;; epub export
+(require 'ox-org)
+
+;; LaTeX PDF Export settings
+;; Multiple LaTeX passes for bibliographies
+(setq org-latex-pdf-process
+      '("pdflatex -interaction nonstopmode -output-directory %o %f"
+        "bibtex %b"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+;; Clean temporary files after export
+(setq org-latex-logfiles-extensions
+      (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out"
+              "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk"
+              "blg" "brf" "fls" "entoc" "ps" "spl" "bbl"
+              "tex" "bcf")))
+
 ;;; Org function
 (defun open-my-org-file ()
   "Open the default Org directory in dired mode."
