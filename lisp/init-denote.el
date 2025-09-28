@@ -26,9 +26,13 @@
 
 (require 'denote)
 (require 'consult-denote)
+
 (setq denote-directory "~/Documents/denote")
+(setq denote-dired-directories denote-directory)
+
 (setq consult-denote-grep-command #'consult-ripgrep)
 (setq consult-denote-find-command #'consult-fd)
+
 (setq denote-date-prompt-use-org-read-date t)
 
 (setq denote-org-store-link-to-heading 'context)
