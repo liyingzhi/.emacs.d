@@ -248,7 +248,6 @@
     (org-count-words :host github :repo "Elilif/org-count-words")
     org-web-tools
     org-rich-yank
-    org-ref
     (org-media-note :host github :repo "yuchen-lea/org-media-note")))
 
 (defvar *package-write-install-list*
