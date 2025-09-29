@@ -172,9 +172,7 @@
 
   ;; Display dashboard in maximized window
   (delete-other-windows)
-  (weather-fetch-weather-data nil #'dashboard-refresh-buffer dashboard-buffer-name)
-  ;; Refresh dashboard buffer
-  (dashboard-refresh-buffer))
+  (weather-fetch-weather-data nil #'dashboard-refresh-buffer dashboard-buffer-name))
 
 (defun quit-dashboard ()
   "Quit dashboard window."
@@ -216,11 +214,32 @@
       ("h" . hydra-dashboard/body)
       ("?" . hydra-dashboard/body))))
 
+(defun dashboard-goto-recent-files ()
+  "Go to recent files."
+  (interactive)
+  (let ((func (local-key-binding "r")))
+    (and func (funcall func))))
+
+(defun dashboard-goto-projects ()
+  "Go to projects."
+  (interactive)
+  (let ((func (local-key-binding "p")))
+    (and func (funcall func))))
+
+(defun dashboard-goto-bookmarks ()
+  "Go to bookmarks."
+  (interactive)
+  (let ((func (local-key-binding "m")))
+    (and func (funcall func))))
+
+(advice-add #'dashboard-refresh-buffer :after #'dashboard-goto-recent-files)
+
 (if user/dashboard
     (progn (dashboard-setup-startup-hook)
            (add-hook 'after-init-hook
                      (lambda ()
                        (weather-fetch-weather-data nil #'dashboard-refresh-buffer dashboard-buffer-name))))
+
   (add-hook 'after-init-hook
             #'+evan/scratch-setup))
 

@@ -28,34 +28,43 @@
 (require 'url)
 (require 'nerd-icons)
 
+(defgroup weather ()
+  "Weather info."
+  :group 'tools)
+
 (defvar weather-temperature nil)
 (defvar weather-description nil)
 (defvar weather-icon nil)
 
 (defcustom weather-latitude nil
   "Latitude for weather information."
-  :group 'panel
+  :group 'weather
   :type 'float)
 
 (defcustom weather-longitude nil
-  "Longitude for weather information in panel package."
-  :group 'panel
+  "Longitude for weather information in weather package."
+  :group 'weather
   :type 'float)
+
+(defface weather-text-info-face
+  '((t :inherit default :height 0.9 :bold nil))
+  "Face added to code-usage display."
+  :group 'weather)
 
 (defface weather-description-face
   '((t :foreground "#E2943B" :height 0.9 :weight thin :bold nil :italic nil))
   "Face for weather description."
-  :group 'panel)
+  :group 'weather)
 
 (defface weather-icon-face
   '((t :height 0.9))
   "Face for weather icon."
-  :group 'panel)
+  :group 'weather)
 
 (defface weather-temperature-face
   '((t :foreground "#f38ba8" :height 0.9 :weight thin :bold nil :italic nil))
   "Face for temperature."
-  :group 'panel)
+  :group 'weather)
 
 (defun weather--icon-from-code (code)
   "Map weather CODE to a corresponding string."
@@ -92,10 +101,10 @@
     ((or `95 `96 `99) "Thunderstorm")
     (_ "Unknown")))
 
-(defun weather--roi-window-is-active (roi-buffer)
-  "Check if ROI-BUFFER is the currently active and visible window."
-  (or (eq roi-buffer (window-buffer (selected-window)))
-      (get-buffer-window roi-buffer 'visible)))
+(defun weather--roi-window-is-active (roi-buffer-name)
+  "Check if ROI-BUFFER-NAME is the currently active and visible window."
+  (or (string= roi-buffer-name (buffer-name (window-buffer (selected-window))))
+      (get-buffer-window roi-buffer-name 'visible)))
 
 (defun weather-fetch-weather-data (&optional initial fn roi-buffer-name)
   "Fetch weather data from Open-Meteo API.
@@ -107,23 +116,32 @@ ROI-BUFFER-NAME is the buffer name to check for visibility before calling FN."
         (url (format "https://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&current_weather=true"
                      weather-latitude weather-longitude)))
     (url-retrieve url
-                  (lambda (_)
-                    (goto-char (point-min))
-                    (re-search-forward "^$")
-                    (let* ((json-data (buffer-substring-no-properties (point) (point-max)))
-                           (json-obj (json-read-from-string json-data)))
-                      (let-alist json-obj
-                        (setq weather-temperature (format "%.1f" .current_weather.temperature))
-                        (setq weather-description
-                              (format "%s" (weather--code-to-string .current_weather.weathercode)))
-                        (setq weather-icon
-                              (weather--icon-from-code .current_weather.weathercode)))
-                      ;; Only set up the recurring timer after initial fetch
-                      (when initial
-                        (run-with-timer 900 900 #'weather-fetch-weather-data))
-                      (when fn
-                        (when (weather--roi-window-is-active roi-buffer-name)
-                          (funcall fn)))))
+                  (lambda (status &rest cbargs)
+                    (if (plist-get status :error)
+                        (let ((err (plist-get status :error)))
+                          (when fn
+                            (when (weather--roi-window-is-active roi-buffer-name)
+                              (with-current-buffer (get-buffer roi-buffer-name)
+                                (funcall fn))))
+                          (message "URL retrieval error: %S" err))
+
+                      (goto-char (point-min))
+                      (re-search-forward "^$")
+                      (let* ((json-data (buffer-substring-no-properties (point) (point-max)))
+                             (json-obj (json-read-from-string json-data)))
+                        (let-alist json-obj
+                          (setq weather-temperature (format "%.1f" .current_weather.temperature))
+                          (setq weather-description
+                                (format "%s" (weather--code-to-string .current_weather.weathercode)))
+                          (setq weather-icon
+                                (weather--icon-from-code .current_weather.weathercode)))
+                        ;; Only set up the recurring timer after initial fetch
+                        (when initial
+                          (run-with-timer 900 900 #'weather-fetch-weather-data))
+                        (when fn
+                          (when (weather--roi-window-is-active roi-buffer-name)
+                            (with-current-buffer (get-buffer roi-buffer-name)
+                              (funcall fn)))))))
                   nil
                   t)))
 
