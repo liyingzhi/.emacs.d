@@ -278,14 +278,16 @@ With DEPTH, clone with --depth=1."
     (set-process-filter proc #'comint-output-filter)))
 
 (defun filter-lines-containing-and-save (substring output-file)
-  "Find all lines in the current buffer containing SUBSTRING.
+  "Find lines in the current buffer containing any of the SUBSTRINGs.
 and save those lines to OUTPUT-FILE.
-SUBSTRING is a string; any line containing it will be preserved.
-OUTPUT-FILE is selected via minibuffer."
+SUBSTRING is separated by comma; line containing any of them will be preserved.
+OUTPUT-FILE is exported file which selected via minibuffer."
   (interactive
-   (list (read-string "Substring to match: ")
+   (list (read-string "Substring to match (comma-separated): ")
          (read-file-name "Save matching lines to file: ")))
-  (let ((matched-lines '()))
+  (let* ((substrings (split-string substring "," t " "))
+         (regexps (mapcar #'regexp-quote substrings))
+         (matched-lines '()))
     (save-excursion
       (goto-char (point-min))
       ;; 遍历每一行
@@ -293,7 +295,9 @@ OUTPUT-FILE is selected via minibuffer."
         (let ((line (buffer-substring-no-properties
                      (line-beginning-position)
                      (line-end-position))))
-          (when (string-match-p (regexp-quote substring) line)
+          (when (cl-some (lambda (regexp)
+                           (string-match-p regexp line))
+                         regexps)
             (push line matched-lines)))
         (forward-line 1)))
     (setq matched-lines (nreverse matched-lines))
@@ -305,7 +309,8 @@ OUTPUT-FILE is selected via minibuffer."
           (insert ml)
           (insert "\n")))
       (message "Wrote %d matching lines to %s"
-               (length matched-lines) output-file))))
+               (length matched-lines) output-file)
+      (find-file-other-window output-file))))
 
 (defun tianqi ()
   "获取天气."
