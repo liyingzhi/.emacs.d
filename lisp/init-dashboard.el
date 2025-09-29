@@ -50,7 +50,11 @@
 (defvar *start-image-banner*
   (find-image
    `(( :type png
-       :file ,(expand-file-name "logo_black_medium.png" user-emacs-directory)))))
+       :file ,(expand-file-name "logo_black_medium.png" user-emacs-directory))))
+  "Banner images.")
+
+(defvar dashboard-recover-layout-p nil
+  "Whether recovers the layout.")
 
 ;; 自定义 *scratch* 内容
 ;;;###autoload
@@ -172,7 +176,14 @@
 
   ;; Display dashboard in maximized window
   (delete-other-windows)
-  (weather-fetch-weather-data nil #'dashboard-refresh-buffer dashboard-buffer-name))
+
+  (let ((buf (get-buffer dashboard-buffer-name)))
+    (unless buf
+      (dashboard-open)))
+  (weather-fetch-weather-data nil #'dashboard-refresh-buffer dashboard-buffer-name)
+
+  (unless (weather--roi-window-is-active dashboard-buffer-name)
+    (dashboard-refresh-buffer)))
 
 (defun quit-dashboard ()
   "Quit dashboard window."
