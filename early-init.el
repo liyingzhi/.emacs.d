@@ -15,7 +15,7 @@
 ;; Avoid raising the *Messages* buffer if anything is still without
 ;; lexical bindings
 (setq warning-minimum-level :error)
-(setq warning-suppress-types '((lexical-binding)))
+(setq warning-suppress-types '((lexical-binding) (defvaralias)))
 
 ;;; native comp
 (when (boundp 'native-comp-eln-load-path)

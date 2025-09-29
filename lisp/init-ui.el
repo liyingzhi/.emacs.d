@@ -59,10 +59,21 @@
                  (display-line-numbers-mode 1))))
 
 ;;; Suppress GUI features
+
+;; Reduce *Message* noise at startup. An empty scratch buffer (or the
+;; dashboard) is more than enough, and faster to display.
 (setq use-file-dialog nil
       use-dialog-box nil
-      inhibit-startup-screen nil
+      inhibit-startup-screen t
+      inhibit-startup-echo-area-message user-login-name
       inhibit-startup-message t)
+(setq initial-buffer-choice nil
+      inhibit-startup-buffer-menu t
+      inhibit-x-resources t)
+
+;; A second, case-insensitive pass over `auto-mode-alist' is time wasted.
+;; No second pass of case-insensitive search over auto-mode-alist.
+(setq auto-mode-case-fold nil)
 
 ;;; Mouse & Smooth Scroll
 (when (display-graphic-p)

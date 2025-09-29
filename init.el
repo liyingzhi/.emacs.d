@@ -16,13 +16,11 @@
 ;; (require 'init-auto-save)
 (require 'init-super-save)
 
-
-(require 'init-key)
 (require 'init-hydra)
-(require 'init-meow)
-(require 'init-transient)
-
 (require 'init-ui)
+(require 'init-meow)
+(require 'init-key)
+(require 'init-transient)
 
 (require 'init-edit)
 (require 'init-auto-insert)
