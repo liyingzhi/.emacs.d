@@ -14,6 +14,9 @@
 (add-hooks '(python-mode python-ts-mode)
            #'pyvenv-mode)
 
+;;config python indent
+(setq python-indent-guess-indent-offset-verbose nil)
+
 ;;; eglot
 (with-eval-after-load 'eglot
   (defun random-hex-string (n)
@@ -50,14 +53,15 @@
 
 (defun setting-python-compile-command ()
   "Setting python default `compile-command'."
-  (let* ((project-path (project-root-path))
-         (command (concat (if project-path
-                              (cond ((file-exists-p (file-name-concat project-path "uv.lock")) "uv run")
-                                    ((file-exists-p (file-name-concat project-path "pdm.lock")) "pdm run")
-                                    (t "python"))
-                            "python")
-                          " "
-                          (file-truename (buffer-file-name)))))
+  (when-let* ((project-path (project-root-path))
+              (file-name (buffer-file-name))
+              (command (concat (if project-path
+                                   (cond ((file-exists-p (file-name-concat project-path "uv.lock")) "uv run")
+                                         ((file-exists-p (file-name-concat project-path "pdm.lock")) "pdm run")
+                                         (t "python"))
+                                 "python")
+                               " "
+                               (file-truename file-name))))
     (setq-local compile-command
                 command)))
 
