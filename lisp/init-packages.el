@@ -224,7 +224,8 @@
     ))
 
 (defvar *package-org-install-list*
-  '(org-superstar
+  '(htmlize
+    org-superstar
     org-fancy-priorities
     org-roam
     org-roam-ui
