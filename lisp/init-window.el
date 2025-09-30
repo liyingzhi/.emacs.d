@@ -88,13 +88,13 @@
     (side . bottom)
     (slot . 0)
     (window-parameters . ((mode-line-format . none))))
-   ((or "*One-Key*" "*Org Agenda*" "\\*Calendar\\*$")
+   ((or "*One-Key*" "\\*Calendar\\*$")
     (display-buffer-in-side-window)
-    (dedicated )
+    (dedicated . t)
     (side . bottom)
     (slot . 0))
    ;; bottom buffer (NOT side window)
-   ((or "\\(\\*Capture\\*\\|CAPTURE-.*\\)" "^CAPTURE-.*\\.org*")
+   ((or "*Org Agenda*" "\\(\\*Capture\\*\\|CAPTURE-.*\\)" "^CAPTURE-.*\\.org*")
     (display-buffer-reuse-mode-window display-buffer-below-selected))
    ((or (derived-mode . compilation-mode) (derived-mode . cargo-process-mode))
     (display-buffer-reuse-mode-window display-buffer-at-bottom)
@@ -102,12 +102,12 @@
     (preserve-size . (t . t))
     (body-function . select-window))
    ((or "\\*\\(Backtrace\\|Warnings\\|Compile-Log\\|Messages\\|Bookmark List\\|Occur\\|eldoc\\)\\*"
-       "\\*\\(Flymake diagnostics\\|xref\\|Completions\\)"
-       "Output\\*$"
-       "\\*ert\\*$"
+        "\\*\\(Flymake diagnostics\\|xref\\|Completions\\)"
+        "Output\\*$"
+        "\\*ert\\*$"
 
-       "\\*Async Shell Command\\*$"
-       "\\*Apropos\\*$")
+        "\\*Async Shell Command\\*$"
+        "\\*Apropos\\*$")
     (display-buffer-reuse-mode-window display-buffer-at-bottom)
     (dedicated . t)
     (window-height . 0.25)
