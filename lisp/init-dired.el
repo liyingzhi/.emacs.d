@@ -86,6 +86,7 @@
 ;;; Hook
 (add-hook 'dired-mode-hook
           #'(lambda ()
+              (dired-hide-details-mode)
               (dired-async-mode)
               (unless (bound-and-true-p dirvish-override-dired-mode)
                 (nerd-icons-dired-mode))
@@ -101,6 +102,9 @@
   [["Directory"
     ("h" "Hide Details" dired-hide-details-mode :toggle t :transient t)
     ("o" "Omit Mode" dired-omit-mode :toggle t :transient t)]
+   ["Highlight"
+    ("f" "Diredfl" diredfl-mode :toggle t :transient t)
+    ("d" "Denote dired" denote-dired-mode :toggle t :transient t)]
    ["Sort By"
     ("n" "Name" casual-dired--sort-by-name :transient t)
     ("k" "Kind" casual-dired--sort-by-kind :transient t)
@@ -110,7 +114,7 @@
     ("M" "Date Metadata Changed" casual-dired--sort-by-date-metadata-changed :transient t)
     ("s" "Size" casual-dired--sort-by-size :transient t)]
    ["Setting"
-    ("f" "dirvish-fd-switches-menu" dirvish-fd-switches-menu)]]
+    ("F" "dirvish-fd-switches-menu" dirvish-fd-switches-menu)]]
   [("q" "Quit" transient-quit-all)])
 
 ;;; Keymap
