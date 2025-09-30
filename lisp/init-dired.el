@@ -90,8 +90,9 @@
               (dired-async-mode)
               (unless (bound-and-true-p dirvish-override-dired-mode)
                 (nerd-icons-dired-mode))
-              (diredfl-mode)
               (dired-omit-mode)))
+
+(diredfl-global-mode)
 
 (require 'lib-transient)
 (require 'casual-dired)
