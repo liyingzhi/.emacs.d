@@ -72,7 +72,12 @@
   (:title (pretty-hydra-title "Jump to directory" 'octicon "nf-oct-file_directory_open_fill") :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
   ("Base"
    (("t" trashed "Trashed")
-    ("d" consult-dir "Dirs")
+    ("d" consult-dir "Denote-direactory")
+
+    ("D"  (lambda ()
+            (interactive)
+            (dired (denote-directories))) "Dirs")
+
     ("v" (lambda ()
            (interactive)
            (when user/dirvish
