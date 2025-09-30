@@ -18,7 +18,8 @@
   (push  '("n" "note" entry (file "~/Documents/Org/note.org") "* %? :NOTE:\n%U\n%a\n" :clock-resume t)
          org-capture-templates)
   (push '("t" "任务" entry (file+headline "~/Documents/Org/tasks.org" "任务") "* TODO %^{标题} %t %^g\n** \_From: %f\_
-\=File-Line:\= %l \n\=Description:\= %?\n") org-capture-templates))
+\=File-Line:\= %l \n\=Description:\= %?\n") org-capture-templates)
+  (push '("w" "工作任务" entry (file+headline "~/Documents/Org/tasks.org" "工作任务") "* TODO %^{任务名} :work:\nDEADLINE: %^t SCHEDULED: %^t\n  %?\n" ) org-capture-templates))
 
 (lizqwer/setup-org-capture)
 
