@@ -222,7 +222,7 @@ prepended to the element after the #+HEADER: tag."
    (("a" (hot-expand "<a") "ascii")
     ("c" (hot-expand "<c") "center")
     ("C" (hot-expand "<C") "comment")
-    ;; ("x" (hot-expand "<e") "example")
+    ("x" (hot-expand "<e") "example")
     ("E" (hot-expand "<E") "export")
     ("h" (hot-expand "<h") "html")
     ("l" (hot-expand "<l") "latex")
@@ -258,6 +258,21 @@ prepended to the element after the #+HEADER: tag."
 
 ;; Add new template
 (add-to-list 'org-structure-template-alist '("n" . "note"))
+
+(require 'lib-transient)
+(pretty-transient-define-prefix transient-org-toggles ()
+  "Transient org menu."
+  :transient-non-suffix 'transient--do-stay
+  [["Display"
+    ("l" "Display Link" org-toggle-link-display :toggle (lambda () (not org-link-descriptive)) :transient t)
+    ("m" "Hide Emphasis Markers" org-toggle-display-emphasis-markers :toggle (lambda () org-hide-emphasis-markers) :transient t)
+    ("e" "Display Pretty Entities" org-toggle-pretty-entities :toggle (lambda () org-pretty-entities) :transient t)
+    ("i" "Display inline images" org-toggle-inline-images :toggle (lambda () org-inline-image-overlays) :transient t)
+    ("v" "Toggle Valign" valign-mode :toggle t :transient t)]
+   ["Org Management"
+    ("p" "Set Property" org-set-property)
+    ("E" "Export" org-export-dispatch)]]
+  [("q" "Quit" transient-quit-one)])
 
 ;;; keymap
 (keymap-sets org-mode-map
