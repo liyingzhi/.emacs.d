@@ -159,8 +159,8 @@ If AMOUNT is not provided, it defaults to 10."
    ["Playlist"
 
     ("L" " Load playlist" (lambda ()
-                           (interactive)
-                           (emms-play-playlist user/mms-playlist-file)))
+                             (interactive)
+                             (emms-play-playlist user/mms-playlist-file)))
     ("%" " Sort playlist" emms-sort :transient t)
     ("R o" "🔀 play Random" emms-random :transient t)
     ("R a" "🔀 toggle shuffle" emms-toggle-random-playlist :transient t)
@@ -175,13 +175,16 @@ If AMOUNT is not provided, it defaults to 10."
     ;; ("u" "Music dir" tsa/jump-to-music) ;; invokes a bookmark, which in turn hops to my bookmarked music directory
     ;; ("m" "   Modeline" emms-mode-line-mode)
     ("M" "🔍 current info" emms-show)
-    ("e" "🎵 emms" emms)]
+    ("e" "🎵 emms" emms)
+    ]
 
    ["Favorites"
     ("l" " load" (lambda ()
-            (interactive)
-            (emms-play-playlist +favorites-playlist)))
-    ("s" " save" +emms-add-to-favorites :transient t)]
+                    (interactive)
+                    (emms-play-playlist +favorites-playlist)))
+    ("s" " save" +emms-add-to-favorites :transient t)
+    ("g" " goto" +emms-select-song)
+    ("h" " history" emms-history-load)]
 
    ["Volume"
     ("=" "  Vol+" emms-player-mpv-raise-volume :transient t)
