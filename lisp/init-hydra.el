@@ -93,13 +93,13 @@
     ("j" dired-jump "Dired jump")
     ("J" dired-jump-other-window "Dired jump other"))))
 
-(defun +lizqwer/straight-action (action prompt)
+(defun +lizqwer/straight-action (action prompt &optional is-yes)
   "Helper function to execute straight ACTIONS with PROMPT and optional PACKAGE."
   (let ((command (intern (format "straight-%s" action))))
-    (when (yes-or-no-p (format "Run %s? " prompt))
+    (when (or is-yes (yes-or-no-p (format "Run %s? " prompt)))
       (call-interactively command))))
 
-(defhydra hydra-straight-helper (:hint nil)
+(defhydra hydra-straight-helper (:hint nil :color pink)
   "
 Straight:
 _c_heck all       |_f_etch all     |_m_erge all      |_n_ormalize all   |p_u_sh all        |_o_pen package
@@ -108,8 +108,8 @@ _C_heck package   |_F_etch package |_M_erge package  |_N_ormlize package|p_U_sh 
 _r_ebuild all     |_p_ull all      |_v_ersions freeze|_w_atcher start   |_g_et recipe entry|us_e_ package
 _R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |_G_et recipe repos|remov_E_ unused packages
 "
-  ("c" (+lizqwer/straight-action "check-all" "straight-check-all"))
-  ("C" (+lizqwer/straight-action "check-package" "straight-check-package"))
+  ("c" (+lizqwer/straight-action "check-all" "straight-check-all" t))
+  ("C" (+lizqwer/straight-action "check-package" "straight-check-package" t))
   ("r" (+lizqwer/straight-action "rebuild-all" "straight-rebuild-all"))
   ("R" (+lizqwer/straight-action "rebuild-package" "straight-rebuild-package"))
   ("f" (+lizqwer/straight-action "fetch-all" "straight-fetch-all"))
@@ -126,13 +126,14 @@ _R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |_G_et r
   ("V" (+lizqwer/straight-action "thaw-versions" "straight-thaw-versions"))
   ("w" (+lizqwer/straight-action "watcher-start" "straight-watcher-start"))
   ("W" (+lizqwer/straight-action "watcher-quit" "straight-watcher-quit"))
-  ("g" (+lizqwer/straight-action "get-recipe" "straight-get-recipe"))
-  ("G" (+lizqwer/straight-action "pull-recipe-repositories" "straight-pull-recipe-repositories"))
-  ("o" (+lizqwer/straight-action "visit-package" "straight-visit-package"))
-  ("O" (+lizqwer/straight-action "visit-package-website" "straight-visit-package-website"))
-  ("e" (+lizqwer/straight-action "use-package" "straight-use-package"))
-  ("E" (+lizqwer/straight-action "remove-unused-repos" "straight-remove-unused-repos"))
-  ("q" nil))
+  ("g" (+lizqwer/straight-action "get-recipe" "straight-get-recipe" t) :color blue)
+  ("G" (+lizqwer/straight-action "pull-recipe-repositories" "straight-pull-recipe-repositories") :color blue)
+  ("o" (+lizqwer/straight-action "visit-package" "straight-visit-package" t) :color blue)
+  ("O" (+lizqwer/straight-action "visit-package-website" "straight-visit-package-website" t) :color blue)
+  ("e" (+lizqwer/straight-action "use-package" "straight-use-package" t))
+  ("E" (+lizqwer/straight-action "remove-unused-repos" "straight-remove-unused-repos") :color blue)
+  ("q" nil)
+  ("<escape>" nil :color blue))
 
 (provide 'init-hydra)
 ;;; init-hydra.el ends here
