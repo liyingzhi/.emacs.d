@@ -41,6 +41,7 @@
                      with lines = nil
                      for l in buffer-text-lines
                      for n = min-line-number then (1+ n)
+                     unless (string-empty-p l)
                      do (push (cons l n)
                               lines)
                      finally return (nreverse lines)))
@@ -55,6 +56,7 @@
   (defun +emms-add-to-favorites ()
     "Add the current song to the hard-coded favorites playlist."
     (interactive)
+    (emms-playlist-mode-center-current)
     (save-window-excursion
       (progn
         (with-current-buffer emms-playlist-buffer-name
@@ -65,7 +67,7 @@
               (emms-playlist-set-playlist-buffer
                (get-buffer emms-playlist-buffer-name))))))
 
-;;;###autoload
+  ;;;###autoload
   (defun +emms-playlist-save (format file option &optional kill-bufer)
     "Save the current EMMS playlist to FILE in the specified FORMAT.
 If KILL-BUFEER is non-nil, the playlist buffer will be killed after saving.
@@ -75,20 +77,27 @@ The default format is determined by `emms-source-playlist-default-format'."
                                        emms-source-file-default-directory
                                        emms-source-file-default-directory
                                        nil)))
-    (with-temp-buffer (emms-source-playlist-unparse format
-                                                    (with-current-emms-playlist
-                                                      (current-buffer))
-                                                    (current-buffer))
-                      (let ((append-to-file t))
-                        (write-region (point-min) (point-max) file t))
+    (with-temp-buffer
+      (emms-source-playlist-unparse format
+                                    (with-current-emms-playlist
+                                      (current-buffer))
+                                    (current-buffer))
+      (let ((new-content (buffer-string)))
+        (if (and (file-exists-p file)
+                 (with-temp-buffer
+                   (insert-file-contents file)
+                   (search-forward new-content nil t)))
+            (message "Playlist already contains the same entries. Not saving.")
+          (let ((append-to-file t))
+            (write-region (point-min) (point-max) file t))
+          (when kill-bufer
+            (with-current-emms-playlist
+              (kill-buffer)))))))
 
-                      (when kill-bufer
-                        (with-current-emms-playlist
-                          (kill-buffer)))))
 
   ;; mpv integration
   ;; https://www.reddit.com/r/emacs/comments/syop1h/control_emmsmpv_volume/
-  (defvar emms-player-mpv-volume 100)
+  (defvar emms-player-mpv-volume 30)
 
   (defun emms-player-mpv-get-volume ()
     "Sets `emms-player-mpv-volume' to the current volume value
@@ -120,7 +129,7 @@ If AMOUNT is not provided, it defaults to 10."
     (emms-player-mpv-cmd `(add volume ,(- (or amount '10))))
     (emms-player-mpv-get-volume))
 
-  (emms-player-mpv-cmd '(set_property volume 30))
+  (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume))
 
                                         ; `emms-info-native' supports mp3,flac,ogg and requires NO CLI tools
   (unless (memq 'emms-info-native emms-info-functions)
@@ -170,14 +179,6 @@ If AMOUNT is not provided, it defaults to 10."
     ;; ("P" "Cue Previous" emms-cue-previous :transient t)
     ]
 
-   ["Global/External"
-    ("d" "📂 emms Dired" emms-play-dired)
-    ;; ("u" "Music dir" tsa/jump-to-music) ;; invokes a bookmark, which in turn hops to my bookmarked music directory
-    ;; ("m" "   Modeline" emms-mode-line-mode)
-    ("M" "🔍 current info" emms-show)
-    ("e" "🎵 emms" emms)
-    ]
-
    ["Favorites"
     ("l" " load" (lambda ()
                     (interactive)
@@ -185,6 +186,14 @@ If AMOUNT is not provided, it defaults to 10."
     ("s" " save" +emms-add-to-favorites :transient t)
     ("g" " goto" +emms-select-song)
     ("h" " history" emms-history-load)]
+
+   ["Global/External"
+    ("d" "📂 emms Dired" emms-play-dired)
+    ;; ("u" "Music dir" tsa/jump-to-music) ;; invokes a bookmark, which in turn hops to my bookmarked music directory
+    ;; ("m" "   Modeline" emms-mode-line-mode)
+    ("M" "🔍 current info" emms-show)
+    ("e" "🎵 emms" emms)
+    ]
 
    ["Volume"
     ("=" "  Vol+" emms-player-mpv-raise-volume :transient t)
