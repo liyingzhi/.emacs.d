@@ -133,8 +133,8 @@
     ("C-c n b e" . citar-denote-open-reference-entry)))
 
 ;;; denote-explore
-(defconst denote-id-regexp "@@\\([^.]*?\\)\\(==.*\\|--.*\\|__.*\\|@@.*\\|\\..*\\)*$"
-  "Regular expression to match the IDENTIFIER field in a file name.")
+(defconst denote-id-regexp "\\([0-9]\\{8\\}\\)\\(T[0-9]\\{6\\}\\)"
+  "Regular expression to match `denote-date-identifier-format'.")
 
 (global-set-keys
  '(;; Statistics
