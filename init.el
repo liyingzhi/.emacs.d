@@ -47,7 +47,7 @@
 (require 'init-denote)
 (require 'init-pangu)
 (require 'init-plantuml)
-;; (require 'init-hugo)
+
 ;;(require 'crefactor)
 (require 'init-writer)
 
