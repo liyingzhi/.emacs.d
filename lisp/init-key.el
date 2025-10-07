@@ -67,7 +67,7 @@
  (:key "s" :description "Toggle interaction-log" :command interaction-log-mode :filename "interaction-log")
  (:key "w" :description "Toggle sub word or super word" :command toggle-sub-word-or-super-word :filename "init-edit")
 
- (:key "i" :description "Toggle immersive-translate" :command immersive-translate-auto-mode :filename "init-immersive-translate"))
+ (:key "i" :description "Toggle immersive-translate" :command immersive-translate-auto-mode))
 
 (defun consult-fd-in-home ()
   (interactive)
