@@ -7,6 +7,7 @@
 (add-hook 'emms-playlist-mode-hook #'meow-motion-mode)
 (defvar +favorites-playlist "~/Music/fav.m3u")
 
+;;; setting
 (with-eval-after-load 'emms
   (require 'emms-setup)
   (require 'emms-mpris)
@@ -94,44 +95,80 @@ The default format is determined by `emms-source-playlist-default-format'."
             (with-current-emms-playlist
               (kill-buffer)))))))
 
-
   ;; mpv integration
   ;; https://www.reddit.com/r/emacs/comments/syop1h/control_emmsmpv_volume/
   (defvar emms-player-mpv-volume 30)
+  (defvar mms/emms-player-mpv-volume-mute nil)
+
+  ;; set init volume
+  (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume))
 
   (defun emms-player-mpv-get-volume ()
     "Sets `emms-player-mpv-volume' to the current volume value
-and sends a message of the current volume status."
+and sends a message of the current volume status.
+and refresh emms transient menu."
     (emms-player-mpv-cmd '(get_property volume)
                          #'(lambda (vol err)
                              (unless err
                                (let ((vol (truncate vol)))
                                  (setq emms-player-mpv-volume vol)
-                                 (message "Music volume: %s%%"
-                                          vol))))))
+                                 (message "Music volume: %s%%" vol)
+                                 (mms/transient-emms--refresh-volume))))))
 
   (defun emms-player-mpv-raise-volume (&optional amount)
     "Raise the volume of the MPV player by AMOUNT.
 If AMOUNT is not provided, it defaults to 10.
 The volume will not exceed 100."
     (interactive)
-    (let* ((amount (or amount 10))
-           (new-volume (+ emms-player-mpv-volume amount)))
-      (if (> new-volume 100)
-          (emms-player-mpv-cmd '(set_property volume 100))
-        (emms-player-mpv-cmd `(add volume ,amount))))
-    (emms-player-mpv-get-volume))
+    (unless mms/emms-player-mpv-volume-mute
+      (let* ((amount (or amount 10))
+             (new-volume (+ emms-player-mpv-volume amount)))
+        (if (> new-volume 100)
+            (emms-player-mpv-cmd '(set_property volume 100))
+          (emms-player-mpv-cmd `(add volume ,amount))))
+      (emms-player-mpv-get-volume)))
 
   (defun emms-player-mpv-lower-volume (&optional amount)
     "Lower the volume of the MPV player by AMOUNT.
 If AMOUNT is not provided, it defaults to 10."
     (interactive)
-    (emms-player-mpv-cmd `(add volume ,(- (or amount '10))))
+    (unless mms/emms-player-mpv-volume-mute
+      (emms-player-mpv-cmd `(add volume ,(- (or amount '10))))
+      (emms-player-mpv-get-volume)))
+
+  (defun emms-player-mpv-zero-volume ()
+    "Set the volume of the MPV player to zero."
+    (interactive)
+    (emms-player-mpv-cmd '(set_property volume 0))
     (emms-player-mpv-get-volume))
 
-  (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume))
+  (defun emms-player-mpv-mute-volume ()
+    "Toggle mute status of the MPV player.
+If currently muted, restore previous volume; otherwise set volume to zero."
+    (interactive)
+    (if mms/emms-player-mpv-volume-mute
+        (progn
+          (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume))
+          (setq mms/emms-player-mpv-volume-mute nil))
+      (emms-player-mpv-cmd '(set_property volume 0))
+      (setq mms/emms-player-mpv-volume-mute t)))
 
-                                        ; `emms-info-native' supports mp3,flac,ogg and requires NO CLI tools
+  (defun mms/emms--volumes-description ()
+    "Return a formatted string describing the current volume for display in menu."
+    (format (propertize "Volume: %s" 'face 'transient-heading)
+            (if mms/emms-player-mpv-volume-mute
+                (propertize (format "Mute")
+                            'face
+                            'transient-value)
+              (propertize (format "%s  " emms-player-mpv-volume)
+                          'face
+                          'transient-value))))
+
+  (defun mms/transient-emms--refresh-volume ()
+    "Refresh the EMMS transient interface to reflect updated volume information."
+    (transient-setup 'my/transient-emms))
+
+  ;; `emms-info-native' supports mp3,flac,ogg and requires NO CLI tools
   (unless (memq 'emms-info-native emms-info-functions)
     (require 'emms-info-native)
     (push 'emms-info-native emms-info-functions))
@@ -147,6 +184,12 @@ If AMOUNT is not provided, it defaults to 10."
   (keymap-sets emms-playlist-mode-map
     '(("C-o" . my/transient-emms))))
 
+;;; menu
+
+;; autoload
+(autoload #'emms "emms" nil t)
+(autoload #'emms-pause "emms" nil t)
+
 ;;** EMMS helpers
 ;; transient to control EMMS
 ;; https://tech.toryanderson.com/2023/11/29/transient-for-convenience-with-emms/
@@ -156,7 +199,8 @@ If AMOUNT is not provided, it defaults to 10."
   :transient-non-suffix 'transient--do-stay
   ["EMMS"
    ["Controls"
-    ("p" "⏯ Play/Pause" emms-pause :transient t)
+    :pad-keys t
+    ("P" "⏯ Play/Pause" emms-pause :transient t)
     ("S" "⏹ Stop" emms-stop :transient t)
     ("t" "⏲ Seek to time" emms-seek-to :transient t)
     (">" "⏭ Next" emms-next :transient t)
@@ -164,9 +208,8 @@ If AMOUNT is not provided, it defaults to 10."
                                         ; I want the transient to stay open on just these commands, so I can easily repeat them
     ("b" "⏪ Back rewind" emms-seek-backward :transient t)
     ("f" "⏩ Fast-Forward" emms-seek-forward :transient t)]
-
    ["Playlist"
-
+    :pad-keys t
     ("L" " Load playlist" (lambda ()
                              (interactive)
                              (emms-play-playlist user/mms-playlist-file)))
@@ -178,31 +221,31 @@ If AMOUNT is not provided, it defaults to 10."
     ;; ("N" "Cue Next" emms-cue-next :transient t)
     ;; ("P" "Cue Previous" emms-cue-previous :transient t)
     ]
-
    ["Favorites"
+    :pad-keys t
     ("l" " load" (lambda ()
                     (interactive)
                     (emms-play-playlist +favorites-playlist)))
     ("s" " save" +emms-add-to-favorites :transient t)
     ("g" " goto" +emms-select-song)
     ("h" " history" emms-history-load)]
+   [:description
+    mms/emms--volumes-description
+    :pad-keys t
+    ("m" "  Mute" emms-player-mpv-mute-volume :transient t)
+    ("z" "  Zero" emms-player-mpv-zero-volume :transient t)
+    ("=" "  Vol+" emms-player-mpv-raise-volume :transient t)
+    ("-" "  Vol-" emms-player-mpv-lower-volume :transient t)]
 
    ["Global/External"
+    :pad-keys t
     ("d" "📂 emms Dired" emms-play-dired)
     ;; ("u" "Music dir" tsa/jump-to-music) ;; invokes a bookmark, which in turn hops to my bookmarked music directory
     ;; ("m" "   Modeline" emms-mode-line-mode)
     ("M" "🔍 current info" emms-show)
-    ("e" "🎵 emms" emms)
-    ]
+    ("e" "🎵 emms" emms)]])
 
-   ["Volume"
-    ("=" "  Vol+" emms-player-mpv-raise-volume :transient t)
-    ("-" "  Vol-" emms-player-mpv-lower-volume :transient t)]
-   ])
-
-;; autoload
-(autoload #'emms "emms" nil t)
-(autoload #'emms-pause "emms" nil t)
+;;; keymap
 
 (global-set-keys
  `(("C-c m b" . emms-browser)
@@ -226,8 +269,6 @@ If AMOUNT is not provided, it defaults to 10."
    ("<XF86AudioPrev>" . emms-previous)
    ("<XF86AudioNext>" . emms-next)
    ("<XF86AudioPlay>" . emms-pause)))
-
-
 
 (provide 'init-mms)
 ;;; init-mms.el ends here
