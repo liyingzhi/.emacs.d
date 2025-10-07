@@ -96,16 +96,19 @@
 (defun +lizqwer/straight-action (action prompt &optional is-yes)
   "Helper function to execute straight ACTIONS with PROMPT and optional PACKAGE."
   (let ((command (intern (format "straight-%s" action))))
-    (when (or is-yes (yes-or-no-p (format "Run %s? " prompt)))
-      (call-interactively command))))
+    (if (or is-yes (yes-or-no-p (format "Run %s? " prompt)))
+        (progn
+          (call-interactively command)
+          (message "run %s command finished" prompt))
+      (message "cancel"))))
 
 (defhydra hydra-straight-helper (:hint nil :color pink)
   "
 Straight:
 _c_heck all       |_f_etch all     |_m_erge all      |_n_ormalize all   |p_u_sh all        |_o_pen package
-_C_heck package   |_F_etch package |_M_erge package  |_N_ormlize package|p_U_sh package    |_O_pen package web
-----------------^^+--------------^^+---------------^^+----------------^^+----------------^^+------------------||_q_uit||
-_r_ebuild all     |_p_ull all      |_v_ersions freeze|_w_atcher start   |_g_et recipe entry|us_e_ package
+_C_heck package   |_F_etch package |_M_erge package  |_N_ormlize package|p_U_sh package    |_O_pen package web      ||_k_ prune build||
+----------------^^+--------------^^+---------------^^+----------------^^+----------------^^+----------------------^^
+_r_ebuild all     |_p_ull all      |_v_ersions freeze|_w_atcher start   |_g_et recipe entry|us_e_ package           ||_q_uit||
 _R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |_G_et recipe repos|remov_E_ unused packages
 "
   ("c" (+lizqwer/straight-action "check-all" "straight-check-all" t))
@@ -132,6 +135,7 @@ _R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |_G_et r
   ("O" (+lizqwer/straight-action "visit-package-website" "straight-visit-package-website" t) :color blue)
   ("e" (+lizqwer/straight-action "use-package" "straight-use-package" t))
   ("E" (+lizqwer/straight-action "remove-unused-repos" "straight-remove-unused-repos") :color blue)
+  ("k" (+lizqwer/straight-action "prune-build" "straight-prune-build") :color blue)
   ("q" nil)
   ("<escape>" nil :color blue))
 
