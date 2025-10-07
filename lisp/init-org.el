@@ -33,7 +33,10 @@
 ;;       '((sequence "TODO(t!)" "WAIT(w@/!)" "|" "DONE(d@/!)" "CANCEL(c@/!)")
 ;;         (sequence "REPORT(r!)" "BUG(b@/!)" "|" "FIXED(f@/!)")))
 
-(setq org-format-latex-options (plist-put org-format-latex-options :scale 4.0))
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+
+(add-hook 'org-mode-hook #'org-cdlatex-mode)
+
 
 ;;; org export
 
@@ -134,6 +137,7 @@
 
 ;; Make invisible parts of Org elements appear visible
 (add-hook 'org-mode-hook 'org-appear-mode)
+(add-hook 'org-mode-hook 'org-fragtog-mode)
 
 ;; 中文标记隐藏空格
 (font-lock-add-keywords 'org-mode

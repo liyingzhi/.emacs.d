@@ -233,6 +233,7 @@
     ox-reveal
     ox-hugo
     org-appear
+    org-fragtog
     org-journal
     plantuml-mode
     (plantuml-emacs
@@ -260,6 +261,7 @@
     ;;       	:pre-build ("make" "all"))
     biblio
     citar
+    (oxr :host github :repo "bdarcus/oxr")
     titlecase
     denote
     denote-menu
@@ -270,7 +272,9 @@
     citar-embark
     citar-denote
     denote-explore
-    ox-epub))
+    ox-epub
+    auctex
+    cdlatex))
 
 (defvar *package-ai-install-list*
   '((copilot :host github
