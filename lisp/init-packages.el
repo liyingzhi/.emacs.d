@@ -13,6 +13,8 @@
     consult-notes
     consult-yasnippet
     consult-dir
+    bufferfile
+    bufferlo
     embark
     embark-consult
     orderless
@@ -165,7 +167,6 @@
     ligature
     dashboard
     doom-modeline
-    bufferfile
     pretty-mode
     color-identifiers-mode
     lisp-extra-font-lock
