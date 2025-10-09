@@ -209,6 +209,16 @@ ARGS is ORIG-FN args."
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
+(setq-default TeX-output-dir "Tmp")
+;; (setq-default TeX-engine 'xetex)
+;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
+
+(add-hook 'LaTeX-mode-hook
+          (lambda ()
+            (add-list-to-list 'TeX-view-program-selection
+                              '((output-pdf "Evince")
+                                (output-pdf "Sioyek")
+                                (output-pdf "xdg-open")))))
 
 (defun +cdlatex-complete ()
   "TAB complete."
