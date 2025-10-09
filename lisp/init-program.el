@@ -228,7 +228,9 @@ ARGS is ORIG-FN args."
 
 (with-eval-after-load 'cdlatex
   (keymap-sets cdlatex-mode-map
-    '(("TAB" . +cdlatex-complete))))
+    '(("TAB" . +cdlatex-complete)
+      ("C-c (" . consult-reftex-goto-label)
+      ("C-c )" . consult-reftex-insert-reference))))
 
 (add-hook 'TeX-mode-hook
           (lambda ()

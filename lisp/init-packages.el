@@ -274,7 +274,8 @@
     denote-explore
     ox-epub
     auctex
-    cdlatex))
+    cdlatex
+    (consult-reftex :host github :repo "karthink/consult-reftex")))
 
 (defvar *package-ai-install-list*
   '((copilot :host github
