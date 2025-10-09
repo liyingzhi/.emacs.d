@@ -2,15 +2,21 @@
 ;;; Commentary:
 ;;; Code:
 
+(defcustom user/birthday-dic nil
+  "A dictionary to store user birthday information."
+  :type '(alist :key-type symbol :value-type (cons integer integer))
+  :group 'user)
+
+;;; writter
 (defcustom user/org-base-dir-path "~/Documents/Org"
   "Dir path for org mode file."
   :group 'user
   :type 'string)
 
-(defcustom user/birthday-dic nil
-  "A dictionary to store user birthday information."
-  :type '(alist :key-type symbol :value-type (cons integer integer))
-  :group 'user)
+(defcustom user/org-format-latex-options-scale 2.0
+  "Set the org-format-latex-options scale value."
+  :group 'user
+  :type 'number)
 
 ;;; UI
 (defcustom user/show-modeline t

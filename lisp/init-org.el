@@ -33,7 +33,7 @@
 ;;       '((sequence "TODO(t!)" "WAIT(w@/!)" "|" "DONE(d@/!)" "CANCEL(c@/!)")
 ;;         (sequence "REPORT(r!)" "BUG(b@/!)" "|" "FIXED(f@/!)")))
 
-(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+(setq org-format-latex-options (plist-put org-format-latex-options :scale user/org-format-latex-options-scale))
 
 (add-hook 'org-mode-hook #'org-cdlatex-mode)
 
@@ -54,10 +54,10 @@
 ;; LaTeX PDF Export settings
 ;; Multiple LaTeX passes for bibliographies
 (setq org-latex-pdf-process
-      '("pdflatex -interaction nonstopmode -output-directory %o %f"
-        "bibtex %b"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+      '("%latex -interaction nonstopmode -output-directory %o %f"
+        "%bib %b"
+        "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
 ;; Clean temporary files after export
 (setq org-latex-logfiles-extensions
@@ -335,13 +335,10 @@ prepended to the element after the #+HEADER: tag."
 (consult-notes-org-headings-mode)
 (consult-notes-org-roam-mode)
 
-(setq org-latex-compiler "xelatex")
-(setq org-latex-pdf-process '("xelatex %f"))
-
 (defun log-todo-next-creation-date (&rest ignore)
   "Log NEXT creation time in the property drawer under the key 'ACTIVATED'"
   (when (and (string= (org-get-todo-state) "NEXT")
-           (not (org-entry-get nil "ACTIVATED")))
+             (not (org-entry-get nil "ACTIVATED")))
     (org-entry-put nil "ACTIVATED" (format-time-string "[%Y-%m-%d]"))))
 ;; Copy Done To-Dos to Today
 (defun org-roam-copy-todo-to-today ()
