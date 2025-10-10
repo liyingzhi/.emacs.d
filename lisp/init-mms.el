@@ -200,20 +200,21 @@ If currently muted, restore previous volume; otherwise set volume to zero."
   ["EMMS"
    ["Controls"
     :pad-keys t
-    ("P" "⏯ Play/Pause" emms-pause :transient t)
-    ("S" "⏹ Stop" emms-stop :transient t)
-    ("t" "⏲ Seek to time" emms-seek-to :transient t)
-    (">" "⏭ Next" emms-next :transient t)
-    ("<" "⏮ Back (Previous)" emms-previous :transient t)
+    ("P" "⏯  Play/Pause" emms-pause :transient t)
+    ("S" "⏹  Stop" emms-stop :transient t)
+    ("t" "⏲  Seek to time" emms-seek-to :transient t)
+    (">" "⏭  Next" emms-next :transient t)
+    ("<" "⏮  Back (Previous)" emms-previous :transient t)
                                         ; I want the transient to stay open on just these commands, so I can easily repeat them
     ("b" "⏪ Back rewind" emms-seek-backward :transient t)
     ("f" "⏩ Fast-Forward" emms-seek-forward :transient t)]
    ["Playlist"
     :pad-keys t
-    ("L" " Load playlist" (lambda ()
-                             (interactive)
-                             (emms-play-playlist user/mms-playlist-file)))
-    ("%" " Sort playlist" emms-sort :transient t)
+    ("L"   "  Load playlist" (lambda ()
+                                (interactive)
+                                (emms-play-playlist user/mms-playlist-file)))
+    ("%"   "  Sort playlist" emms-sort :transient t)
+    ("h"   "  history" emms-history-load)
     ("R o" "🔀 play Random" emms-random :transient t)
     ("R a" "🔀 toggle shuffle" emms-toggle-random-playlist :transient t)
     ("r o" "🔁 toggle repeat t" emms-toggle-repeat-track :transient t)
@@ -221,14 +222,6 @@ If currently muted, restore previous volume; otherwise set volume to zero."
     ;; ("N" "Cue Next" emms-cue-next :transient t)
     ;; ("P" "Cue Previous" emms-cue-previous :transient t)
     ]
-   ["Favorites"
-    :pad-keys t
-    ("l" " load" (lambda ()
-                    (interactive)
-                    (emms-play-playlist +favorites-playlist)))
-    ("s" " save" +emms-add-to-favorites :transient t)
-    ("g" " goto" +emms-select-song)
-    ("h" " history" emms-history-load)]
    [:description
     mms/emms--volumes-description
     :pad-keys t
@@ -236,7 +229,13 @@ If currently muted, restore previous volume; otherwise set volume to zero."
     ("z" "  Zero" emms-player-mpv-zero-volume :transient t)
     ("=" "  Vol+" emms-player-mpv-raise-volume :transient t)
     ("-" "  Vol-" emms-player-mpv-lower-volume :transient t)]
-
+   ["Favorites"
+    :pad-keys t
+    ("l" " load" (lambda ()
+                    (interactive)
+                    (emms-play-playlist +favorites-playlist)))
+    ("s" " save" +emms-add-to-favorites :transient t)
+    ("g" " goto" +emms-select-song)]
    ["Global/External"
     :pad-keys t
     ("d" "📂 emms Dired" emms-play-dired)
