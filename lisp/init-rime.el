@@ -39,6 +39,7 @@
 
         rime-predicate-prog-in-code-p
         rime-predicate-org-in-src-block-p
+        rime-predicate-org-latex-mode-p
 
         rime-predicate-punctuation-line-begin-p
 
