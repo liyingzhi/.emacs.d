@@ -215,12 +215,44 @@ ARGS is ORIG-FN args."
 (setq TeX-newline-function #'reindent-then-newline-and-indent)
 (setq reftex-cite-format 'natbib)
 
+(defun my/set-Tex-master-file-local-variable-value ()
+  "Set the TeX-master file local variable value with relative path completion.
+When called interactively, prompts for a file path using minibuffer completion
+and sets it as a file-local variable. The path is automatically converted to
+a relative path from the current file's directory."
+  (interactive)
+  (let* ((local-variable-name 'TeX-master)
+         (local-variable-value (read-file-name "TeX master file: " nil nil t)))
+    (add-file-local-variable local-variable-name
+                             (file-relative-name local-variable-value
+                                                 (file-name-directory (buffer-file-name))))))
+
+(pretty-transient-define-prefix transient-latex-line-template ()
+  "Transient latex line menu."
+  [["RefTex"
+    ("t" "citet" reftex-citet)
+    ("p" "citep" reftex-citep)
+    ("c" "citation" reftex-citation)
+    ("r" "insert reference" consult-reftex-insert-reference)
+    ("g" "goto-label" consult-reftex-goto-label)]
+   ["Misc"
+    ("v" "add-file-local-variable" add-file-local-variable)
+    ("m" "set-local-Tex-master" my/set-Tex-master-file-local-variable-value)
+    (">" "ins" self-insert-command)]]
+  [("q" "Quit" transient-quit-one)])
+
 (add-hook 'LaTeX-mode-hook
           (lambda ()
             (add-list-to-list 'TeX-view-program-selection
                               '((output-pdf "Evince")
                                 (output-pdf "Sioyek")
                                 (output-pdf "xdg-open")))))
+
+(with-eval-after-load 'cdlatex
+  (keymap-sets LaTeX-mode-map
+    '(("M-g r" . consult-reftex-goto-label)
+      ("C-c C-l" . consult-reftex-insert-reference)
+      (">" . transient-latex-line-template))))
 
 (defun +cdlatex-complete ()
   "TAB complete."
@@ -230,10 +262,7 @@ ARGS is ORIG-FN args."
 
 (with-eval-after-load 'cdlatex
   (keymap-sets cdlatex-mode-map
-    '(("TAB" . +cdlatex-complete)
-
-      ("M-g r" . consult-reftex-goto-label)
-      ("C-c C-l" . consult-reftex-insert-reference))))
+    '(("TAB" . +cdlatex-complete))))
 
 (add-hook 'TeX-mode-hook
           (lambda ()
