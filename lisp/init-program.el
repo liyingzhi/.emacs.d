@@ -211,7 +211,8 @@ ARGS is ORIG-FN args."
 (setq-default TeX-master nil)
 (setq-default TeX-output-dir "Tmp")
 ;; (setq-default TeX-engine 'xetex)
-;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
+
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
 
 (add-hook 'LaTeX-mode-hook
           (lambda ()
