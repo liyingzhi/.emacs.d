@@ -213,8 +213,8 @@
 
 (with-eval-after-load 'init-meow
   (meow-normal-define-key
-   '("<" . remember-init)
-   '(">" . remember-jump)))
+   '("C-c <" . remember-init)
+   '("C-c >" . remember-jump)))
 
 ;;; Local Variables
 
