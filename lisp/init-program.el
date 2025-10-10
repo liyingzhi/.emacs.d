@@ -212,7 +212,8 @@ ARGS is ORIG-FN args."
 (setq-default TeX-output-dir "Tmp")
 ;; (setq-default TeX-engine 'xetex)
 
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
+(setq TeX-newline-function #'reindent-then-newline-and-indent)
+(setq reftex-cite-format 'natbib)
 
 (add-hook 'LaTeX-mode-hook
           (lambda ()
@@ -230,13 +231,18 @@ ARGS is ORIG-FN args."
 (with-eval-after-load 'cdlatex
   (keymap-sets cdlatex-mode-map
     '(("TAB" . +cdlatex-complete)
-      ("C-c (" . consult-reftex-goto-label)
-      ("C-c )" . consult-reftex-insert-reference))))
+
+      ("M-g r" . consult-reftex-goto-label)
+      ("C-c C-l" . consult-reftex-insert-reference))))
 
 (add-hook 'TeX-mode-hook
           (lambda ()
             (prettify-symbols-mode)
             (cdlatex-mode)))
+
+;;; RefTex
+(setq reftex-plug-into-AUCTeX t)
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
 
 ;;; language
 (add-to-list 'auto-mode-alist '("\\.launch$" . xml-mode))
