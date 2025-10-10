@@ -234,8 +234,10 @@ a relative path from the current file's directory."
     ("p" "citep" reftex-citep)
     ("c" "citation" reftex-citation)
     ("r" "insert reference" consult-reftex-insert-reference)
-    ("g" "goto-label" consult-reftex-goto-label)]
+    ("g" "goto-label" consult-reftex-goto-label)
+    ("T" "toc" reftex-toc-recenter)]
    ["Misc"
+    ("e" "environment" LaTeX-environment)
     ("v" "add-file-local-variable" add-file-local-variable)
     ("m" "set-local-Tex-master" my/set-Tex-master-file-local-variable-value)
     (">" "ins" self-insert-command)]]
