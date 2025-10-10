@@ -215,17 +215,27 @@ ARGS is ORIG-FN args."
 (setq TeX-newline-function #'reindent-then-newline-and-indent)
 (setq reftex-cite-format 'natbib)
 
-(defun my/set-Tex-master-file-local-variable-value ()
-  "Set the TeX-master file local variable value with relative path completion.
-When called interactively, prompts for a file path using minibuffer completion
-and sets it as a file-local variable. The path is automatically converted to
-a relative path from the current file's directory."
+(defun my/set-file-local-variable-value-with-file-path (local-variable-name)
+  "Set LOCAL-VARIABLE-NAME as a file-local variable with a user-selected file value."
+  (interactive "sLocal variable name: ")
+  (if (boundp local-variable-name)
+      (let* ((prompt (format "TeX %s file: " local-variable-name))
+             (local-variable-value (read-file-name prompt nil nil t)))
+        (add-file-local-variable local-variable-name
+                                 (file-relative-name local-variable-value
+                                                     (file-name-directory (buffer-file-name)))))
+    (message "Symbol %s is not bound" local-variable-name)))
+
+(defun my/set-file-local-variable-value-with-candidates (local-variable-name candidates-list)
+  "Set LOCAL-VARIABLE-NAME as a file-local variable with a value selected from CANDIDATES-LIST."
   (interactive)
-  (let* ((local-variable-name 'TeX-master)
-         (local-variable-value (read-file-name "TeX master file: " nil nil t)))
-    (add-file-local-variable local-variable-name
-                             (file-relative-name local-variable-value
-                                                 (file-name-directory (buffer-file-name))))))
+  (if (boundp local-variable-name)
+      (let* ((prompt (format "TeX %s file: " local-variable-name))
+             (local-variable-value (completing-read prompt candidates-list)))
+        (add-file-local-variable local-variable-name
+                                 (file-relative-name local-variable-value
+                                                     (file-name-directory (buffer-file-name)))))
+    (message "Symbol %s is not bound" local-variable-name)))
 
 (pretty-transient-define-prefix transient-latex-line-template ()
   "Transient latex line menu."
@@ -239,7 +249,12 @@ a relative path from the current file's directory."
    ["Misc"
     ("e" "environment" LaTeX-environment)
     ("v" "add-file-local-variable" add-file-local-variable)
-    ("m" "set-local-Tex-master" my/set-Tex-master-file-local-variable-value)
+    ("m" "set-local-Tex-master" (lambda ()
+                                  (interactive)
+                                  (my/set-file-local-variable-value-with-file-path 'TeX-master)))
+    ("E" "set-local-Tex-engine" (lambda ()
+                                  (interactive)
+                                  (my/set-file-local-variable-value-with-candidates 'TeX-engine TeX-engine-alist-builtin)))
     (">" "ins" self-insert-command)]]
   [("q" "Quit" transient-quit-one)])
 
