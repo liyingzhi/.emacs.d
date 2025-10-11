@@ -148,7 +148,8 @@ Otherwise, calculate the age of the current entry."
    (("t" . "idea agent") . ,(agenda-open-with-file "~/Documents/Org/tasks.org"))
    (("a" . "all agent") . org-agenda)
    (("d" . "Capture roam dailies note") . org-roam-dailies-capture-today)
-   (("j" . "Show open or delete journal menu") . journal-transient)))
+   (("j" . "Show open or delete journal menu") . journal-transient)
+   (("p" . "Show open or delete journal menu") . casual-timezone-planner)))
 
 (provide 'init-org-agenda)
 ;;; init-org-agenda.el ends here
