@@ -69,7 +69,7 @@
         :kill-buffer t
         :jump-to-captured t) org-capture-templates)
 
-(push '("w" "New work note (with Denote)" plain
+(push '("W" "New work note (with Denote)" plain
         (file denote-last-path)
         #'create-denote--in-work-subdir
         :no-save t
