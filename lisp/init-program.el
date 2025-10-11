@@ -265,7 +265,7 @@ ARGS is ORIG-FN args."
                                 (output-pdf "Sioyek")
                                 (output-pdf "xdg-open")))))
 
-(with-eval-after-load 'cdlatex
+(with-eval-after-load 'latex
   (keymap-sets LaTeX-mode-map
     '(("M-g r" . consult-reftex-goto-label)
       ("C-c C-l" . consult-reftex-insert-reference)
