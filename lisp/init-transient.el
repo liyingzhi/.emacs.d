@@ -35,6 +35,9 @@
 (with-eval-after-load 'calc
   (keymap-set calc-mode-map "C-o" #'casual-calc-tmenu))
 
+(with-eval-after-load 'calendar
+  (keymap-set calendar-mode-map "C-o" #'casual-calendar-tmenu))
+
 (with-eval-after-load 'dired
   (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu))
 
