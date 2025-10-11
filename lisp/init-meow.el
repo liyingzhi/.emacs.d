@@ -317,6 +317,7 @@
   (meow-normal-define-key
    '("g" . "M-g")
    '("S" . "M-s")
+   (cons "@" outline-mode-prefix-map)
    (cons "F" find-map))
 
   (meow-normal-define-key
