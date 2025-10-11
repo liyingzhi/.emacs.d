@@ -71,6 +71,7 @@
    ("w" "Mark from point to endbuffer" my/select-end-of-buffer-to-point)
    ("o" "Mark row expreg expand" home-row-expreg-expand-with-letters)
    ("c" "Yank name of current buffer" my/copy-current-buffer-name)
+   ("C" "Sum numbers after colon" sum-numbers-after-colon)
    ("r" "visual-replace" visual-replace)
    ("s" "outline-show-all" outline-show-all)
    ("e" "org emphasize" org-emphasize)])

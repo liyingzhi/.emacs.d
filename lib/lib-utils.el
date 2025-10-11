@@ -370,6 +370,26 @@ OUTPUT-FILE is exported file which selected via minibuffer."
     (or (string= power-supply-status "N/A")
         (string= power-supply-status "AC"))))
 
+(defun sum-numbers-after-colon ()
+  "Sum numbers that appear after full-width colon in selected region.
+Search for full-width colons (：) followed by digits in the active region,
+extract each number, compute their total, display the result as a message,
+and save only the numeric total to the kill ring."
+  (interactive)
+  (if (use-region-p)
+      (let ((sum 0)
+            (region-text (buffer-substring (region-beginning) (region-end))))
+        (with-temp-buffer
+          (insert region-text)
+          (goto-char (point-min))
+          (while (re-search-forward "[：:]\\s-*\\([0-9]+\\)" nil t)
+            (setq sum (+ sum (string-to-number (match-string 1))))))
+        (let ((result (format "总数: %d" sum))
+              (number-only (format "%d" sum)))
+          (kill-new number-only)
+          (message result)))
+    (message "请先选中区域")))
+
 ;;; Local Variables
 
 ;; Local Variables:
