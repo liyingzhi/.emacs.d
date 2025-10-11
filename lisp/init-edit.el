@@ -149,6 +149,9 @@
       ("C-c C-p" . nxml-backward-element)
       ("C-c C-b" . nxml-backward-up-element))))
 
+;;; csv-mode
+(add-hook 'csv-mode-hook 'csv-align-mode)
+
 ;;; aggressive-indent
 (add-hooks '(emacs-lisp-mode lisp-mode)
            #'aggressive-indent-mode )
