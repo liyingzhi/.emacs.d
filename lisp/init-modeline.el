@@ -38,8 +38,9 @@
                 (when (and doom-modeline-battery
                            (not (my/unsupport-battery-or-charging)))
                   (display-battery-mode))))
-  (add-hook 'org-mode-hook
-            'org-count-words-mode))
+  ;; (add-hook 'org-mode-hook
+  ;;           'org-count-words-mode)
+  )
 
 (provide 'init-modeline)
 ;;; init-modeline.el ends here
