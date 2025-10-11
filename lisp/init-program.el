@@ -232,9 +232,7 @@ ARGS is ORIG-FN args."
   (if (boundp local-variable-name)
       (let* ((prompt (format "TeX %s file: " local-variable-name))
              (local-variable-value (completing-read prompt candidates-list)))
-        (add-file-local-variable local-variable-name
-                                 (file-relative-name local-variable-value
-                                                     (file-name-directory (buffer-file-name)))))
+        (add-file-local-variable local-variable-name (intern local-variable-value)))
     (message "Symbol %s is not bound" local-variable-name)))
 
 (pretty-transient-define-prefix transient-latex-line-template ()
@@ -247,12 +245,15 @@ ARGS is ORIG-FN args."
     ("g" "goto-label" consult-reftex-goto-label)
     ("T" "toc" reftex-toc-recenter)]
    ["Misc"
-    ("e" "environment" LaTeX-environment)
+    ("b" "environment" LaTeX-environment)
     ("v" "add-file-local-variable" add-file-local-variable)
     ("m" "set-local-Tex-master" (lambda ()
                                   (interactive)
                                   (my/set-file-local-variable-value-with-file-path 'TeX-master)))
-    ("E" "set-local-Tex-engine" (lambda ()
+    ("d" "set-local-TeX-output-dir" (lambda ()
+                                      (interactive)
+                                      (my/set-file-local-variable-value-with-file-path 'TeX-output-dir)))
+    ("e" "set-local-Tex-engine" (lambda ()
                                   (interactive)
                                   (my/set-file-local-variable-value-with-candidates 'TeX-engine TeX-engine-alist-builtin)))
     (">" "ins" self-insert-command)]]
