@@ -178,5 +178,11 @@ _p_rev       _U_pper              _=_: upper/lower       _r_esolve
     ("c" "Git Clone" ar/git-clone-clipboard-url)]]
   [("q" "Quit" transient-quit-one)])
 
+;;; Local Variables
+
+;; Local Variables:
+;; eval: (when user/hidden-outline (outline-hide-sublevels 2))
+;; End:
+
 (provide 'init-git)
 ;;; init-git.el ends here
