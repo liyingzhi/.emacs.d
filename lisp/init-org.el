@@ -69,7 +69,7 @@
 (with-eval-after-load 'ox
   (require 'ox-hugo)
   (setq org-hugo-base-dir
-        (file-truename "~/MyProject/website/blog/")
+        (file-truename user/org-hugo-base-dir-path)
         org-hugo-front-matter-format "yaml"
         org-hugo-auto-set-lastmod t)
   (add-to-list 'org-hugo-special-block-type-properties

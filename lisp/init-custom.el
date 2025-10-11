@@ -13,6 +13,11 @@
   :group 'user
   :type 'string)
 
+(defcustom user/org-hugo-base-dir-path "~/MyProject/website/blog/"
+  "Dir path for org-hugo export markdown file."
+  :group 'user
+  :type 'string)
+
 (defcustom user/org-format-latex-options-scale 2.0
   "Set the org-format-latex-options scale value."
   :group 'user
