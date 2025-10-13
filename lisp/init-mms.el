@@ -155,8 +155,9 @@ If currently muted, restore previous volume; otherwise set volume to zero."
                           'transient-value))))
 
   (defun mms/transient-emms--refresh-volume ()
-    "Refresh the EMMS transient interface to reflect updated volume information."
-    (transient-setup 'my/transient-emms))
+    "Update volume information when transient menu are present."
+    (when transient--suffixes
+      (transient-setup 'my/transient-emms)))
 
   ;; `emms-info-native' supports mp3,flac,ogg and requires NO CLI tools
   (unless (memq 'emms-info-native emms-info-functions)
@@ -261,7 +262,10 @@ If currently muted, restore previous volume; otherwise set volume to zero."
                                                (message "Not exists EMMS buffer")))))
    ("<XF86AudioPrev>" . emms-previous)
    ("<XF86AudioNext>" . emms-next)
-   ("<XF86AudioPlay>" . emms-pause)))
+   ("<XF86AudioPlay>" . emms-pause)
+   ("<XF86AudioMute>" . emms-player-mpv-mute-volume)
+   ("<XF86AudioRaiseVolume>" . emms-player-mpv-raise-volume)
+   ("<XF86AudioLowerVolume>" . emms-player-mpv-lower-volume)))
 
 (provide 'init-mms)
 ;;; init-mms.el ends here
