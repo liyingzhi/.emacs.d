@@ -264,6 +264,7 @@ If currently muted, restore previous volume; otherwise set volume to zero."
    ("<XF86AudioNext>" . emms-next)
    ("<XF86AudioPlay>" . emms-pause)
    ("<XF86AudioMute>" . emms-player-mpv-mute-volume)
+   ("<XF86AudioPause>" . emms-pause)
    ("<XF86AudioRaiseVolume>" . emms-player-mpv-raise-volume)
    ("<XF86AudioLowerVolume>" . emms-player-mpv-lower-volume)))
 
