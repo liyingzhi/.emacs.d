@@ -34,66 +34,56 @@
     "Select and play a song from the current EMMS playlist."
     (interactive)
     (with-current-emms-playlist
-      (emms-playlist-mode-center-current)
-      (let* ((current-line-number (line-number-at-pos))
-             (lines (cl-loop
-                     with min-line-number = (line-number-at-pos (point-min))
-                     with buffer-text-lines = (split-string (buffer-string) "\n")
-                     with lines = nil
-                     for l in buffer-text-lines
-                     for n = min-line-number then (1+ n)
-                     unless (string-empty-p l)
-                     do (push (cons l n)
-                              lines)
-                     finally return (nreverse lines)))
-             (selected-line (completing-read "Song: " lines)))
-        (when selected-line
-          (let ((line (cdr (assoc selected-line lines))))
-            (goto-line line)
-            (emms-playlist-mode-play-smart)
-            (emms-playlist-mode-center-current))))))
+     (emms-playlist-mode-center-current)
+     (let* ((current-line-number (line-number-at-pos))
+            (lines (cl-loop
+                    with min-line-number = (line-number-at-pos (point-min))
+                    with buffer-text-lines = (split-string (buffer-string) "\n")
+                    with lines = nil
+                    for l in buffer-text-lines
+                    for n = min-line-number then (1+ n)
+                    unless (string-empty-p l)
+                    do (push (cons l n)
+                             lines)
+                    finally return (nreverse lines)))
+            (selected-line (completing-read "Song: " lines)))
+       (when selected-line
+         (let ((line (cdr (assoc selected-line lines))))
+           (goto-line line)
+           (emms-playlist-mode-play-smart)
+           (emms-playlist-mode-center-current))))))
 
   ;;;###autoload
   (defun +emms-add-to-favorites ()
-    "Add the current song to the hard-coded favorites playlist."
+    "Add the current track to the favorites playlist.
+The track is added to the playlist file specified by `+favorites-playlist'.
+If the track already exists in the playlist, it won't be duplicated."
     (interactive)
     (emms-playlist-mode-center-current)
-    (save-window-excursion
-      (progn
-        (with-current-buffer emms-playlist-buffer-name
-          (emms-playlist-mode-add-contents))
-        (+emms-playlist-save 'm3u +favorites-playlist t)
-
-        (setq emms-playlist-buffer
-              (emms-playlist-set-playlist-buffer
-               (get-buffer emms-playlist-buffer-name))))))
+    (+emms-playlist-save 'm3u +favorites-playlist))
 
   ;;;###autoload
-  (defun +emms-playlist-save (format file option &optional kill-bufer)
-    "Save the current EMMS playlist to FILE in the specified FORMAT.
-If KILL-BUFEER is non-nil, the playlist buffer will be killed after saving.
-The default format is determined by `emms-source-playlist-default-format'."
+  (defun +emms-playlist-save (format file)
+    "Save the current track to a playlist file.
+FORMAT is the playlist format (e.g., 'm3u).
+FILE is the path to the playlist file.
+If the track already exists in the playlist, it won't be duplicated."
     (interactive (list (emms-source-playlist-read-format)
                        (read-file-name "Store as: "
-                                       emms-source-file-default-directory
-                                       emms-source-file-default-directory
-                                       nil)))
-    (with-temp-buffer
-      (emms-source-playlist-unparse format
-                                    (with-current-emms-playlist
-                                      (current-buffer))
-                                    (current-buffer))
-      (let ((new-content (buffer-string)))
-        (if (and (file-exists-p file)
-                 (with-temp-buffer
-                   (insert-file-contents file)
-                   (search-forward new-content nil t)))
-            (message "Playlist already contains the same entries. Not saving.")
+                                       emms-source-file-default-directory)))
+    (let* ((track (emms-playlist-track-at (point)))
+           (new-content (or (emms-track-get track 'name)
+                            (emms-track-force-description track))))
+      (if (and (file-exists-p file)
+               (with-temp-buffer
+                 (insert-file-contents file)
+                 (search-forward new-content nil t)))
+          (message "Playlist already contains the same entries. Not saving.")
+        (with-temp-buffer
+          (insert "\n")
+          (insert new-content)
           (let ((append-to-file t))
-            (write-region (point-min) (point-max) file t))
-          (when kill-bufer
-            (with-current-emms-playlist
-              (kill-buffer)))))))
+            (write-region (point-min) (point-max) file t))))))
 
   ;; mpv integration
   ;; https://www.reddit.com/r/emacs/comments/syop1h/control_emmsmpv_volume/
@@ -182,7 +172,8 @@ If currently muted, restore previous volume; otherwise set volume to zero."
   (advice-add 'emms-volume-lower :override #'emms-player-mpv-lower-volume)
 
   (keymap-sets emms-playlist-mode-map
-    '(("C-o" . my/transient-emms))))
+    '(("C-o" . my/transient-emms)
+      ("F" . +emms-add-to-favorites))))
 
 ;;; menu
 
@@ -202,7 +193,7 @@ If currently muted, restore previous volume; otherwise set volume to zero."
     :pad-keys t
     ("P" "⏯  Play/Pause" emms-pause :transient t)
     ("S" "⏹  Stop" emms-stop :transient t)
-    ("t" "⏲  Seek to time" emms-seek-to :transient t)
+    ("s" "⏲  Seek to time" emms-seek-to :transient t)
     (">" "⏭  Next" emms-next :transient t)
     ("<" "⏮  Back (Previous)" emms-previous :transient t)
                                         ; I want the transient to stay open on just these commands, so I can easily repeat them
@@ -210,15 +201,18 @@ If currently muted, restore previous volume; otherwise set volume to zero."
     ("f" "⏩ Fast-Forward" emms-seek-forward :transient t)]
    ["Playlist"
     :pad-keys t
-    ("L"   "  Load playlist" (lambda ()
-                                (interactive)
-                                (emms-play-playlist user/mms-playlist-file)))
-    ("%"   "  Sort playlist" emms-sort :transient t)
-    ("h"   "  history" emms-history-load)
-    ("R o" "🔀 play Random" emms-random :transient t)
-    ("R a" "🔀 toggle shuffle" emms-toggle-random-playlist :transient t)
-    ("r o" "🔁 toggle repeat t" emms-toggle-repeat-track :transient t)
-    ("r a" "🔁 toggle repeat p" emms-toggle-repeat-playlist :transient t)
+    ("h" "  history" emms-history-load)
+    ("L" "  Load playlist"
+     (lambda (&optional arg)
+       (interactive "P")
+       (if arg
+           (call-interactively #'emms-play-playlist)
+         (emms-play-playlist user/mms-playlist-file))))
+    ("%" "  Sort playlist" emms-sort :transient t)
+    ("O" "🔀 Random track" emms-random :transient t)
+    ("R" "🔀 toggle shuffle" emms-toggle-random-playlist :transient t)
+    ("o" "🔁 toggle repeat track" emms-toggle-repeat-track :transient t)
+    ("r" "🔁 toggle repeat list" emms-toggle-repeat-playlist :transient t)
     ;; ("N" "Cue Next" emms-cue-next :transient t)
     ;; ("P" "Cue Previous" emms-cue-previous :transient t)
     ]
@@ -234,7 +228,7 @@ If currently muted, restore previous volume; otherwise set volume to zero."
     ("l" " load" (lambda ()
                     (interactive)
                     (emms-play-playlist +favorites-playlist)))
-    ("s" " save" +emms-add-to-favorites :transient t)
+    ("F" " fetch" +emms-add-to-favorites :transient t)
     ("g" " goto" +emms-select-song)]
    ["Global/External"
     :pad-keys t
