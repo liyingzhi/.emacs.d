@@ -80,6 +80,7 @@
   (keymap-set diff-hl-command-map "SPC" 'diff-hl-mark-hunk)
   (keymap-unset diff-hl-command-map "n")
   (setq-default fringes-outside-margins t)
+  (setq diff-hl-update-async t)
 
   (diff-hl-flydiff-mode)
 
