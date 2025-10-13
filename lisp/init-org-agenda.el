@@ -11,6 +11,9 @@
                     "~/Documents/Org/tasks.org"
                     "~/Documents/Org/archive.org"
                     "~/Documents/Org/inbox.org"))
+(defconst *org-path* "~/Documents/Org/denote/")
+(add-list-to-list 'org-agenda-files
+                  (file-expand-wildcards (concat *org-path* "*.org")))
 
 (setq org-agenda-custom-commands
       '(("e" "Agenda, next actions and waiting"
