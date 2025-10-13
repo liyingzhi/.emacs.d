@@ -13,6 +13,11 @@
 (setq outli-allow-indented-headlines t)
 (add-hook 'prog-mode-hook #'outli-mode)
 
+;;; outline
+(with-eval-after-load 'outline
+  (meow-normal-define-key
+   (cons "@" outline-mode-prefix-map)))
+
 ;;; Tree-Sitter
 (require 'treesit)
 (customize-set-variable 'treesit-font-lock-level 4)
