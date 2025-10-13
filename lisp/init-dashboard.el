@@ -152,10 +152,34 @@
                  'face 'font-lock-comment-face)))
   (advice-add #'dashboard-insert-footer :after #'my-dashboard-insert-copyright)
 
+  ;; (defun my-dashboard-insert-time ()
+  ;;   "Insert time info."
+  ;;   (dashboard-insert-center
+  ;;    (propertize (format "%s\n" (format-time-string "%A, %B %d %R")) 'face 'font-lock-comment-face)))
+
   (defun my-dashboard-insert-time ()
-    "Insert time info."
-    (dashboard-insert-center
-     (propertize (format "%s\n" (format-time-string "%A, %B %d %R")) 'face 'font-lock-comment-face)))
+    "Insert the current time and Chinese lunar date into the dashboard.
+The format includes the weekday, Gregorian date, Chinese lunar month and day,
+and the current time. The lunar date is displayed with a smaller font and
+normal weight to distinguish it from other elements."
+    (let* ((cn-date (calendar-chinese-from-absolute
+                     (calendar-absolute-from-gregorian (calendar-current-date))))
+           (cn-month (cl-caddr  cn-date))
+           (cn-day   (cl-cadddr cn-date))
+           (lunar-cn-month-day (format "%s%s%s, "
+                                       (aref cal-china-x-month-name (1-  (floor cn-month)))
+                                       (if (integerp cn-month) "" "(闰月)")
+                                       (aref cal-china-x-day-name (1- cn-day)))))
+      (dashboard-insert-center
+       (format "%s%s%s\n"
+               (propertize (format-time-string "%A, %B %d, ")
+                           'face 'font-lock-comment-face)
+               (propertize lunar-cn-month-day
+                           'face '(:inherit font-lock-comment-face
+                                            :height 0.9
+                                            :weight normal))
+               (propertize (format-time-string "%R")
+                           'face 'warning)))))
 
   (defun my-dashboard-insert-weather-info ()
     "Insert weather info."
