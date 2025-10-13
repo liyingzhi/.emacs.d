@@ -3,10 +3,10 @@
 ;;; Code:
 
 (wait-packages!
- '((telega :fetcher github
+ '((telega :host github
            :repo "zevlg/telega.el"
            :branch "master")
-   (telega-url-shorten-nerd :fetcher github
+   (telega-url-shorten-nerd :host github
                             :repo "lizqwerscott/telega-url-shorten-nerd")))
 
 (setq telega-server-libs-prefix user/telega-tdlib-path)
