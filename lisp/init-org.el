@@ -37,9 +37,14 @@
 
 (add-hook 'org-mode-hook #'org-cdlatex-mode)
 
+;; Add new template
+(add-list-to-list 'org-structure-template-alist
+                  '(("n" . "sidenote")
+                    ("T" . "typeit")
+                    ("!" . "alert")
+                    ("L" . "lead")))
 
 ;;; org export
-
 ;; Generic Org Export Settings
 (with-eval-after-load 'org
   (setq org-export-with-drawers nil
@@ -48,7 +53,6 @@
         org-export-with-smart-quotes t
         org-export-date-timestamp-format "%e %B %Y"))
 
-;; epub export
 (require 'ox-org)
 
 ;; LaTeX PDF Export settings
@@ -268,11 +272,10 @@ prepended to the element after the #+HEADER: tag."
     ("C" (hot-expand "<C") "comment")
     ("e" (hot-expand "<e") "example")
     ("E" (hot-expand "<E") "export")
-    ("h" (hot-expand "<h") "html")
     ("l" (hot-expand "<l") "latex")
-    ("n" (hot-expand "<n") "sidenote")
     ("x" (hot-expand "<q") "quote")
-    ("v" (hot-expand "<v") "verse"))
+    ("v" (hot-expand "<v") "verse")
+    ("b" (hot-expand "<s" "bash") "bash"))
    "Head"
    (("i" (hot-expand "<i") "index")
     ("A" (hot-expand "<A") "ASCII")
@@ -282,8 +285,7 @@ prepended to the element after the #+HEADER: tag."
     ("S" (insert "#+STARTUP: ") "Startup")
     ("P" (insert "#+STARTUP: latexpreview ") "Latex Preview"))
    "Source"
-   (("b" (hot-expand "<s" "bash") "bash")
-    ("ss" (hot-expand "<s") "src")
+   (("ss" (hot-expand "<s") "src")
     ("se" (hot-expand "<s" "emacs-lisp") "emacs-lisp")
     ("sp" (hot-expand "<s" "python :results output") "python")
     ("sc" (hot-expand "<s" "c++") "c++")
@@ -291,22 +293,25 @@ prepended to the element after the #+HEADER: tag."
     ("sS" (hot-expand "<s" "sh") "sh")
     ("sg" (hot-expand "<s" "go :imports '\(\"fmt\"\)") "golang")
     ("sx" (hot-expand "<s" "xml") "xml")
-    ("sy" (hot-expand "<s" "ymal-ts") "yaml"))
+    ("sy" (hot-expand "<s" "ymal-ts") "yaml")
+    ("sh" (hot-expand "<h") "html"))
    "Oxr"
    (("f" oxr-insert-absolute-figure "Figure")
     ("t" oxr-insert-table "Table")
     ("on" oxr-insert-name "Name")
     ("oe" oxr-insert-equation "Equation")
     ("os" oxr-insert-section "Section"))
+   "Hugo"
+   (("hn" (hot-expand "<n") "sidenote")
+    ("ht" (org-insert-structure-template "typeit") "typeit")
+    ("ha" (org-insert-structure-template "alert") "alert")
+    ("hl" (org-insert-structure-template "lead") "lead"))
    "Misc"
    (("m" (hot-expand "<s" "mermaid :file chart.png") "mermaid")
     ("u" (hot-expand "<s" "plantuml :file chart.png") "plantuml")
     ("Y" (hot-expand "<s" "ipython :session :exports both :results raw drawer\n$0") "ipython")
     ("G" (hot-expand "<s" "gnuplot :results output :file ./result.png") "gnuplot")
     ("<" self-insert-command "ins"))))
-
-;; Add new template
-(add-to-list 'org-structure-template-alist '("n" . "sidenote"))
 
 (require 'lib-transient)
 (pretty-transient-define-prefix transient-org-toggles ()
