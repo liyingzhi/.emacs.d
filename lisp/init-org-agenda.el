@@ -149,7 +149,12 @@ Otherwise, calculate the age of the current entry."
    (("a" . "all agent") . org-agenda)
    (("d" . "Capture roam dailies note") . org-roam-dailies-capture-today)
    (("j" . "Show open or delete journal menu") . journal-transient)
-   (("p" . "Show open or delete journal menu") . casual-timezone-planner)))
+   (("p" . "casual timezone planner") . (lambda ()
+                                          (interactive)
+                                          (autoload #'casual-timezone-planner "casual-timezone-utils" nil t)
+                                          (call-interactively #'casual-timezone-planner)))))
+
+
 
 (provide 'init-org-agenda)
 ;;; init-org-agenda.el ends here
