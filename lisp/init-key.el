@@ -94,6 +94,10 @@
  (:key "t" :description "Search project TODO" :command hl-todo-rg-project :filename "lib-hl-todo")
  (:key "T" :description "Search TODO with prompt" :command hl-todo-rg :filename "lib-hl-todo"))
 
+(defun switch-*scratch*-buffer ()
+  (interactive)
+  (switch-to-buffer "*scratch*"))
+
 (lazy-one-key-create-menu
  "Buffer"
  (:key "b" :description "Switch buffer" :command consult-buffer)
@@ -106,7 +110,8 @@
  (:key "r" :description "Revert buffer" :command revert-buffer-quick)
  (:key "h" :description "bury buffer" :command bury-buffer)
  (:key "l" :description "unbury buffer" :command unbury-buffer)
- (:key "s" :description "Save buffer" :command save-buffer))
+ (:key "s" :description "Save buffer" :command save-buffer)
+ (:key "S" :description "Switch *scratch* buffer" :command switch-*scratch*-buffer))
 
 (lazy-one-key-create-menu
  "FileAction"
