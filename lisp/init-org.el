@@ -43,6 +43,9 @@
                     ("T" . "typeit")
                     ("!" . "alert")
                     ("L" . "lead")))
+;; yank
+(with-eval-after-load 'yank-media
+  (add-to-list 'yank-media-preferred-types 'image/tiff))
 
 ;;; org export
 ;; Generic Org Export Settings
