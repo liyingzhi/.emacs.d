@@ -152,6 +152,7 @@ Otherwise, calculate the age of the current entry."
    (("p" . "casual timezone planner") . (lambda ()
                                           (interactive)
                                           (autoload #'casual-timezone-planner "casual-timezone-utils" nil t)
+                                          (autoload #'casual-timezone-settings-tmenu "casual-timezone-settings" nil t)
                                           (call-interactively #'casual-timezone-planner)))))
 
 
