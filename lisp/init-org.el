@@ -82,6 +82,10 @@
   (add-to-list 'org-hugo-special-block-type-properties
                '("sidenote" . (:trim-pre t :trim-post t))))
 
+(with-eval-after-load 'ox
+  (require 'ox-reveal)
+  (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
+
 ;;; Org function
 (defun open-my-org-file ()
   "Open the default Org directory in dired mode."
@@ -491,9 +495,6 @@ prepended to the element after the #+HEADER: tag."
 (require 'init-org-capture)
 
 (require 'init-org-agenda)
-
-(require 'init-org-reveal)
-
 ;; (require 'init-org-media-note)
 
 ;;; Local Variables
