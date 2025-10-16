@@ -55,7 +55,8 @@
               citar-indicator-links-icons)))
 
 (global-set-keys
- '(("C-c n b o" . citar-open)))
+ '(("C-c n b o" . citar-open)
+   ("C-c n b f" . citar-open-entry)))
 
 ;; Export citations with Org Mode
 
