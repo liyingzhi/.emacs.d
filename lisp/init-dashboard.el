@@ -269,7 +269,7 @@ normal weight to distinguish it from other elements."
   (let ((func (local-key-binding "m")))
     (and func (funcall func))))
 
-(advice-add #'dashboard-refresh-buffer :after #'dashboard-goto-recent-files)
+(advice-add #'dashboard-refresh-buffer :after #'dashboard-jump-to-recents)
 
 (if user/dashboard
     (progn (dashboard-setup-startup-hook)
