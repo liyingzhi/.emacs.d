@@ -55,8 +55,7 @@
               citar-indicator-links-icons)))
 
 (global-set-keys
- '(("C-c n b o" . citar-open)
-   ("C-c n b f" . citar-open-entry)))
+ '(("C-c n b o" . citar-open)))
 
 ;; Export citations with Org Mode
 
@@ -161,7 +160,25 @@
     ("C-c n b K" . citar-denote-remove-citekey)
     ("C-c n b i" . citar-insert-citation)
     ("C-c n b d" . citar-denote-dwim)
-    ("C-c n b e" . citar-denote-open-reference-entry)))
+    ("C-c n b e" . my/citar-denote-open-reference-entry)))
+
+(defun my/citar-denote-open-reference-entry ()
+  "Open the bibliographic entry for the current reference.
+
+If the current buffer is a Denote file with a single reference, opens that entry.
+If there are multiple references, prompts to select one first.
+Falls back to `citar-open-entry' if not in a Denote file or no any reference."
+  (interactive)
+  (if-let* ((buffer (buffer-file-name))
+            (keys (citar-denote--retrieve-references buffer))
+            (key (if (= (length keys) 1)
+                     (car keys)
+                   (citar-select-ref
+                    :filter (citar-denote--has-citekeys keys)))))
+      (citar-open-entry key)
+    (message "Buffer is not a Denote file or has no refenece(s)")
+    (call-interactively #'citar-open-entry)))
+
 (defun my/citar-denote-find-reference ()
   "Find Denote file(s) citing one of the current reference(s).
 
