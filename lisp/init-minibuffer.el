@@ -103,7 +103,7 @@ configuration of the virtual buffer sources."
 ;; A function that returns a list of directories
 (defun consult-dir--quick-dir ()
   "Return list of fasd dirs."
-  (list "~" "~/Downloads/" "~/Documents/" "~/Music/" "~/MyProject/" "~/github/" ))
+  (list "~/" "~/Downloads/" "~/Documents/" "~/Music/" "~/MyProject/" "~/github/" ))
 
 ;; A consult source that calls this function
 (defvar consult-dir--source-quick
@@ -259,7 +259,7 @@ targets."
   '(("M-s" . consult-history)
     ("M-r" . consult-history)
     ("C-i" . (lambda ()
-               "Insert the currunt symbol."
+               "Insert the current symbol."
                (interactive)
                (insert (save-excursion
                          (set-buffer (window-buffer (minibuffer-selected-window)))
