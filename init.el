@@ -12,7 +12,9 @@
 ;; Need install packages
 (require 'init-packages)
 
-(require 'init-gcmh)
+(unless (fboundp #'igc-stats)
+  (require 'init-gcmh))
+
 ;; (require 'init-auto-save)
 (require 'init-super-save)
 
