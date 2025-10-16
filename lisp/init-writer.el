@@ -162,6 +162,33 @@
     ("C-c n b i" . citar-insert-citation)
     ("C-c n b d" . citar-denote-dwim)
     ("C-c n b e" . citar-denote-open-reference-entry)))
+(defun my/citar-denote-find-reference ()
+  "Find Denote file(s) citing one of the current reference(s).
+
+When more than one bibliographic item is referenced, select item first."
+  (interactive)
+  (let ((file (buffer-file-name)))
+    (if (denote-file-is-note-p file)
+        (let* ((citekeys (citar-denote--retrieve-references file))
+               (citekey (when citekeys
+                          (if (= (length citekeys) 1)
+                              (car citekeys)
+                            (citar-select-ref
+                             :filter
+                             (citar-denote--has-citekeys citekeys)))))
+               (files (delete file (citar-denote--retrieve-cite-files citekey))))
+          (cond
+           (files
+            (find-file (denote-get-path-by-id
+                        (denote-extract-id-from-string
+                         (denote-select-linked-file-prompt files))))
+            (goto-char (point-min))
+            (search-forward citekey))
+           ((null citekey)
+            (message "This is not a bibliographic note"))
+           (t (message "Reference not cited in Denote files"))))
+      (message "Buffer is not a Denote file"))))
+(advice-add #'citar-denote-find-reference :override #'my/citar-denote-find-reference)
 
 ;;; denote-explore
 (defconst denote-id-regexp "\\([0-9]\\{8\\}\\)\\(T[0-9]\\{6\\}\\)"
