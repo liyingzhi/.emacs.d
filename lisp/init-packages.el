@@ -198,7 +198,8 @@
     buffer-name-relative
     (prism :host github :repo "alphapapa/prism.el")
     casual
-    casual-symbol-overlay))
+    casual-symbol-overlay
+    inhibit-mouse))
 
 (defvar *package-mms-install-list*
   '(emms))
