@@ -26,3 +26,4 @@ tree-sitter/*
 /straight/modified/
 /straight/build-cache.el
 /straight/watcher/
+/mason/

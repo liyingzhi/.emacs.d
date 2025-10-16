@@ -24,11 +24,15 @@
 
 ;;; Code:
 
+;;; lsp front
 (pcase user/lsp-client
   ('eglot
    (require 'init-eglot))
   ('lsp-bridge
    (require 'init-lsp-bridge)))
+
+;;; mason manager
+(add-hook 'after-init-hook #'mason-ensure)
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here

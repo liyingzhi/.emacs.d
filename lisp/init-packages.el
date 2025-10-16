@@ -106,6 +106,7 @@
   `(dumb-jump
     yasnippet
     macrostep
+    mason
     ,@(pcase user/lsp-client
         ('eglot
          '(eglot
