@@ -86,6 +86,9 @@
   (require 'ox-reveal)
   (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
 
+(with-eval-after-load 'ox
+  (require 'ox-epub))
+
 ;;; Org function
 (defun open-my-org-file ()
   "Open the default Org directory in dired mode."
