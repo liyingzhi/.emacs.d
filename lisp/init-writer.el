@@ -151,6 +151,9 @@
 (citar-denote-mode)
 
 (global-set-keys
+ '(("C-c n b e" . my/citar-denote-open-reference-entry)))
+
+(global-set-keys
  '(("C-c n b c" . citar-create-note)
    ("C-c n b n" . citar-denote-open-note)
    ("C-c n b x" . citar-denote-nocite)))
@@ -159,8 +162,7 @@
   '(("C-c n b k" . citar-denote-add-citekey)
     ("C-c n b K" . citar-denote-remove-citekey)
     ("C-c n b i" . citar-insert-citation)
-    ("C-c n b d" . citar-denote-dwim)
-    ("C-c n b e" . my/citar-denote-open-reference-entry)))
+    ("C-c n b d" . citar-denote-dwim)))
 
 (defun my/citar-denote-open-reference-entry ()
   "Open the bibliographic entry for the current reference.
