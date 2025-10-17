@@ -23,14 +23,11 @@
 ;;
 
 ;;; Code:
-(require 'transient)
-(keymap-set transient-map
-            "<escape>"
-            #'transient-quit-all)
 
-(keymap-set transient-map
-            "q"
-            #'transient-quit-one)
+(with-eval-after-load 'transient
+  (keymap-sets transient-map
+    '(("<escape>" . transient-quit-all)
+      ("q" . transient-quit-one))))
 
 (with-eval-after-load 'calc
   (keymap-set calc-mode-map "C-o" #'casual-calc-tmenu))
@@ -45,9 +42,16 @@
   (keymap-set isearch-mode-map "C-o" #'casual-isearch-tmenu))
 
 (with-eval-after-load 'ibuffer
-  (keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
-  (keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
-  (keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu))
+  (keymap-sets ibuffer-mode-map
+    '(("C-o" . casual-ibuffer-tmenu)
+      ("F" . casual-ibuffer-filter-tmenu)
+      ("s" . casual-ibuffer-sortby-tmenu))))
+
+(with-eval-after-load 're-builder
+  (keymap-sets reb-mode-map
+    '(("C-o" . casual-re-builder-tmenu)))
+  (keymap-sets reb-lisp-mode-map
+    '(("C-o" . casual-re-builder-tmenu))))
 
 (with-eval-after-load 'info
   (keymap-set Info-mode-map "C-o" #'casual-info-tmenu))
