@@ -99,7 +99,7 @@
 (setq fancy-splash-image user/logo)
 
 ;;; Inhibit Mouse
-(add-hook #'after-init-hook
+(add-hook 'after-init-hook
           #'inhibit-mouse-mode)
 
 ;;; Dashboard
