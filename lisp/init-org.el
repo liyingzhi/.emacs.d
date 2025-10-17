@@ -306,6 +306,7 @@ prepended to the element after the #+HEADER: tag."
     ("I" (hot-expand "<I") "INCLUDE")
     ("H" (yas-expand-snippet (yas-lookup-snippet "hugo")) "Hugo")
     ("L" (hot-expand "<L") "LaTeX")
+    ("O" (insert "#+OPTIONS: ") "Options")
     ("S" (insert "#+STARTUP: ") "Startup")
     ("P" (insert "#+STARTUP: latexpreview ") "Latex Preview"))
    "Source"
