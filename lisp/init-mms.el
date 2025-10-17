@@ -268,5 +268,8 @@ If currently muted, restore previous volume; otherwise set volume to zero."
    ("<XF86AudioRaiseVolume>" . emms-player-mpv-raise-volume)
    ("<XF86AudioLowerVolume>" . emms-player-mpv-lower-volume)))
 
+(which-key-add-key-based-replacements
+  "C-c m" "Multimedia")
+
 (provide 'init-mms)
 ;;; init-mms.el ends here

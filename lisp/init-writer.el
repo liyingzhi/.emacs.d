@@ -164,6 +164,11 @@
     ("C-c n b i" . citar-insert-citation)
     ("C-c n b d" . citar-denote-dwim)))
 
+(which-key-add-key-based-replacements
+  "C-c n"   "Note and Writing"
+  "C-c n b" "Bibliographic"
+  "C-c n d" "Denote")
+
 (defun my/citar-denote-open-reference-entry ()
   "Open the bibliographic entry for the current reference.
 
