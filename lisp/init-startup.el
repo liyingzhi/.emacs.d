@@ -140,6 +140,54 @@
 (defalias 'string-to-int 'string-to-number)  ; removed in 26.1
 (defalias 'display-buffer-other-window 'display-buffer)
 
+(defun my-backup-walker-refresh ()
+  (let* ((index (cdr (assq :index backup-walker-data-alist)))
+         (suffixes (cdr (assq :backup-suffix-list backup-walker-data-alist)))
+         (prefix (cdr (assq :backup-prefix backup-walker-data-alist)))
+         (right-file (concat prefix (nth index suffixes)))
+         (right-version (format "%i" (backup-walker-get-version right-file)))
+         diff-buff left-file left-version)
+    (if (eq index 0)
+        (setq left-file (cdr (assq :original-file backup-walker-data-alist))
+              left-version "orig")
+      (setq left-file (concat prefix (nth (1- index) suffixes))
+            left-version (format "%i" (backup-walker-get-version left-file))))
+    ;; we change this to go the other way here
+    (setq diff-buf (diff-no-select right-file left-file nil 'noasync))
+    (setq buffer-read-only nil)
+    (delete-region (point-min) (point-max))
+    (insert-buffer diff-buf)
+    (set-buffer-modified-p nil)
+    (setq buffer-read-only t)
+    (force-mode-line-update)
+    (setq header-line-format
+          (concat (format "{{ ~%s~ → ~%s~ }} "
+                          (propertize left-version 'face 'font-lock-variable-name-face)
+                          (propertize right-version 'face 'font-lock-variable-name-face))
+                  (if (nth (1+ index) suffixes)
+                      (concat (propertize "<p>" 'face 'italic)
+                              " ~"
+                              (propertize (int-to-string
+                                           (backup-walker-get-version (nth (1+ index) suffixes)))
+                                          'face 'font-lock-keyword-face)
+                              "~ ")
+                    "")
+                  (if (eq index 0)
+                      ""
+                    (concat (propertize "<n>" 'face 'italic)
+                            " ~"
+                            (propertize (int-to-string (backup-walker-get-version (nth (1- index) suffixes)))
+                                        'face 'font-lock-keyword-face)
+                            "~ "))
+                  (propertize "<return>" 'face 'italic)
+                  " open ~"
+                  (propertize (propertize (int-to-string (backup-walker-get-version right-file))
+                                          'face 'font-lock-keyword-face))
+                  "~"))
+    (kill-buffer diff-buf)))
+(with-eval-after-load 'backup-walker
+  (advice-add 'backup-walker-refresh :override #'my-backup-walker-refresh))
+
 
 (customize-set-variable 'kill-do-not-save-duplicates t)
 (setq ad-redefinition-action 'accept)
