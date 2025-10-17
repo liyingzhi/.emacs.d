@@ -267,6 +267,14 @@ When more than one bibliographic item is referenced, select item first."
 (add-hook 'calendar-mode-hook
           #'denote-journal-calendar-mode)
 
+(with-eval-after-load 'org-capture
+  (add-to-list 'org-capture-templates
+               '("j" "Journal" entry
+                 (file denote-journal-path-to-new-or-existing-entry)
+                 "* %U %?\n%i\n%a"
+                 :kill-buffer t
+                 :empty-lines 1)))
+
 (defvar-keymap denote-journal-keymap
   :doc "Denote journal keymap"
   "N" '("New journal" . denote-journal-new-entry)

@@ -40,11 +40,6 @@
 (add-list-to-list  'consult-notes-file-dir-sources
                    `(("Denote Notes"  ?d ,denote-directory)))
 
-(defun create-denote--in-journal-subdir ()
-  (interactive)
-  (let ((denote-directory (concat denote-directory "/journal")))
-    (denote-org-capture)))
-
 (defun create-denote--in-work-subdir ()
   (interactive)
   (let ((denote-directory (concat denote-directory "/work")))
@@ -59,15 +54,6 @@
   (interactive)
   (let ((denote-directory (concat denote-directory "/personal")))
     (denote-org-capture)))
-
-
-(push '("d" "New journal note (with Denote)" plain
-        (file denote-last-path)
-        #'create-denote--in-journal-subdir
-        :no-save t
-        :immediate-finish nil
-        :kill-buffer t
-        :jump-to-captured t) org-capture-templates)
 
 (push '("W" "New work note (with Denote)" plain
         (file denote-last-path)
