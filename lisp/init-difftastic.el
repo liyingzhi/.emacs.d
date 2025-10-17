@@ -33,10 +33,9 @@
       ("S" "Difftastic show" difftastic-magit-show)]))
 (add-hook 'magit-blame-read-only-mode-hook
           (lambda ()
-            (keymap-set magit-blame-read-only-mode-map
-                        "D" #'difftastic-magit-show)
-            (keymap-set magit-blame-read-only-mode-map
-                        "S" #'difftastic-magit-show)))
+            (keymap-sets magit-blame-read-only-mode-map
+              '(("D" . difftastic-magit-show)
+                ("S" . difftastic-magit-show)))))
 
 (provide 'init-difftastic)
 ;;; init-difftastic.el ends here
