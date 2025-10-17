@@ -6,9 +6,17 @@
 
 (defun lizqwer/setup-org-capture ()
   (setq org-capture-templates nil)
-  ;; (push '("i" "我的闪念" entry (file+headline "~/Documents/Org/idea.org" "闪念") "* %U - %^{标题} %^g\n  %?\n")
+
+  (push '("I" "我的闪念" entry (file+headline "~/Documents/Org/inbox.org" "闪念") "* %U - %^{标题} %^g\n  %?\n")
+        org-capture-templates)
+  ;; (push `("I" "我的闪念" entry (file "~/Documents/Org/idea.org") ,(concat "* TODO %?\n%U"))
   ;;       org-capture-templates)
-  (push `("i" "我的闪念" entry (file "~/Documents/Org/inbox.org") ,(concat "* TODO %?\n%U"))
+
+  (push '("i" "Interrupting task" entry
+          (file "~/Documents/Org/interrupted-tasks.org")
+          "* STARTED %^{Task}\n:PROPERTIES:\n:CREATED: %U\n:END:\n%a\n"
+          :clock-in t :clock-resume t
+          :prepend t)
         org-capture-templates)
 
   (push '("Q" "收藏名言" entry (file+headline "~/Documents/Org/quote.org" "名言") "* %U - %^{标题} %^g\n  %?\n")
