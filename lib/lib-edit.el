@@ -53,7 +53,7 @@ Otherwise, jump out of the current pair and insert a newline."
   (interactive)
   (cond
    ((derived-mode-p 'org-mode)
-    (call-interactively #'org-insert-todo-heading))
+    (call-interactively #'org-meta-return-auto))
    ((nth 4 (syntax-ppss)) ; Inside a comment
     (comment-indent-new-line))
    (t
