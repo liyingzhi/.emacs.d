@@ -184,7 +184,7 @@
 (keymap-unset goto-map "TAB")
 (keymap-sets goto-map
   '(("f" . find-file-at-point)
-    ("p" . goto-percent)
+    ("P" . goto-percent)
     ("l" . consult-goto-line)
     ("L" . avy-goto-line)
     ("o" . consult-outline)
@@ -197,7 +197,6 @@
     ("E" . one-key-menu-thing-edit)
     ("G" . one-key-menu-mark-macro)
     ("T" . one-key-menu-tool-kit)
-    ("n" . my/new-next-item-function-byScene)
     ("c" . my/string-case-cycle-auto)
     ("C" . my/string-convert-dispatch)
     ("O" . casual-editkit-main-tmenu)))
