@@ -281,8 +281,9 @@ normal weight to distinguish it from other elements."
    (add-hook 'after-init-hook
              #'+evan/scratch-setup))
   ('enlight
-   (require 'init-enlight)
-   (setopt initial-buffer-choice #'enlight)))
+   (with-hook after-init-hook
+     (require 'init-enlight)
+     (setopt initial-buffer-choice #'enlight))))
 
 (defun lock-*scratch*-buffer()
   "Lock *scratch* buffer."
