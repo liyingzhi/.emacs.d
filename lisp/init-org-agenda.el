@@ -5,6 +5,8 @@
 (require 'org-agenda)
 (require 'org-journal)
 (require 'org-archive)
+(require 'init-timezones)
+
 (setq org-archive-location (concat user/org-base-dir-path "/archive.org::* finish-tasks"))
 (setq org-refile-targets `((,(concat user/org-base-dir-path "/archive.org") :maxlevel . 1)
                            (,(concat user/org-base-dir-path "/inbox.org") :maxlevel . 1)
@@ -153,9 +155,8 @@ Otherwise, calculate the age of the current entry."
                                           (interactive)
                                           (autoload #'casual-timezone-planner "casual-timezone-utils" nil t)
                                           (autoload #'casual-timezone-settings-tmenu "casual-timezone-settings" nil t)
-                                          (call-interactively #'casual-timezone-planner)))))
-
-
+                                          (call-interactively #'casual-timezone-planner)))
+   (("z" . "time-zones") . time-zones)))
 
 (provide 'init-org-agenda)
 ;;; init-org-agenda.el ends here
