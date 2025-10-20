@@ -271,14 +271,18 @@ normal weight to distinguish it from other elements."
 
 (advice-add #'dashboard-refresh-buffer :after #'dashboard-jump-to-recents)
 
-(if user/dashboard
-    (progn (dashboard-setup-startup-hook)
-           (add-hook 'after-init-hook
-                     (lambda ()
-                       (weather-fetch-weather-data nil #'dashboard-refresh-buffer dashboard-buffer-name))))
-
-  (add-hook 'after-init-hook
-            #'+evan/scratch-setup))
+(pcase user/dashboard
+  ('dashboard
+   (dashboard-setup-startup-hook)
+   (add-hook 'after-init-hook
+             (lambda ()
+               (weather-fetch-weather-data nil #'dashboard-refresh-buffer dashboard-buffer-name))))
+  ('scratch
+   (add-hook 'after-init-hook
+             #'+evan/scratch-setup))
+  ('enlight
+   (require 'init-enlight)
+   (setopt initial-buffer-choice #'enlight)))
 
 (defun lock-*scratch*-buffer()
   "Lock *scratch* buffer."

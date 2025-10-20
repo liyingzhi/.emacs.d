@@ -7,6 +7,11 @@
   :type '(alist :key-type symbol :value-type (cons integer integer))
   :group 'user)
 
+(defcustom user/quickdir (list "~/" "~/Downloads/" "~/Documents/" "~/Music/" "~/MyProject/" "~/github/"  user-emacs-directory)
+  "Quick dir list."
+  :group 'user
+  :type '(list dir))
+
 ;;; writter
 (defcustom user/org-base-dir-path "~/Documents/Org"
   "Dir path for org mode file."
@@ -29,10 +34,12 @@
   :group 'user
   :type 'boolean)
 
-(defcustom user/dashboard t
+(defcustom user/dashboard 'dashboard
   "Show dashboard."
   :group 'user
-  :type 'boolean)
+  :type '(choice (const :tag "dashboard" 'dashboard)
+                 (const :tag "scratch" 'scratch)
+                 (const :tag "enlight" 'enlight)))
 
 (defcustom user/logo (file-truename
                       (concat user-emacs-directory

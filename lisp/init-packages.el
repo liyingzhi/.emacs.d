@@ -168,6 +168,8 @@
     page-break-lines
     ligature
     dashboard
+    (grid :host github :repo "ichernyshovvv/grid.el")
+    enlight
     doom-modeline
     pretty-mode
     color-identifiers-mode
