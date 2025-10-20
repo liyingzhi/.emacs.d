@@ -21,7 +21,7 @@
   '(("RET" . vertico-directory-enter)
     ("DEL" . vertico-directory-delete-char)
     (("M-DEL" "s-DEL") . vertico-directory-up)
-    ("s-RET" . vertico-exit-input)
+    (("s-RET" "C-RET") . vertico-exit-input)
     ("C-j" . vertico-exit-input)))
 
 (add-hook #'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
