@@ -426,14 +426,20 @@ prepended to the element after the #+HEADER: tag."
 ;;; keymap
 (keymap-sets org-mode-map
   `(("C-c TAB" . org-insert-item-auto-checkbox)
-    ("M-P" . org-metaup)
-    ("M-N" . org-metadown)
+    ("M-K" . org-metaup)
+    ("M-J" . org-metadown)
     ("M-H" . org-metaleft)
     ("M-L" . org-metaright)
     (("M-<return>" "s-<return>") . org-meta-return-auto)
+
     ("C-c C-'" . separedit/edit-org-any-block)
+
+    ("M-g n" . org-next-visible-heading)
+    ("M-g p" . org-previous-visible-heading)
+
     ("C-M-y" . org-rich-yank)
     ("M-g o" . consult-org-heading)
+
     ("<" . ,(lambda ()
               "Insert org template."
               (interactive)
