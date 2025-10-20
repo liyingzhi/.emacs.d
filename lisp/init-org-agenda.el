@@ -116,15 +116,15 @@ Otherwise, calculate the age of the current entry."
 (setq org-agenda-scheduled-leaders '("Sched" "S.%2dx"))
 (setq org-agenda-deadline-leaders '("Deadl" "In%2dd" "D.%2dx"))
 
-;; (defun my/org-agenda-repeater ()
-;;   "The repeater shown in org-agenda-prefix for agenda."
-;;   (if (org-before-first-heading-p)
-;;       "-------"  ; fill the time grid
-;;     (format "%5s: " (or (org-get-repeat) ""))))
+(defun my/org-agenda-repeater ()
+  "The repeater shown in org-agenda-prefix for agenda."
+  (if (org-before-first-heading-p)
+      "-------"  ; fill the time grid
+    (format "%5s: " (or (org-get-repeat) ""))))
 
-;; ;; Add `my/org-agenda-repeater' to the agenda prefix.
-;; (setcdr (assoc 'agenda org-agenda-prefix-format)
-;;         " %i %-12:c%?-12t%s%(my/org-agenda-repeater)")
+;; Add `my/org-agenda-repeater' to the agenda prefix.
+(setcdr (assoc 'agenda org-agenda-prefix-format)
+        " %i %-12:c%?-12t%s%(my/org-agenda-repeater)")
 
 ;;; agennda format
 (setq org-agenda-span 'day
