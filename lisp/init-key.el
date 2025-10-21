@@ -11,7 +11,6 @@
 
 (global-set-keys
  '(("RET" . newline-and-indent)
-   (("C-RET" "S-RET") . my/new-next-item-function-byScene)
    (("s-o" "M-o") . ace-window)
    (("s-n" "M-n") . scroll-up-1/3)
    (("s-p" "M-p") . scroll-down-1/3)
