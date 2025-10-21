@@ -270,6 +270,7 @@
      :repo  "ginqi7/plantuml-emacs"
      :files ("*.el"))
     valign
+    ftable
     (pangu-spacing
      :host github
      :repo  "nailuoGG/pangu-spacing"
