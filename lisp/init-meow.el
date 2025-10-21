@@ -178,7 +178,7 @@
 
 (global-set-keys
  '(("C-o" . go-back-and-recenter-top-bottom)
-   (("M-<return>" "s-<return>") . my/new-next-item-function-byScene)))
+   (("M-RET" "s-RET") . my/new-next-item-function-byScene)))
 
 ;; meow while translate i into TAB
 (keymap-unset goto-map "TAB")

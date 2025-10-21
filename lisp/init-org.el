@@ -430,7 +430,7 @@ prepended to the element after the #+HEADER: tag."
     ("M-J" . org-metadown)
     ("M-H" . org-metaleft)
     ("M-L" . org-metaright)
-    (("M-<return>" "s-<return>") . org-meta-return-auto)
+    (("M-RET" "s-RET") . org-meta-return-auto)
 
     ("C-c C-'" . separedit/edit-org-any-block)
 
@@ -450,7 +450,7 @@ prepended to the element after the #+HEADER: tag."
 
 (keymap-unset org-mode-map "M-<left>")
 (keymap-unset org-mode-map "M-<right>")
-(keymap-unset org-mode-map "S-<return>")
+(keymap-unset org-mode-map "S-RET")
 
 (global-set-keys
  '(("C-c L" . org-store-link)
