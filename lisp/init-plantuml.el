@@ -43,10 +43,15 @@
       plantuml-org-headline-bold t)
 
 ;; Enable plantuml-mode for PlantUML files
-(add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(plantuml\\|puml\\)\\'" . plantuml-mode))
+(add-to-list 'auto-mode-alist '("\\.clang-uml\\'" . yaml-ts-mode))
+
 
 ;; Enable plantuml-mode for org files src block
 (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+
+(keymap-sets plantuml-mode-map
+  '(("C-c C-e" . plantuml-preview)))
 
 (provide 'init-plantuml)
 ;;; init-plantuml.el ends here
