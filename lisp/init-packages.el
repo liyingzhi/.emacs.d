@@ -264,11 +264,6 @@
     org-appear
     org-fragtog
     org-journal
-    plantuml-mode
-    (plantuml-emacs
-     :host github
-     :repo  "ginqi7/plantuml-emacs"
-     :files ("*.el"))
     valign
     ftable
     (pangu-spacing

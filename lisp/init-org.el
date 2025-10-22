@@ -175,7 +175,6 @@ an argument, unconditionally call `org-insert-heading'."
    (python . t)
    (latex . t)
    (shell . t)
-   (plantuml . t)
    (dot . t)))
 
 (setq org-confirm-babel-evaluate
