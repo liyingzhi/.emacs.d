@@ -68,6 +68,13 @@
 (with-eval-after-load 'symbol-overlay
   (keymap-set symbol-overlay-map "C-o" #'casual-symbol-overlay-tmenu))
 
+(with-eval-after-load 'image-mode
+  (require 'casual-image)
+  (keymap-set image-mode-map "C-o" #'casual-image-tmenu))
+
+(with-eval-after-load 'compile
+  (keymap-set compilation-mode-map "C-o" #'casual-compile-tmenu))
+
 (require 'lib-transient)
 (pretty-transient-define-prefix transient-toggles ()
   "Toggles menu."
