@@ -214,10 +214,9 @@
   (meow-normal-define-key
    '("C-;" . grugru)))
 
-(with-eval-after-load 'init-meow
-  (meow-normal-define-key
-   '("C-c <" . remember-init)
-   '("C-c >" . remember-jump)))
+(global-set-keys
+ '((("C-c <") . remember-init)
+   (("C-c >") . remember-jump)))
 
 ;;; Local Variables
 
