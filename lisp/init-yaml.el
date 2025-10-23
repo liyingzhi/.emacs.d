@@ -4,9 +4,6 @@
 
 (wait-packages! '(yaml-pro))
 
-(add-to-list 'major-mode-remap-alist
-             '(yaml-mode . yaml-ts-mode))
-
 (add-hook 'yaml-ts-mode-hook 'yaml-pro-ts-mode)
 
 (with-eval-after-load 'yaml-pro

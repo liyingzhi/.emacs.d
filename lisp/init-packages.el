@@ -94,7 +94,6 @@
   '(markdown-mode
     log4j-mode
     just-mode
-    yaml-mode
     elvish-mode
     git-modes
     csv-mode

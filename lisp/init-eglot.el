@@ -50,7 +50,7 @@
               (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode 'makefile-mode 'snippet-mode 'json-ts-mode)
                 (eglot-ensure))))
 
-(add-hooks '(markdown-mode yaml-mode yaml-ts-mode)
+(add-hooks '(markdown-mode yaml-ts-mode)
            #'eglot-ensure)
 
 (require 'consult-eglot)
