@@ -225,6 +225,8 @@ normal weight to distinguish it from other elements."
           :color pink :quit-key ("q" "C-g"))
   ("Navigator"
    (("P" hydra-straight-helper/body "package manage" :exit t)
+    ("M" mason-manager "mason manager" :exit t)
+    ("H" mcp-hub "mcphub manager" :exit t)
     ("S" find-custom-file "settings" :exit t)
     ("I" find-init-file "init file" :exit t))
    "Item"
@@ -237,6 +239,7 @@ normal weight to distinguish it from other elements."
    "Misc"
    (("<f2>" open-dashboard "open" :exit t)
     ("g" dashboard-refresh-buffer "refresh" :exit t)
+
     ("Q" quit-dashboard "quit" :exit t))))
 
 (global-set-keys
@@ -247,6 +250,8 @@ normal weight to distinguish it from other elements."
     '(("S" . find-custom-file)
       ("I" . find-init-file)
       ("P" . hydra-straight-helper/body)
+      ("M" . mason-manager)
+      ("H" . mcp-hub)
       ("q" . quit-dashboard)
       ("h" . hydra-dashboard/body)
       ("?" . hydra-dashboard/body))))
