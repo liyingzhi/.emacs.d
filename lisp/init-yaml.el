@@ -6,6 +6,15 @@
 
 (add-hook 'yaml-ts-mode-hook 'yaml-pro-ts-mode)
 
+(with-eval-after-load 'yaml-ts-mode
+
+  (keymap-sets yaml-ts-mode-map
+    '(("C-c C-f" . outline-indent-close-fold)
+      ("C-c C-o" . outline-indent-open-fold-rec)
+      ("C-c C-t" . outline-indent-toggle-level-at-point)
+      ("C-c TAB" . outline-cycle-buffer)
+      ("<backtab>" . outline-cycle))))
+
 (with-eval-after-load 'yaml-pro
   (defvar-keymap my/yaml-pro/tree-repeat-map
     :repeat t
