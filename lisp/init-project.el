@@ -45,6 +45,7 @@
 (define-key project-prefix-map (kbd "b") #'consult-project-buffer)
 (define-key project-prefix-map (kbd "B") #'consult-project-buffer-other-window)
 (define-key project-prefix-map (kbd "v") #'magit-project-status)
+(define-key project-prefix-map (kbd "q") #'keyboard-quit)
 
 ;;; project-switch-commands
 (setq project-switch-commands nil)
@@ -56,6 +57,7 @@
 (add-to-list 'project-switch-commands '(project-find-dir "Find Dir") t)
 (add-to-list 'project-switch-commands '(project-dired "Dired") t)
 (add-to-list 'project-switch-commands '(project-find-regexp "Regexp") t)
+(add-to-list 'project-switch-commands '(keyboard-quit "Quit") t)
 
 ;;; Menu
 (require 'transient)
