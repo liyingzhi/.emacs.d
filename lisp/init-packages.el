@@ -128,6 +128,7 @@
 (defvar *package-program-install-list*
   `(dumb-jump
     yasnippet
+    yasnippet-capf
     macrostep
     mason
     ,@(pcase user/lsp-client
