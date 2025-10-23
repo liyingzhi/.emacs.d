@@ -463,7 +463,6 @@ prepended to the element after the #+HEADER: tag."
   (setq-local completion-at-point-functions
               `(cape-file
                 cape-elisp-block
-                cape-emoji
                 ,(cape-capf-super
                   #'cape-dict
                   #'cape-dabbrev)
