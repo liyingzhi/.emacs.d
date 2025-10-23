@@ -183,6 +183,7 @@
     (koishi-theme :host github :repo "gynamics/koishi-theme.el")
     miasma-theme
     catppuccin-theme
+    kanagawa-themes
     nerd-icons
     nerd-icons-dired
     nerd-icons-completion
