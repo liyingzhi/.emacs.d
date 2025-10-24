@@ -54,5 +54,9 @@ Otherwise, set mark normally using `set-mark-command'."
       (set-mark-command nil))))
 
 
+(with-eval-after-load 'yaml-pro
+  (keymap-unset yaml-pro-mode-map "C-c '")
+  (keymap-unset yaml-pro-ts-mode-map "C-c '"))
+
 (provide 'init-yaml)
 ;;; init-yaml.el ends here
