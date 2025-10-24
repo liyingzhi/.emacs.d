@@ -272,7 +272,16 @@ an argument, unconditionally call `org-insert-heading'."
 (require 'org-sliced-images)
 (setq org-sliced-images-round-image-height t)
 (setq org-sliced-images-consume-dummies t)
-(org-sliced-images-mode 1)
+;; (org-sliced-images-mode 1)
+
+;; fix: close super-save-delete-trailing-whitespace when org-sliced-images-mode is activated
+(with-eval-after-load 'init-super-save
+  (defvar org-sliced-images/super-save-delete-trailing-whitespace super-save-delete-trailing-whitespace)
+  (with-hook (org-mode org-sliced-images-mode)
+    (when (and (bound-and-true-p super-save-mode) (equal major-mode 'org-mode))
+      (if org-sliced-images-mode
+          (setq-local super-save-delete-trailing-whitespace nil)
+        (setq-local super-save-delete-trailing-whitespace org-sliced-images/super-save-delete-trailing-whitespace)))))
 
 ;;; menu
 (defun hot-expand (str &optional mod)
