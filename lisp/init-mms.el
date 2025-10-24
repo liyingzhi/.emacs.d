@@ -226,17 +226,19 @@ If currently muted, restore previous volume; otherwise set volume to zero."
     ("-" "  Vol-" emms-player-mpv-lower-volume :transient t)]
    ["Favorites"
     :pad-keys t
-    ("l" " load" (lambda ()
-                    (interactive)
-                    (emms-play-playlist +favorites-playlist)))
-    ("F" " fetch" +emms-add-to-favorites :transient t)
-    ("g" " goto" +emms-select-song)]
+    ("l" " load playlist" (lambda ()
+                             (interactive)
+                             (emms-play-playlist +favorites-playlist)))
+    ("G" " get entry" +emms-add-to-favorites :transient t)
+    ("g" " goto entry" +emms-select-song)]
    ["Global/External"
     :pad-keys t
-    ("d" "📂 emms Dired" emms-play-dired)
+    ("d" "✔️ emms mark with dired" emms-play-dired)
+    ("D" "📂 emms play directory" emms-play-directory)
+    ("F" "📂 emms play find" emms-play-find)
     ;; ("u" "Music dir" tsa/jump-to-music) ;; invokes a bookmark, which in turn hops to my bookmarked music directory
-    ;; ("m" "   Modeline" emms-mode-line-mode)
-    ("M" "🔍 current info" emms-show)
+    ;; ("M" "   Modeline" emms-mode-line-mode)
+    ("I" "🔍 current info" emms-show)
     ("e" "🎵 emms" emms)]])
 
 ;;; keymap
@@ -245,21 +247,29 @@ If currently muted, restore previous volume; otherwise set volume to zero."
  `(("C-c m b" . emms-browser)
    ("C-c m e" . emms)
    ("C-c m o" . my/transient-emms)
-   ("C-c m p" . ("emms-play-playlist" . ,(lambda (arg)
-                                           (interactive "P")
-                                           (if arg
-                                               (call-interactively #'emms-play-playlist)
-                                             (if (and user/mms-playlist-file
-                                                      (file-exists-p user/mms-playlist-file))
-                                                 (emms-play-playlist user/mms-playlist-file)
-                                               (call-interactively #'emms-play-playlist))))))
-   ("C-c m f" . ("emms-filter-playlist" . ,(lambda ()
-                                             (interactive)
-                                             (if (bound-and-true-p emms-playlist-buffer-name)
-                                                 (if (string= emms-playlist-buffer-name (buffer-name))
-                                                     (call-interactively #'filter-lines-containing-and-save)
-                                                   (message "Current buffer is not %s" emms-playlist-buffer-name))
-                                               (message "Not exists EMMS buffer")))))
+   ("C-c m p" . ("emms-play-playlist" .
+                 ,(lambda (arg)
+                    "Play EMMS playlist interactively.
+ With prefix ARG, prompt for playlist file.
+ Without ARG, play `user/mms-playlist-file' if it exists,
+otherwise prompt for playlist file."
+                    (interactive "P")
+                    (if arg
+                        (call-interactively #'emms-play-playlist)
+                      (if (and user/mms-playlist-file
+                               (file-exists-p user/mms-playlist-file))
+                          (emms-play-playlist user/mms-playlist-file)
+                        (call-interactively #'emms-play-playlist))))))
+   ("C-c m f" . ("emms-filter-playlist" .
+                 ,(lambda ()
+                    "Filter EMMS playlist interactively.
+Only works when current buffer is the EMMS playlist buffer."
+                    (interactive)
+                    (if (bound-and-true-p emms-playlist-buffer-name)
+                        (if (string= emms-playlist-buffer-name (buffer-name))
+                            (call-interactively #'filter-lines-containing-and-save)
+                          (message "Current buffer is not %s" emms-playlist-buffer-name))
+                      (message "Not exists EMMS buffer")))))
    ("<XF86AudioPrev>" . emms-previous)
    ("<XF86AudioNext>" . emms-next)
    ("<XF86AudioPlay>" . emms-pause)
