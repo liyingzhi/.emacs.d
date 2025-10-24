@@ -81,7 +81,7 @@
  (:key "o" :description "Search outline" :command consult-outline)
  (:key "B" :description "Bookmark" :command consult-bookmark)
  (:key "s" :description "Blink Search" :command blink-search :filename "init-blink-search")
- (:key "j" :description "color rg search symbol in current directory" :command color-rg-search-input)
+ (:key "j" :description "color rg search symbol in directory" :command color-rg-search-input)
  (:key "p" :description "color rg search symbol in project" :command color-rg-search-input-in-project)
  (:key "r" :description "rg menu" :command rg-menu :filename "init-rg")
  (:key "b" :description "Webjump" :command webjump :filename "init-webjump")
@@ -91,7 +91,8 @@
  (:key "w" :description "Search in omni sources" :command consult-omni-multi :filename "init-consult-omni")
  (:key "m" :description "Search global mark" :command consult-global-mark)
  (:key "t" :description "Search project TODO" :command hl-todo-rg-project :filename "lib-hl-todo")
- (:key "T" :description "Search TODO with prompt" :command hl-todo-rg :filename "lib-hl-todo"))
+ (:key "T" :description "Search TODO with prompt" :command hl-todo-rg :filename "lib-hl-todo")
+ (:key "n" :description "Search notes" :command consult-notes))
 
 (defun switch-*scratch*-buffer ()
   (interactive)
