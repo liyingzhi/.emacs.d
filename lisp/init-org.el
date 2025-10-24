@@ -337,7 +337,7 @@ prepended to the element after the #+HEADER: tag."
     ("Mb" (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-bigblow.setup") "Html Bigblow Theme")
     ("Mr" (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup") "Html Readtheorg Theme")
     ("Mn" (insert "#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"http://gongzhitaao.org/orgcss/org.css\"/>") "Html Normal Css"))
-   
+
    "Source"
    (("ss" (hot-expand "<s") "src")
     ("se" (hot-expand "<s" "emacs-lisp") "emacs-lisp")
@@ -372,15 +372,26 @@ prepended to the element after the #+HEADER: tag."
   "Transient org menu."
   :transient-non-suffix 'transient--do-stay
   [["Display"
+    :if (lambda ()
+          (equal major-mode 'org-mode))
     ("l" "Display Link" org-toggle-link-display :toggle (lambda () (not org-link-descriptive)) :transient t)
     ("m" "Hide Emphasis Markers" org-toggle-display-emphasis-markers :toggle (lambda () org-hide-emphasis-markers) :transient t)
     ("e" "Display Pretty Entities" org-toggle-pretty-entities :toggle (lambda () org-pretty-entities) :transient t)
     ("i" "Display inline images" org-toggle-inline-images :toggle (lambda () org-inline-image-overlays) :transient t)
-    ("v" "Toggle Valign" valign-mode :toggle t :transient t)]
+    ("v" "Toggle Valign" valign-mode :toggle t :transient t)
+    ("s" "Toggle sliced image" org-sliced-images-mode :toggle t :transient t)]
    ["Org Management"
+    :if (lambda ()
+          (equal major-mode 'org-mode))
     ("p" "Set Property" org-set-property)
     ("E" "Export" org-export-dispatch)]]
-  [("q" "Quit" transient-quit-one)])
+  [["Only work for org-mode buffer"
+    :if (lambda ()
+          (not (equal major-mode 'org-mode)))
+    ("q" "Quit" transient-quit-one)]
+   [:if (lambda ()
+          (equal major-mode 'org-mode))
+        ("q" "Quit" transient-quit-one)]])
 
 (pretty-transient-define-prefix transient-org-line-template ()
   "Transient org line menu."
