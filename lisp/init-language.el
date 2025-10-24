@@ -46,9 +46,10 @@
 ;;; input
 (setq default-input-method "rime")
 
-(if (equal default-input-method "rime")
-    (require 'init-rime)
-  (require 'init-pyim))
+(require 'init-pyim)
+
+(when (equal default-input-method "rime")
+  (require 'init-rime))
 
 (provide 'init-language)
 ;;; init-language.el ends here
