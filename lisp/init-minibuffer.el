@@ -99,6 +99,15 @@ configuration of the virtual buffer sources."
   (let ((consult--buffer-display #'switch-to-buffer-other-window))
     (consult-buffer-with-target 'window)))
 
+;; for orderless
+(defun consult--orderless-regexp-compiler (input type &rest _config)
+  (setq input (cdr (orderless-compile input)))
+  (cons
+   (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+   (lambda (str) (orderless--highlight input t str))))
+
+(setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
+
 ;;; consult dir
 (require 'consult-dir)
 ;; A function that returns a list of directories
