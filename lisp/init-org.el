@@ -107,21 +107,6 @@
              template-file))
     (message "Convert finish: %s" docx-file)))
 
-(defun org-insert-html-head ()
-  "Insert HTML head link for Org export."
-  (interactive)
-  (insert "#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"http://gongzhitaao.org/orgcss/org.css\"/>"))
-
-(defun org-insert-html-theme-bigblow ()
-  "Insert setup file for Bigblow HTML theme."
-  (interactive)
-  (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-bigblow.setup"))
-
-(defun org-insert-html-theme-readtheorg ()
-  "Insert setup file for ReadTheOrg HTML theme."
-  (interactive)
-  (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup"))
-
 (defun org-toggle-display-emphasis-markers ()
   "Toggle show emphasis markers."
   (interactive)
@@ -331,12 +316,19 @@ prepended to the element after the #+HEADER: tag."
    (("i" (hot-expand "<i") "index")
     ("A" (hot-expand "<A") "ASCII")
     ("I" (hot-expand "<I") "INCLUDE")
+    ("S" (insert "#+STARTUP: ") "Startup")
+    ("O" (insert "#+OPTIONS: ") "Options")
+
     ("H" (yas-expand-snippet (yas-lookup-snippet "hugo")) "Hugo")
+
     ("L" (hot-expand "<L") "LaTeX")
     ("X" (yas-expand-snippet (yas-lookup-snippet "latex-chinese")) "Latex chinese")
-    ("O" (insert "#+OPTIONS: ") "Options")
-    ("S" (insert "#+STARTUP: ") "Startup")
-    ("P" (insert "#+STARTUP: latexpreview ") "Latex Preview"))
+    ("P" (insert "#+STARTUP: latexpreview ") "Latex Preview")
+
+    ("Mb" (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-bigblow.setup") "Html Bigblow Theme")
+    ("Mr" (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup") "Html Readtheorg Theme")
+    ("Mn" (insert "#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"http://gongzhitaao.org/orgcss/org.css\"/>") "Html Normal Css"))
+   
    "Source"
    (("ss" (hot-expand "<s") "src")
     ("se" (hot-expand "<s" "emacs-lisp") "emacs-lisp")
