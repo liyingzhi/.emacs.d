@@ -235,10 +235,10 @@ If currently muted, restore previous volume; otherwise set volume to zero."
     :pad-keys t
     ("d" "✔️ emms mark with dired" emms-play-dired)
     ("D" "📂 emms play directory" emms-play-directory)
-    ("F" "📂 emms play find" emms-play-find)
+    ("F" "🔍 emms play find" emms-play-find)
     ;; ("u" "Music dir" tsa/jump-to-music) ;; invokes a bookmark, which in turn hops to my bookmarked music directory
     ;; ("M" "   Modeline" emms-mode-line-mode)
-    ("I" "🔍 current info" emms-show)
+    ("I" "ℹ️ current info" emms-show)
     ("e" "🎵 emms" emms)]])
 
 ;;; keymap
