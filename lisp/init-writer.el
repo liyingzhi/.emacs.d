@@ -34,9 +34,6 @@
                                       ("file"     "Relative or absolute path to attachments" "" ))
         bibtex-align-at-equal-sign t)
 
-(with-eval-after-load 'bibtex
-  (ews-bibtex-register))
-
 (global-set-keys
  '(("C-c n b r" . ews-bibtex-register)))
 
