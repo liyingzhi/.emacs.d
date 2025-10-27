@@ -54,11 +54,10 @@ Otherwise, calculate the age of the current entry."
 ;; Use a function to decide what to change the state to.
 (setq org-clock-in-switch-to-state #'sodaware/switch-task-on-clock-start)
 
-
 ;;; agenda repeater
 ;; Shorten the leaders to reserve spaces for the repeater.
-(setq org-agenda-scheduled-leaders '("Sched" "S.%2dx"))
-(setq org-agenda-deadline-leaders '("Deadl" "In%2dd" "D.%2dx"))
+(setq org-agenda-scheduled-leaders '("Sched: " "S.%2dx: "))
+(setq org-agenda-deadline-leaders '("Deadl" "In%2dd: " "D.%2dx: "))
 
 (defun my/org-agenda-repeater ()
   "The repeater shown in org-agenda-prefix for agenda."
@@ -73,7 +72,7 @@ Otherwise, calculate the age of the current entry."
 ;;; agennda format
 (setq org-agenda-span 'day
       org-agenda-current-time-string (concat "◀┈┈┈┈┈┈┈┈┈┈┈┈┈ ⏰"))
-(setq org-agenda-compact-blocks t)
+;; (setq org-agenda-compact-blocks t)
 
 (setq org-columns-default-format-for-agenda
       "%TODO %PRIORITY(Pri) %60ITEM(Task) %SCHEDULED")
@@ -246,14 +245,14 @@ continue, per `org-agenda-skip-function'."
  `((("i" . "inbox agent") . ,(agenda-open-with-file "~/Documents/Org/inbox.org"))
    (("t" . "idea agent") . ,(agenda-open-with-file "~/Documents/Org/tasks.org"))
    (("A" . "all agent") . org-agenda)
-   ("a" . (lambda ()
-            "Call Org agenda with `prot-org-custom-daily-agenda' configuration."
-            (interactive)
-            (org-agenda nil "A")))
-   ("g" . (lambda ()
-            "Call Org agenda with GTD configuration."
-            (interactive)
-            (org-agenda nil "g")))
+   (("a" . "daily agenda") . (lambda ()
+                               "Call Org agenda with `prot-org-custom-daily-agenda' configuration."
+                               (interactive)
+                               (org-agenda nil "A")))
+   (("g" . "GTD agenda") . (lambda ()
+                             "Call Org agenda with GTD configuration."
+                             (interactive)
+                             (org-agenda nil "g")))
    (("d" . "Capture roam dailies note") . org-roam-dailies-capture-today)
    (("j" . "Show open or delete journal menu") . journal-transient)
    (("p" . "casual timezone planner") . (lambda ()
