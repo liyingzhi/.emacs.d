@@ -275,8 +275,18 @@ targets."
 (add-hook 'embark-collect-mode
           #'consult-preview-at-point-mode)
 
+(defun my/embark-duckduckgo-search (term)
+  "Embark search TERM in duckduckgo."
+  (interactive "sSearch Term: ")
+  (browse-url
+   (format "http://duckduckgo.com/?q=%s" term)))
+
 (with-eval-after-load 'embark
   (setq embark-cycle-key "SPC")
+
+  (keymap-binds embark-general-map
+    ("G" . my/embark-duckduckgo-search))
+  
   (keymap-sets embark-library-map
     '(("b" . straight-visit-package-website)
       ("v" . straight-visit-package)))
