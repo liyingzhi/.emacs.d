@@ -32,7 +32,8 @@
 (require 'duplicate-line)
 (require 'open-newline)
 (require 'init-thing-edit)
-(require 'init-markmacro)
+;; (require 'init-markmacro)
+(require 'dwim-shell-commands)
 
 ;;;###autoload
 (defun +lizqwer/toggle-move-style ()

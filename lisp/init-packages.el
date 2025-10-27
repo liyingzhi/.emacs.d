@@ -332,7 +332,8 @@
     (move-text :host github :repo "manateelazycat/move-text")
     (open-newline :host github :repo "manateelazycat/open-newline")
     (duplicate-line :host github :repo "manateelazycat/duplicate-line")
-    (markmacro :host github :repo "manateelazycat/markmacro")))
+    (markmacro :host github :repo "manateelazycat/markmacro")
+    dwim-shell-command))
 
 (defvar *package-another-install-list*
   '(elfeed
