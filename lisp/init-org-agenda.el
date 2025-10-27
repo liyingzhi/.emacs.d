@@ -172,7 +172,7 @@ continue, per `org-agenda-skip-function'."
       `(("A" "Daily agenda and top priority tasks"
          ,prot-org-custom-daily-agenda
          ((org-agenda-fontify-priorities nil)
-          (org-agenda-prefix-format "	 %t %s")
+          ;; (org-agenda-prefix-format "	 %t %s")
           (org-agenda-dim-blocked-tasks nil)))
         ("e" "Agenda, next actions and waiting"
          ((agenda "" ((org-agenda-overriding-header "Next three days:")
