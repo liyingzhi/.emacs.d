@@ -126,8 +126,7 @@
     (home-row-expreg-diverted :host github :repo "bommbo/home-row-expreg-diverted")))
 
 (defvar *package-program-install-list*
-  `(dumb-jump
-    yasnippet
+  `(yasnippet
     yasnippet-capf
     macrostep
     mason
@@ -141,7 +140,8 @@
            flycheck-eglot
            flycheck-posframe))
         ('lsp-bridge
-         `((lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
+         `(dumb-jump
+           (lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
                        :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
                        :build (:not compile))
            ,@(when (not (display-graphic-p))
