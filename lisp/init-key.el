@@ -312,7 +312,8 @@
 
 ;;; symbol overlay
 (lazy-load-global-keys
- '(("M-i" . symbol-overlay-put)
+ '(("M-a" . symbol-overlay-mc-mark-all)
+   ("M-i" . symbol-overlay-put)
    ("M-g n" . symbol-overlay-jump-next)
    ("M-g p" . symbol-overlay-jump-prev))
  "symbol-overlay")
