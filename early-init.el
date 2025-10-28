@@ -17,11 +17,7 @@
 (setq warning-minimum-level :error)
 (setq warning-suppress-types '((lexical-binding) (defvaralias)))
 
-;;; native comp
-(when (boundp 'native-comp-eln-load-path)
-  (startup-redirect-eln-cache
-   (expand-file-name "var/eln-cache"
-                     user-emacs-directory)))
+;;; straight package manager
 
 ;; If watchexec and Python are installed, use file watchers to detect
 ;; package modifications. This saves time at startup. Otherwise, use
