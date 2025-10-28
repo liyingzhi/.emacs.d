@@ -210,13 +210,21 @@
   ((emacs-lisp-mode lisp-mode)
    (symbol "when-let" "if-let")))
 
-(with-eval-after-load 'init-meow
-  (meow-normal-define-key
-   '("C-;" . grugru)))
-
 (global-set-keys
  '((("C-c <") . remember-init)
    (("C-c >") . remember-jump)))
+
+;;; editkit
+(autoload #'editkit-transform-menu "editkit" nil t)
+(autoload #'editkit-rectangle-menu "editkit" nil t)
+
+(with-eval-after-load 'meow
+  (meow-normal-define-key
+   '("C-;" . editkit-transform-menu)))
+
+(global-bind-keys
+ ("C-c M" . editkit-rectangle-menu))
+
 
 ;;; Local Variables
 
