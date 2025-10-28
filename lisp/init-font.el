@@ -106,6 +106,14 @@
 ;;                (latex-mode . ,*prog-font*)
 ;;                (prog-mode  . ,*prog-font*)))))
 
+(add-hook 'after-init-hook
+          (lambda ()
+            (set-font-for-modes
+             `((vterm-mode . ,(if user/*term-default-font*
+                                  user/*term-default-font*
+                                (face-attribute 'default :family)))))))
+
+
 ;;; 连体字体
 (with-eval-after-load 'ligature
   (ligature-set-ligatures 't '("www"))

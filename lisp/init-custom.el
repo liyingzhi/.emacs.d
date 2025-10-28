@@ -88,6 +88,12 @@
   :group 'user
   :type 'number)
 
+(defcustom user/*term-default-font* nil
+  "Font name for term."
+  :group 'user
+  :type '(choice (const :tag "None" nil)
+                 (string :tag "font name")))
+
 (defcustom user/ligature nil
   "Is use ligature."
   :group 'user
