@@ -56,8 +56,8 @@ Otherwise, calculate the age of the current entry."
 
 ;;; agenda repeater
 ;; Shorten the leaders to reserve spaces for the repeater.
-(setq org-agenda-scheduled-leaders '("Sched: " "S.%2dx: "))
-(setq org-agenda-deadline-leaders '("Deadl" "In%2dd: " "D.%2dx: "))
+(setq org-agenda-scheduled-leaders '("Sched:" "S.%2dx:"))
+(setq org-agenda-deadline-leaders '("Deadl" "In%2dd:" "D.%2dx:"))
 
 (defun my/org-agenda-repeater ()
   "The repeater shown in org-agenda-prefix for agenda."
