@@ -48,12 +48,12 @@
   :group 'user
   :type 'string)
 
-(defcustom user/day-theme 'modus-operandi-tinted
+(defcustom user/day-theme 'modus-operandi
   "Day theme name."
   :group 'user
   :type 'symbol)
 
-(defcustom user/night-theme 'doom-dracula
+(defcustom user/night-theme 'modus-vivendi
   "Night theme name."
   :group 'user
   :type 'symbol)
