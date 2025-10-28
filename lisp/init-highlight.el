@@ -119,11 +119,6 @@
 (add-hook 'prog-mode-hook
           'color-identifiers-mode)
 
-;;; Highlight web mode matching tag
-(with-hook web-mode
-  (require 'highlight-matching-tag)
-  (highlight-matching-tag 1))
-
 ;;; Highlight lisp
 (with-hook (lisp-mode)
   (highlight-function-calls-mode 1)

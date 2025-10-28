@@ -221,7 +221,6 @@
                   :repo "manateelazycat/awesome-tray")
     (breadcrumb :host github
                 :repo "joaotavora/breadcrumb")
-    (highlight-matching-tag :host github :repo "manateelazycat/highlight-matching-tag")
     buffer-name-relative
     (prism :host github :repo "alphapapa/prism.el")
     casual
