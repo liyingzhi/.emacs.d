@@ -277,10 +277,6 @@
           (lambda ()
             (save-place-mode t)
             (recentf-mode t)))
-;;; Kitty Keyboard protocol in Emacs (kkp)
-(unless (display-graphic-p)
-  (wait-packages! '(kkp))
-  (global-kkp-mode +1))
 
 ;;; Local Variables
 

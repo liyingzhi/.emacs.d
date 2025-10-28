@@ -2,6 +2,12 @@
 ;;; Commentary:
 ;;; Code:
 
+;;; Kitty Keyboard protocol in Emacs (kkp)
+(unless (display-graphic-p)
+  (wait-packages! '(kkp))
+  (global-kkp-mode +1))
+
+;;; key binds
 (global-set-keys
  '(("M-<left>" . previous-buffer)
    ("M-<right>" . next-buffer)
