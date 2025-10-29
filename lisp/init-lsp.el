@@ -34,5 +34,10 @@
 ;;; mason manager
 (add-hook 'after-init-hook #'mason-ensure)
 
+(with-eval-after-load 'mason-manager
+  (keymap-binds mason-manager-map
+    (("n" "j") . next-line)
+    (("p" "k") . previous-line)))
+
 (provide 'init-lsp)
 ;;; init-lsp.el ends here
