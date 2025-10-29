@@ -485,8 +485,8 @@ prepended to the element after the #+HEADER: tag."
               `(cape-file
                 cape-elisp-block
                 ,(cape-capf-super
-                  #'cape-dict
-                  #'cape-dabbrev)
+                  #'cape-dabbrev
+                  #'cape-dict)
                 pcomplete-completions-at-point)))
 
 (add-hook 'org-mode-hook #'my/org-capf)
