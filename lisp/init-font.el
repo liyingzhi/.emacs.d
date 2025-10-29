@@ -62,11 +62,20 @@
 (add-hook 'server-after-make-frame-hook #'setup-fonts)
 
 (defun set-buffer-font (font face-name)
-  "Set the current buffer's font to FONT using FACE-NAME."
+  "Set the current buffer's font to FONT using FACE-NAME.
+If FONT is nil, use the default face entirely.
+If FONT is a string, use it as the font family
+while preserving other default attributes."
   (unless (facep face-name)
     (make-face face-name))
-  (set-face-attribute face-name nil :font font)
-  (setq buffer-face-mode-face face-name)
+  (if (null font)
+      ;;Inheritance default face
+      (copy-face 'default face-name)
+    ;;Replace fonts only, keeping other attributes unchanged.
+    (progn
+      (copy-face 'default face-name)
+      (set-face-attribute face-name nil :font font)))
+  (setq-local buffer-face-mode-face face-name)
   (buffer-face-mode))
 
 (defun set-font-for-modes (font-alist)
@@ -109,10 +118,7 @@
 (add-hook 'after-init-hook
           (lambda ()
             (set-font-for-modes
-             `((vterm-mode . ,(if user/*term-default-font*
-                                  user/*term-default-font*
-                                (face-attribute 'default :family)))))))
-
+             `((vterm-mode . ,user/*term-default-font*)))))
 
 ;;; 连体字体
 (with-eval-after-load 'ligature
