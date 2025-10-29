@@ -86,10 +86,12 @@
              (call-interactively #'dirvish-dwim))) "Dirvish"))
 
    "Search"
-   (("s" (lambda ()
-           (interactive)
-           (autoload 'consult-fd-dir "init-func" nil t)
-           (consult-fd-dir)) "Fuzzy search Dir")
+   (("s s" (lambda ()
+             (interactive)
+             (autoload 'consult-fd-dir "init-func" nil t)
+             (consult-fd-dir)) "Fuzzy search dir HOME")
+    ("s n" consult-notes "Fuzzy search dir Note")
+    ("s d" consult-denote-find "Fuzzy search dir Denote")
     ("j" dired-jump "Dired jump")
     ("J" dired-jump-other-window "Dired jump other"))))
 
