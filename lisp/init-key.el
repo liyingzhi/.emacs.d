@@ -317,13 +317,12 @@
  (:key "e" :description "Insert org emphasize" :command org-emphasize)
  (:key "w" :description "Insert org url link" :command org-web-tools-insert-link-for-url))
 
-;;; symbol overlay
-(lazy-load-global-keys
+;;; symbol-overlay and symbol-overlay-mc
+(global-set-keys
  '(("M-a" . symbol-overlay-mc-mark-all)
    ("M-i" . symbol-overlay-put)
    ("M-g n" . symbol-overlay-jump-next)
-   ("M-g p" . symbol-overlay-jump-prev))
- "symbol-overlay")
+   ("M-g p" . symbol-overlay-jump-prev)))
 
 ;;; webjump
 ;; (lazy-load-global-keys
