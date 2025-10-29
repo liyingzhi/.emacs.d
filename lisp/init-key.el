@@ -127,7 +127,8 @@
  (:key "p" :description "Copy File Path" :command +lizqwer/copy-file-path-to-clipboard :filename "init-func")
  (:key "d" :description "Delete this file" :command bufferfile-delete :filename "init-bufferfile")
  (:key "r" :description "Rename this file" :command bufferfile-rename :filename "init-bufferfile")
- (:key "b" :description "Browse this file" :command browse-this-file :filename "init-func"))
+ (:key "b" :description "Browse this file" :command browse-this-file :filename "init-func")
+ (:key "e" :description "Dired open" :command dired-do-open-default))
 
 (one-key-create-menu
  "File"
