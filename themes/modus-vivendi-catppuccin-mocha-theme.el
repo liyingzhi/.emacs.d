@@ -9,7 +9,7 @@
              (require-theme 'modus-themes t))
   (require 'modus-themes))
 
-(defcustom modus-vivendi-catppuccin-mocha-palette-user nil
+(defcustom modus-vivendi-catppuccin-mocha-palette-overrides nil
   "Like the `modus-vivendi--palette' for user-defined entries.
 This is meant to extend the palette with custom named colors and/or
 semantic palette mappings.  Those may then be used in combination with
@@ -197,7 +197,7 @@ which corresponds to a minimum contrast in relative luminance of
  'dark
  'modus-themes-vivendi-palette
  'modus-vivendi-catppuccin-mocha-palette
- 'modus-vivendi-catppuccin-mocha-palette-user
+ 'modus-vivendi-catppuccin-mocha-palette-overrides
  'modus-vivendi-catppuccin-mocha-custom-faces)
 
 ;;; modus-vivendi-catppuccin-mocha-theme.el ends here
