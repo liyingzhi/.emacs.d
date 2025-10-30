@@ -203,14 +203,12 @@ and the download is cancelled."
       ("C-c C-f" . elfeed-tube-fetch)
       ("C-c C-l" . elfeed-tube-mpv-follow-mode)
       ("C-c C-w" . elfeed-tube-mpv-where)
-      ("C-c b s" . elfeed-tube-save)
       ("C-x C-s" . elfeed-tube-save))))
 
 (with-eval-after-load 'elfeed-search
   (keymap-sets elfeed-search-mode-map
     '(("l" . +elfeed-overview)
       ("F" . elfeed-tube-fetch)
-      ("C-c b s" . elfeed-tube-save)
       ("C-x C-s" . elfeed-tube-save))))
 
 (provide 'init-elfeed)
