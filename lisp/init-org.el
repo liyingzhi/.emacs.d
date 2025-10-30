@@ -268,6 +268,15 @@ an argument, unconditionally call `org-insert-heading'."
           (org-rich-yank--trim-nl contents)
           link))
 
+;;; org-download
+(with-hook (org-mode dired-mode)
+  (org-download-enable))
+
+(with-eval-after-load 'org-download
+  (setopt org-download-image-dir (concat denote-directory "/assets/")
+          org-download-screenshot-method "flameshot gui --raw > %s"
+          org-download-heading-lvl nil))
+
 ;;; org-sliced-images
 (require 'org-sliced-images)
 (setq org-sliced-images-round-image-height t)

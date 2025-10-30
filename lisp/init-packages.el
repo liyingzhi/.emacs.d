@@ -277,7 +277,8 @@
     (org-count-words :host github :repo "Elilif/org-count-words")
     org-web-tools
     org-rich-yank
-    (org-media-note :host github :repo "yuchen-lea/org-media-note")))
+    (org-media-note :host github :repo "yuchen-lea/org-media-note")
+    org-download))
 
 (defvar *package-write-install-list*
   '(nov
