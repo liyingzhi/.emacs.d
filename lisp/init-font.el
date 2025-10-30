@@ -120,6 +120,19 @@ while preserving other default attributes."
             (set-font-for-modes
              `((vterm-mode . ,user/*term-default-font*)))))
 
+(defun +suggest-other-faces (func &rest args)
+  "Temporarily disable `global-hl-line-mode' while executing FUNC with ARGS."
+  (let ((was-hl-line-mode-enabled global-hl-line-mode))
+    (when was-hl-line-mode-enabled
+      (global-hl-line-mode -1))
+    (unwind-protect
+        (apply func args)
+      (when was-hl-line-mode-enabled
+        (global-hl-line-mode 1)))))
+
+(advice-add 'face-at-point :around #'+suggest-other-faces)
+
+
 ;;; 连体字体
 (with-eval-after-load 'ligature
   (ligature-set-ligatures 't '("www"))
