@@ -338,6 +338,8 @@
 
 (defvar *package-another-install-list*
   '(elfeed
+    elfeed-tube
+    elfeed-tube-mpv
     code-stats
     docker
     (screenshot :host github :repo "tecosaur/screenshot")
