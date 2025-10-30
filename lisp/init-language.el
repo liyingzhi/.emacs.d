@@ -8,6 +8,8 @@
 ;;; immersive-translate
 
 (setopt immersive-translate-backend 'trans)
+(add-hook 'elfeed-show-mode-hook #'immersive-translate-setup)
+(add-hook 'nov-pre-html-render-hook #'immersive-translate-setup)
 
 ;;; fanyi
 (custom-set-variables
