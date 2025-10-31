@@ -25,7 +25,7 @@
 (pretty-hydra-define-e hydra-language
   (:title "Language" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
   ("Dict"
-   (("s" sdcv-search-pointer+ "sdcv dict")
+   (("d" sdcv-search-pointer+ "sdcv dict")
     ("f" fanyi-dwim2 "Fanyi Point")
     ("F" fanyi-dwim "Fanyi Input"))
 
@@ -35,12 +35,14 @@
            (interactive)
            (activate-input-method default-input-method)
            (call-interactively #'gptel-translate-to-english-insert))
-     "Insert (*->en) with prompt"))
+     "Insert (*->en) with prompt")
+    ("v" gt-speak "speak content around point"))
 
    "Preset"
    (("g" gt-translate-prompt "(en->zh) with taker & prompt")
     ("u" gt-use-text-utility "text utility")
-    ("k" gt-use-korean-gt "show (ko->zh) with taker"))))
+    ("k" gt-use-korean-gt "show (ko->zh) with taker")
+    ("s" gt-setup "gt setup"))))
 
 ;;; spell
 (require 'init-spell)

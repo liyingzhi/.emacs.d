@@ -109,23 +109,26 @@
 (setq gt-preset-translators
       `((default . ,(gt-translator
                      :taker   (list (gt-taker :pick nil :if 'selection)
-                                    (gt-taker :text 'paragraph :if '(Info-mode help-mode helpful-mode devdocs-mode))
+                                    (gt-taker :text 'paragraph :if '(Info-mode help-mode helpful-mode devdocs-mode telega-webpage-mode elfeed-show-mode))
                                     (gt-taker :text 'buffer :pick 'fresh-word
                                               :if (lambda (translatror)
                                                     (and (not (derived-mode-p 'fanyi-mode)) buffer-read-only)))
                                     (gt-taker :text 'word))
                      :engines (list (gt-google-engine :if '(and not-word))
-                                    (gt-bing-engine :if '(and not-word))
+                                    ;; (gt-bing-engine :if '(and not-word))
                                     (gt-youdao-dict-engine :if '(word))
                                     (gt-youdao-suggest-engine :if '(and word src:en))
-                                    (gt-chatgpt-engine                     ; 指定多引擎 chatgpt
-                                     :prompt (concat "You are a translating assistant. Respond concisely."
-                                                     " Generate ONLY the translated result text,"
-                                                     " without any explanation or sentence incomplete reminder."
-                                                     "\n\nTranslate the text to {{lang}} and return result:\n\n{{text}}")
-                                     :stream t
-                                     :if '(and not-word)))
-                     :render  (gt-buffer-render)))
+                                    ;; (gt-chatgpt-engine                     ; 指定多引擎 chatgpt
+                                    ;;  :prompt (concat "You are a translating assistant. Respond concisely."
+                                    ;;                  " Generate ONLY the translated result text,"
+                                    ;;                  " without any explanation or sentence incomplete reminder."
+                                    ;;                  "\n\nTranslate the text to {{lang}} and return result:\n\n{{text}}")
+                                    ;;  :stream t
+                                    ;;  :if '(and not-word))
+                                    )
+                     :render (list (gt-overlay-render :if '(Info-mode helpful-mode devdocs-mode telega-webpage-mode elfeed-show-mode))
+                                   (gt-insert-render :if '(telega-chat-mode) :type 'replace)
+                                   (gt-buffer-render))))
         (multi-dict . ,(gt-translator :taker (gt-taker :prompt t)
                                       :engines (list (gt-bing-engine)
                                                      (gt-youdao-dict-engine)
@@ -147,6 +150,8 @@
                                        :stream t
                                        :if '(and not-word)))
                        :render  (gt-buffer-render)))))
+
+(setq gt-tts-native-engine 'edge-tts)
 
 (defun gt--translate (dict)
   "Translate using DICT from the preset tranlators."
