@@ -180,5 +180,10 @@
 
 (add-hook #'gt-buffer-render-output-hook  #'visual-line-mode)
 
+(keymap-binds gt-overlay-render-map
+  ("C-g" . gt-delete-render-overlays)
+  ("<escape>" . gt-delete-render-overlays)
+  ("M-w" . gt-overlay-render-save-to-kill-ring))
+
 (provide 'init-gt)
 ;;; init-gt.el ends here
