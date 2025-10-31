@@ -35,6 +35,24 @@
 
 (setq org-format-latex-options (plist-put org-format-latex-options :scale user/org-format-latex-options-scale))
 
+(setopt
+ org-latex-compiler "xelatex"
+ ;; org-latex-src-block-backend 'minted ;; ‘org-latex-listings’ is obsolete since 9.6; use ‘org-latex-src-block-backend’ instead.
+ ;; org-latex-minted-options '(("breaklines")
+ ;;                            ("linenos")
+ ;;                            ("frame" "lines")
+ ;;                            ("bgcolor" "lightgray")
+ ;;                            ("numbersep=" "5pt"))
+ org-latex-packages-alist
+ '(;; hook right arrow with text above and below
+   ;; https://tex.stackexchange.com/questions/186896/xhookrightarrow-and-xmapsto
+   ("" "svg" t)
+   ("" "svg-extract" t)
+   ("" "minted" nil)
+   ;; for chinese preview
+   ;; ("fontset=LXGW WenKai,UTF8" "ctex" t)
+   ("" "ctex" t)))
+
 (add-hook 'org-mode-hook #'org-cdlatex-mode)
 
 ;; Add new template
