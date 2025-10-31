@@ -181,10 +181,17 @@
  '(("C-o" . go-back-and-recenter-top-bottom)
    (("M-RET" "s-<return>" "S-<return>" "C-<return>") . my/new-next-item-function-byScene)))
 
+(defun find-file-at-point-other-window ()
+  "Find file at point in other window."
+  (interactive)
+  (let ((ffap-file-finder #'find-file-other-window))
+    (find-file-at-point)))
+
 ;; meow while translate i into TAB
 (keymap-unset goto-map "TAB")
 (keymap-sets goto-map
   '(("f" . find-file-at-point)
+    ("F" . find-file-at-point-other-window)
     ("P" . goto-percent)
     ("l" . consult-goto-line)
     ("L" . avy-goto-line)
