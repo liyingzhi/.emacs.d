@@ -90,8 +90,6 @@
           #'browse-url-default-macosx-browser
         #'browse-url-firefox))
 
-(setq native-comp-jit-compilation t)
-
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; no-native-compile: t

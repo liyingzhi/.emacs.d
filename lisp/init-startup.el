@@ -2,9 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; early init
-(setq load-prefer-newer noninteractive)
-
 ;;; Personal information
 (setq user-full-name "lizqwer scott")
 (setq user-mail-address "lizqwerscott@gmail.com")
