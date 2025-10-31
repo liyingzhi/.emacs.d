@@ -217,6 +217,9 @@
   "l" #'find-library
   "v" #'find-variable)
 
+(global-bind-keys
+ ("<escape>" . keyboard-quit))
+
 (defun meow-setup ()
   "Meow keymap setup."
   (meow-leader-define-key
