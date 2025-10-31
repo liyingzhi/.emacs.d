@@ -107,6 +107,8 @@
 (with-eval-after-load 'ox
   (require 'ox-epub))
 
+(setq org-html-validation-link nil)
+
 ;;; Org function
 (defun open-my-org-file ()
   "Open the default Org directory in dired mode."
@@ -468,6 +470,7 @@ prepended to the element after the #+HEADER: tag."
                           (backward-char 3)))
     ("L" "Convert to latex" latex-math-from-calc :if region-active-p)]
    ["Misc"
+    ("v" "add-file-local-variable" add-file-local-variable)
     (">" "ins" self-insert-command)]]
   [("q" "Quit" transient-quit-one)])
 
