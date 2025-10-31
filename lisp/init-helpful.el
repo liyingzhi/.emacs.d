@@ -18,5 +18,10 @@
   '(("M-<left>" . previous-buffer-dedicated-window)
     ("M-<right>" . next-buffer-dedicated-window)))
 
+;;; for embark
+(with-eval-after-load 'embark
+  (keymap-binds embark-symbol-map
+    ("h" . helpful-symbol)))
+
 (provide 'init-helpful)
 ;;; init-helpful.el ends here
