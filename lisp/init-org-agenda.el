@@ -186,8 +186,9 @@ continue, per `org-agenda-skip-function'."
         ("g" "GTD"
          ((agenda "" nil)
           (tags-todo "-inbox"
-                     ((org-agenda-overriding-header "Next Actions")
+                     ((org-agenda-overriding-header "\nNext Actions")
                       (org-agenda-tags-todo-honor-ignore-options t)
+                      (org-agenda-block-separator nil)
                       (org-agenda-todo-ignore-scheduled 'future)
                       (org-agenda-skip-function
                        (lambda ()
@@ -197,40 +198,57 @@ continue, per `org-agenda-skip-function'."
                       (org-agenda-sorting-strategy
                        '(todo-state-down effort-up category-keep))))
           (tags-todo "-reading+PROJECT"
-                     ((org-agenda-overriding-header "Project")
+                     ((org-agenda-overriding-header "\nProject")
                       (org-agenda-prefix-format "%-11c%5(org-todo-age) ")
                       (org-tags-match-list-sublevels t)
+                      (org-agenda-block-separator nil)
                       (org-agenda-sorting-strategy
                        '(category-keep))))
           (tags-todo "+reading+PROJECT"
-                     ((org-agenda-overriding-header "Reading")
+                     ((org-agenda-overriding-header "\nReading")
                       (org-agenda-prefix-format "%-11c%5(org-todo-age) ")
                       (org-tags-match-list-sublevels t)
+                      (org-agenda-block-separator nil)
                       (org-agenda-sorting-strategy
                        '(category-keep))))
           (tags-todo "/WAITING"
-                     ((org-agenda-overriding-header "Waiting")
+                     ((org-agenda-overriding-header "\nWaiting")
                       (org-agenda-tags-todo-honor-ignore-options t)
+                      (org-agenda-block-separator nil)
                       (org-agenda-todo-ignore-scheduled 'future)
                       (org-agenda-sorting-strategy
                        '(category-keep))))
           (tags-todo "/DELEGATED"
-                     ((org-agenda-overriding-header "Delegated")
+                     ((org-agenda-overriding-header "\nDelegated")
                       (org-agenda-tags-todo-honor-ignore-options t)
+                      (org-agenda-block-separator nil)
                       (org-agenda-todo-ignore-scheduled 'future)
                       (org-agenda-sorting-strategy
                        '(category-keep))))
           (tags-todo "-inbox"
-                     ((org-agenda-overriding-header "On Hold")
+                     ((org-agenda-overriding-header "\nOn Hold")
                       (org-agenda-skip-function
                        (lambda ()
                          (or (org-agenda-skip-subtree-if 'todo '("WAITING"))
                              (org-agenda-skip-entry-if 'nottodo '("HOLD")))))
                       (org-tags-match-list-sublevels nil)
+                      (org-agenda-block-separator nil)
                       (org-agenda-sorting-strategy
                        '(category-keep)))))
          nil
          (,(concat user/org-base-dir-path "/emacs-agenda.html") ,(concat user/org-base-dir-path "/emacs-agenda.ps")))))
+
+;;; org-habit
+(with-eval-after-load 'org-agenda
+  (require 'org-habit)
+  (setopt org-habit-following-days 7
+          org-habit-preceding-days 7
+          org-habit-show-all-today t
+          org-habit-graph-column 57
+          org-habit-show-done-always-green t)
+  (let ((agenda-sorting-strategy (assoc 'agenda org-agenda-sorting-strategy)))
+    (setcdr agenda-sorting-strategy (remove 'habit-down (cdr agenda-sorting-strategy)))))
+
 
 ;;; agenda menu
 ;;;###autoload
