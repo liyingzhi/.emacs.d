@@ -29,7 +29,7 @@
 ;;; nov
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
-;;; bixtex
+;;; bibtex
 (setopt bibtex-user-optional-fields '(("keywords" "Keywords to describe the entry" "")
                                       ("file"     "Relative or absolute path to attachments" "" ))
         bibtex-align-at-equal-sign t)
