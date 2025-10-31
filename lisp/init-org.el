@@ -510,11 +510,11 @@ prepended to the element after the #+HEADER: tag."
 (defun my/org-capf ()
   (setq-local completion-at-point-functions
               `(cape-file
+                pcomplete-completions-at-point
                 cape-elisp-block
                 ,(cape-capf-super
                   #'cape-dabbrev
-                  #'cape-dict)
-                pcomplete-completions-at-point)))
+                  #'cape-dict))))
 
 (add-hook 'org-mode-hook #'my/org-capf)
 
