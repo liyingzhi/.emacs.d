@@ -88,7 +88,8 @@
      :host github
      :repo "manateelazycat/blink-search"
      :files (:defaults "*.el" "*.py" "backend" "core" "icons"))
-    backup-walker))
+    backup-walker
+    show-font))
 
 (defvar *package-language-mode-install-list*
   '(markdown-mode
