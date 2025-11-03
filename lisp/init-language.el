@@ -26,8 +26,9 @@
   (:title "Language" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
   ("Dict"
    (("d" sdcv-search-pointer+ "sdcv dict")
-    ("f" fanyi-dwim2 "Fanyi Point")
-    ("F" fanyi-dwim "Fanyi Input"))
+    ;; ("f" fanyi-dwim2 "Fanyi Point")
+    ;; ("F" fanyi-dwim "Fanyi Input")
+    )
 
    "English"
    (("t" gt-translate "show (en->zh) with taker")
