@@ -49,7 +49,8 @@
   (setq citar-indicators
         (list citar-indicator-files-icons
               citar-indicator-notes-icons
-              citar-indicator-links-icons)))
+              citar-indicator-links-icons
+              citar-indicator-cited)))
 
 (global-set-keys
  '(("C-c n b o" . citar-open)))
