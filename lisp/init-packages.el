@@ -313,6 +313,7 @@
              :files ("dist" "*.el"))
     (gptel :host github
            :repo "karthink/gptel")
+    gptel-magit
     (gptel-quick :host github
                  :repo "karthink/gptel-quick")
     (mcp :host github
