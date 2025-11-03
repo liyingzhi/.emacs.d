@@ -70,6 +70,7 @@
     diredfl
     dired-subtree
     dired-quick-sort
+    dired-preview
     dirvish
     trashed
     elisp-demos
