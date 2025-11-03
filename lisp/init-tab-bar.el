@@ -22,13 +22,15 @@
 
 (tab-rename "Main")
 
-(global-set-keys
- '(("C-c l l" . ("Switch Tab" . tab-bar-switch-to-tab))
-   ("C-c l b" . consult-buffer-other-tab)
-   ("C-c l n" . ("Switch or Create Tab" . tab-bar-switch-or-create))
-   ("C-c l k" . ("Close Tab" . tab-bar-close-tab))
-   ("C-c l m" . ("Main Tab" .  tab-bar-switch-or-create-main))
-   ("C-c l r" . ("Rss Tab" . tab-bar-switch-or-create-rss))))
+(global-bind-keys
+ ("C-c l l" . ("Switch Tab" . tab-bar-switch-to-tab))
+ ("C-c l b" . consult-buffer-other-tab)
+ ("C-c l f" . find-file-other-tab)
+ ("C-c l B" . bookmark-jump-other-tab)
+ ("C-c l n" . ("Switch or Create Tab" . tab-bar-switch-or-create))
+ ("C-c l k" . ("Close Tab" . tab-bar-close-tab))
+ ("C-c l m" . ("Main Tab" .  tab-bar-switch-or-create-main))
+ ("C-c l r" . ("Rss Tab" . tab-bar-switch-or-create-rss)))
 
 (provide 'init-tab-bar)
 ;;; init-tab-bar.el ends here
