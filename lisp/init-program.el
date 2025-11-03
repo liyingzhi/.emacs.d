@@ -300,7 +300,6 @@ ARGS is ORIG-FN args."
 ;;; language
 (add-to-list 'auto-mode-alist '("\\.launch$" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.urdf\\'" . nxml-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-ts-mode))
 
@@ -312,6 +311,10 @@ ARGS is ORIG-FN args."
 ;; json
 (add-hook 'json-mode-hook #'(lambda () (treesit-parser-create 'json)))
 (setq json-ts-mode-indent-offset 4)
+
+;; markdown
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(setopt markdown-fontify-code-blocks-natively t)
 
 ;;; Local Variables
 
