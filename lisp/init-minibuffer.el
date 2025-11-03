@@ -317,7 +317,8 @@ DEFS is a plist associating completion categories to commands."
 (global-bind-keys
  ("C-c l s" . ("Load save tab" . bufferlo-bookmark-tab-load))
  ("C-c l K" . ("Kill save tab" . bufferlo-bookmark-close-current))
- 
+ ("C-c l t" . ("save tab" . bufferlo-bookmark-tab-save-current))
+
  ("C-c ;" . ("Switch scratch" . bufferlo-switch-to-scratch-buffer)))
 
 (bufferlo-mode)
