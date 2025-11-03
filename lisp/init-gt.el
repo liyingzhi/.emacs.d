@@ -203,6 +203,11 @@
 
 (add-hook #'gt-buffer-render-output-hook  #'visual-line-mode)
 
+;; for embark
+(with-eval-after-load 'embark
+  (keymap-binds embark-region-map
+    ("t" . gt-translate)))
+
 (keymap-binds gt-overlay-render-map
   ("C-g" . gt-delete-render-overlays)
   ("<escape>" . gt-delete-render-overlays)
