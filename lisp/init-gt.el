@@ -149,7 +149,30 @@
                                                        "\n\nTranslate the text to {{lang}} and return result:\n\n{{text}}")
                                        :stream t
                                        :if '(and not-word)))
-                       :render  (gt-buffer-render)))))
+                       :render  (gt-buffer-render)))
+        (after-source-insert . ,(gt-translator
+                                 :taker (gt-taker :text 'buffer :pick 'paragraph)
+                                 :engines (gt-google-engine)
+                                 :render (gt-insert-render :type 'after)))
+        (replace-source-chat-insert . ,(gt-translator
+                                        :taker (gt-taker :text 'paragraph :pick nil)
+                                        :engines (gt-google-engine)
+                                        :render (gt-insert-render :type 'replace)))
+        (only-translate-rare-insert . ,(gt-translator
+                                        :taker (gt-taker :text 'paragraph
+                                                         :pick 'word
+                                                         :pick-pred (lambda (w) (length> w 6)))
+                                        :engines (gt-google-engine)
+                                        :render (gt-insert-render :type 'after
+                                                                  :rfmt " (%s)"
+                                                                  :rface '(:foreground "grey"))))
+        ;; gt-overlay-render
+        (after-source-overlay . ,(gt-translator
+                                  :taker (gt-taker :text 'buffer :pick 'paragraph)
+                                  :engines (gt-google-engine)
+                                  :render (gt-overlay-render :type 'after
+                                                             :sface nil
+                                                             :rface 'font-lock-doc-face)))))
 
 (setq gt-tts-native-engine 'edge-tts)
 
