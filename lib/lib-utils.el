@@ -25,6 +25,7 @@
 ;;; Code:
 
 (require 'cl-lib)
+(require 'json)
 
 (defun convert-mode-to-hook (mode)
   "CONVERT MODE to hook."
@@ -435,6 +436,39 @@ and save only the numeric total to the kill ring."
           (kill-new number-only)
           (message result)))
     (message "请先选中区域")))
+
+(defun extract-song-titles-from-file (filepath)
+  "Read JSON content from FILEPATH and extract title strings from the 'songs' list."
+  (with-temp-buffer
+    (insert-file-contents filepath)
+    ;; Parse options: objects as alists, arrays as lists, keys as symbols
+    (let ((json-object-type 'alist)
+          (json-array-type  'list)
+          (json-key-type    'symbol))
+      (let* ((data  (json-read-from-string (buffer-string)))
+             (songs (alist-get 'songs data)))
+        (when (listp songs)
+          (delq nil (mapcar (lambda (song)
+                              (alist-get 'title song))
+                            songs)))))))
+
+(defun collect-lines-containing-substrings (substr-list)
+  "Find all lines containing any substring in SUBSTR-LIST in current buffer, return them as a list of strings.
+SUBSTR-LIST is a list of strings."
+  (let ((case-fold-search nil)  ;; Set to t for case-insensitive search
+        results)
+    (save-excursion
+      (goto-char (point-min))
+      (while (not (eobp))
+        (let ((line (thing-at-point 'line t)))
+          (when (cl-some (lambda (s)
+                           (and (stringp s)
+                                (string-match-p (regexp-quote s) line)))
+                         substr-list)
+            (push (string-trim line) results))
+          (forward-line 1)))
+      (nreverse results))))
+
 
 ;;; Local Variables
 

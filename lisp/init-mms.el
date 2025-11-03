@@ -34,24 +34,24 @@
     "Select and play a song from the current EMMS playlist."
     (interactive)
     (with-current-emms-playlist
-     (emms-playlist-mode-center-current)
-     (let* ((current-line-number (line-number-at-pos))
-            (lines (cl-loop
-                    with min-line-number = (line-number-at-pos (point-min))
-                    with buffer-text-lines = (split-string (buffer-string) "\n")
-                    with lines = nil
-                    for l in buffer-text-lines
-                    for n = min-line-number then (1+ n)
-                    unless (string-empty-p l)
-                    do (push (cons l n)
-                             lines)
-                    finally return (nreverse lines)))
-            (selected-line (completing-read "Song: " lines)))
-       (when selected-line
-         (let ((line (cdr (assoc selected-line lines))))
-           (goto-line line)
-           (emms-playlist-mode-play-smart)
-           (emms-playlist-mode-center-current))))))
+      (emms-playlist-mode-center-current)
+      (let* ((current-line-number (line-number-at-pos))
+             (lines (cl-loop
+                     with min-line-number = (line-number-at-pos (point-min))
+                     with buffer-text-lines = (split-string (buffer-string) "\n")
+                     with lines = nil
+                     for l in buffer-text-lines
+                     for n = min-line-number then (1+ n)
+                     unless (string-empty-p l)
+                     do (push (cons l n)
+                              lines)
+                     finally return (nreverse lines)))
+             (selected-line (completing-read "Song: " lines)))
+        (when selected-line
+          (let ((line (cdr (assoc selected-line lines))))
+            (goto-line line)
+            (emms-playlist-mode-play-smart)
+            (emms-playlist-mode-center-current))))))
 
   ;;;###autoload
   (defun +emms-add-to-favorites ()
@@ -176,6 +176,34 @@ If currently muted, restore previous volume; otherwise set volume to zero."
     '(("C-o" . my/transient-emms)
       ("F" . +emms-add-to-favorites))))
 
+;;; select roi songs
+(defun filter-music-buffer-and-save-to-file (json-filepath output-filepath)
+  "If current buffer is named `emms-playlist-buffer-name', read JSON file JSON-FILEPATH to extract titles.
+then prompt user to continue. If user answers yes, filter current buffer to collect matching lines,
+then write results to OUTPUT-FILEPATH, one element per line."
+  (interactive
+   (list (read-file-name "JSON file path: ")
+         (read-file-name "Save results to file (output path): ")))
+  ;; Check buffer name
+  (unless (string= (buffer-name) emms-playlist-buffer-name)
+    (error "Current buffer is not Emms-Playlist-Buffer, operation cancelled"))
+  ;; Extract title list
+  (let ((my-roi-song-names (extract-song-titles-from-file json-filepath)))
+    (unless (listp my-roi-song-names)
+      (error "Failed to extract title list from JSON"))
+    ;; Prompt user to continue
+    (when (y-or-n-p (format "Extracted %d titles from %s. Continue filtering current buffer? "
+                            (length my-roi-song-names) json-filepath))
+      ;; Collect matching lines
+      (let ((matched-lines (collect-lines-containing-substrings my-roi-song-names)))
+        ;; Write to output file
+        (with-temp-buffer
+          (dolist (line matched-lines)
+            (insert line "\n"))
+          (write-region (point-min) (point-max) output-filepath))
+        (message "Filtering completed, %d lines written to %s" (length matched-lines) output-filepath)))))
+
+
 ;;; menu
 
 ;; autoload
@@ -229,6 +257,7 @@ If currently muted, restore previous volume; otherwise set volume to zero."
     ("l" " load playlist" (lambda ()
                              (interactive)
                              (emms-play-playlist +favorites-playlist)))
+    ("l" " filter roi and export" filter-music-buffer-and-save-to-file)
     ("G" " get entry" +emms-add-to-favorites :transient t)
     ("g" " goto entry" +emms-select-song)]
    ["Global/External"
