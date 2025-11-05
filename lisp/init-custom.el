@@ -73,31 +73,11 @@
   :group 'user
   :type 'number)
 
-(defcustom user/font-mac-size 230
-  "The font size in mac."
-  :group 'user
-  :type 'number)
-
-(defcustom user/font-win-size 110
-  "The font size in windows."
-  :group 'user
-  :type 'number)
-
-(defcustom user/font-linux-size 190
-  "The font size in linux."
-  :group 'user
-  :type 'number)
-
 (defcustom user/*term-default-font* nil
   "Font name for term."
   :group 'user
   :type '(choice (const :tag "None" nil)
                  (string :tag "font name")))
-
-(defcustom user/ligature nil
-  "Is use ligature."
-  :group 'user
-  :type 'boolean)
 
 (defcustom user/catppuccin-flavor 'mocha
   "Flavor for catppuccin theme."
