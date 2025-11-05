@@ -15,9 +15,21 @@
   "Check if font with FONT-NAME is available."
   (find-font (font-spec :name font-name)))
 
+(defun set-face-like-default (face)
+  "Set FACE attributes to match the default face."
+  (set-face-attribute face nil
+                      :family (face-attribute 'default :family)
+                      :height (face-attribute 'default :height)
+                      :weight (face-attribute 'default :weight)
+                      :slant (face-attribute 'default :slant)))
+
 (defun setup-fonts (&optional font-size)
   "Setup fonts.
 FONT-SIZE is the default font size."
+
+  ;; Setting the default
+
+
   (when (display-graphic-p)
     ;; Set default font
     (cl-loop for font in '("MonoLisa Lucius" "Jetbrains Mono" "Source Code Pro" "PragmataPro Mono Liga"
@@ -31,6 +43,8 @@ FONT-SIZE is the default font size."
                                         :height (if font-size
                                                     font-size
                                                   user/font-size)))
+    (set-face-like-default 'fixed-pitch-serif)
+    (set-face-like-default 'variable-pitch)
 
     ;; Set mode-line font
     ;; (cl-loop for font in '("Menlo" "SF Pro Display" "Helvetica")
@@ -42,14 +56,21 @@ FONT-SIZE is the default font size."
     ;;                   (set-face-attribute 'mode-line-inactive nil :family font :height 120)))
 
     ;; Specify font for all unicode characters
+    ;; https://www.wfonts.com/font/symbola
     (cl-loop for font in '("Segoe UI Symbol" "Symbola" "Symbol")
              when (font-installed-p font)
              return (if (< emacs-major-version 27)
                         (set-fontset-font "fontset-default" 'unicode font nil 'prepend)
                       (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
 
+    ;; "Emacs 28 now has 'emoji . before, emoji is part of 'symbol"
+    ;; 根据上面这句话应该写成 'emoji 就可以了，但是由于 Emoji 本身
+    ;; 分布比较散，所以还是先设置 'unicode 后再设置 CJK 比较靠谱。
+    ;; 特例：'emoji 就会导致 ⛈️ fallback 到 ⛈
+    ;; https://emacs-china.org/t/emacs/15676/34
+
     ;; Emoji
-    (cl-loop for font in '("Noto Color Emoji" "Apple Color Emoji" "Segoe UI Emoji")
+    (cl-loop for font in '("Noto Color Emoji" "Apple Color Emoji" "Noto Emoji" "Segoe UI Emoji")
              when (font-installed-p font)
              return (cond
                      ((< emacs-major-version 27)
@@ -64,7 +85,52 @@ FONT-SIZE is the default font size."
              when (font-installed-p font)
              return (progn
                       (setq face-font-rescale-alist `((,font . 1.2)))
-                      (set-fontset-font t 'han (font-spec :family font))))))
+                      (dolist (charset '(kana han symbol cjk-misc bopomofo))
+                        (set-fontset-font t charset
+                                          (font-spec :family font)))))
+
+    ;; Setting fall-back fonts
+    ;; https://idiocy.org/emacs-fonts-and-fontsets.html
+    (dolist (font '("Jigmo" "Jigmo2" "Jigmo3"))
+      (when (member font (font-family-list))
+        (set-fontset-font "fontset-default" 'han font nil 'append)))
+
+    ;; Force Emacs to search by using font-spec
+    (set-fontset-font t 'han (font-spec :script 'han) nil 'append)
+
+    (when sys/linuxp
+      ;; Set character composition rule for U+FE0F on Linux 2025-10-31
+      ;;
+      ;; Background:
+      ;; On some Linux systems, U+FE0F (VARIATION SELECTOR-16) may display as a box
+      ;; instead of the expected variant display (such as a colored emoji). This is
+      ;; due to the lack of proper character composition rules.
+      ;;
+      ;; Solution:
+      ;; Use the `set-char-table-range` function to set a composition rule for U+FE0F
+      ;; in the `composition-function-table`. This ensures it combines correctly with
+      ;; preceding characters to display as the intended variant.
+      ;;
+      ;; To avoid unnecessary settings on non-Linux systems, the `when` conditional
+      ;; is used to apply this rule only in a Linux environment.
+      ;; https://t.me/emacs_china/297476
+      (set-char-table-range composition-function-table #xFE0F '(["\\c.\\c^+" 1 compose-gstring-for-graphic])))
+
+    ;; Some characters are not being covered, so this workaround is used. 2025-04-07
+    ;; https://github.com/ryanoasis/nerd-fonts/wiki/Glyph-Sets-and-Code-Points
+    (let ((ranges '((#xE5FA . #xE6B7)    ;; Seti-UI + Custom
+                    (#xE700 . #xE8EF)    ;; Devicons
+                    (#xED00 . #xF2FF)    ;; Font Awesome
+                    (#xE200 . #xE2A9)    ;; Font Awesome Extension
+                    (#xF0001 . #xF1AF0)  ;; Material Design Icons
+                    (#xE300 . #xE3E3)    ;; Weather
+                    (#xF400 . #xF533)    ;; Octicons
+                    (#x2665 . #x2665)    ;; Octicons
+                    (#x26A1 . #x26A1)    ;; Octicons
+                    (#xE000 . #xE00A)    ;; Pomicons
+                    (#xEA60 . #xEC1E)))) ;; Codicons
+      (dolist (range ranges)
+        (set-fontset-font t range "Symbols Nerd Font Mono")))))
 
 ;;; setup default font
 (add-hook 'window-setup-hook #'setup-fonts)
