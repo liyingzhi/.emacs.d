@@ -257,7 +257,7 @@ then write results to OUTPUT-FILEPATH, one element per line."
     ("l" " load playlist" (lambda ()
                              (interactive)
                              (emms-play-playlist +favorites-playlist)))
-    ("l" " filter roi and export" filter-music-buffer-and-save-to-file)
+    ("E" " filter roi and export" filter-music-buffer-and-save-to-file)
     ("G" " get entry" +emms-add-to-favorites :transient t)
     ("g" " goto entry" +emms-select-song)]
    ["Global/External"
