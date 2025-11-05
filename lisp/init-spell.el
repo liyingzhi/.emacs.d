@@ -14,13 +14,13 @@
 ;;; flyspell
 (set-face-attribute 'flyspell-incorrect nil
                     :underline '(:style line :color "Pink")
-                    :foreground nil
-                    :background nil)
+                    :foreground 'unspecified
+                    :background 'unspecified)
 
 (set-face-attribute 'flyspell-duplicate nil
                     :underline '(:style line :color "DeepPink")
-                    :foreground nil
-                    :background nil)
+                    :foreground 'unspecified
+                    :background 'unspecified)
 
 ;;; flyspell-correct
 (with-eval-after-load 'flyspell
