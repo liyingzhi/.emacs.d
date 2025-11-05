@@ -203,6 +203,8 @@
 
 (add-hook #'gt-buffer-render-output-hook  #'visual-line-mode)
 
+(setq gt-source-text-transformer #'(lambda (text) (replace-regexp-in-string "[\r\n]" " " text)))
+
 ;; for embark
 (with-eval-after-load 'embark
   (keymap-binds embark-region-map
