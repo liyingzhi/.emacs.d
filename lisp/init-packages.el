@@ -228,7 +228,7 @@
     (prism :host github :repo "alphapapa/prism.el")
     casual
     casual-symbol-overlay
-    (time-zones :host github :repo "xenodium/time-zones")
+    time-zones
     inhibit-mouse))
 
 (defvar *package-mms-install-list*
