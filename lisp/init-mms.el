@@ -220,55 +220,55 @@ then write results to OUTPUT-FILEPATH, one element per line."
   ["EMMS"
    ["Controls"
     :pad-keys t
-    ("P" "⏯  Play/Pause" emms-pause :transient t)
-    ("S" "⏹  Stop" emms-stop :transient t)
-    ("s" "⏲  Seek to time" emms-seek-to :transient t)
-    (">" "⏭  Next" emms-next :transient t)
-    ("<" "⏮  Back (Previous)" emms-previous :transient t)
+    ("P" "Play/Pause" emms-pause :transient t)
+    ("S" "Stop" emms-stop :transient t)
+    ("s" "Seek to time" emms-seek-to :transient t)
+    (">" "Next" emms-next :transient t)
+    ("<" "Back (Previous)" emms-previous :transient t)
                                         ; I want the transient to stay open on just these commands, so I can easily repeat them
-    ("b" "⏪ Back rewind" emms-seek-backward :transient t)
-    ("f" "⏩ Fast-Forward" emms-seek-forward :transient t)]
+    ("b" "Back rewind" emms-seek-backward :transient t)
+    ("f" "Fast-Forward" emms-seek-forward :transient t)]
    ["Playlist"
     :pad-keys t
-    ("h" "  history" emms-history-load)
-    ("L" "  Load playlist"
+    ("h" "History" emms-history-load)
+    ("L" "Load playlist"
      (lambda (&optional arg)
        (interactive "P")
        (if arg
            (call-interactively #'emms-play-playlist)
          (emms-play-playlist user/mms-playlist-file))))
-    ("%" "  Sort playlist" emms-sort :transient t)
-    ("O" "🔀 Random track" emms-random :transient t)
-    ("R" "🔀 toggle shuffle" emms-toggle-random-playlist :transient t)
-    ("o" "🔁 toggle repeat track" emms-toggle-repeat-track :transient t)
-    ("r" "🔁 toggle repeat list" emms-toggle-repeat-playlist :transient t)
+    ("%" "Sort playlist" emms-sort :transient t)
+    ("O" "Random track" emms-random :transient t)
+    ("R" "Toggle shuffle" emms-toggle-random-playlist :transient t)
+    ("o" "Toggle repeat track" emms-toggle-repeat-track :transient t)
+    ("r" "Toggle repeat list" emms-toggle-repeat-playlist :transient t)
     ;; ("N" "Cue Next" emms-cue-next :transient t)
     ;; ("P" "Cue Previous" emms-cue-previous :transient t)
     ]
    [:description
     mms/emms--volumes-description
     :pad-keys t
-    ("m" "  Mute" emms-player-mpv-mute-volume :transient t)
-    ("z" "  Zero" emms-player-mpv-zero-volume :transient t)
-    ("=" "  Vol+" emms-player-mpv-raise-volume :transient t)
-    ("-" "  Vol-" emms-player-mpv-lower-volume :transient t)]
+    ("m" "Mute" emms-player-mpv-mute-volume :transient t)
+    ("z" "Zero" emms-player-mpv-zero-volume :transient t)
+    ("=" "Vol+" emms-player-mpv-raise-volume :transient t)
+    ("-" "Vol-" emms-player-mpv-lower-volume :transient t)]
    ["Favorites"
     :pad-keys t
-    ("l" " load playlist" (lambda ()
+    ("l" "Load playlist" (lambda ()
                              (interactive)
                              (emms-play-playlist +favorites-playlist)))
-    ("E" " filter roi and export" filter-music-buffer-and-save-to-file)
-    ("G" " get entry" +emms-add-to-favorites :transient t)
-    ("g" " goto entry" +emms-select-song)]
+    ("E" "Filter roi and export" filter-music-buffer-and-save-to-file)
+    ("G" "Get entry" +emms-add-to-favorites :transient t)
+    ("g" "Goto entry" +emms-select-song)]
    ["Global/External"
     :pad-keys t
-    ("d" "✔️ emms mark with dired" emms-play-dired)
-    ("D" "📂 emms play directory" emms-play-directory)
-    ("F" "🔍 emms play find" emms-play-find)
+    ("d" "Emms mark with dired" emms-play-dired)
+    ("D" "Emms play directory" emms-play-directory)
+    ("F" "Emms play find" emms-play-find)
     ;; ("u" "Music dir" tsa/jump-to-music) ;; invokes a bookmark, which in turn hops to my bookmarked music directory
     ;; ("M" "   Modeline" emms-mode-line-mode)
-    ("I" "ℹ️ current info" emms-show)
-    ("e" "🎵 emms" emms)]])
+    ("I" "Current info" emms-show)
+    ("e" "Emms" emms)]])
 
 ;;; keymap
 
