@@ -33,29 +33,65 @@
 ;;       '((sequence "TODO(t!)" "WAIT(w@/!)" "|" "DONE(d@/!)" "CANCEL(c@/!)")
 ;;         (sequence "REPORT(r!)" "BUG(b@/!)" "|" "FIXED(f@/!)")))
 
+;;; org latex preview
 (setq org-format-latex-options (plist-put org-format-latex-options :scale user/org-format-latex-options-scale))
 
-(setopt
- org-latex-compiler "xelatex"
- ;; org-latex-src-block-backend 'minted ;; ‘org-latex-listings’ is obsolete since 9.6; use ‘org-latex-src-block-backend’ instead.
- ;; org-latex-minted-options '(("breaklines")
- ;;                            ("linenos")
- ;;                            ("frame" "lines")
- ;;                            ("bgcolor" "lightgray")
- ;;                            ("numbersep=" "5pt"))
- org-latex-packages-alist
- '(;; hook right arrow with text above and below
-   ;; https://tex.stackexchange.com/questions/186896/xhookrightarrow-and-xmapsto
-   ("" "svg" t)
-   ("" "svg-extract" t)
-   ("" "minted" nil)
-   ;; for chinese preview
-   ;; ("fontset=LXGW WenKai,UTF8" "ctex" t)
-   ("UTF8" "ctex" t))
- org-format-latex-header "\\documentclass{article}
+(setopt org-preview-latex-process-alist
+        '((xelatex :programs
+                   ("xelatex" "dvisvgm")
+                   :description "xdv > svg"
+                   :message "you need to install the programs: xelatex and dvisvgm."
+                   :use-xcolor t
+                   :image-input-type "xdv"
+                   :image-output-type "svg"
+                   :image-size-adjust (1.5 . 1.2)
+                   :latex-compiler
+                   ("xelatex -no-pdf -interaction nonstopmode -shell-escape -output-directory %o %f")
+                   :image-converter
+                   ("dvisvgm %f -e -n -b min -c %S -o %O")))
+        org-preview-latex-default-process 'xelatex
+
+        ;; org-latex-src-block-backend 'minted ;; ‘org-latex-listings’ is obsolete since 9.6; use ‘org-latex-src-block-backend’ instead.
+        ;; org-latex-minted-options '(("breaklines")
+        ;;                            ("linenos")
+        ;;                            ("frame" "lines")
+        ;;                            ("bgcolor" "lightgray")
+        ;;                            ("numbersep=" "5pt"))
+
+        org-latex-packages-alist '(;; hook right arrow with text above and below
+                                   ;; https://tex.stackexchange.com/questions/186896/xhookrightarrow-and-xmapsto
+                                   ("" "svg" t)
+                                   ("" "svg-extract" t)
+
+                                   ("" "mathtools"   t)
+                                   ("" "amsmath"     t)
+                                   ("" "amssymb"     t)
+
+                                   ;; english or math fonts
+                                   ("" "arev"        t)
+                                   ("" "arevmath"    t)
+
+                                   ;; for mapsfrom
+                                   ;; see: https://tex.stackexchange.com/questions/26508/left-version-of-mapsto
+                                   ("" "stmaryrd"    t)
+                                   ("" "mathrsfs"    t)
+                                   ("" "tikz"        t)
+                                   ("" "tikz-cd"     t)
+                                   ;; see https://castel.dev/post/lecture-notes-2/
+                                   ("" "import"      t)
+                                   ("" "xifthen"     t)
+                                   ("" "pdfpages"    t)
+                                   ("" "transparent" t)
+                                   ;; algorithm
+                                   ;; https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
+                                   ("ruled,linesnumbered" "algorithm2e" t)
+                                   ;; You should not load the algorithm2e, algcompatible, algorithmic packages if you have already loaded algpseudocode.
+                                   ;; ("" "algpseudocode" t)
+                                   ;; for chinese preview
+                                   ("UTF8" "ctex"    t))
+
+        org-format-latex-header "\\documentclass{ctexart}
 \\usepackage[usenames]{color}
-\\usepackage{xeCJK}
-\\usepackage{amsmath}
 \\setCJKmainfont{LXGW WenKai}
 \\setmainfont{PragmataPro}
 \[DEFAULT-PACKAGES]
@@ -73,8 +109,7 @@
 \\addtolength{\\textheight}{-\\footskip}
 \\addtolength{\\textheight}{-3cm}
 \\setlength{\\topmargin}{1.5cm}
-\\addtolength{\\topmargin}{-2.54cm}"
- )
+\\addtolength{\\topmargin}{-2.54cm}")
 
 (add-hook 'org-mode-hook #'org-cdlatex-mode)
 
@@ -111,11 +146,11 @@
          (read (current-buffer)))))))
 
 ;; Multiple LaTeX passes for bibliographies
-(setq org-latex-pdf-process
-      '("%latex -interaction nonstopmode -output-directory %o %f"
-        "%bib %b"
-        "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+(setq org-latex-pdf-process '("%latex -interaction nonstopmode -output-directory %o %f"
+                              "%bib %b"
+                              "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
+                              "%latex -shell-escape -interaction nonstopmode -output-directory %o %f")
+      org-latex-compiler "xelatex")
 
 ;; Clean temporary files after export
 (setq org-latex-logfiles-extensions
@@ -140,6 +175,7 @@
 (with-eval-after-load 'ox
   (require 'ox-epub))
 
+;; export html
 (setq org-html-validation-link nil)
 
 ;;; Org function
@@ -508,6 +544,7 @@ prepended to the element after the #+HEADER: tag."
                           (interactive)
                           (insert "\\[  \\]")
                           (backward-char 3)))
+    ("E" "cdlatex environment" org-cdlatex-environment-indent)
     ("L" "Convert to latex" latex-math-from-calc :if region-active-p)]
    ["Misc"
     ("v" "add-file-local-variable" add-file-local-variable)
