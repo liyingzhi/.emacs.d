@@ -227,15 +227,21 @@ an argument, unconditionally call `org-insert-heading'."
 
 ;; Make invisible parts of Org elements appear visible
 (add-hook 'org-mode-hook 'org-appear-mode)
-;; (add-hook 'org-mode-hook 'org-fragtog-mode)
 
-(require 'org-latex-preview)
-(plist-put org-latex-preview-appearance-options
-           :page-width 0.8)
-(add-hook 'org-mode-hook 'org-latex-preview-mode)
+;; for emacs built-in org show raw latex fragments when at preview point
+;;================start===================
+(add-hook 'org-mode-hook 'org-fragtog-mode)
+;;================end===================
 
-(setq org-latex-preview-mode-display-live t)
-(setq org-latex-preview-mode-update-delay 0.25)
+;; for latex-preview enhanced branch
+;;================start===================
+;; (require 'org-latex-preview)
+;; (plist-put org-latex-preview-appearance-options
+;;            :page-width 0.8)
+;; (add-hook 'org-mode-hook 'org-latex-preview-mode)
+;; (setq org-latex-preview-mode-display-live t)
+;; (setq org-latex-preview-mode-update-delay 0.25)
+;;================end===================
 
 ;; 中文标记隐藏空格
 (unless sys/macp
