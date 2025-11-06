@@ -100,6 +100,16 @@
 (require 'ox-org)
 
 ;; LaTeX PDF Export settings
+
+(with-eval-after-load 'ox-latex
+  (add-list-to-list
+   'org-latex-classes
+   (let ((filename (expand-file-name "config/template/org-latex-class.el" user-emacs-directory)))
+     (when (file-exists-p filename)
+       (with-temp-buffer
+         (insert-file-contents filename)
+         (read (current-buffer)))))))
+
 ;; Multiple LaTeX passes for bibliographies
 (setq org-latex-pdf-process
       '("%latex -interaction nonstopmode -output-directory %o %f"
