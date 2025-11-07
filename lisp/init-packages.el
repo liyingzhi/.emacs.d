@@ -194,6 +194,7 @@
     (koishi-theme :host github :repo "gynamics/koishi-theme.el")
     miasma-theme
     catppuccin-theme
+    (modus-catppuccin :host gitlab :repo "magus/modus-catppuccin")
     kanagawa-themes
     nerd-icons
     nerd-icons-dired
