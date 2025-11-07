@@ -38,7 +38,9 @@
 ;; https://github.com/Adhumunt/NotesTeX
 ("zh-latex-notes"
  "\\documentclass{ctexart}
-  \\usepackage{NotesTeXV3}"
+  \\usepackage{NotesTeXV3}
+  \\setCJKmainfont{LXGW WenKai}"
+ ;; ("\\clearpage\\part{%s}" . "\\clearpage\\part*{%s}")
  ("\\section{%s}" . "\\section*{%s}")
  ("\\subsection{%s}" . "\\subsection*{%s}")
  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")

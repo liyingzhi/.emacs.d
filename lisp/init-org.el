@@ -89,28 +89,30 @@
                                    ;; for chinese preview
                                    ("UTF8" "ctex"    t))
         ;; `arev' and `arevmath' is font packages
-        org-format-latex-header "\\documentclass{ctexart}
-\\usepackage[usenames]{color}
-\\setCJKmainfont{LXGW WenKai}
-\\setmainfont{PragmataPro}
-\[DEFAULT-PACKAGES]
-\[PACKAGES]
-\\usepackage{arev}
-\\usepackage{arevmath}
-\\pagestyle{empty}             % do not remove
-% The settings below are copied from fullpage.sty
-\\setlength{\\textwidth}{\\paperwidth}
-\\addtolength{\\textwidth}{-3cm}
-\\setlength{\\oddsidemargin}{1.5cm}
-\\addtolength{\\oddsidemargin}{-2.54cm}
-\\setlength{\\evensidemargin}{\\oddsidemargin}
-\\setlength{\\textheight}{\\paperheight}
-\\addtolength{\\textheight}{-\\headheight}
-\\addtolength{\\textheight}{-\\headsep}
-\\addtolength{\\textheight}{-\\footskip}
-\\addtolength{\\textheight}{-3cm}
-\\setlength{\\topmargin}{1.5cm}
-\\addtolength{\\topmargin}{-2.54cm}")
+        org-format-latex-header
+        (string-join
+         '("\\documentclass{ctexart}"
+           "\\usepackage[usenames]{color}"
+           "\\setCJKmainfont{LXGW WenKai}"
+           "\\setmainfont{PragmataPro}"
+           "\[DEFAULT-PACKAGES]"
+           "\[PACKAGES]"
+           "\\usepackage{arev}"
+           "\\usepackage{arevmath}"
+           "\\pagestyle{empty}             % do not remove"
+           "% The settings below are copied from fullpage.sty"
+           "\\setlength{\\textwidth}{\\paperwidth}"
+           "\\addtolength{\\textwidth}{-3cm}"
+           "\\setlength{\\oddsidemargin}{1.5cm}"
+           "\\addtolength{\\oddsidemargin}{-2.54cm}"
+           "\\setlength{\\evensidemargin}{\\oddsidemargin}"
+           "\\setlength{\\textheight}{\\paperheight}"
+           "\\addtolength{\\textheight}{-\\headheight}"
+           "\\addtolength{\\textheight}{-\\headsep}"
+           "\\addtolength{\\textheight}{-\\footskip}"
+           "\\addtolength{\\textheight}{-3cm}"
+           "\\setlength{\\topmargin}{1.5cm}"
+           "\\addtolength{\\topmargin}{-2.54cm}")))
 
 (add-hook 'org-mode-hook #'org-cdlatex-mode)
 
