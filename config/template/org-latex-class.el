@@ -9,6 +9,8 @@
  ;;    \\setmainfont{PragmataPro}
  ;;    \[DEFAULT-PACKAGES]
  ;;    \[PACKAGES]
+ ;;    \\usepackage{arev}
+ ;;    \\usepackage{arevmath}
  ;;    \\pagestyle{empty}             % do not remove
  ;;    % The settings below are copied from fullpage.sty
  ;;    \\setlength{\\textwidth}{\\paperwidth}
@@ -28,7 +30,13 @@
  ;;  ("\\section{%s}" . "\\section*{%s}")
  ;;  ("\\subsection{%s}" . "\\subsection*{%s}")
  ;;  ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-("Notes"
+
+
+;; To set the fonts, you can refer to `org-format-latex-header'
+;; Make sure to have NotesTeXV3.sty in the export directory
+;; Add #+LATEX_CLASS: Notes to the org header
+;; https://github.com/Adhumunt/NotesTeX
+("zh-latex-notes"
  "\\documentclass{ctexart}
   \\usepackage{NotesTeXV3}"
  ("\\section{%s}" . "\\section*{%s}")
@@ -44,6 +52,8 @@
        \\setmainfont{PragmataPro}
        \[DEFAULT-PACKAGES]
        \[PACKAGES]
+       \\usepackage{arev}
+       \\usepackage{arevmath}
        \\pagestyle{empty}             % do not remove
        % The settings below are copied from fullpage.sty
        \\setlength{\\textwidth}{\\paperwidth}
@@ -70,6 +80,8 @@
        \\setmainfont{PragmataPro}
        \[DEFAULT-PACKAGES]
        \[PACKAGES]
+       \\usepackage{arev}
+       \\usepackage{arevmath}
        \\pagestyle{empty}             % do not remove
        % The settings below are copied from fullpage.sty
        \\setlength{\\textwidth}{\\paperwidth}
@@ -97,6 +109,8 @@
        \\setmainfont{PragmataPro}
        \[DEFAULT-PACKAGES]
        \[PACKAGES]
+       \\usepackage{arev}
+       \\usepackage{arevmath}
        \\pagestyle{empty}             % do not remove
        % The settings below are copied from fullpage.sty
        \\setlength{\\textwidth}{\\paperwidth}

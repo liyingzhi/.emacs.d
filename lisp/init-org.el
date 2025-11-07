@@ -52,24 +52,22 @@
         org-preview-latex-default-process 'xelatex
 
         ;; org-latex-src-block-backend 'minted ;; ‘org-latex-listings’ is obsolete since 9.6; use ‘org-latex-src-block-backend’ instead.
-        ;; org-latex-minted-options '(("breaklines")
-        ;;                            ("linenos")
-        ;;                            ("frame" "lines")
-        ;;                            ("bgcolor" "lightgray")
-        ;;                            ("numbersep=" "5pt"))
+        org-latex-src-block-backend 'minted
+        org-latex-minted-options '(("breaklines")
+                                   ("linenos")
+                                   ("frame" "lines")
+                                   ("bgcolor" "lightgray")
+                                   ("numbersep=" "5pt")
+                                   ("fontsize=" "\\small"))
 
         org-latex-packages-alist '(;; hook right arrow with text above and below
                                    ;; https://tex.stackexchange.com/questions/186896/xhookrightarrow-and-xmapsto
-                                   ("" "svg" t)
+                                   ("" "svg"         t)
                                    ("" "svg-extract" t)
 
                                    ("" "mathtools"   t)
                                    ("" "amsmath"     t)
                                    ("" "amssymb"     t)
-
-                                   ;; english or math fonts
-                                   ("" "arev"        t)
-                                   ("" "arevmath"    t)
 
                                    ;; for mapsfrom
                                    ;; see: https://tex.stackexchange.com/questions/26508/left-version-of-mapsto
@@ -82,6 +80,7 @@
                                    ("" "xifthen"     t)
                                    ("" "pdfpages"    t)
                                    ("" "transparent" t)
+                                   ("" "minted"      t)
                                    ;; algorithm
                                    ;; https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
                                    ("ruled,linesnumbered" "algorithm2e" t)
@@ -89,13 +88,15 @@
                                    ;; ("" "algpseudocode" t)
                                    ;; for chinese preview
                                    ("UTF8" "ctex"    t))
-
+        ;; `arev' and `arevmath' is font packages
         org-format-latex-header "\\documentclass{ctexart}
 \\usepackage[usenames]{color}
 \\setCJKmainfont{LXGW WenKai}
 \\setmainfont{PragmataPro}
 \[DEFAULT-PACKAGES]
 \[PACKAGES]
+\\usepackage{arev}
+\\usepackage{arevmath}
 \\pagestyle{empty}             % do not remove
 % The settings below are copied from fullpage.sty
 \\setlength{\\textwidth}{\\paperwidth}
