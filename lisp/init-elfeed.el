@@ -203,6 +203,7 @@ and the download is cancelled."
       ("C-c C-f" . elfeed-tube-fetch)
       ("C-c C-l" . elfeed-tube-mpv-follow-mode)
       ("C-c C-w" . elfeed-tube-mpv-where)
+      ("C-c C-m" . elfeed-tube-mpv)
       ("C-x C-s" . elfeed-tube-save))))
 
 (with-eval-after-load 'elfeed-search
