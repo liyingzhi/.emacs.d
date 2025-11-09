@@ -39,6 +39,9 @@
 ("zh-latex-notes"
  "\\documentclass{ctexart}
   \\usepackage{NotesTeXV3}
+  \[DEFAULT-PACKAGES]
+  \[PACKAGES]
+  \[EXTRA]
   \\setCJKmainfont{LXGW WenKai}"
  ;; ("\\clearpage\\part{%s}" . "\\clearpage\\part*{%s}")
  ("\\section{%s}" . "\\section*{%s}")
