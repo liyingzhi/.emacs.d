@@ -207,6 +207,9 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
 (global-set-keys
  '((("M-?" "s-?") . gptel-quick)))
 
+(add-hook 'gptel-mode-hook
+          #'gptel-highlight-mode)
+
 (require 'init-gptel-aibo)
 
 (add-hook 'magit-mode-hook #'gptel-magit-install)
