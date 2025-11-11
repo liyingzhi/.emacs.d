@@ -120,6 +120,7 @@
                                           " without any explanation or markdown code fences or org code fences."
                                           " translate chinese to english."))
                     (docstr . ,(make-prompt (alist-get 'docstr prompt-templates) nil))
+                    (emacs . ,(make-prompt (alist-get 'emacs prompt-templates) nil))
                     (translate-english . ,(make-prompt (alist-get 'translate prompt-templates)
                                                        '(("to" . "english")
                                                          ("user_name" . "Fly_Lilee"))))))
@@ -184,6 +185,15 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
     ["Quick Tools"
      ("q t" "Translate select regions to english" gptel-translate-to-english)]))
 
+;; preset
+(gptel-make-preset 'emacs
+  :description "Emacs 大师"
+  :system (alist-get 'emacs gptel-directives)
+  :tools '("read_documentation"))
+
+(gptel-make-preset 'elisp-document
+  :description "Elisp 文档大师"
+  :system (alist-get 'docstr gptel-directives))
 
 (require 'gptel-quick)
 (setq gptel-quick-system-message
