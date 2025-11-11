@@ -120,6 +120,7 @@
                                           " without any explanation or markdown code fences or org code fences."
                                           " translate chinese to english."))
                     (docstr . ,(make-prompt (alist-get 'docstr prompt-templates) nil))
+                    (ragmacs . ,(make-prompt (alist-get 'ragmacs prompt-templates) nil))
                     (emacs . ,(make-prompt (alist-get 'emacs prompt-templates) nil))
                     (translate-english . ,(make-prompt (alist-get 'translate prompt-templates)
                                                        '(("to" . "english")
@@ -221,7 +222,7 @@ If the buffer is empty, the prompt is prefixed with \"*** \".  If the buffer alr
 (defun gptel-global-chat (message)
   "Global chat with MESSAGE."
   (interactive (list (read-string (format "%s\nInput: "
-                                          (propertize "@emacs 可以读取 Emacs 文档\n@elisp-document 用来写 elisp 函数的文档"
+                                          (propertize "@emacs 可以读取 Emacs 文档\n@elisp-document 用来写 elisp 函数的文档\n@ragmacs 支持读取源码和变量"
                                                       'face 'font-lock-comment-face))
                                   (if (and (use-region-p)
                                            (equal major-mode 'emacs-lisp-mode))
@@ -267,7 +268,7 @@ If the buffer is empty, the prompt is prefixed with \"*** \".  If the buffer alr
                                 ""))))
     (gptel--create-buffer buffer-name prompt)))
 
-;; preset
+;;; preset
 (gptel-make-preset 'default
   :description "Default"
   :system (alist-get 'default gptel-directives)
@@ -284,6 +285,14 @@ If the buffer is empty, the prompt is prefixed with \"*** \".  If the buffer alr
   :description "Elisp 文档大师"
   :system (alist-get 'docstr gptel-directives)
   :tools '("read_documentation")
+  :use-tools t)
+
+;; ragmacs
+(gptel-make-preset 'ragmacs
+  :descr "Ragmacs"
+  :pre (lambda () (require 'ragmacs))
+  :system (alist-get 'ragmacs gptel-directives)
+  :tools '("introspection")
   :use-tools t)
 
 (require 'gptel-quick)

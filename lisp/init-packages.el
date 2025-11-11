@@ -322,6 +322,7 @@
     (gptel :host github
            :repo "karthink/gptel")
     gptel-magit
+    (ragmacs :host github :repo "positron-solutions/ragmacs")
     (gptel-quick :host github
                  :repo "karthink/gptel-quick")
     (mcp :host github
