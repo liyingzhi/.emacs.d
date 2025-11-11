@@ -52,7 +52,10 @@
                     (consult-location (styles orderless fussy basic))
                     (org-heading (styles orderless fussy basic))
                     (bookmark (styles orderless fussy basic))
-                    (unicode-name (styles orderless fussy basic))))
+                    (unicode-name (styles orderless fussy basic))
+                    ;; for `customize-set-variable' choice value completing not set category-specific, category is nil
+                    ;; (nil (styles orderless fussy basic))
+                    ))
 
 ;;; corfu
 (require 'init-corfu)
