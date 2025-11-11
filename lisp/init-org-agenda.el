@@ -110,6 +110,7 @@ continue, per `org-agenda-skip-function'."
                 (org-agenda-block-separator nil)))
     (agenda "" ((org-agenda-overriding-header "\nPending scheduled tasks")
                 (org-agenda-time-grid nil)
+                (org-habit-show-habits nil)
                 (org-agenda-start-on-weekday nil)
                 (org-agenda-span 1)
                 (org-agenda-show-all-dates nil)
