@@ -188,7 +188,7 @@
  (:key "S" :description "Sudo edit find file" :command sudo-edit-find-file :filename "sudo-edit")
  (:key "e" :description "Toggle sdcv" :command lsp-bridge-toggle-sdcv-helper :filename "init-lsp-bridge")
  (:key "D" :description "Docker" :command docker)
- (:key "p" :description "peek code" :command peek-overlay-dwim :filename "init-peek")
+ (:key "P" :description "peek code" :command peek-overlay-dwim :filename "init-peek")
  (:key "d" :description "Devdocs" :command devdocs-lookup)
  (:key "s" :description "screenshot" :command screenshot)
  (:key "C" :description "Insert color" :command my-insert-color-hex :filename "init-func")
@@ -196,9 +196,11 @@
  (:key "G" :description "gptel menu" :command gptel-menu)
  (:key "h" :description "gptel aibo" :command gptel-aibo)
  (:key "a" :description "Aider" :command aidermacs-transient-menu)
+ (:key "c" :description "gptel global chat" :command gptel-global-chat)
+ (:key "p" :description "gptel project chat" :command gptel-project-chat)
  (:key "o" :description "Casual-main-tmenu" :command casual-editkit-main-tmenu)
  (:key "t" :description "llm task with gt engine" :command my/gt-ai-oneshot)
- (:key "c" :description "Up-down convert dispatch" :command my/string-convert-dispatch)
+ (:key "I" :description "Up-down convert dispatch" :command my/string-convert-dispatch)
  (:key "j" :description "Calculator" :command calc))
 
 (lazy-one-key-create-menu
