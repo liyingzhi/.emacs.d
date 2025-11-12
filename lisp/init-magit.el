@@ -113,15 +113,21 @@ command was called, go to its unstaged changes section."
 (keymap-unset magit-status-mode-map "M-n")
 (keymap-unset magit-status-mode-map "M-p")
 
-(defun my/magit-status-by-project-name (name)
-  "Open Magit status for project matching NAME by substring."
-  (interactive "sProject name (substring match): ")
+(defun my/magit-status-by-project-name (in-name exc-name)
+  "Open Magit status for project matching IN-NAME by substring.
+If EXC-NAME is non-empty, exclude projects containing EXC-NAME."
+  (interactive "sProject name (substring match): \nsExclude projects containing (leave empty to skip): ")
   (let* ((match (seq-find (lambda (proj)
-                            (string-match-p name (car proj)))
+                            (and (string-match-p in-name (car proj))
+                                 (or (string-empty-p exc-name)
+                                     (not (string-match-p exc-name (car proj))))))
                           project--list)))
     (if match
         (magit-status (car match))
-      (user-error "No project found containing '%s'" name))))
+      (user-error "No project found containing '%s'%s" in-name
+                  (if (string-empty-p exc-name)
+                      ""
+                    (format " and excluding '%s'" exc-name))))))
 
 (provide 'init-magit)
 ;;; init-magit.el ends here

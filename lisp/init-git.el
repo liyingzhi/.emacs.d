@@ -175,11 +175,11 @@ _p_rev       _U_pper              _=_: upper/lower       _r_esolve
     ("B" "Blame" magit-blame)
     ("f" "Find git file" magit-find-file)
     ("E" "magit emacs" (lambda ()
-                           (interactive)
-                           (my/magit-status-by-project-name ".emacs.d")))
+                         (interactive)
+                         (my/magit-status-by-project-name ".emacs.d" "straight")))
     ("I" "magit igc emacs" (lambda ()
-                               (interactive)
-                               (my/magit-status-by-project-name ".emacs.igc.d")))]
+                             (interactive)
+                             (my/magit-status-by-project-name ".emacs.igc.d" "straight")))]
    ["Log"
     ("oh" "Region history" vc-region-history)
     ("ol" "File log" magit-log-buffer-file)]
