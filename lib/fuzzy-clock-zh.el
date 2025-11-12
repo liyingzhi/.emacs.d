@@ -72,7 +72,7 @@ part-of-year, year."
                                       desc)
                                     (if (= 0 past)
                                         ""
-                                      "左右")))))
+                                      "时分")))))
 
       ;; 3. 半小时
       ('half-hour (let* ((half (if (< min 30) "整" "半"))
