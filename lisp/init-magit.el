@@ -113,15 +113,27 @@ command was called, go to its unstaged changes section."
 (keymap-unset magit-status-mode-map "M-n")
 (keymap-unset magit-status-mode-map "M-p")
 
+
+(defun my/filter-project-by-name (in-name exc-name)
+  "Filter projects by name patterns.
+IN-NAME is a substring to match in project names.
+EXC-NAME is a substring to exclude from matching projects.
+Return the first project that matches IN-NAME and does not match EXC-NAME.
+If EXC-NAME is empty string, only match by IN-NAME."
+  (project--ensure-read-project-list)
+  (seq-find (lambda (proj)
+              (and (string-match-p in-name (car proj))
+                   (or (string-empty-p exc-name)
+                       (not (string-match-p exc-name (car proj))))))
+            project--list))
+
 (defun my/magit-status-by-project-name (in-name exc-name)
-  "Open Magit status for project matching IN-NAME by substring.
-If EXC-NAME is non-empty, exclude projects containing EXC-NAME."
+  "Open magit-status for a project filtered by name patterns.
+Prompt for IN-NAME (substring to match) and EXC-NAME (substring to exclude).
+If a matching project is found, open magit-status in its directory.
+Raise an error if no matching project is found."
   (interactive "sProject name (substring match): \nsExclude projects containing (leave empty to skip): ")
-  (let* ((match (seq-find (lambda (proj)
-                            (and (string-match-p in-name (car proj))
-                                 (or (string-empty-p exc-name)
-                                     (not (string-match-p exc-name (car proj))))))
-                          project--list)))
+  (let* ((match (my/filter-project-by-name in-name exc-name)))
     (if match
         (magit-status (car match))
       (user-error "No project found containing '%s'%s" in-name
@@ -129,19 +141,17 @@ If EXC-NAME is non-empty, exclude projects containing EXC-NAME."
                       ""
                     (format " and excluding '%s'" exc-name))))))
 
-(defun my/magit-pull-upstream-by-project-name (in-name exc-name)
-  "Pull from upstream for project matching IN-NAME by substring.
-If EXC-NAME is non-empty, exclude projects containing EXC-NAME."
+(defun my/git-pull-upstream-by-project-name (in-name exc-name)
+  "Pull from upstream for a project filtered by name patterns.
+Prompt for IN-NAME (substring to match) and EXC-NAME (substring to exclude).
+If a matching project is found, run `vc-pull' in its directory.
+Raise an error if no matching project is found."
   (interactive "sProject name (substring match): \nsExclude projects containing (leave empty to skip): ")
-  (let* ((match (seq-find (lambda (proj)
-                            (and (string-match-p in-name (car proj))
-                                 (or (string-empty-p exc-name)
-                                     (not (string-match-p exc-name (car proj))))))
-                          project--list)))
+  (let* ((match (my/filter-project-by-name in-name exc-name)))
     (if match
         (let ((default-directory (car match)))
           (message "Pulling from upstream for project: %s" (car match))
-          (call-interactively #'magit-pull-from-upstream))
+          (vc-pull))
       (user-error "No project found containing '%s'%s" in-name
                   (if (string-empty-p exc-name)
                       ""

@@ -182,8 +182,8 @@ _p_rev       _U_pper              _=_: upper/lower       _r_esolve
                              (my/magit-status-by-project-name ".emacs.igc.d" "straight")))
     ("F" "Fetch gc&igc emacs" (lambda ()
                                 (interactive)
-                                (my/magit-pull-upstream-by-project-name ".emacs.d" "straight")
-                                (my/magit-pull-upstream-by-project-name ".emacs.igc.d" "straight")))]
+                                (my/git-pull-upstream-by-project-name ".emacs.d" "straight")
+                                (my/git-pull-upstream-by-project-name ".emacs.igc.d" "straight")))]
    ["Log"
     ("oh" "Region history" vc-region-history)
     ("ol" "File log" magit-log-buffer-file)]
