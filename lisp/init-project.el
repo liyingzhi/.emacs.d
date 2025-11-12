@@ -29,7 +29,7 @@
 (require 'projection)
 
 ;;; config
-(setq project-find-functions '(project-try-vc my/project-try-local))
+(add-hook 'project-find-functions #'my/project-try-local)
 
 ;;;###autoload
 (defun project-blink-search ()
