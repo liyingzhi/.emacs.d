@@ -129,5 +129,23 @@ If EXC-NAME is non-empty, exclude projects containing EXC-NAME."
                       ""
                     (format " and excluding '%s'" exc-name))))))
 
+(defun my/magit-pull-upstream-by-project-name (in-name exc-name)
+  "Pull from upstream for project matching IN-NAME by substring.
+If EXC-NAME is non-empty, exclude projects containing EXC-NAME."
+  (interactive "sProject name (substring match): \nsExclude projects containing (leave empty to skip): ")
+  (let* ((match (seq-find (lambda (proj)
+                            (and (string-match-p in-name (car proj))
+                                 (or (string-empty-p exc-name)
+                                     (not (string-match-p exc-name (car proj))))))
+                          project--list)))
+    (if match
+        (let ((default-directory (car match)))
+          (message "Pulling from upstream for project: %s" (car match))
+          (call-interactively #'magit-pull-from-upstream))
+      (user-error "No project found containing '%s'%s" in-name
+                  (if (string-empty-p exc-name)
+                      ""
+                    (format " and excluding '%s'" exc-name))))))
+
 (provide 'init-magit)
 ;;; init-magit.el ends here
