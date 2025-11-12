@@ -19,7 +19,7 @@
                     ,(concat user/org-base-dir-path "/archive.org")
                     ,(concat user/org-base-dir-path "/inbox.org")))
 
-(add-list-to-list 'org-agenda-files (file-expand-wildcards (concat *org-path* "daily/*.org")))
+;; (add-list-to-list 'org-agenda-files (file-expand-wildcards (concat *org-path* "daily/*.org")))
 
 ;; 计算待办事项创建至今的时间
 (defun org-todo-age (&optional pos)
