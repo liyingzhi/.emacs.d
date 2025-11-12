@@ -61,8 +61,11 @@
 (setq axis-db-location
       (expand-file-name "var/axis-data.sqlite"
                         user-emacs-directory))
-(add-hooks '(prog-mode text-mode)
-           #'axis-mode)
+
+(add-hook 'after-init-hook
+          (lambda ()
+            (add-hooks '(prog-mode text-mode)
+                       #'axis-mode)))
 
 (require 'init-ai)
 
