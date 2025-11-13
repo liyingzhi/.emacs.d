@@ -75,9 +75,6 @@
 (require 'init-citre)
 (require 'init-program)
 
-;; (require 'codeium)
-;; (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
-
 ;; ;; Enable Completion Preview mode in code buffers
 ;; (add-hook 'prog-mode-hook #'completion-preview-mode)
 ;; (setq completion-preview-minimum-symbol-length 2)

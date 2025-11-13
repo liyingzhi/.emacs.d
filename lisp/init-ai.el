@@ -34,17 +34,24 @@
 (pcase user/ai-completion
   ('copilot
    (require 'init-copilot))
-  ('codeium
-   (require 'init-codeium))
   ('minuet
-   (require 'init-minuet-ai)))
+   (require 'init-minuet-ai))
+  ('wingman
+   (add-hook 'prog-mode-hook
+             #'wingman-mode)
+   (with-eval-after-load 'wingman
+     (add-to-list 'wingman-disable-predicates
+                  #'meow-normal-mode-p))))
 
 (defun ai-complete ()
+  "Complete with the ai in corfu."
   (pcase user/ai-completion
     ('copilot
      (copilot-accept-completion))
     ('minuet
-     (minuet-accept-suggestion))))
+     (minuet-accept-suggestion))
+    ('wingman
+     (wingman-accept-full))))
 
 (require 'init-mcp)
 

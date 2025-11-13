@@ -315,29 +315,32 @@
     (consult-reftex :host github :repo "karthink/consult-reftex")))
 
 (defvar *package-ai-install-list*
-  '((copilot :host github
-             :repo "zerolfx/copilot.el"
-             :branch "main"
-             :files ("dist" "*.el"))
-    (gptel :host github
-           :repo "karthink/gptel")
-    gptel-magit
-    (ragmacs :host github :repo "positron-solutions/ragmacs")
-    (gptel-quick :host github
-                 :repo "karthink/gptel-quick")
-    (mcp :host github
-         :repo "lizqwerscott/mcp.el")
-    (macher :host github
-            :repo "kmontag/macher")
-    (gptel-aibo :host github
-                :repo "dolmens/gptel-aibo")
-    (aidermacs :host github
-               :repo "MatthewZMD/aidermacs")
-    (codeium :host github :repo "Exafunction/codeium.el")
-    (codeium-overlay :host github
-                     :repo "liyingzhi/codeium-overlay.el")
-    (minuet :host github
-            :repo "milanglacier/minuet-ai.el")))
+  (append '((gptel :host github
+                   :repo "karthink/gptel")
+            gptel-magit
+            (ragmacs :host github :repo "positron-solutions/ragmacs")
+            (gptel-aibo :host github
+                        :repo "dolmens/gptel-aibo")
+            (gptel-quick :host github
+                         :repo "karthink/gptel-quick")
+            (mcp :host github
+                 :repo "lizqwerscott/mcp.el")
+            (macher :host github
+                    :repo "kmontag/macher"))
+          (pcase user/ai-completion
+            ('copilot
+             '((copilot :host github
+                        :repo "zerolfx/copilot.el"
+                        :branch "main"
+                        :files ("dist" "*.el"))))
+            ('minuet
+             '((minuet :host github
+                       :repo "milanglacier/minuet-ai.el")))
+            ('wingman
+             '((wingman :host github :repo "mjrusso/wingman"))))
+          (when user/aider
+            '((aidermacs :host github
+                         :repo "MatthewZMD/aidermacs")))))
 
 (defvar *package-toolkit-install-list*
   '((thing-edit :host github :repo "manateelazycat/thing-edit")
