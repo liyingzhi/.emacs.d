@@ -39,10 +39,11 @@
 ("zh-latex-notes"
  "\\documentclass{ctexart}
   \\usepackage{NotesTeXV3}
-  \[DEFAULT-PACKAGES]
-  \[PACKAGES]
   \[EXTRA]
+  \\catcode`\\^^^^200b=\\active\\let^^^^200b\\relax
   \\setCJKmainfont{LXGW WenKai}"
+  ;; 忽略源码中所有零宽空格
+  ;; \\catcode`\\^^^^200b=\\active\\let^^^^200b\\relax\n
  ;; ("\\clearpage\\part{%s}" . "\\clearpage\\part*{%s}")
  ("\\section{%s}" . "\\section*{%s}")
  ("\\subsection{%s}" . "\\subsection*{%s}")
