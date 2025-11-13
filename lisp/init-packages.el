@@ -319,6 +319,8 @@
                    :repo "karthink/gptel")
             gptel-magit
             (ragmacs :host github :repo "positron-solutions/ragmacs")
+            (gptel-agent :host github :repo "karthink/gptel-agent"
+                         :files (:defaults "agents"))
             (gptel-aibo :host github
                         :repo "dolmens/gptel-aibo")
             (gptel-quick :host github
