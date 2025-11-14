@@ -64,8 +64,7 @@
     pretty-hydra))
 
 (defvar *package-tool-install-list*
-  '(alert
-    (knockknock :host github :repo "konrad1977/knockknock")
+  '((knockknock :host github :repo "konrad1977/knockknock")
     centered-cursor-mode
     sudo-edit
     google-this

@@ -165,7 +165,10 @@
             (call-interactively #'compilation-next-error)
             (when (or (not (get-buffer-window buffer 'visible))
                       (not (frame-focus-state)))
-              (alert string :buffer buffer :severity 'high)))
+              (knockknock-notify :title "Build Failed"
+                                 :message "Compilation failed"
+                                 :icon "cod-error"
+                                 :duration 5)))
         (message "Build finished :)")
         (run-with-timer 1 nil
                         (lambda ()
@@ -175,7 +178,10 @@
                             (delete-window window))))
         (when (or (not (get-buffer-window buffer 'visible))
                   (not (frame-focus-state)))
-          (alert string :buffer buffer :severity 'normal))))))
+          (knockknock-notify :title "Build Complete"
+                             :message "Compilation successful!"
+                             :icon "cod-check"
+                             :duration 5))))))
 
 (setq compilation-finish-functions
       (list #'ar/compile-autoclose-or-jump-first-error))
