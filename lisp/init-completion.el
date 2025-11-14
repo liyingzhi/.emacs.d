@@ -62,10 +62,11 @@
 
 ;;; completion preview
 (require 'init-completion-preview)
-(unless (or (not user/completion-preview-mode-use) user/ai-completion)
-  ;; Enable Completion Preview mode in code buffers
-  (add-hook 'prog-mode-hook #'completion-preview-mode)
-  (add-hook 'text-mode-hook #'completion-preview-mode))
+(with-hook after-init-hook
+  (unless (or (not user/completion-preview-mode-use) user/ai-completion)
+    ;; Enable Completion Preview mode in code buffers
+    (add-hook 'prog-mode-hook #'completion-preview-mode)
+    (add-hook 'text-mode-hook #'completion-preview-mode)))
 
 (provide 'init-completion)
 ;;; init-completion.el ends here

@@ -329,17 +329,6 @@
                  :repo "lizqwerscott/mcp.el")
             (macher :host github
                     :repo "kmontag/macher"))
-          (pcase user/ai-completion
-            ('copilot
-             '((copilot :host github
-                        :repo "zerolfx/copilot.el"
-                        :branch "main"
-                        :files ("dist" "*.el"))))
-            ('minuet
-             '((minuet :host github
-                       :repo "milanglacier/minuet-ai.el")))
-            ('wingman
-             '((wingman :host github :repo "mjrusso/wingman"))))
           (when user/aider
             '((aidermacs :host github
                          :repo "MatthewZMD/aidermacs")))))
