@@ -136,9 +136,6 @@
 (setq compilation-auto-jump-to-first-error nil)
 (setq compilation-max-output-line-length nil)
 
-(require 'alert)
-(setq alert-default-style 'mode-line)
-
 (defun get-first-compilation-error ()
   (when (compilation-buffer-p (current-buffer))
     (compilation--ensure-parse (point-min))
