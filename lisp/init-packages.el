@@ -189,7 +189,7 @@
     org-sliced-images))
 
 (defvar *package-ui-install-list*
-  '(modus-themes
+  '(ef-themes
     solarized-theme
     (koishi-theme :host github :repo "gynamics/koishi-theme.el")
     miasma-theme
