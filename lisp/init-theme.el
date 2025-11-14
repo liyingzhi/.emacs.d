@@ -17,5 +17,12 @@
   (setq catppuccin-flavor user/catppuccin-flavor)
   (catppuccin-reload))
 
+;; modus and derivative themes
+(modus-themes-include-derivatives-mode 1)
+(global-set-keys
+ '(("<f7>" . modus-themes-rotate)
+   ("C-<f7>" . modus-themes-select)
+   ("M-<f7>" . modus-themes-load-random)))
+
 (provide 'init-theme)
 ;;; init-theme.el ends here
