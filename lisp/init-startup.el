@@ -3,8 +3,8 @@
 ;;; Code:
 
 ;;; Personal information
-(setq user-full-name "lizqwer scott")
-(setq user-mail-address "lizqwerscott@gmail.com")
+(setq user-full-name "fly_lilee")
+(setq user-mail-address "liyl2015@mail.ustc.edu.cn")
 
 ;;; Emacs Config
 (setq-default lexical-binding t)
