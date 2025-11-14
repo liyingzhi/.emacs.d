@@ -169,6 +169,13 @@
     '(("j" . pdf-view-next-line-or-next-page)
       ("k" . pdf-view-previous-line-or-previous-page))))
 
+;;; notification
+(setq knockknock-border-color (face-foreground 'font-lock-keyword-face))
+(setq knockknock-use-svg-layout nil)         ; Switch to text layout
+(setq knockknock-icon-size 3.5)              ; Icon size multiplier
+(setq knockknock-icon-padding 2)             ; Spaces between icon and text
+(setq knockknock-text-column 4)              ; Column position for text
+
 ;;; Local Variables
 
 ;; Local Variables:
