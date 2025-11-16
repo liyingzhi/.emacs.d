@@ -54,8 +54,7 @@
     ("k" keycast-header-line-mode "keycast" :toggle t)
     ("o" outli-mode "Outline" :toggle t))
    "Program"
-   (("f" flycheck-mode "flycheck" :toggle t)
-    ("v" global-diff-hl-mode "diff-hl mode" :toggle t)
+   (("v" global-diff-hl-mode "diff-hl mode" :toggle t)
     ("M" diff-hl-margin-mode "margin gutter" :toggle t)
     ("E" toggle-debug-on-error "debug on error" :toggle (default-value 'debug-on-error))
     ("Q" toggle-debug-on-quit "debug on quit" :toggle (default-value 'debug-on-quit))
