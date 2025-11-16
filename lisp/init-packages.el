@@ -141,13 +141,12 @@
     mason
     ,@(pcase user/lsp-client
         ('eglot
-         '(eglot
+         `(eglot
            (eglot-booster :host github :repo "jdtsmith/eglot-booster")
            consult-eglot
-           flycheck
-           consult-flycheck
-           flycheck-eglot
-           flycheck-posframe))
+           ,@(when user/flyoverp
+               '(flycheck
+                 (flyover :host github :repo "konrad1977/flyover")))))
         ('lsp-bridge
          `(dumb-jump
            (lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
@@ -160,8 +159,6 @@
     cape
     nerd-icons-corfu
     eldoc-box
-    ,@(when user/flyoverp
-        '(flyover :host github :repo "konrad1977/flyover"))
     (cond-let :host github :repo "tarsius/cond-let")
     magit
     magit-delta

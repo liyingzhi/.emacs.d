@@ -225,7 +225,11 @@
   (interactive)
   (pcase user/lsp-client
     ('eglot
-     (call-interactively #'consult-flycheck))
+     (pcase user/diagnostic
+       ('flymake
+        (call-interactively #'consult-flymake))
+       ('flycheck
+        (call-interactively #'consult-flycheck))))
     ('lsp-bridge
      (autoload #'one-key-menu-diagnostic "init-lsp-bridge" nil t)
      (call-interactively #'one-key-menu-diagnostic))))
