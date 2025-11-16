@@ -60,9 +60,12 @@
     ("E" toggle-debug-on-error "debug on error" :toggle (default-value 'debug-on-error))
     ("Q" toggle-debug-on-quit "debug on quit" :toggle (default-value 'debug-on-quit))
     ("m" +lizqwer/toggle-move-style "move style" :toggle user/move-style-motion))
+   "Customize"
+   (("S" customize-save-variable "Customize save variable" :exit t)
+    ("C" customize-set-variable "Customize set variable" :exit t))
    "LLM"
-   (("G" my/switch-gptel-llm "llm free" :toggle (equal gptel-model user/ai-model-free))
-    ("C" my/switch-gptel-llm-coder "llm coder" :toggle (equal gptel-model user/ai-model-coder)))))
+   (("G f" my/switch-gptel-llm "llm free" :toggle (equal gptel-model user/ai-model-free))
+    ("G c" my/switch-gptel-llm-coder "llm coder" :toggle (equal gptel-model user/ai-model-coder)))))
 
 (global-set-keys
  '(("C-c T" . hydra-toggles/body)

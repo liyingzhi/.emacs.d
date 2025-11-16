@@ -127,12 +127,15 @@
     ("Q" "Debug on quit" toggle-debug-on-quit
      :toggle (lambda () (default-value 'debug-on-quit)) :transient t)
     ("Q" "Move Style" +lizqwer/toggle-move-style
-     :toggle (lambda () (bound-and-true-p user/move-style-motion)) :transient t)
-    ]
+     :toggle (lambda () (bound-and-true-p user/move-style-motion)) :transient t)]
+
+   ["Customize"
+    ("S" "Customize save variable" customize-save-variable)
+    ("C" "Customize set variable" customize-set-variable)]
 
    ["LLM"
-    ("G" "llm free" my/switch-gptel-llm  :toggle (lambda () (equal gptel-model user/ai-model-free)) :transient t)
-    ("C" "llm coder" my/switch-gptel-llm-coder :toggle (lambda () (equal gptel-model user/ai-model-coder)) :transient t)]]
+    ("G f" "llm free" my/switch-gptel-llm  :toggle (lambda () (equal gptel-model user/ai-model-free)) :transient t)
+    ("G c" "llm coder" my/switch-gptel-llm-coder :toggle (lambda () (equal gptel-model user/ai-model-coder)) :transient t)]]
 
   [("q" "Quit" transient-quit-one)])
 
