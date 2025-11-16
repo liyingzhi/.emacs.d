@@ -58,11 +58,6 @@
   :group 'user
   :type 'symbol)
 
-(defcustom user/start-fullscreen t
-  "Is fullscreen in start."
-  :group 'user
-  :type 'boolean)
-
 (defcustom user/*term-default-font* nil
   "Font name for term."
   :group 'user

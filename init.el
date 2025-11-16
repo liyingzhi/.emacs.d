@@ -4,10 +4,6 @@
 
 (and (file-readable-p custom-file) (load custom-file))
 
-(when user/start-fullscreen
-  (unless sys/macp
-    (toggle-frame-fullscreen)))
-
 ;; 启动必须加载
 ;; Need install packages
 (require 'init-packages)

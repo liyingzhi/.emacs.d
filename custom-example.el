@@ -13,7 +13,7 @@
                          "logos/gnu_color.xpm"))
       user/day-theme 'modus-operandi-tinted
       user/night-theme 'doom-dracula
-      user/start-fullscreen t
+      user/start-fullscreenp t
       user/start-transparent nil
       user/run-python-command "python"
       user/completion-preview-mode-use nil
