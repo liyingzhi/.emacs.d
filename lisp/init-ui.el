@@ -32,10 +32,19 @@
         ;; (fullscreen)
         ))
 
-(setf (alist-get 'alpha-background default-frame-alist)
-      (if user/start-transparent
-          user/init-alpha-background
-        100))
+(defun set-alpha-background (symbol value)
+  "Set SYMBOL VALUE.
+and update transparent."
+  (set-default-toplevel-value symbol value)
+  (setf (alist-get 'alpha-background default-frame-alist) value)
+  (when-let* ((frame (selected-frame)))
+    (set-frame-parameter frame 'alpha-background value)))
+
+(defcustom user/alpha-background 100
+  "Default alpha background."
+  :group 'user
+  :type 'number
+  :set #'set-alpha-background)
 
 ;;; modeline
 (require 'init-modeline)

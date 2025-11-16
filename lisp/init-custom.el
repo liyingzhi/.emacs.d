@@ -63,16 +63,6 @@
   :group 'user
   :type 'boolean)
 
-(defcustom user/start-transparent nil
-  "Is transparent in start."
-  :group 'user
-  :type 'boolean)
-
-(defcustom user/init-alpha-background 98
-  "Alpha value for background."
-  :group 'user
-  :type 'number)
-
 (defcustom user/*term-default-font* nil
   "Font name for term."
   :group 'user
