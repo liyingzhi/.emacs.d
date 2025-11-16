@@ -35,7 +35,7 @@
     ("c" global-centered-cursor-mode "centered cursor" :toggle t)
     ("i" immersive-translate-auto-mode "immersive translate" :toggle t)
     ("t" +lizqwer/toggle-telega "telega" :toggle (get-buffer "*Telega Root*"))
-    ("l" interaction-log-mode "interactive log" :toggle t))
+    ("L" interaction-log-mode "interactive log" :toggle t))
    "Highlight"
    (("h l" global-hl-line-mode "line" :toggle t)
     ("h p" show-paren-mode "paren" :toggle t)
@@ -61,10 +61,11 @@
     ("m" +lizqwer/toggle-move-style "move style" :toggle user/move-style-motion))
    "Customize"
    (("S" customize-save-variable "Customize save variable" :exit t)
-    ("C" customize-set-variable "Customize set variable" :exit t))
+    ("C" customize-set-variable "Customize set variable" :exit t)
+    ("G" customize-group "Customize set group" :exit t))
    "LLM"
-   (("G f" my/switch-gptel-llm "llm free" :toggle (equal gptel-model user/ai-model-free))
-    ("G c" my/switch-gptel-llm-coder "llm coder" :toggle (equal gptel-model user/ai-model-coder)))))
+   (("l f" my/switch-gptel-llm "llm free" :toggle (equal gptel-model user/ai-model-free))
+    ("l c" my/switch-gptel-llm-coder "llm coder" :toggle (equal gptel-model user/ai-model-coder)))))
 
 (global-set-keys
  '(("C-c T" . hydra-toggles/body)
