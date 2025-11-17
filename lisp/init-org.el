@@ -458,7 +458,7 @@ prepended to the element after the #+HEADER: tag."
    (("ss" (hot-expand "<s") "src")
     ("se" (hot-expand "<s" "emacs-lisp") "emacs-lisp")
     ("sp" (hot-expand "<s" "python") "python")
-    ("sP" (hot-expand "<s" "python :results output") "python")
+    ("sP" (hot-expand "<s" "python :results output") "python with output")
     ("sc" (hot-expand "<s" "c++") "c++")
     ("sr" (hot-expand "<s" "rust") "rust")
     ("sS" (hot-expand "<s" "sh") "sh")
