@@ -11,25 +11,25 @@
       user/logo (file-truename
                  (concat user-emacs-directory
                          "logos/gnu_color.xpm"))
-      user/day-theme 'modus-operandi-tinted
-      user/night-theme 'doom-dracula
-      user/start-fullscreenp t
-      user/start-transparent nil
+
+      ;; user/day-theme 'modus-operandi-tinted
+      ;; user/start-fullscreenp t
+      ;; user/start-transparent nil
+      ;; user/ai-completion nil
+      ;; user/font-size 190
+
       user/run-python-command "python"
       user/completion-preview-mode-use nil
       user/telega-start nil
 
       user/java-lsp nil
 
-      user/ai-completion nil
       user/aider nil
 
-      user/font-size 190
       user/ligature nil
       user/lsp-client 'eglot
       user/flyoverp nil
-      user/dirvish t
-      )
+      user/dirvish t)
 
 ;;; use program language
 (add-hook 'after-init-hook
