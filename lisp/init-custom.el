@@ -48,16 +48,6 @@
   :group 'user
   :type 'string)
 
-(defcustom user/day-theme 'modus-operandi
-  "Day theme name."
-  :group 'user
-  :type 'symbol)
-
-(defcustom user/night-theme 'modus-vivendi
-  "Night theme name."
-  :group 'user
-  :type 'symbol)
-
 (defcustom user/*term-default-font* nil
   "Font name for term."
   :group 'user
