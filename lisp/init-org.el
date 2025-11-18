@@ -668,6 +668,73 @@ prepended to the element after the #+HEADER: tag."
           (dired-toggle-marks)))
     (message "Error: Does not work outside dired-mode")))
 
+;;; org-du
+;; Based-on: https://mbork.pl/2025-11-17_Showing_size_of_Org_mode_subtrees
+(defun org-du ()
+  "Compute (recursively) the size of the subtree at point.
+Assume point is at the very beginning of the subtree.  Move point to the
+next subtree at the same level.  Recursively create overlays with the
+computed size."
+  (interactive)
+  (save-excursion
+    (when org-remove-highlights-with-change
+      (add-hook 'before-change-functions 'org-clock-remove-overlays
+                nil 'local))
+    (goto-char (point-min))
+    (unless (org-at-heading-p)
+      (outline-next-heading))
+    (while (not (eobp))
+      (org-du--calculate-subtree-size-and-move))))
+
+(defun org-du--calculate-subtree-size-and-move ()
+  "A helper function for `org-du'.
+Perform the actual computations for this subtree and each of its
+subtrees."
+  (let ((level (org-current-level))
+        (beg (point)))
+    (outline-next-heading)
+    (while (progn
+             (when (> (org-current-level) level)
+               (org-du--calculate-subtree-size-and-move))))
+    (org-du--put-overlay beg (- (point) beg))))
+
+;; Copied from `org-clock-put-overlay' and slightly changed
+(defun org-du--put-overlay (pos size)
+  "Put an overlay on the headline at point, displaying SIZE.
+Create a new overlay and store it in `org-clock-overlays', so
+that it will be easy to remove.  This function assumes point is
+on a headline."
+  (save-excursion
+    (goto-char pos)
+    (org-match-line org-complex-heading-regexp)
+    ;; the following `or's are a workaround for a bug when the actual
+    ;; headline is empty
+    (goto-char (or (match-beginning 4) (match-beginning 2)))
+    (let* ((headline (or (match-string 4) ""))
+           (text (concat headline
+                         (org-add-props
+                             (make-string
+                              (max (- (- 60 (current-column))
+                                      (org-string-width headline)
+                                      (length (org-get-at-bol 'line-prefix)))
+                                   0)
+                              ?\·)
+                             '(face shadow))
+                         (org-add-props
+                             (format " %9s " (org-du--format-size size))
+                             '(face org-clock-overlay))))
+           (o (make-overlay (point) (line-end-position))))
+      (org-overlay-display o text)
+      (push o org-clock-overlays))))
+
+(defun org-du--format-size (size)
+  "Format SIZE in a human-friendly way."
+  (cond ((> size 1048576)
+         (format "%.1fM" (/ size 1048576.0)))
+        ((> size 1024)
+         (format "%.1fk" (/ size 1024.0)))
+        (t size)))
+
 (require 'init-org-roam)
 
 (require 'init-org-capture)
