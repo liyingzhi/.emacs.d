@@ -19,6 +19,7 @@
                                             user-emacs-directory)
         org-plantuml-jar-path plantuml-jar-path
         plantuml-default-exec-mode 'jar
+        plantuml-indent-level 4
         plantuml-svg-background "white")
 
 (org-babel-do-load-languages
