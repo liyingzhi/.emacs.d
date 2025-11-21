@@ -51,7 +51,8 @@
                           fussy-prefer-prefix nil))))
 
 ;;; orderless
-;; (setopt orderless-matching-styles nil)
+;; overwrite completion-styles for specific Category
+
 ;; (add-list-to-list 'completion-category-overrides
 ;;                   '((file (styles orderless fussy))
 ;;                     (project-file (styles orderless fussy))
