@@ -43,8 +43,8 @@
   :models '(accounts/fireworks/models/llama-v3p1-405b-instruct))
 
 (gptel-make-deepseek "deepseek"
-                     :stream t
-                     :key #'gptel-api-key)
+  :stream t
+  :key #'gptel-api-key)
 
 (gptel-make-anthropic "Claude"
   :stream t
@@ -136,8 +136,8 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
   (interactive "P")
   (unless (or gptel--rewrite-overlays (use-region-p))
     (user-error "`gptel-translate-to-english' requires an active region or rewrite in progress."))
-  (let (((gptel-tools nil)
-         (gptel-use-tools nil)))
+  (let ((gptel-tools nil)
+        (gptel-use-tools nil))
     (gptel-request (list (or (get-char-property (point) 'gptel-rewrite)
                              (buffer-substring-no-properties (region-beginning) (region-end)))
                          "What is the required change?"
@@ -234,7 +234,7 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
       #'(lambda (count)
           (let* ((lang (downcase (gptel--strip-mode-suffix major-mode)))
                  (article (if (and lang (not (string-empty-p lang))
-                                 (memq (aref lang 0) '(?a ?e ?i ?o ?u)))
+                                   (memq (aref lang 0) '(?a ?e ?i ?o ?u)))
                               "an" "a")))
             (if (derived-mode-p 'prog-mode)
                 (format (concat "You are %s %s programmer.  "
