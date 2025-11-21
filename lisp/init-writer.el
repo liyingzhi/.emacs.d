@@ -248,7 +248,10 @@ When more than one bibliographic item is referenced, select item first."
   "Generate week template."
   (concat "* 本周工作总结"
           "\n\n"
-          "* 下周工作计划"))
+          "---------------"
+          "\n"
+          "* 下周工作计划"
+          "\n"))
 
 ;; (setopt denote-journal-signature
 ;;         (lambda ()
