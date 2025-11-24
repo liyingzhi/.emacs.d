@@ -165,6 +165,7 @@
     git-link
     forge
     difftastic
+    (blame-reveal :host github :repo "LuciusChen/blame-reveal")
     devdocs
     wucuo
     flyspell-correct

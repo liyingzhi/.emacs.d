@@ -191,7 +191,8 @@ _p_rev       _U_pper              _=_: upper/lower       _r_esolve
     ("b" "Switch Modified buffer" consult-switch-git-status-buffer)
     ("g" "Git Link" git-link-dispatch)
     ("c" "Git Clone" ar/git-clone-clipboard-url)
-    ("e" "Ediff revision" casual-ediff-revision)]]
+    ("e" "Ediff revision" casual-ediff-revision)
+    ("R" "Blame reveal mode" blame-reveal-mode)]]
   [("q" "Quit" transient-quit-one)])
 
 ;;; Local Variables
