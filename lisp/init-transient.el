@@ -75,6 +75,9 @@
 (with-eval-after-load 'compile
   (keymap-set compilation-mode-map "C-o" #'casual-compile-tmenu))
 
+(with-eval-after-load 'csv-mode
+  (keymap-set csv-mode-map "C-o" #'casual-csv-tmenu))
+
 (require 'lib-transient)
 (pretty-transient-define-prefix transient-toggles ()
   "Toggles menu."
