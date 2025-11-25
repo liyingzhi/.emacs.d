@@ -24,6 +24,13 @@
 
 ;;; Code:
 
+(defun my/copy-no-properties ()
+  "Copy the mark place with no properties."
+  (interactive)
+  (when (use-region-p)
+    (kill-new
+     (buffer-substring-no-properties (region-beginning) (region-end)))))
+
 ;;; insert
 ;;;###autoload
 (defun my/insert-number-lines (start-at end-at step format)
