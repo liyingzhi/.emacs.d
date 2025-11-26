@@ -92,9 +92,9 @@
    (("s s" (lambda ()
              (interactive)
              (autoload 'consult-fd-dir "init-func" nil t)
-             (consult-fd-dir)) "Fuzzy search dir HOME")
-    ("s n" consult-notes "Fuzzy search dir Note")
-    ("s d" consult-denote-find "Fuzzy search dir Denote")
+             (consult-fd-dir)) "Fuzzy search dir @Home")
+    ("s n" consult-notes "Fuzzy search file @Notes")
+    ("s d" consult-denote-find "Fuzzy search content @Denote")
     ("j" dired-jump "Dired jump")
     ("J" dired-jump-other-window "Dired jump other"))))
 

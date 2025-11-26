@@ -99,7 +99,8 @@
  (:key "t" :description "Search project TODO" :command hl-todo-rg-project :filename "lib-hl-todo")
  (:key "T" :description "Search TODO with prompt" :command hl-todo-rg :filename "lib-hl-todo")
  (:key "n" :description "Search Notes" :command consult-notes)
- (:key "d" :description "Grep Denote" :command consult-denote-grep))
+ (:key "d" :description "Grep Denote" :command consult-denote-grep)
+ (:key "D" :description "Grep Denote" :command consult-denote-find))
 
 (defun switch-*scratch*-buffer ()
   (interactive)
