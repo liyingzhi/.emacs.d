@@ -523,9 +523,9 @@ opening and closing delimiter characters respectively."
         (save-excursion
           (goto-char begin)
           (insert (format "\\%s " (car char)))
-          (goto-char (+ end 4))
-          (insert (format "\\%s" (cdr char)))))
-    (insert "\\%s  \\%s" (car char) (cdr char))
+          (goto-char (+ end 3))
+          (insert (format " \\%s" (cdr char)))))
+    (insert (format "\\%s  \\%s" (car char) (cdr char)))
     (backward-char 3)))
 
 (pretty-transient-define-prefix transient-org-line-template ()
