@@ -254,12 +254,12 @@ then write results to OUTPUT-FILEPATH, one element per line."
     ("-" "Vol-" emms-player-mpv-lower-volume :transient t)]
    ["Favorites"
     :pad-keys t
-    ("l" "Load playlist" (lambda ()
+    ("l" "Load fav playlist" (lambda ()
                              (interactive)
                              (emms-play-playlist +favorites-playlist)))
-    ("E" "Filter roi and export" filter-music-buffer-and-save-to-file)
-    ("G" "Get entry" +emms-add-to-favorites :transient t)
-    ("g" "Goto entry" +emms-select-song)]
+    ("E" "Filter roi and Export" filter-music-buffer-and-save-to-file)
+    ("G" "Get entry to fav" +emms-add-to-favorites :transient t)
+    ("g" "Goto entry line" +emms-select-song)]
    ["Global/External"
     :pad-keys t
     ("d" "Emms mark with dired" emms-play-dired)
