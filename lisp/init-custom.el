@@ -232,6 +232,12 @@ Each element should be a symbol representing a model name."
   :group 'user
   :type 'boolean)
 
+;;; Tools
+(defcustom user/beancount nil
+  "Enable beancount."
+  :group 'user
+  :type 'boolean)
+
 ;; Load `custom-file'
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 

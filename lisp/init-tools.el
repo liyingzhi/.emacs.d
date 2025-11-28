@@ -32,5 +32,9 @@
 (setq fuzzy-clock-zh-fuzziness 'fifteen-minutes)
 (fuzzy-clock-zh-mode 1)
 
+;;; beancount
+(when user/beancount
+  (require 'init-beancount))
+
 (provide 'init-tools)
 ;;; init-tools.el ends here

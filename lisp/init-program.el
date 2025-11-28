@@ -11,7 +11,10 @@
 
 ;;; outli
 (setq outli-allow-indented-headlines t)
-(add-hook 'prog-mode-hook #'outli-mode)
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (unless (eq major-mode 'beancount-mode)
+              (outli-mode))))
 
 ;;; outline
 (with-eval-after-load 'outline
