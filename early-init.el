@@ -87,12 +87,13 @@ return (HOSTING-SITE OWNER REPO-NAME)。"
               (host (car info))
               (owner (elt info 1))
               (repo-name (elt info 2))
-              (repo-name (replace-regexp-in-string "\\.git$" "" repo-name)))
-    (insert (format "(%s :host %s :repo \"%s/%s\")"
-                    repo-name
-                    host
-                    owner
-                    repo-name))))
+              (repo-name (replace-regexp-in-string "\\.git$" "" repo-name))
+              (recipe (format "(%s :host %s :repo \"%s/%s\")"
+                              repo-name
+                              host
+                              owner
+                              repo-name)))
+    (insert recipe)))
 
 (let ((file-name-handler-alist nil))
   (add-to-list 'load-path
