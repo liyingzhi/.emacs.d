@@ -321,6 +321,8 @@
                          :files (:defaults "agents"))
             (gptel-aibo :host github
                         :repo "dolmens/gptel-aibo")
+            (agental :host github :repo "lizqwerscott/agental"
+                     :files (:defaults "prompts"))
             (gptel-quick :host github
                          :repo "karthink/gptel-quick")
             (mcp :host github
