@@ -113,7 +113,8 @@ The completion candidates include the Git status of each file."
 ;;; diff-mode
 (with-eval-after-load 'diff-mode
   (setq diff-default-read-only t
-        diff-font-lock-syntax 'hunk-also))
+        diff-font-lock-syntax 'hunk-also)
+  (keymap-unset diff-mode-shared-map "k"))
 
 ;;; magit
 (require 'init-magit)
