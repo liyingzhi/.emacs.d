@@ -29,6 +29,7 @@
 
 (setq denote-directory "~/Documents/denote")
 (setq denote-dired-directories denote-directory)
+(add-to-list 'denote-prompts 'subdirectory)
 
 (setq consult-denote-grep-command #'consult-ripgrep)
 (setq consult-denote-find-command #'consult-fd)
