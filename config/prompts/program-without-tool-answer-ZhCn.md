@@ -1,5 +1,5 @@
 ---
-name: program-agent-without-tool-answer-cn
+name: program-agent-wo-tool
 description: A specialized agent for analyzing and explaining code with Zh-Cn
 ---
 <role_and_behavior>

@@ -228,8 +228,8 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
     :use-tools t))
 
 ;; program agent without tool and answer with Zh-CN
-(let ((agent (alist-get 'program-agent-without-tool-answer-cn agental-prompts-templates)))
-  (gptel-make-preset 'program-wo-tool-answer-cn
+(let ((agent (alist-get 'program-agent-wo-tool agental-prompts-templates)))
+  (gptel-make-preset 'program-wo-tool
     :description (plist-get agent :description)
     :system (plist-get agent :system)
     :backend user/ai-backend-free
