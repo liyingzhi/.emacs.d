@@ -219,13 +219,6 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
     :tools (plist-get agent :tools)
     :use-tools t))
 
-(gptel-make-preset 'ai-agent-programmer
-  :description "AI Agent 编程大师"
-  :pre (lambda () (require 'gptel-agent))
-  :system (agental-prompts-make 'program
-                                `(("language" . ,(downcase (gptel--strip-mode-suffix major-mode)))))
-  :use-tools nil)
-
 ;; ragmacs
 (gptel-make-preset 'ragmacs
   :description "Ragmacs"
