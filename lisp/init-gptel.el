@@ -190,12 +190,16 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
 (gptel-make-preset 'default
   :description "Default"
   :system (alist-get 'default gptel-directives)
+  :backend user/ai-backend-free
+  :model user/ai-model-free
   :tools nil
   :use-tools nil)
 
 (gptel-make-preset 'file-search
   :description "file search"
   :pre (lambda () (require 'ai-tools))
+  :backend user/ai-backend
+  :model user/ai-model
   :tools '(:append ("find_files" "list_directory"))
   :use-tools t)
 
@@ -204,6 +208,8 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
     :description (plist-get agent :description)
     :pre (lambda () (require 'ragmacs))
     :system (plist-get agent :system)
+    :backend user/ai-backend
+    :model user/ai-model
     :tools (plist-get agent :tools)
     :use-tools t))
 
@@ -216,13 +222,18 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
   (gptel-make-preset 'program
     :description (plist-get agent :description)
     :system (plist-get agent :system)
+    :backend user/ai-backend
+    :model user/ai-model
     :tools (plist-get agent :tools)
     :use-tools t))
 
+;; program agent without tool and answer with Zh-CN
 (let ((agent (alist-get 'program-agent-without-tool-answer-cn agental-prompts-templates)))
   (gptel-make-preset 'program-wo-tool-answer-cn
     :description (plist-get agent :description)
     :system (plist-get agent :system)
+    :backend user/ai-backend-free
+    :model user/ai-model-free
     :use-tools nil))
 
 ;; ragmacs
@@ -230,6 +241,8 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
   :description "Ragmacs"
   :pre (lambda () (require 'ragmacs))
   :system (alist-get 'ragmacs gptel-directives)
+  :backend user/ai-backend
+  :model user/ai-model
   :tools '("introspection")
   :use-tools t)
 
