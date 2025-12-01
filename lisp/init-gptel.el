@@ -219,6 +219,12 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
     :tools (plist-get agent :tools)
     :use-tools t))
 
+(let ((agent (alist-get 'program-agent-without-tool-answer-cn agental-prompts-templates)))
+  (gptel-make-preset 'program-wo-tool-answer-cn
+    :description (plist-get agent :description)
+    :system (plist-get agent :system)
+    :use-tools nil))
+
 ;; ragmacs
 (gptel-make-preset 'ragmacs
   :description "Ragmacs"
