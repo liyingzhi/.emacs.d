@@ -67,8 +67,8 @@
   ["Utils"
    ("y" "Yank from point to endline" my/copy-from-point-to-end-of-current-line)
    ("Y" "Yank current line" my/copy-current-line)
-   ("q" "Mark from point to endline" my/select-end-of-current-line-to-point)
-   ("w" "Mark from point to endbuffer" my/select-end-of-buffer-to-point)
+   ("l" "Mark from point to endline" my/select-end-of-current-line-to-point)
+   ("b" "Mark from point to endbuffer" my/select-end-of-buffer-to-point)
    ("o" "Mark row expreg expand" home-row-expreg-expand-with-letters)
    ("c" "Yank name of current buffer" my/copy-current-buffer-name)
    ("C" "Sum numbers after colon" sum-numbers-after-colon)
