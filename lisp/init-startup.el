@@ -304,6 +304,16 @@
                   (* 2 (plist-get info :font-height)))
                2)))))
 
+;;; server
+(defcustom user/serverp t
+  "Is start server."
+  :group 'user
+  :type 'boolean)
+
+(when user/serverp
+  (add-hook 'after-init-hook
+            #'server-mode))
+
 ;;; Local Variables
 
 ;; Local Variables:
