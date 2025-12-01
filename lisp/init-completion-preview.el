@@ -32,7 +32,7 @@
               #'(lambda ()
                   (call-interactively #'completion-preview-mode))))
 
-(setq completion-preview-minimum-symbol-length 1)
+(setq completion-preview-minimum-symbol-length 3)
 (add-list-to-list 'completion-preview-commands
                   '(hungry-delete-backward
                     outshine-self-insert-command))
