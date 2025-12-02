@@ -80,7 +80,7 @@
                                    ("" "xifthen"     t)
                                    ("" "pdfpages"    t)
                                    ("" "transparent" t)
-                                   ("" "minted"      t)
+                                   ("cache=true,cachedir=mint-build/_minted-cache,outputdir=build" "minted"      t)
                                    ;; algorithm
                                    ;; https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
                                    ("ruled,linesnumbered" "algorithm2e" t)
