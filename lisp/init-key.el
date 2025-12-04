@@ -314,6 +314,7 @@
  (:key "s" :description "Org search" :command consult-notes)
  (:key "r" :description "Org roam" :command one-key-menu-roam)
  (:key "p" :description "Org present" :command arg-toggle-presentation :filename "init-org-presentation")
+ (:key "o" :description "Org olivetti" :command ews-olivetti)
  (:key "t" :description "Org toggle" :command transient-org-toggles)
  (:key "T" :description "Vterm" :command multi-vterm-open :filename "multi-vterm")
  (:key "m" :description "Media note" :command org-media-note-show-interface)
