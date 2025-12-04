@@ -222,6 +222,13 @@ DEFS is a plist associating completion categories to commands."
 
 ;;; consult dir
 (require 'consult-dir)
+
+;; Moving ahead consult-dir--source-recentf
+(let ((target 'consult-dir--source-recentf)
+      (sources consult-dir-sources))
+  (setq consult-dir-sources
+        (cons target (remove target sources))))
+
 ;; A function that returns a list of directories
 (defun consult-dir--quick-dir ()
   "Return list of fasd dirs."
