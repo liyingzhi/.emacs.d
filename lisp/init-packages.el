@@ -269,6 +269,8 @@
     org-roam
     org-roam-ui
     ox-reveal
+    logos
+    olivetti
     ox-hugo
     org-appear
     org-fragtog

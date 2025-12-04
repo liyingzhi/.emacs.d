@@ -313,6 +313,7 @@
  (:key "i" :description "Org insert link" :command org-insert-link :filename "init-org")
  (:key "s" :description "Org search" :command consult-notes)
  (:key "r" :description "Org roam" :command one-key-menu-roam)
+ (:key "p" :description "Org present" :command arg-toggle-presentation :filename "init-org-presentation")
  (:key "t" :description "Org toggle" :command transient-org-toggles)
  (:key "T" :description "Vterm" :command multi-vterm-open :filename "multi-vterm")
  (:key "m" :description "Media note" :command org-media-note-show-interface)
