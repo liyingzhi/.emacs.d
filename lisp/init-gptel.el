@@ -46,6 +46,10 @@
   :stream t
   :key #'gptel-api-key)
 
+(gptel-make-gemini "Gemini"
+  :stream t
+  :key #'gptel-api-key)
+
 (gptel-make-anthropic "Claude"
   :stream t
   :host "api.openai-proxy.org/anthropic"
