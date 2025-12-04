@@ -330,7 +330,10 @@
             (mcp :host github
                  :repo "lizqwerscott/mcp.el")
             (macher :host github
-                    :repo "kmontag/macher"))
+                    :repo "kmontag/macher")
+            shell-maker
+            acp
+            agent-shell)
           (when user/aider
             '((aidermacs :host github
                          :repo "MatthewZMD/aidermacs")))))

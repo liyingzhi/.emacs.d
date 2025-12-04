@@ -78,6 +78,11 @@
     ('wingman
      (wingman-accept-full))))
 
+(require 'acp)
+(require 'agent-shell)
+(setq agent-shell-qwen-authentication
+      (agent-shell-qwen-make-authentication :login t))
+
 (require 'init-mcp)
 
 (provide 'init-ai)
