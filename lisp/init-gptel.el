@@ -115,14 +115,16 @@
     (setq gptel-model user/ai-model-coder)
     (setq gptel-use-tools t)))
 
-
 (require 'gptel)
 
-(setopt agental-prompts-path
-        (list (concat user-emacs-directory
-                      "config/prompts")))
+(require 'agental-prompts)
+(add-to-list 'agental-prompts-path
+             (concat user-emacs-directory
+                     "config/prompts"))
 
 (agental-prompts-update)
+
+(agental-install)
 
 (add-list-to-list 'gptel-directives
                   `((translate . ,(concat "You are a large language model and a writing assistant. Respond concisely."
@@ -205,14 +207,6 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
   :model user/ai-model-free
   :tools nil
   :use-tools nil)
-
-(gptel-make-preset 'file-search
-  :description "file search"
-  :pre (lambda () (require 'ai-tools))
-  :backend user/ai-backend
-  :model user/ai-model
-  :tools '(:append ("find_files" "list_directory"))
-  :use-tools t)
 
 (let ((agent (alist-get 'emacs-agent agental-prompts-templates)))
   (gptel-make-preset 'emacs
