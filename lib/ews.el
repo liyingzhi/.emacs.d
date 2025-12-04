@@ -221,6 +221,7 @@ Stores the window configuration when enabling Olivetti mode.
 Restores the previous configuration when existing Olivetti mode
 and moves point to the last location."
   (interactive)
+  (require 'olivetti)
   (if olivetti-mode
       (progn
         (if (eq (length (window-list)) 1)

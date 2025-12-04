@@ -7,8 +7,11 @@
 (require 'olivetti)
 ;; Fancy mode uses margins and fringes to create vertical
 ;; blocks on either sides of the content.
-(setq olivetti-style 'fancy)
-(setq-default olivetti-body-width 0.5)
+(setq olivetti-style 'fancy
+      olivetti-body-width 0.5
+      olivetti-minimum-body-width 80
+      olivetti-recall-visual-line-mode-entry-state t)
+
 (add-hook 'olivetti-mode-on-hook
 		  (lambda ()
 			;; Disable Line numbers.
