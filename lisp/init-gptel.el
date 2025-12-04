@@ -124,7 +124,7 @@
 
 (agental-prompts-update)
 
-(agental-install)
+;; (agental-install)
 
 (add-list-to-list 'gptel-directives
                   `((translate . ,(concat "You are a large language model and a writing assistant. Respond concisely."
@@ -226,6 +226,7 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
 (let ((agent (alist-get 'program-agent agental-prompts-templates)))
   (gptel-make-preset 'program
     :description (plist-get agent :description)
+    :pre (lambda () (require 'agental-tool))
     :system (plist-get agent :system)
     :backend user/ai-backend
     :model user/ai-model
