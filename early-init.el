@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'cl-lib)
+
 (setq load-prefer-newer noninteractive)
 (setq native-comp-async-query-on-exit t)
 
@@ -53,7 +55,29 @@
 (defun packages! (packages)
   "Install PACKAGES."
   (dolist (package packages)
-    (straight-use-package package)))
+    (let ((processed-package
+           (if (and (listp package)
+                    (plist-get (cdr package) :fetcher))
+               ;; If it's a list with :fetcher, convert :fetcher to :host
+               (let* ((package-name (car package))
+                      (package-plist (cdr package))
+                      (host-value (plist-get package-plist :fetcher))
+                      ;; Remove :fetcher key-value pair by rebuilding plist without :fetcher
+                      (new-plist
+                        (let ((result '())
+                              (plist (cl-copy-list package-plist)))
+                          (while plist
+                            (let ((prop (pop plist))
+                                  (val (pop plist)))
+                              (unless (eq prop :fetcher)
+                                (push prop result)
+                                (push val result))))
+                          (nreverse result))))
+                 ;; Add the :host key-value pair to the end of the plist
+                 (cons package-name (append new-plist (list :host host-value))))
+             ;; Otherwise, keep the package as is
+             package)))
+      (straight-use-package processed-package))))
 
 (defalias 'wait-packages! #'packages!)
 
