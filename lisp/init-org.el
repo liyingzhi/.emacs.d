@@ -182,6 +182,23 @@
 (setq org-html-validation-link nil)
 
 ;;; Org function
+
+;; ref:http://yummymelon.com/devnull/import-markdown-to-org-with-the-clipboard-in-emacs.html
+(defun org-import-yank-markdown-as-org ()
+  "Yank Markdown text as Org.
+
+This command will convert Markdown text in the top of the `kill-ring'
+and convert it to Org using the pandoc utility."
+  (interactive)
+  (save-excursion
+    (with-temp-buffer
+      (yank)
+      (shell-command-on-region
+       (point-min) (point-max)
+       "pandoc -f markdown -t org --wrap=preserve" t t)
+      (kill-region (point-min) (point-max)))
+    (yank)))
+
 (defun open-my-org-file ()
   "Open the default Org directory in dired mode."
   (interactive)
