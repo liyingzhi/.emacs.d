@@ -263,6 +263,7 @@ ARGS is ORIG-FN args."
                 (call-interactively #'check-parens))))
 ;;; latex
 
+;; (require 'tex-site) is autoloaded by AUCTex tex-site.el
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
