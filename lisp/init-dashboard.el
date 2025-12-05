@@ -254,7 +254,8 @@ normal weight to distinguish it from other elements."
       ("H" . mcp-hub)
       ("q" . quit-dashboard)
       ("h" . hydra-dashboard/body)
-      ("?" . hydra-dashboard/body))))
+      ("?" . hydra-dashboard/body)))
+  (keymap-unset dashboard-mode-map "g"))
 
 (defun dashboard-goto-recent-files ()
   "Go to recent files."
