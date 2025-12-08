@@ -67,9 +67,9 @@
 
 ;;; Programming
 (require 'init-git)
-(require 'init-lsp)
 (require 'init-citre)
 (require 'init-program)
+(require 'init-lsp)
 
 ;; ;; Enable Completion Preview mode in code buffers
 ;; (add-hook 'prog-mode-hook #'completion-preview-mode)
