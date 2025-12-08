@@ -408,12 +408,45 @@ Returns an alist where keys are export formats and values are file paths."
                         (org-count-words-mode -1))))
 
 ;;; org rich yank
+
+(require 'org-rich-yank)
 (defun my-org-rich-yank-format-paste (language contents link)
   "Based on `org-rich-yank--format-paste-default'."
   (format "#+BEGIN_SRC %s\n%s\n#+END_SRC\n#+comment: %s"
           language
           (org-rich-yank--trim-nl contents)
           link))
+(customize-set-variable 'org-rich-yank-format-paste #'my-org-rich-yank-format-paste)
+
+(defun org-rich-yank-with-media ()
+  "Yank, surrounded by #+BEGIN_SRC block with major mode of originating buffer."
+  (interactive)
+  (let ((yankp))
+    (when (gui-backend-get-selection 'CLIPBOARD 'image/png)
+      (condition-case err
+          (yank-media)
+        (user-error
+         (setq yankp t))))
+    (when yankp
+      (let* ((escaped-kill (org-escape-code-in-string (current-kill 0)))
+             (needs-initial-newline
+              (save-excursion
+                (re-search-backward "\\S " (line-beginning-position) 'noerror)))
+             (link (org-rich-yank--link))
+             (paste (funcall org-rich-yank-format-paste
+                             org-rich-yank--lang
+                             escaped-kill
+                             link)))
+        (when needs-initial-newline
+          (insert "\n"))
+        (insert
+         (if org-rich-yank-add-target-indent
+             (org-rich-yank-indent paste)
+           paste))))))
+
+(keymap-binds org-mode-map
+  (("C-s-y" "C-M-y") . org-rich-yank-with-media)
+  (("C-s-p" "C-M-p") . org-rich-yank-with-media))
 
 ;;; org-download
 (with-hook (org-mode dired-mode)
@@ -632,7 +665,6 @@ OPEN and CLOSE. Otherwise, insert the delimiters with space for text in between.
     ("M-g n" . org-next-visible-heading)
     ("M-g p" . org-previous-visible-heading)
 
-    ("C-M-y" . org-rich-yank)
     ("M-g o" . consult-org-heading)
 
     ("<" . ,(lambda ()
