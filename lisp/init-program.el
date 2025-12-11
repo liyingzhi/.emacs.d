@@ -277,7 +277,6 @@ ARGS is ORIG-FN args."
 ;; (setq-default TeX-engine 'xetex)
 
 (setq TeX-newline-function #'reindent-then-newline-and-indent)
-(setq reftex-cite-format 'natbib)
 
 (defun my/set-file-local-variable-value-with-file-path (local-variable-name)
   "Set LOCAL-VARIABLE-NAME as a file-local variable with a user-selected file value."
@@ -361,6 +360,7 @@ ARGS is ORIG-FN args."
 ;;; RefTex
 (setq reftex-plug-into-AUCTeX t)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
+(setq reftex-cite-format 'natbib)
 
 ;;; language
 (add-to-list 'auto-mode-alist '("\\.launch$" . xml-mode))
