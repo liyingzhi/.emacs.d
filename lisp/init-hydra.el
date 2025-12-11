@@ -76,17 +76,16 @@
   ("Base"
    (("t" trashed "Trashed")
     ("d" consult-dir "Dirs")
-
     ("n"  (lambda ()
             (interactive)
             ;; (dired (denote-directories))
             (denote-sort-dired ".*" denote-sort-dired-default-sort-component t nil)
             ) "Denote-Dir")
-
     ("v" (lambda ()
            (interactive)
            (when user/dirvish
-             (call-interactively #'dirvish-dwim))) "Dirvish"))
+             (call-interactively #'dirvish-dwim))) "Dirvish")
+    ("z" my/zoxide-cd-to-scratch "Zoxide Dirs"))
 
    "Search"
    (("s s" (lambda ()

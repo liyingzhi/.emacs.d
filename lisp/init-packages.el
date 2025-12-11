@@ -97,7 +97,8 @@
      :repo "manateelazycat/blink-search"
      :files (:defaults "*.el" "*.py" "backend" "core" "icons"))
     backup-walker
-    show-font))
+    show-font
+    zoxide))
 
 (defvar *package-language-mode-install-list*
   '(markdown-mode

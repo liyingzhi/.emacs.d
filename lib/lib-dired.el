@@ -179,5 +179,22 @@ Restore the buffer with \\<dired-mode-map>`\\[revert-buffer]'."
   (dired-do-kill-lines)
   (add-to-history 'prot-dired--limit-hist regexp))
 
+;;; zoxide-cd
+;; ref: https://emacs-china.org/t/zlua-el-emacs/30586
+(defun my/zoxide-cd-to-scratch ()
+  "Use zoxide to select a directory and cd into it in *scratch* buffer."
+  (interactive)
+  (let ((paths (zoxide-query)))  ; get all paths from zoxide
+	(when paths
+	  (let ((selected-dir (completing-read "Go to directory: " paths nil t)))
+		(when (file-directory-p selected-dir)
+		  ;; Apply cd in *scratch*
+		  (with-current-buffer (get-buffer-create "*scratch*")
+			(cd selected-dir))
+		  ;; Also apply to current buffer if it's not *scratch*
+		  (unless (equal (buffer-name) "*scratch*")
+			(cd selected-dir))
+		  (message "Working directory set to: %s" selected-dir))))))
+
 (provide 'lib-dired)
 ;;; lib-dired.el ends here
