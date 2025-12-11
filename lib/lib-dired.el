@@ -196,5 +196,18 @@ Restore the buffer with \\<dired-mode-map>`\\[revert-buffer]'."
 			(cd selected-dir))
 		  (message "Working directory set to: %s" selected-dir))))))
 
+(defun my/dired-jump-with-zoxide (&optional other-window)
+  "Use zoxide to navigate to a directory and open it in Dired.
+
+With optional OTHER-WINDOW as a prefix (\\[universal-argument]),
+open the directory in another window.
+
+This command launches zoxide's interactive directory selector.  After
+selecting a directory, open it with `dired-jump'.  The command
+`dired-jump' switches to a Dired buffer for the directory in the
+current window, or in another window if OTHER-WINDOW is non-nil."
+  (interactive "P")
+  (zoxide-open-with nil (lambda (file) (dired-jump other-window file)) t))
+
 (provide 'lib-dired)
 ;;; lib-dired.el ends here

@@ -85,7 +85,7 @@
            (interactive)
            (when user/dirvish
              (call-interactively #'dirvish-dwim))) "Dirvish")
-    ("z" my/zoxide-cd-to-scratch "Zoxide Dirs"))
+    ("z" my/dired-jump-with-zoxide "Zoxide Dirs"))
 
    "Search"
    (("s s" (lambda ()
