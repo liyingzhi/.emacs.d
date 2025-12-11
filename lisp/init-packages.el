@@ -298,7 +298,7 @@
     ;;       	:pre-build ("make" "all"))
     biblio
     citar
-    (oxr :host github :repo "bdarcus/oxr")
+    (oxr :host github :repo "liyingzhi/oxr" :branch "fix-insert-name")
     titlecase
     denote
     denote-menu
