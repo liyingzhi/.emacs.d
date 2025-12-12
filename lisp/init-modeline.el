@@ -26,8 +26,7 @@
   (require 'doom-modeline)
   (setq doom-modeline-workspace-name nil)
   (setq doom-modeline-time-icon nil)
-  (setq doom-modeline-height 20
-        doom-modeline-hud t
+  (setq doom-modeline-hud t
         doom-modeline-hud-min-height 1)
   (setq doom-modeline-buffer-file-name-style
         'buffer-name)
