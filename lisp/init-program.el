@@ -338,7 +338,7 @@ ARGS is ORIG-FN args."
 (with-eval-after-load 'latex
   (keymap-sets LaTeX-mode-map
     '(("M-g r" . consult-reftex-goto-label)
-      ("C-c C-l" . consult-reftex-insert-reference)
+      ;; ("C-c C-l" . consult-reftex-insert-reference)
       (">" . transient-latex-line-template))))
 
 (defun +cdlatex-complete ()
