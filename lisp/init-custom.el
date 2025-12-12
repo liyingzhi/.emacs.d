@@ -34,6 +34,11 @@
   :group 'user
   :type 'boolean)
 
+(defcustom user/show-modeline-hud nil
+  "Show modeline hud."
+  :group 'user
+  :type 'boolean)
+
 (defcustom user/dashboard 'dashboard
   "Show dashboard."
   :group 'user
