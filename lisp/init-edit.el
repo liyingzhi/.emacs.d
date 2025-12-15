@@ -162,6 +162,8 @@
 ;; turn on field alignment
 (add-hook 'csv-mode-hook #'csv-align-mode)
 
+(add-hook 'csv-mode-hook #'display-line-numbers-mode)
+
 ;;; aggressive-indent
 (add-hooks '(emacs-lisp-mode lisp-mode)
            #'aggressive-indent-mode )
