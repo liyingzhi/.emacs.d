@@ -80,8 +80,11 @@
 
 (require 'acp)
 (require 'agent-shell)
+
 (setq agent-shell-qwen-authentication
       (agent-shell-qwen-make-authentication :login t))
+
+(keymap-set agent-shell-mode-map "C-o" #'agent-shell-help-menu)
 
 (require 'init-mcp)
 
