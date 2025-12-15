@@ -1,11 +1,32 @@
-;;; init-magit.el --- Git SCM support -*- lexical-binding: t -*-
+;;; lib-git.el --- git                               -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2025  lizqwer scott
+
+;; Author: lizqwer scott <lizqwerscott@gmail.com>
+;; Keywords: git
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 ;;; Commentary:
+
+;;
+
 ;;; Code:
 
-;; ANCHOR: magit-todos keyword text
-;; (require 'magit-todos)
-;; (with-eval-after-load 'magit
-;;   (magit-todos-mode 1))
+(require 'magit-section)
+(require 'magit-status)
+(require 'magit-extras)
 
 (defun +magit-log--abbreviate-author (&rest args)
   "The first arg is AUTHOR, abbreviate it.
@@ -14,10 +35,9 @@ First.Last  -> F Last
 Last, First -> F Last
 First       -> First (no change).
 
-It is assumed that the author has only one or two names."
-  ;; ARGS               -> '((REV AUTHOR DATE))
-  ;; (car ARGS)         -> '(REV AUTHOR DATE)
-  ;; (nth 1 (car ARGS)) -> AUTHOR
+It is assumed that the author has only one or two names.
+
+ARGS is `((REV AUTHOR DATE))'"
   (let* ((author (nth 1 (car args)))
          (author-abbr (if (string-match-p "," author)
                           ;; Last, First -> F Last
@@ -26,51 +46,6 @@ It is assumed that the author has only one or two names."
                         (replace-regexp-in-string "\\(.\\).*?[. ]+\\(.*\\)" "\\1 \\2" author))))
     (setf (nth 1 (car args)) author-abbr))
   (car args))
-
-(with-eval-after-load 'magit
-  (setq magit-diff-refine-hunk t
-        magit-save-repository-buffers nil
-        magit-revision-insert-related-refs nil)
-  (setq magit-delta-hide-plus-minus-markers nil)
-  (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
-  (setq magit-format-file-function #'magit-format-file-nerd-icons)
-
-  (add-hook 'magit-status-sections-hook
-            #'magit-insert-worktrees t))
-
-(with-eval-after-load 'magit-log
-  ;; Set `magit-log-margin' value in :init as many other variables will be
-  ;; dynamically set based on its value when `magit-log' is loaded.
-  ;; (setq magit-log-margin '(t age magit-log-margin-width t 18)) ;Default value
-  ;; Show the commit ages with 1-char time units
-  ;;   minute->m, hour->h, day->d, week->w, month->M, year->Y
-  ;; Also reduce the author column width to 11 as the author name is being
-  ;; abbreviated below.
-  (setq magit-log-margin '(t age-abbreviated magit-log-margin-width :author 11))
-  (advice-add 'magit-log-format-margin :filter-args #'+magit-log--abbreviate-author))
-
-(add-hook 'magit-mode-hook
-          #'(lambda ()
-              (magit-wip-mode t)
-              (magit-delta-mode t)))
-
-(with-eval-after-load 'magit
-  (require 'forge))
-
-(if user/sidebar-magitblame
-    ;; Make `magit-blame' always with sidebar style.
-    (setq magit-blame-styles
-          '((margin
-             (margin-format " %s%f" " %C %a" " %H")
-             (margin-width . 42)
-             (margin-face . magit-blame-margin)
-             (margin-body-face magit-blame-dimmed))))
-  (setq magit-blame-styles
-        '((headings
-           (heading-format . "  %C %-18a%f %-80s  %H\n")
-           (show-message . t))
-          (highlight
-           (highlight-face . magit-blame-highlight)))))
 
 (defun unpackaged/open-magit-status (status-fn)
   "Use STATUS-FN Open a `magit-status' buffer.
@@ -95,6 +70,7 @@ command was called, go to its unstaged changes section."
                       (progn
                         (goto-char (point-min))
                         (magit-status-goto-initial-section)))))))))
+
 ;;;###autoload
 (defun unpackaged/magit-status ()
   "Open a `magit-status' buffer.
@@ -111,12 +87,7 @@ command was called, go to its unstaged changes section."
   (interactive)
   (unpackaged/open-magit-status #'magit-project-status))
 
-(setq magit-status-initial-section '(((unstaged) (status)) 1))
-
-(keymap-unset magit-status-mode-map "M-n")
-(keymap-unset magit-status-mode-map "M-p")
-
-
+(require 'project)
 (defun my/filter-project-by-name (in-name exc-name)
   "Filter projects by name patterns.
 IN-NAME is a substring to match in project names.
@@ -131,14 +102,14 @@ If EXC-NAME is empty string, only match by IN-NAME."
             project--list))
 
 (defun my/magit-status-by-project-name (in-name exc-name)
-  "Open magit-status for a project filtered by name patterns.
+  "Open `magit-status' for a project filtered by name patterns.
 Prompt for IN-NAME (substring to match) and EXC-NAME (substring to exclude).
-If a matching project is found, open magit-status in its directory.
+If a matching project is found, open `magit-status' in its directory.
 Raise an error if no matching project is found."
   (interactive "sProject name (substring match): \nsExclude projects containing (leave empty to skip): ")
   (let* ((match (my/filter-project-by-name in-name exc-name)))
     (if match
-        (magit-status (car match))
+        (magit-status-setup-buffer (car match))
       (user-error "No project found containing '%s'%s" in-name
                   (if (string-empty-p exc-name)
                       ""
@@ -160,5 +131,67 @@ Raise an error if no matching project is found."
                       ""
                     (format " and excluding '%s'" exc-name))))))
 
-(provide 'init-magit)
-;;; init-magit.el ends here
+;;; git
+(require 'vc-git)
+(require 'nerd-icons)
+(require 'consult)
+
+(defun consult-switch-git-status-buffer ()
+  "Parse git status from an expanded path and switch to a file.
+The completion candidates include the Git status of each file."
+  (interactive)
+  (let ((repo-root (vc-git-root default-directory)))
+	(if (not repo-root)
+		(message "Not inside a Git repository.")
+	  (let* ((expanded-root (expand-file-name repo-root))
+			 (command-to-run (format "git -C %s status --porcelain=v1"
+									 (shell-quote-argument expanded-root)))
+			 (cmd-output (shell-command-to-string command-to-run))
+			 (target-files
+			  (let ((staged-files)
+                    (unstaged-files)
+                    (untracked-files)
+                    (new-files))
+				(dolist (line (split-string cmd-output "\n" t) ;; (nreverse files)
+                              `(("staged" . ,staged-files)
+                                ("unstaged" . ,unstaged-files)
+                                ("untracked" . ,untracked-files)))
+				  (when (> (length line) 3)
+					(let ((status (substring line 0 2))
+						  (path-info (substring line 3)))
+					  ;; Handle rename specially
+					  (if (string-match "^R" status)
+						  (let* ((paths (split-string path-info " -> " t))
+								 (new-path (cadr paths)))
+							(when new-path
+							  (push (cons (format "R %s" new-path) new-path) new-files)))
+						;; Modified or untracked
+                        (cond
+                         ((string-prefix-p "M" status)
+                          (push path-info staged-files))
+                         ((string-prefix-p " M" status)
+                          (push path-info unstaged-files))
+                         ((string-match "\?\?" status)
+                          (push path-info untracked-files))))))))))
+		(if (not target-files)
+			(message "No modified or renamed files found.")
+		  (let* ((candidates (cl-loop for (gname . items) in target-files
+                                      append (mapcar (lambda (it) (cons it gname)) items)))
+		    	 (selection (consult--read (mapcar #'car candidates)
+                                           :prompt "Switch to buffer (Git modified): "
+                                           :predicate nil
+                                           :require-match t
+                                           :group (lambda (cand transform)
+                                                    (if transform
+                                                        (concat (nerd-icons-icon-for-file cand)
+                                                                " "
+                                                                cand)
+                                                      (alist-get cand candidates nil nil #'equal)))
+                                           :sort nil)))
+		    (when selection
+		      (let ((file-path selection))
+		    	(when file-path
+		    	  (find-file (expand-file-name file-path expanded-root)))))))))))
+
+(provide 'lib-git)
+;;; lib-git.el ends here
