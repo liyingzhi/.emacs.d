@@ -129,6 +129,10 @@
                      :render (list (gt-overlay-render :if '(Info-mode helpful-mode devdocs-mode telega-webpage-mode elfeed-show-mode))
                                    (gt-insert-render :if '(telega-chat-mode) :type 'replace)
                                    (gt-buffer-render))))
+        (simple-dict . ,(gt-translator :taker (gt-taker :prompt t :pick nil :text nil)
+                                       :engines (list (gt-google-engine :if '(and not-word))
+                                                      (gt-youdao-suggest-engine :if 'word))
+                                       :render (gt-buffer-render)))
         (multi-dict . ,(gt-translator :taker (gt-taker :prompt t)
                                       :engines (list (gt-bing-engine)
                                                      (gt-youdao-dict-engine)
@@ -179,6 +183,11 @@
 (defun gt--translate (dict)
   "Translate using DICT from the preset tranlators."
   (gt-start (alist-get dict gt-preset-translators)))
+
+(defun gt-translate-prompt-with-simple-dict ()
+  "Translate with prompt using the simple dictionaries without any selection."
+  (interactive)
+  (gt--translate 'simple-dict))
 
 (defun gt-translate-prompt ()
   "Translate with prompt using the multiple dictionaries."

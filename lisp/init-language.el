@@ -28,7 +28,8 @@
    (("d" sdcv-search-pointer+ "sdcv dict")
     ;; ("f" fanyi-dwim2 "Fanyi Point")
     ;; ("F" fanyi-dwim "Fanyi Input")
-    )
+    ("f" gt-translate-prompt "Fanyi Point")
+    ("F" gt-translate-prompt-with-simple-dict "Fanyi Input"))
 
    "English"
    (("t" gt-translate "show (en->zh) with taker")
