@@ -65,6 +65,7 @@
 
 (defvar *package-tool-install-list*
   '((knockknock :host github :repo "konrad1977/knockknock")
+    (nano-calendar :fetcher github :repo "rougier/nano-calendar")
     centered-cursor-mode
     sudo-edit
     google-this
