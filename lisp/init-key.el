@@ -310,7 +310,7 @@
  (:key "c" :description "Open org capture" :command org-capture :filename "init-org")
  (:key "a" :description "Open org agenda" :command one-key-menu-agenda :filename "init-org")
  (:key "l" :description "Org store link" :command org-store-link :filename "init-org")
- (:key "i" :description "Org insert link" :command org-insert-link :filename "init-org")
+ (:key "i" :description "Org insert link dwim" :command ar/org-insert-link-dwim :filename "init-org")
  (:key "s" :description "Org search" :command consult-notes)
  (:key "r" :description "Org roam" :command one-key-menu-roam)
  (:key "p" :description "Org present" :command arg-toggle-presentation :filename "init-org-presentation")
