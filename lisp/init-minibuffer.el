@@ -223,6 +223,8 @@ DEFS is a plist associating completion categories to commands."
 ;;; consult dir
 (require 'consult-dir)
 
+;; (setq consult-dir-default-command #'consult-dir-dired)
+
 ;; Moving ahead consult-dir--source-recentf
 (let ((target 'consult-dir--source-recentf)
       (sources consult-dir-sources))
@@ -248,6 +250,22 @@ DEFS is a plist associating completion categories to commands."
 
 ;; Adding to the list of consult-dir sources
 (add-to-list 'consult-dir-sources 'consult-dir--source-quick)
+
+(defun consult-dir--zoxide-dirs ()
+  "Return list of zoxide dirs."
+  (split-string (shell-command-to-string "zoxide query -l") "\n" t))
+
+(defvar consult-dir--source-zoxide
+  `(:name "zoxide"
+          :narrow ?z
+          :category file
+          :face consult-file
+          :history file-name-history
+          :enabled ,(lambda () (executable-find "zoxide"))
+          :items ,#'consult-dir--zoxide-dirs)
+  "zoxide directory source for `consult-dir'.")
+
+(add-to-list 'consult-dir-sources 'consult-dir--source-zoxide)
 
 (global-set-keys
  '(("C-x C-d" . consult-dir)))
