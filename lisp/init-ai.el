@@ -84,7 +84,10 @@
 (setq agent-shell-qwen-authentication
       (agent-shell-qwen-make-authentication :login t))
 
-(keymap-set agent-shell-mode-map "C-o" #'agent-shell-help-menu)
+(keymap-sets agent-shell-mode-map
+  '(("C-o" . agent-shell-help-menu)
+    ("C-c RET" . shell-maker-submit)
+    ("RET" . newline)))
 
 (require 'init-mcp)
 
