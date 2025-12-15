@@ -79,7 +79,8 @@
    ("C-p" "Manage" project-manage-dispatch
     :transient t)
    ("p" "Switch" project-switch-project)
-   ("P" "Switch Open" project-switch-project-open)]
+   ("P" "Switch Open" project-switch-project-open)
+   ("C" "Emacs Config" (lambda () (interactive) (project-switch-project user-emacs-directory)))]
   [["Find"
     ("f" "File" project-find-file)
     ("F" "File OW" project-find-file-other-window)
