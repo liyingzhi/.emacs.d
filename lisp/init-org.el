@@ -655,7 +655,7 @@ OPEN and CLOSE. Otherwise, insert the delimiters with space for text in between.
   [["Link"
     ("r" "Ref" oxr-insert-ref )
     ("l" "Normal dwim" ar/org-insert-link-dwim)
-    ("c" "Citre" org-cite-insert)
+    ("c" "Cite" org-cite-insert)
     ("d" "Denote" denote-insert-link)]
    ["Emphasize"
     ("=" "Verbatim" (lambda ()
