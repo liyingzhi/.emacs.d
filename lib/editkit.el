@@ -134,7 +134,7 @@
   ["Transform"
    [("c" "Capitalize" editkit-capitalize-dwim-at-point :transient t)]
 
-   [("L" "Make Lower Case" editkit-downcase-dwim-at-point :transient t)
+   [("l" "Make Lower Case" editkit-downcase-dwim-at-point :transient t)
     ("u" "Make Upper Case" editkit-upcase-dwim-at-point :transient t)]
 
    [("g" "grugru" grugru :transient t)]]
