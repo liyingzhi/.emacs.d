@@ -94,10 +94,12 @@
    ("C-c n d l" . denote-find-link)
    ("C-c n d i" . denote-link-or-create)
    ("C-c n d k" . denote-rename-file-keywords)
-   ("C-c n d n" . denote)
+   ("C-c n d n" . denote-open-or-create)
    ("C-c n d r" . denote-rename-file)
    ("C-c n d R" . denote-rename-file-using-front-matter)
-   ("C-c n d m" . denote-menu-list-notes)))
+   ("C-c n d m" . denote-menu-list-notes)
+   ("C-c n d g" . consult-denote-grep)
+   ("C-c n d f" . consult-denote-find)))
 
 ;;; denote-org
 (global-set-keys
