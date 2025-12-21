@@ -44,6 +44,7 @@
     consult-yasnippet
     consult-dir
     bufferfile
+    file-info
     bufferlo
     embark
     embark-consult
