@@ -249,6 +249,9 @@ ARGS is ORIG-FN args."
 (advice-add #'previous-error-no-select :around #'not-split-window)
 (advice-add #'compile-goto-error :around #'not-split-window)
 
+;;; eshell
+(require 'init-eshell)
+
 ;;; eat
 (require 'init-eat)
 

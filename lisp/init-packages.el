@@ -175,7 +175,6 @@
     compile-multi
     projection
     projection-multi
-    eshell-prompt-extras
     esh-help
     dape
     citre
