@@ -423,6 +423,12 @@ Returns an alist where keys are export formats and values are file paths."
                                        (string-match-p "^CAPTURE-.*" name))))
                         (org-count-words-mode -1))))
 
+;; pangu-spacing
+;; (add-hooks '(markdown-mode org-mode)
+;;            #'pangu-spacing-mode)
+
+(setopt pangu-spacing-real-insert-separtor t)
+
 ;;; org rich yank
 
 (require 'org-rich-yank)
@@ -923,3 +929,4 @@ on a headline."
 ;; End:
 
 (provide 'init-org)
+;;; init-org.el ends here

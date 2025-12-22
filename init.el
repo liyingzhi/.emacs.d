@@ -43,7 +43,6 @@
 
 (require 'init-org)
 (require 'init-denote)
-(require 'init-pangu)
 (require 'init-plantuml)
 
 ;;(require 'crefactor)
