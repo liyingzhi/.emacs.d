@@ -308,6 +308,7 @@
     denote-journal
     denote-org
     denote-sequence
+    denote-silo
     citar-embark
     citar-denote
     denote-explore
