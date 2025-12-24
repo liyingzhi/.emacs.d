@@ -28,6 +28,8 @@
 (require 'consult-denote)
 
 (setq denote-directory "~/Documents/denote")
+;; (setq denote-directory '("~/Documents/denote" "/mnt/data/shareData/"))
+
 (setq denote-dired-directories denote-directory)
 (add-to-list 'denote-prompts 'subdirectory)
 
@@ -39,7 +41,12 @@
 (setq denote-org-store-link-to-heading 'context)
 
 (add-list-to-list  'consult-notes-file-dir-sources
-                   `(("Denote Notes"  ?d ,denote-directory)))
+                   (let ((dirs (if (listp denote-directory)
+                                   denote-directory
+                                 (list denote-directory))))
+                     (mapcar (lambda (dir)
+                               (list (format "Denote Notes(%s)" dir) ?d dir))
+                             dirs)))
 
 (defun create-denote--in-work-subdir ()
   (interactive)

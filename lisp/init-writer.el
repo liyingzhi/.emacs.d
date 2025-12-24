@@ -84,7 +84,12 @@
 
 (add-hook 'dired-mode-hook
           (lambda ()
-            (when (file-in-directory-p default-directory denote-directory)
+            (when (catch 'found
+                    (dolist (dir (if (listp denote-directory)
+                                     denote-directory
+                                   (list denote-directory)))
+                      (when (file-in-directory-p default-directory dir)
+                        (throw 'found t))))
               (diredfl-mode -1)
               (denote-dired-mode))))
 
@@ -134,8 +139,6 @@
 (with-eval-after-load 'embark
   (keymap-sets embark-defun-map
     '(("g" . org-dblock-update))))
-
-(consult-notes-denote-mode)
 
 ;;; consult-denote
 (with-eval-after-load 'consult-denote
