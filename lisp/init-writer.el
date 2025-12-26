@@ -68,7 +68,7 @@
 (citar-embark-mode)
 
 ;;; denote
-(defun denote-get-first-denote-directory ()
+(defun denote-get-denote-directory ()
   "Get first denote directory."
   (if (listp denote-directory)
       denote-directory
@@ -91,7 +91,7 @@
 (add-hook 'dired-mode-hook
           (lambda ()
             (when (catch 'found
-                    (dolist (dir (denote-get-first-denote-directory))
+                    (dolist (dir (denote-get-denote-directory))
                       (when (file-in-directory-p default-directory dir)
                         (throw 'found t))))
               (diredfl-mode -1)
@@ -286,9 +286,8 @@ When more than one bibliographic item is referenced, select item first."
 (advice-add #'citar-denote-find-reference :override #'my/citar-denote-find-reference)
 
 ;;; denote-explore
-(let ((denote-dir (denote-get-first-denote-directory)))
-  (setq denote-explore-network-directory
-        (expand-file-name "graphs/" denote-dir)))
+(setq denote-explore-network-directory
+      (expand-file-name "graphs/" (car (denote-get-denote-directory))))
 
 (defconst denote-id-regexp "\\([0-9]\\{8\\}\\)\\(T[0-9]\\{6\\}\\)"
   "Regular expression to match `denote-date-identifier-format'.")
@@ -321,6 +320,9 @@ When more than one bibliographic item is referenced, select item first."
  '(("C-c n x" . ("Denote Explore" . denote-explore-keymap))))
 
 ;;; denote journal
+(setq denote-journal-directory
+      (expand-file-name "journal" (car (denote-get-denote-directory))))
+
 (defun denote-week-report-template ()
   "Generate week template."
   (concat "* 本周工作总结"
