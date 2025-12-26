@@ -206,6 +206,7 @@
     (grid :host github :repo "ichernyshovvv/grid.el")
     enlight
     doom-modeline
+    nyan-mode
     pretty-mode
     color-identifiers-mode
     lisp-extra-font-lock
