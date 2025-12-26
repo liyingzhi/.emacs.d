@@ -233,7 +233,6 @@
                   :repo "manateelazycat/awesome-tray")
     (breadcrumb :host github
                 :repo "joaotavora/breadcrumb")
-    buffer-name-relative
     (prism :host github :repo "alphapapa/prism.el")
     casual
     casual-symbol-overlay
