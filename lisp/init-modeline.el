@@ -44,7 +44,9 @@
                 (when (and doom-modeline-battery
                            (not (my/unsupport-battery-or-charging)))
                   (display-battery-mode))))
-  (setopt nyan-minimum-window-width 100)
+  (setopt nyan-minimum-window-width 100
+          nyan-bar-length 20)
+
   (nyan-mode))
 
 (provide 'init-modeline)
