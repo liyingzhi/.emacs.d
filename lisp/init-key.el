@@ -129,8 +129,7 @@
  (:key "d" :description "Delete this file" :command bufferfile-delete :filename "init-bufferfile")
  (:key "r" :description "Rename this file" :command bufferfile-rename :filename "init-bufferfile")
  (:key "b" :description "Browse this file" :command browse-this-file :filename "init-func")
- (:key "e" :description "Dired open" :command dired-do-open-default)
- (:key "i" :description "File info" :command file-info-show))
+ (:key "e" :description "Dired open" :command dired-do-open-default))
 
 (one-key-create-menu
  "File"
@@ -147,7 +146,8 @@
                                   (interactive)
                                   (require 'project)
                                   (ido-find-file-in-dir "~/MyProject")))
-   (("c" . "Find custom file") . find-custom-file)))
+   (("c" . "Find custom file") . find-custom-file)
+   (("i" . "Info file") . file-info-show)))
 
 
 (defmacro open-dir (path)
