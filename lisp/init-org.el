@@ -726,6 +726,7 @@ OPEN and CLOSE. Otherwise, insert the delimiters with space for text in between.
 (keymap-unset org-mode-map "M-<left>")
 (keymap-unset org-mode-map "M-<right>")
 (keymap-unset org-mode-map "S-<return>")
+(keymap-unset org-mode-map "C-c ;")
 
 (global-set-keys
  '(("C-c L" . org-store-link)
