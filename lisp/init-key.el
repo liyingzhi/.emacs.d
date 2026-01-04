@@ -307,7 +307,6 @@
 
 (lazy-one-key-create-menu
  "Org"
- (:key "w" :description "Open org file" :command open-my-org-file :filename "init-org")
  (:key "c" :description "Open org capture" :command org-capture :filename "init-org")
  (:key "a" :description "Open org agenda" :command one-key-menu-agenda :filename "init-org")
  (:key "l" :description "Org store link" :command org-store-link :filename "init-org")
