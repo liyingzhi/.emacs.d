@@ -75,8 +75,24 @@
  (:key "i" :description "Toggle immersive-translate" :command immersive-translate-auto-mode))
 
 (defun consult-fd-in-home ()
+  "Search for files in the user's home directory using `consult-fd'.
+This command wraps `consult-fd', a file search utility that uses the fd program,
+and automatically sets the starting directory to the user's home directory (
+represented by \"~\")."
   (interactive)
   (consult-fd "~"))
+
+(defun consult-line-current-screen ()
+  "Search for matching lines in the text currently visible on screen.
+This is a wrapper around the `consult-line' command that restricts the search
+to the region between the top (window-start) and bottom (window-end) of the
+current window."
+  (interactive)
+  (let ((start (window-start))
+        (end (window-end (selected-window) t)))
+    (save-restriction
+      (narrow-to-region start end)
+      (consult-line))))
 
 (lazy-one-key-create-menu
  "Search"
