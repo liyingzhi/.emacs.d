@@ -36,5 +36,9 @@
 (when user/beancount
   (require 'init-beancount))
 
+;;; detached
+
+(detached-init)
+
 (provide 'init-tools)
 ;;; init-tools.el ends here
