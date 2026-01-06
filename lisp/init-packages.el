@@ -91,7 +91,7 @@
      :repo "lizqwerscott/rsync-project-mode")
     gif-screencast
     keycast
-    cal-china-x
+    (cal-china-x :host github :repo "liyingzhi/cal-china-x" :branch "fix-display-lunar-year")
     consult-gh
     consult-gh-forge
     (blink-search

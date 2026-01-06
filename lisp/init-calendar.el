@@ -53,7 +53,12 @@
         cal-china-x-important-holidays (append birthday-holiday-list
                                                '((holiday-float 5 0 2 "母亲节")
                                                  (holiday-float 6 0 3 "父亲节")))
-        cal-china-x-general-holidays cal-china-x-chinese-holidays
+        cal-china-x-general-holidays (append cal-china-x-chinese-holidays
+                                             '((holiday-lunar 1 3 "春节" 0)
+                                               (holiday-lunar 1 4 "春节" 0)
+                                               (holiday-lunar 1 5 "春节" 0)
+                                               (holiday-lunar 1 6 "春节" 0)
+                                               (holiday-lunar 1 7 "春节" 0)))
         holiday-oriental-holidays '((holiday-lunar 1 15 "元宵节")
                                     (holiday-lunar 7 7 "七夕节")
                                     (holiday-fixed 3 8 "妇女节")
