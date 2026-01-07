@@ -49,5 +49,11 @@
 
 (connection-local-set-profiles '(:application tramp :protocol "ssh") 'remote-detached)
 
+(setopt detached-list-filters
+        '(("recnet-12h" . ((detached-list-narrow-after-time "12h")))))
+
+(with-hook detached-list-mode
+  (detached-list--apply-filter (alist-get "recnet-12h" detached-list-filters nil nil #'string=)))
+
 (provide 'init-tools)
 ;;; init-tools.el ends here
