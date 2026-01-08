@@ -31,6 +31,11 @@
 ;;; Highlight symbol
 (setopt symbol-overlay-idle-time 0.1)
 
+(with-eval-after-load 'symbol-overlay
+  (keymap-unset symbol-overlay-map "h")
+  (keymap-sets symbol-overlay-map
+    '(("?" . symbol-overlay-map-help))))
+
 (add-hooks '(prog-mode yaml-ts-mode)
            #'symbol-overlay-mode)
 
