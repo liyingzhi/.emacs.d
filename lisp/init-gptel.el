@@ -122,9 +122,8 @@
              (concat user-emacs-directory
                      "config/prompts"))
 
-(agental-prompts-update)
-
-;; (agental-install)
+(agental-install (list :backend user/ai-backend
+                       :model user/ai-model))
 
 (add-list-to-list 'gptel-directives
                   `((translate . ,(concat "You are a large language model and a writing assistant. Respond concisely."
@@ -221,17 +220,6 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
 (gptel-make-preset 'elisp-document
   :description "Elisp 文档大师"
   :system (alist-get 'docstr gptel-directives))
-
-;; program agent
-(let ((agent (alist-get 'program-agent agental-prompts-templates)))
-  (gptel-make-preset 'program
-    :description (plist-get agent :description)
-    :pre (lambda () (require 'agental-tool))
-    :system (plist-get agent :system)
-    :backend user/ai-backend
-    :model user/ai-model
-    :tools (plist-get agent :tools)
-    :use-tools t))
 
 ;; program agent without tool and answer with Zh-CN
 (let ((agent (alist-get 'program-agent-wo-tool agental-prompts-templates)))
