@@ -31,11 +31,9 @@
                                                          "--stdio"
                                                          (format "--cancellationReceive=file:%s"
                                                                  (random-hex-string 21))))))
-
+  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("ty" "server")))
   (setq-default eglot-workspace-configuration
                 '(:basedpyright (:typeCheckingMode "basic"))))
-
-(add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("ty" "server")))
 
 ;;; Projection
 (with-eval-after-load 'init-project
