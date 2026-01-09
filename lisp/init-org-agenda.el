@@ -246,9 +246,11 @@ continue, per `org-agenda-skip-function'."
           org-habit-preceding-days 7
           org-habit-show-all-today t
           org-habit-graph-column 57
-          org-habit-today-glyph ?○
-          org-habit-completed-glyph ?●
           org-habit-show-done-always-green t)
+  (unless user/org-latex-preview-feature
+    (setopt org-habit-today-glyph ?○
+            org-habit-completed-glyph ?●))
+  
   (let ((agenda-sorting-strategy (assoc 'agenda org-agenda-sorting-strategy)))
     (setcdr agenda-sorting-strategy (remove 'habit-down (cdr agenda-sorting-strategy)))))
 

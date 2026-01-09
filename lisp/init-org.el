@@ -38,23 +38,24 @@
 ;;; org latex preview
 (setq org-format-latex-options (plist-put org-format-latex-options :scale user/org-format-latex-options-scale))
 
-(setopt org-preview-latex-process-alist
-        '((xelatex :programs
-                   ("xelatex" "dvisvgm")
-                   :description "xdv > svg"
-                   :message "you need to install the programs: xelatex and dvisvgm."
-                   :use-xcolor t
-                   :image-input-type "xdv"
-                   :image-output-type "svg"
-                   :image-size-adjust (1.5 . 1.2)
-                   :latex-compiler
-                   ("xelatex -no-pdf -interaction nonstopmode -shell-escape -output-directory %o %f")
-                   :image-converter
-                   ("dvisvgm %f -e -n -b min -c %S -o %O")))
-        org-preview-latex-default-process 'xelatex
+(unless user/org-latex-preview-feature
+  (setopt org-preview-latex-process-alist
+          '((xelatex :programs
+                     ("xelatex" "dvisvgm")
+                     :description "xdv > svg"
+                     :message "you need to install the programs: xelatex and dvisvgm."
+                     :use-xcolor t
+                     :image-input-type "xdv"
+                     :image-output-type "svg"
+                     :image-size-adjust (1.5 . 1.2)
+                     :latex-compiler
+                     ("xelatex -no-pdf -interaction nonstopmode -shell-escape -output-directory %o %f")
+                     :image-converter
+                     ("dvisvgm %f -e -n -b min -c %S -o %O")))
+          org-preview-latex-default-process 'xelatex))
 
+(setopt org-latex-src-block-backend 'minted
         ;; org-latex-src-block-backend 'minted ;; ‘org-latex-listings’ is obsolete since 9.6; use ‘org-latex-src-block-backend’ instead.
-        org-latex-src-block-backend 'minted
         org-latex-minted-options '(("breaklines")
                                    ("linenos")
                                    ("frame" "lines")
@@ -207,20 +208,23 @@
 ;; Make invisible parts of Org elements appear visible
 (add-hook 'org-mode-hook 'org-appear-mode)
 
-;; for emacs built-in org show raw latex fragments when at preview point
-;;================start===================
-(add-hook 'org-mode-hook 'org-fragtog-mode)
-;;================end===================
-
-;; for latex-preview enhanced branch
-;;================start===================
-;; (require 'org-latex-preview)
-;; (plist-put org-latex-preview-appearance-options
-;;            :page-width 0.8)
-;; (add-hook 'org-mode-hook 'org-latex-preview-mode)
-;; (setq org-latex-preview-mode-display-live t)
-;; (setq org-latex-preview-mode-update-delay 0.25)
-;;================end===================
+(if user/org-latex-preview-feature
+    (progn
+      ;; for latex-preview enhanced branch
+      ;;================start===================
+      (require 'org-latex-preview)
+      (plist-put org-latex-preview-appearance-options
+                 :page-width 0.8)
+      (add-hook 'org-mode-hook 'org-latex-preview-mode)
+      (setq org-latex-preview-mode-display-live t)
+      (setq org-latex-preview-mode-update-delay 0.25)
+      ;;================end===================
+      )
+  ;; for emacs built-in org show raw latex fragments when at preview point
+  ;;================start===================
+  (add-hook 'org-mode-hook 'org-fragtog-mode)
+  ;;================end===================
+  )
 
 ;; 中文标记隐藏空格
 (unless sys/macp

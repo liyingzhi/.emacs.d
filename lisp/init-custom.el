@@ -13,6 +13,13 @@
   :type '(list dir))
 
 ;;; writter
+(defcustom user/org-latex-preview-feature nil
+  "Non-nil means enable Org mode latex preview features.
+If this option is non-nil, additional preview capabilities are enabled in Org
+mode buffers. When nil, these features are disabled."
+  :group 'user
+  :type 'boolean)
+
 (defcustom user/org-base-dir-path "~/Documents/Org"
   "Dir path for org mode file."
   :group 'user
