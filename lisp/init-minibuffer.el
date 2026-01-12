@@ -391,6 +391,10 @@ targets."
 (keymap-sets minibuffer-local-map
   '(("M-s" . consult-history)
     ("M-r" . consult-history)
+
+    (("s-n" "M-n") . next-history-element)
+    (("s-p" "M-p") . previous-history-element)
+
     ("C-i" . (lambda ()
                "Insert the current symbol."
                (interactive)
