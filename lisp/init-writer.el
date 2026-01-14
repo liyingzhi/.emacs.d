@@ -218,6 +218,7 @@ DENOTE-DIR is denote dir."
 
 ;;; citar-denote
 (setopt citar-open-always-create-notes t
+        citar-denote-open-attachment nil
         citar-denote-subdir "literature")
 (citar-denote-mode)
 
@@ -256,34 +257,6 @@ Falls back to `citar-open-entry' if not in a Denote file or no any reference."
       (citar-open-entry key)
     (message "Buffer is not a Denote file or has no refenece(s)")
     (call-interactively #'citar-open-entry)))
-
-(defun my/citar-denote-find-reference ()
-  "Find Denote file(s) citing one of the current reference(s).
-
-When more than one bibliographic item is referenced, select item first."
-  (interactive)
-  (let ((file (buffer-file-name)))
-    (if (denote-file-is-note-p file)
-        (let* ((citekeys (citar-denote--retrieve-references file))
-               (citekey (when citekeys
-                          (if (= (length citekeys) 1)
-                              (car citekeys)
-                            (citar-select-ref
-                             :filter
-                             (citar-denote--has-citekeys citekeys)))))
-               (files (delete file (citar-denote--retrieve-cite-files citekey))))
-          (cond
-           (files
-            (find-file (denote-get-path-by-id
-                        (denote-extract-id-from-string
-                         (denote-select-linked-file-prompt files))))
-            (goto-char (point-min))
-            (search-forward citekey))
-           ((null citekey)
-            (message "This is not a bibliographic note"))
-           (t (message "Reference not cited in Denote files"))))
-      (message "Buffer is not a Denote file"))))
-(advice-add #'citar-denote-find-reference :override #'my/citar-denote-find-reference)
 
 ;;; denote-explore
 (setq denote-explore-network-directory
