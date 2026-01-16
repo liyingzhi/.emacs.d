@@ -250,10 +250,14 @@ continue, per `org-agenda-skip-function'."
   (unless user/org-latex-preview-feature
     (setopt org-habit-today-glyph ?○
             org-habit-completed-glyph ?●))
-  
+
   (let ((agenda-sorting-strategy (assoc 'agenda org-agenda-sorting-strategy)))
     (setcdr agenda-sorting-strategy (remove 'habit-down (cdr agenda-sorting-strategy)))))
 
+;;; agenda app
+(add-hook 'org-agenda-finalize-hook #'org-agenda-to-appt)
+(run-at-time 0 3600 'org-agenda-to-appt)
+(appt-activate t)
 
 ;;; agenda menu
 ;;;###autoload
