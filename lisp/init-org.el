@@ -280,23 +280,23 @@
           #'org-modern-indent-mode 90)
 
 ;; count word
-(with-hook org-mode
-  (when (buffer-file-name)
-    (org-count-words-mode)))
+;; (with-hook org-mode
+;;   (when (buffer-file-name)
+;;     (org-count-words-mode)))
 
 ;; disable org-count-words-mode for capture narrow buffer
-(advice-add #'org-count-words-update-buffer-count
-            :before (lambda (_ &rest _)
-                      (when-let* ((name (buffer-name))
-                                  ((or (string-match-p "\\*Capture\\*" name)
-                                       (string-match-p "^CAPTURE-.*" name))))
-                        (org-count-words-mode -1))))
+;; (advice-add #'org-count-words-update-buffer-count
+;;             :before (lambda (_ &rest _)
+;;                       (when-let* ((name (buffer-name))
+;;                                   ((or (string-match-p "\\*Capture\\*" name)
+;;                                        (string-match-p "^CAPTURE-.*" name))))
+;;                         (org-count-words-mode -1))))
 
 ;; pangu-spacing
 ;; (add-hooks '(markdown-mode org-mode)
 ;;            #'pangu-spacing-mode)
 
-(setopt pangu-spacing-real-insert-separtor t)
+;; (setopt pangu-spacing-real-insert-separtor t)
 
 ;;; org rich yank
 
