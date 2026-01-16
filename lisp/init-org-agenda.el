@@ -256,8 +256,9 @@ continue, per `org-agenda-skip-function'."
 
 ;;; agenda app
 (add-hook 'org-agenda-finalize-hook #'org-agenda-to-appt)
-(run-at-time 0 3600 'org-agenda-to-appt)
-(appt-activate t)
+(with-hook 'after-init-hook
+  (run-at-time 0 3600 'org-agenda-to-appt)
+  (appt-activate t))
 
 ;;; agenda menu
 ;;;###autoload
