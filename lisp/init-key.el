@@ -135,7 +135,8 @@ current window."
  (:key "h" :description "bury buffer" :command bury-buffer)
  (:key "l" :description "unbury buffer" :command unbury-buffer)
  (:key "s" :description "Save buffer" :command save-buffer)
- (:key "S" :description "Switch *scratch* buffer" :command switch-*scratch*-buffer))
+ (:key "S" :description "Switch *scratch* buffer" :command switch-*scratch*-buffer)
+ (:key "c" :description "Clone indirect buffer OW" :command clone-indirect-buffer-other-window))
 
 (lazy-one-key-create-menu
  "FileAction"
