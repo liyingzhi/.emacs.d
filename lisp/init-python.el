@@ -31,7 +31,12 @@
                                                          "--stdio"
                                                          (format "--cancellationReceive=file:%s"
                                                                  (random-hex-string 21))))))
-  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("ty" "server")))
+
+  (when (executable-find "ty")
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   '((python-mode python-ts-mode) . ("ty" "server")))))
+
   (setq-default eglot-workspace-configuration
                 '(:basedpyright (:typeCheckingMode "basic"))))
 
