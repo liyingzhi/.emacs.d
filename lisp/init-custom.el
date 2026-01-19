@@ -20,6 +20,15 @@ mode buffers. When nil, these features are disabled."
   :group 'user
   :type 'boolean)
 
+(defcustom user/org-agenda-to-appt nil
+  "Non-nil means enable appointment integration from Org agenda.
+If this option is non-nil, Org agenda entries with a time of day are
+added to the appointment list (see `appt-add').  This allows the Emacs
+appointment notification system to alert you about upcoming Org
+events."
+  :group 'user
+  :type 'boolean)
+
 (defcustom user/org-base-dir-path "~/Documents/Org"
   "Dir path for org mode file."
   :group 'user

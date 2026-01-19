@@ -255,10 +255,11 @@ continue, per `org-agenda-skip-function'."
     (setcdr agenda-sorting-strategy (remove 'habit-down (cdr agenda-sorting-strategy)))))
 
 ;;; agenda app
-(add-hook 'org-agenda-finalize-hook #'org-agenda-to-appt)
-(with-hook 'after-init-hook
-  (run-at-time 0 3600 'org-agenda-to-appt)
-  (appt-activate t))
+(when user/org-agenda-to-appt
+  (add-hook 'org-agenda-finalize-hook #'org-agenda-to-appt)
+  (with-hook 'after-init-hook
+    (run-at-time 0 3600 'org-agenda-to-appt)
+    (appt-activate t)))
 
 ;;; agenda menu
 ;;;###autoload
