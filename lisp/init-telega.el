@@ -110,6 +110,8 @@
   (advice-add #'telega-msg-observable-p :after  #'+tab-bar-telega-icon-update)
 
   (add-hook 'telega-chat-mode-hook #'my/telega-chat-capf)
+  (add-hook 'telega-chat-mode-hook #'mode-line-invisible-mode)
+
   (unless sys/macp
     (telega-notifications-mode t))
 
