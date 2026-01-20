@@ -630,7 +630,7 @@ OPEN and CLOSE. Otherwise, insert the delimiters with space for text in between.
         "~/Documents/Org/quote.org"))
 
 (consult-notes-org-headings-mode)
-(consult-notes-org-roam-mode)
+;; (consult-notes-org-roam-mode)
 
 (defun log-todo-next-creation-date (&rest ignore)
   "Log NEXT creation time in the property drawer under the key 'ACTIVATED'"
@@ -792,7 +792,7 @@ on a headline."
          (format "%.1fk" (/ size 1024.0)))
         (t size)))
 
-(require 'init-org-roam)
+;; (require 'init-org-roam)
 
 (require 'init-org-capture)
 
