@@ -236,6 +236,7 @@
     casual
     casual-symbol-overlay
     time-zones
+    tmr
     inhibit-mouse))
 
 (defvar *package-mms-install-list*
