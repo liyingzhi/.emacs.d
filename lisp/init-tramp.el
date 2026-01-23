@@ -51,5 +51,7 @@
 (add-hook 'text-mode-hook #'check-toggle-some-mode)
 (add-hook 'prog-mode-hook #'check-toggle-some-mode)
 
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
 (provide 'init-tramp)
 ;;; init-tramp.el ends here

@@ -62,7 +62,8 @@
 
 ;; Emacs LSP booster
 (when (executable-find "emacs-lsp-booster")
-  (eglot-booster-mode 1))
+  (eglot-booster-mode 1)
+  (setopt eglot-booster-no-remote-boost t))
 
 ;; next eglot highligh from https://gist.github.com/jdtsmith/8b34f1459ca2a67debf943680f4896a4
 (defun my/eglot-next-highlight (&optional prev)
