@@ -13,6 +13,11 @@
              #'(lambda ()
                  (symbol-value 'meow-normal-mode)))
 
+(add-to-list 'copilot-disable-predicates
+             #'(lambda ()
+                 (and buffer-file-name
+                      (file-remote-p buffer-file-name))))
+
 (add-hooks '(python-ts-mode rust-ts-mode c++-ts-mode web-mode bash-ts-mode go-ts-mode csharp-mode csharp-ts-mode)
            #'copilot-mode)
 
