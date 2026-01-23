@@ -298,7 +298,9 @@ Falls back to `citar-open-entry' if not in a Denote file or no any reference."
 
 (defun denote-week-report-template ()
   "Generate week template."
-  (concat "* 本周工作总结"
+  (concat "#+STARTUP: showall"
+          "\n\n"
+          "* 本周工作总结"
           "\n\n"
           "---------------"
           "\n"
