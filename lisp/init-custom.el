@@ -164,6 +164,11 @@ events."
   :group 'user
   :type 'boolean)
 
+(defcustom user/rsync-project-mode nil
+  "Is enable rsync-project-mode."
+  :group 'user
+  :type 'boolean)
+
 ;;; Program
 (defcustom user/lsp-client 'eglot
   "The lsp client."

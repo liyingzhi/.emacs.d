@@ -49,7 +49,10 @@
 (require 'init-writer)
 
 (require 'init-language)
-(require 'init-rsync)
+
+(when user/rsync-project-mode
+  (require 'init-rsync))
+
 ;; (require 'init-code-stats)
 
 (require 'axis)
