@@ -171,6 +171,12 @@ and update transparent."
 (pdf-loader-install)
 
 (with-eval-after-load 'pdf-view
+  (require 'pdf-tools)
+  (require 'pdf-roll)
+  (with-hook pdf-view-mode
+    (pdf-view-themed-minor-mode)
+    (pdf-tools-enable-minor-modes))
+
   (keymap-sets pdf-view-mode-map
     '(("j" . pdf-view-next-line-or-next-page)
       ("k" . pdf-view-previous-line-or-previous-page))))
