@@ -63,7 +63,10 @@
 (add-hook 'after-init-hook
           (lambda ()
             (add-hooks '(prog-mode text-mode)
-                       #'axis-mode)))
+                       #'(lambda ()
+                           (when (and buffer-file-name
+                                      (not (file-remote-p buffer-file-name)))
+                             (axis-mode))))))
 
 (require 'init-ai)
 
