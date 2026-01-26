@@ -47,7 +47,10 @@
   (setopt nyan-minimum-window-width 100
           nyan-bar-length 20)
 
-  (nyan-mode))
+  (nyan-mode)
+  
+  (with-hook my/tramp-remote-file-hook
+    (setq-local nyan-mode nil)))
 
 (provide 'init-modeline)
 ;;; init-modeline.el ends here
