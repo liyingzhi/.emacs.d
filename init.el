@@ -60,13 +60,10 @@
       (expand-file-name "var/axis-data.sqlite"
                         user-emacs-directory))
 
-(add-hook 'after-init-hook
-          (lambda ()
-            (add-hooks '(prog-mode text-mode)
-                       #'(lambda ()
-                           (when (and buffer-file-name
-                                      (not (file-remote-p buffer-file-name)))
-                             (axis-mode))))))
+(with-hook (prog-mode text-mode)
+  (when (and buffer-file-name
+             (not (file-remote-p buffer-file-name)))
+    (axis-mode)))
 
 (require 'init-ai)
 
