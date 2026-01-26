@@ -217,10 +217,10 @@
             (call-interactively #'compilation-next-error)
             (when (or (not (get-buffer-window buffer 'visible))
                       (not (frame-focus-state)))
-              (knockknock-notify :title "Build Failed"
-                                 :message "Compilation failed"
+              (knockknock-notify :title (format "Build %s" string)
+                                 :message "Compilation Warned or Failed"
                                  :icon "cod-error"
-                                 :duration 5)))
+                                 :duration 50)))
         (message "Build finished :)")
         (run-with-timer 1 nil
                         (lambda ()
