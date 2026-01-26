@@ -190,7 +190,7 @@
 (defvar *package-ui-install-list*
   '(ef-themes
     solarized-theme
-    (koishi-theme :host github :repo "gynamics/koishi-theme.el")
+    koishi-theme
     miasma-theme
     catppuccin-theme
     (modus-catppuccin :host gitlab :repo "magus/modus-catppuccin")
