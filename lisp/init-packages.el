@@ -97,6 +97,7 @@
      :files (:defaults "*.el" "*.py" "backend" "core" "icons"))
     backup-walker
     detached
+    envrc
     show-font
     zoxide))
 
