@@ -497,10 +497,10 @@ prepended to the element after the #+HEADER: tag."
   [["Display"
     :if (lambda ()
           (equal major-mode 'org-mode))
-    ("l" "Display Link" org-toggle-link-display :toggle (lambda () (not org-link-descriptive)) :transient t)
-    ("m" "Hide Emphasis Markers" org-toggle-display-emphasis-markers :toggle (lambda () org-hide-emphasis-markers) :transient t)
-    ("e" "Display Pretty Entities" org-toggle-pretty-entities :toggle (lambda () org-pretty-entities) :transient t)
-    ("i" "Buffer Link Preview" org-toggle-buffer-link-preview :toggle (lambda () org-link-preview-overlays) :transient t)
+    ("l" "Display Link" org-toggle-link-display :toggle (not org-link-descriptive) :transient t)
+    ("m" "Hide Emphasis Markers" org-toggle-display-emphasis-markers :toggle org-hide-emphasis-markers :transient t)
+    ("e" "Display Pretty Entities" org-toggle-pretty-entities :toggle org-pretty-entities :transient t)
+    ("i" "Buffer Link Preview" org-toggle-buffer-link-preview :toggle org-link-preview-overlays :transient t)
     ("v" "Toggle Valign" valign-mode :toggle t :transient t)
     ("s" "Toggle sliced image" org-sliced-images-mode :toggle t :transient t)]
    ["Org Management"
@@ -541,33 +541,17 @@ OPEN and CLOSE. Otherwise, insert the delimiters with space for text in between.
     ("c" "Cite" org-cite-insert)
     ("d" "Denote" denote-insert-link)]
    ["Emphasize"
-    ("=" "Verbatim" (lambda ()
-                      (interactive)
-                      (org-emphasize ?=)))
-    ("~" "Code" (lambda ()
-                  (interactive)
-                  (org-emphasize ?~)))
-    ("+" "Delete" (lambda ()
-                    (interactive)
-                    (org-emphasize ?+)))
-    ("_" "Underline" (lambda ()
-                       (interactive)
-                       (org-emphasize ?_)))
+    ("=" "Verbatim" (org-emphasize ?=))
+    ("~" "Code" (org-emphasize ?~))
+    ("+" "Delete" (org-emphasize ?+))
+    ("_" "Underline" (org-emphasize ?_))
 
-    ("/" "Italic" (lambda ()
-                    (interactive)
-                    (org-emphasize ?/)))
-    ("*" "Bold" (lambda ()
-                  (interactive)
-                  (org-emphasize ?*)))
+    ("/" "Italic" (org-emphasize ?/))
+    ("*" "Bold" (org-emphasize ?*))
     ("e" "Emphasize" org-emphasize)]
    ["Latex"
-    ("i" "Inline math" (lambda ()
-                         (interactive)
-                         (org-insert-or-surround "(" ")")))
-    ("I" "Display math" (lambda ()
-                          (interactive)
-                          (org-insert-or-surround "[" "]")))
+    ("i" "Inline math" (org-insert-or-surround "(" ")"))
+    ("I" "Display math" (org-insert-or-surround "[" "]"))
     ("E" "cdlatex environment" org-cdlatex-environment-indent)
     ("L" "Convert to latex" latex-math-from-calc :if region-active-p)]
    ["Misc"
