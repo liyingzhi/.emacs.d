@@ -183,6 +183,12 @@ DEFS is a plist associating completion categories to commands."
 (define-minibuffer-key "\C-s"
                        'file #'consult-find-for-minibuffer)
 
+(global-bind-keys
+ (("C-c s-x" "C-c M-x") . consult-mode-command)
+ ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+ ("C-x r b" . consult-bookmark)
+ ([remap Info-search] . consult-info))
+
 ;;; consult dir
 (require 'consult-dir)
 
