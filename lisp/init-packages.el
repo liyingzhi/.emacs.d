@@ -310,6 +310,7 @@
     denote-org
     denote-sequence
     denote-silo
+    denote-review
     citar-embark
     citar-denote
     denote-explore
