@@ -291,5 +291,11 @@ continue, per `org-agenda-skip-function'."
                                           (call-interactively #'casual-timezone-planner)))
    (("z" . "time-zones") . time-zones)))
 
+(global-set-keys
+ '(("C-c A t" . ("tmr timer" . tmr-prefix-map))))
+
+(global-set-keys
+ '(("C-c A c" . calendar)))
+
 (provide 'init-org-agenda)
 ;;; init-org-agenda.el ends here
