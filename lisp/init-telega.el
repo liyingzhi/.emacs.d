@@ -81,17 +81,17 @@
     (setq telega-server-libs-prefix "/opt/homebrew/"))
 
   ;;; keymap
-  (keymap-sets telega-msg-button-map
-    '(("k" . nil)
-      ("l" . nil)
-      ("SPC" . meow-keypad)))
+  (keymap-unset telega-msg-button-map "l")
+  (keymap-unset telega-msg-button-map "k")
+  (keymap-binds telega-msg-button-map
+    ("SPC" . meow-keypad))
 
-  (keymap-sets telega-prefix-map
-    '(("p" . telega-chatbuf-filter-search)
-      ("d" . telega-chat-remove-member)
-      ("m" . telega-describe-chat-members)
-      ("h" . telega-notifications-history)
-      ("x" . telega-chatbuf-thread-cancel)))
+  (keymap-binds telega-prefix-map
+    ("p" . telega-chatbuf-filter-search)
+    ("d" . telega-chat-remove-member)
+    ("m" . telega-describe-chat-members)
+    ("h" . telega-notifications-history)
+    ("x" . telega-chatbuf-thread-cancel))
 
   (defalias 'telega-prefix-map telega-prefix-map)
 
