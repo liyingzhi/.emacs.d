@@ -297,7 +297,7 @@
   '(nov
     pdf-tools
     ;; (reader :fetcher codeberg :repo "divyaranjan/emacs-reader"
-    ;;       	:files ("*.el" "render-core.so")
+    ;;       	:files ("*.el" "*.dylib" "*.so")
     ;;       	:pre-build ("make" "all"))
     biblio
     citar
