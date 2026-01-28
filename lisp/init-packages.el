@@ -176,6 +176,7 @@
     projection
     projection-multi
     esh-help
+    eshell-syntax-highlighting
     dape
     citre
     (xmake :host github :repo "lizqwerscott/xmake-emacs")
