@@ -339,10 +339,7 @@
                     :repo "kmontag/macher")
             shell-maker
             acp
-            agent-shell)
-          (when user/aider
-            '((aidermacs :host github
-                         :repo "MatthewZMD/aidermacs")))))
+            agent-shell)))
 
 (defvar *package-toolkit-install-list*
   '((thing-edit :host github :repo "manateelazycat/thing-edit")

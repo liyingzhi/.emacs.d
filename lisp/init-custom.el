@@ -253,11 +253,6 @@ Each element should be a symbol representing a model name."
   :group 'user
   :type 'symbol)
 
-(defcustom user/aider nil
-  "Aider support."
-  :group 'user
-  :type 'boolean)
-
 ;;; Tools
 (defcustom user/beancount nil
   "Enable beancount."
