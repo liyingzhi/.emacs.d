@@ -27,6 +27,11 @@
 (require 'rime)
 (setq rime-user-data-dir "~/.config/fcitx5/rime/")
 
+(defun rime-predicate-org-in-src-block-p+ ()
+  "Whether point is in an org-mode's code source block."
+  (and (derived-mode-p 'org-mode)
+       (org-in-src-block-p t)))
+
 (setq rime-show-candidate 'posframe)
 (setq rime-disable-predicates
       '(meow-normal-mode-p
@@ -38,7 +43,7 @@
         rime-predicate-ace-window-p
 
         rime-predicate-prog-in-code-p
-        ;; rime-predicate-org-in-src-block-p
+        rime-predicate-org-in-src-block-p+
         rime-predicate-org-latex-mode-p
 
         rime-predicate-punctuation-line-begin-p
