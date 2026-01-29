@@ -22,10 +22,18 @@
     '(("M-<left>" . previous-buffer-dedicated-window)
       ("M-<right>" . next-buffer-dedicated-window))))
 
+;;; dict
+(setopt quick-sdcv-dictionary-prefix-symbol "►"
+        quick-sdcv-ellipsis " ▼"
+        quick-sdcv-dictionary-data-dir (expand-file-name "config/dict" user-emacs-directory))
+
+(add-hook 'quick-sdcv-mode-hook #'goto-address-mode)
+
 (pretty-hydra-define-e hydra-language
   (:title "Language" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
   ("Dict"
-   (("d" sdcv-search-pointer+ "sdcv dict")
+   (("d" quick-sdcv-search-at-point "sdcv dict point")
+    ("i" quick-sdcv-search-input "sdcv dict Input")
     ;; ("f" fanyi-dwim2 "Fanyi Point")
     ;; ("F" fanyi-dwim "Fanyi Input")
     ("f" gt-translate-prompt "Fanyi Point")
