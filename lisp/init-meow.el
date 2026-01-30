@@ -324,8 +324,7 @@
    ;; '("Y" . meow-sync-grab)
    '("Y" . meow-clipboard-save)
    '("z" . meow-pop-selection)
-   '("<escape>" . ignore)
-   '("<tab>" . indent-for-tab-command))
+   '("<escape>" . ignore))
 
   (meow-normal-define-key
    '("g" . "M-g")
