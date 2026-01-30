@@ -108,7 +108,9 @@
    ("C-c n d R" . denote-rename-file-using-front-matter)
    ("C-c n d m" . denote-menu-list-notes)
    ("C-c n d g" . consult-denote-grep)
-   ("C-c n d f" . consult-denote-find)))
+   ("C-c n d f" . consult-denote-find)
+   ("C-c n d v s" . denote-review-set-date)
+   ("C-c n d v l" . denote-review-set-date)))
 
 ;;; denote-org
 (global-set-keys
@@ -239,7 +241,8 @@ DENOTE-DIR is denote dir."
 (which-key-add-key-based-replacements
   "C-c n"   "Note and Writing"
   "C-c n b" "Bibliographic"
-  "C-c n d" "Denote")
+  "C-c n d" "Denote"
+  "C-c A" "timer")
 
 (defun my/citar-denote-open-reference-entry ()
   "Open the bibliographic entry for the current reference.
