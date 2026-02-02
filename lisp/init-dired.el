@@ -163,7 +163,10 @@
     (("M-p" "s-p") . prot-dired-subdirectory-previous)
     ("C-c C-n" . prot-dired-subdirectory-next)
     ("C-c C-p" . prot-dired-subdirectory-previous)
-    ("J" . dired-jump-first-file)))
+    ("J" . dired-jump-first-file)
+
+    ("<" . beginning-of-buffer)
+    (">" . end-of-buffer)))
 
 ;;; dirvish
 (when user/dirvish
