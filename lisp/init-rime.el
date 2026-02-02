@@ -26,6 +26,7 @@
 
 (require 'rime)
 (setq rime-user-data-dir "~/.config/fcitx5/rime/")
+;; (setq rime-user-data-dir "~/.local/share/fcitx5/rime/")
 
 (defun rime-predicate-org-in-src-block-p+ ()
   "Whether point is in an org-mode's code source block."
