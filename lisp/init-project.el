@@ -60,6 +60,8 @@
 (add-to-list 'project-switch-commands '(project-find-regexp "Regexp") t)
 (add-to-list 'project-switch-commands '(keyboard-quit "Quit") t)
 
+(autoload #'project-list-projects "project-list" nil t nil)
+
 ;;; Menu
 (require 'transient)
 (transient-define-prefix project-manage-dispatch ()
@@ -80,7 +82,8 @@
     :transient t)
    ("p" "Switch" project-switch-project)
    ("P" "Switch Open" project-switch-project-open)
-   ("C" "Emacs Config" (lambda () (interactive) (project-switch-project user-emacs-directory)))]
+   ("C" "Emacs Config" (lambda () (interactive) (project-switch-project user-emacs-directory)))
+   ("l" "List" project-list-projects)]
   [["Find"
     ("f" "File" project-find-file)
     ("F" "File OW" project-find-file-other-window)
