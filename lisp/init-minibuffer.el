@@ -369,6 +369,23 @@ targets."
   (browse-url
    (format "http://duckduckgo.com/?q=%s" term)))
 
+(defun my/embark-make-directory (dir &optional parents)
+  "Make DIR and use `dired' open it.
+
+Interactively, the default choice of directory to create is the
+current buffer's default directory.  That is useful when you have
+visited a file in a nonexistent directory.
+
+Noninteractively, the second (optional) argument PARENTS, if non-nil, says
+whether to create parent directories that don't exist. Interactively, this
+happens by default."
+  (interactive
+   (list (read-file-name "Make directory: " default-directory default-directory
+			             nil nil)
+	     t))
+  (make-directory dir parents)
+  (dired dir))
+
 (with-eval-after-load 'embark
   (setq embark-cycle-key "SPC")
 
@@ -383,7 +400,8 @@ targets."
       ("B" . switch-to-buffer-other-window)))
   (keymap-sets embark-file-map
     '(("S" . sudo-edit-find-file)
-      ("F" . find-file-other-window)))
+      ("F" . find-file-other-window)
+      ("+" . my/embark-make-directory)))
   (keymap-sets embark-bookmark-map
     '(("B" . bookmark-jump-other-window))))
 
