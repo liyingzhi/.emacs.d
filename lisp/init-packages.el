@@ -176,6 +176,7 @@
     compile-multi
     projection
     projection-multi
+    (project-list :fetcher github :repo "lizqwerscott/project-list")
     esh-help
     eshell-syntax-highlighting
     dape
