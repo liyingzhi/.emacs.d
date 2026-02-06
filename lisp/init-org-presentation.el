@@ -9,6 +9,7 @@
 ;; blocks on either sides of the content.
 (setq olivetti-style 'fancy
       olivetti-body-width 0.5
+      olivetti-margin-width 5
       olivetti-minimum-body-width 80
       olivetti-recall-visual-line-mode-entry-state t)
 

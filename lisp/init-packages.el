@@ -275,6 +275,7 @@
     ox-reveal
     logos
     olivetti
+    spacious-padding
     ox-hugo
     org-appear
     org-fragtog
