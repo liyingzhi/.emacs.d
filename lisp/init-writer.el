@@ -68,6 +68,8 @@
 (citar-embark-mode)
 
 ;;; denote
+(setq denote-excluded-directories-regexp "\\(data\\|ltximg\\)") ; the data folder (with attachments) is excluded.
+
 (defun denote-get-denote-directory ()
   "Get first denote directory."
   (if (listp denote-directory)
