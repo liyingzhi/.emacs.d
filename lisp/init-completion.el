@@ -25,15 +25,15 @@
 
 ;;; fussy
 
-(flx-rs-load-dyn)
+;; (flx-rs-load-dyn)
 
-(autoload #'fussy-orderless-score-with-flx-rs "fussy-orderless")
+(autoload #'fussy-orderless-score-with-flx "fussy-orderless")
 
 (with-eval-after-load 'fussy
   (add-to-list 'fussy-whitespace-ok-fns
-               #'fussy-orderless-score-with-flx-rs))
+               #'fussy-orderless-score-with-flx))
 
-(setopt fussy-score-fn 'fussy-orderless-score-with-flx-rs
+(setopt fussy-score-fn 'fussy-orderless-score-with-flx
         fussy-filter-fn 'fussy-filter-orderless-flex
         fussy-use-cache nil
         fussy-max-word-length-to-score 10000
@@ -48,7 +48,7 @@
 
   (add-hook 'corfu-mode-hook
             (lambda ()
-              (setq-local fussy-score-fn 'flx-rs-score
+              (setq-local fussy-score-fn 'flx-score
                           fussy-max-candidate-limit 5000
                           fussy-default-regex-fn 'fussy-pattern-first-letter
                           fussy-prefer-prefix nil))))
