@@ -36,7 +36,7 @@
 (setopt fussy-score-fn 'fussy-orderless-score-with-flx-rs
         fussy-filter-fn 'fussy-filter-orderless-flex
         fussy-use-cache nil
-        fussy-max-word-length-to-score 5000
+        fussy-max-word-length-to-score 10000
         fussy-compare-same-score-fn 'fussy-histlen->strlen<)
 
 (fussy-setup)
