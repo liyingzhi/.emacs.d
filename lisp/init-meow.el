@@ -240,8 +240,7 @@
    ;; '("l" . one-key-menu-workspace)
    '("z" . hydra-language/body)
    '("d" . hydra-jump-dir/body)
-   '("i" . one-key-menu-insert)
-   '("a" . one-key-menu-agenda))
+   '("i" . one-key-menu-insert))
 
   (lazy-meow-leader-define-key
    '(("p" . project-dispatch) "init-project"))

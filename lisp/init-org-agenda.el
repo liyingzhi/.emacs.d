@@ -269,44 +269,48 @@ continue, per `org-agenda-skip-function'."
 ;; Optional: set up keybindings
 (defalias 'doing-command-map doing-command-map)
 
-(global-set-keys
- '(("C-c A d" . ("doing" . doing-command-map))))
-
 ;;; agenda menu
-;;;###autoload
-(defun agenda-open-with-file (file)
-  `(lambda ()
-     (interactive)
-     (let ((org-agenda-files '(,file)))
-       (org-agenda))))
 
-(one-key-create-menu
- "agenda"
- `((("i" . "inbox agent") . ,(agenda-open-with-file "~/Documents/Org/inbox.org"))
-   (("t" . "idea agent") . ,(agenda-open-with-file "~/Documents/Org/tasks.org"))
-   (("A" . "all agent") . org-agenda)
-   (("a" . "daily agenda") . (lambda ()
-                               "Call Org agenda with `prot-org-custom-daily-agenda' configuration."
-                               (interactive)
-                               (org-agenda nil "A")))
-   (("g" . "GTD agenda") . (lambda ()
-                             "Call Org agenda with GTD configuration."
-                             (interactive)
-                             (org-agenda nil "g")))
-   (("d" . "Capture roam dailies note") . org-roam-dailies-capture-today)
-   (("j" . "Show open or delete journal menu") . journal-transient)
-   (("p" . "casual timezone planner") . (lambda ()
-                                          (interactive)
-                                          (autoload #'casual-timezone-planner "casual-timezone-utils" nil t)
-                                          (autoload #'casual-timezone-settings-tmenu "casual-timezone-settings" nil t)
-                                          (call-interactively #'casual-timezone-planner)))
-   (("z" . "time-zones") . time-zones)))
+(defun agenda-open-inbox ()
+  (interactive)
+  (let ((org-agenda-files '("~/Documents/Org/inbox.org")))
+    (org-agenda)))
 
+(defun agenda-open-tasks ()
+  (interactive)
+  (let ((org-agenda-files '("~/Documents/Org/tasks.org")))
+    (org-agenda)))
+
+(defun org-agenda-daily ()
+  "Call Org agenda with `prot-org-custom-daily-agenda' configuration."
+  (interactive)
+  (org-agenda nil "A"))
+
+(defun org-agenda-gtd ()
+  "Call Org agenda with GTD configuration."
+  (interactive)
+  (org-agenda nil "g"))
+
+(defun my/casual-timezone-planner ()
+  (interactive)
+  (autoload #'casual-timezone-planner "casual-timezone-utils" nil t)
+  (autoload #'casual-timezone-settings-tmenu "casual-timezone-settings" nil t)
+  (call-interactively #'casual-timezone-planner))
+
+;; 使用 global-set-keys 绑定到 C-c a 前缀
 (global-set-keys
- '(("C-c A t" . ("tmr timer" . tmr-prefix-map))))
-
-(global-set-keys
- '(("C-c A c" . calendar)))
+ '(("C-c a i" . agenda-open-inbox)
+   ("C-c a T" . agenda-open-tasks)
+   ("C-c a A" . org-agenda)
+   ("C-c a a" . org-agenda-daily)
+   ("C-c a g" . org-agenda-gtd)
+   ("C-c a D" . org-roam-dailies-capture-today)
+   ("C-c a j" . journal-transient)
+   ("C-c a p" . my/casual-timezone-planner)
+   ("C-c a z" . time-zones)
+   ("C-c a c" . calendar)
+   ("C-c a t" . ("tmr timer" . tmr-prefix-map))
+   ("C-c a d" . ("doing" . doing-command-map))))
 
 (provide 'init-org-agenda)
 ;;; init-org-agenda.el ends here
