@@ -262,12 +262,13 @@ continue, per `org-agenda-skip-function'."
     (appt-activate t)))
 
 ;;; doing
-(require 'doing)
-;; Optional: change the storage directory (default: ~/org/doing/)
 (setopt doing-directory "~/Documents/Org/doing/")
 
 ;; Optional: set up keybindings
-(defalias 'doing-command-map doing-command-map)
+(with-eval-after-load 'doing
+  (defalias 'doing-command-map doing-command-map))
+
+(autoload 'doing-command-map "doing" nil t 'keymap)
 
 ;;; agenda menu
 
