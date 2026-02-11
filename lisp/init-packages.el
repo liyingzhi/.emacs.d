@@ -241,6 +241,7 @@
     casual-symbol-overlay
     time-zones
     tmr
+    (doing.el :host github :repo "xiaoxinghu/doing.el")
     inhibit-mouse))
 
 (defvar *package-mms-install-list*
