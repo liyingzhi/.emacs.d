@@ -46,6 +46,22 @@
   :stream t
   :key #'gptel-api-key)
 
+(gptel-make-anthropic "DeepSeek"
+  :stream t
+  :host "api.deepseek.com"
+  :endpoint "/anthropic/v1/messages"
+  :key #'gptel-api-key
+  :models '((deepseek-reasoner
+             :capabilities (tool reasoning)
+             :context-window 128
+             :input-cost 0.56
+             :output-cost 1.68)
+            (deepseek-chat
+             :capabilities (tool)
+             :context-window 128
+             :input-cost 0.56
+             :output-cost 1.68)))
+
 (gptel-make-gemini "Gemini"
   :stream t
   :key #'gptel-api-key)
