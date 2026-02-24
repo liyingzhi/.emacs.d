@@ -354,10 +354,7 @@
     dwim-shell-command))
 
 (defvar *package-another-install-list*
-  '(elfeed
-    elfeed-tube
-    elfeed-tube-mpv
-    code-stats
+  '(code-stats
     docker
     (screenshot :host github :repo "tecosaur/screenshot")
     (consult-omni :type git :host github :repo "armindarvish/consult-omni" :branch "main" :files (:defaults "sources/*.el"))))

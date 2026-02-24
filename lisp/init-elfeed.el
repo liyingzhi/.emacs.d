@@ -2,6 +2,26 @@
 ;;; Commentary:
 ;;; Code:
 
+(wait-packages!
+ '(elfeed
+   elfeed-tube
+   elfeed-tube-mpv
+   elfeed-org))
+
+;; Load elfeed-org
+(require 'elfeed-org)
+;; Initialize elfeed-org
+;; This hooks up elfeed-org to read the configuration when elfeed
+;; is started with =M-x elfeed=
+(elfeed-org)
+
+;; Optionally specify a number of files containing elfeed
+;; configuration. If not set then the location below is used.
+;; Note: The customize interface is also supported.
+(setopt rmh-elfeed-org-files (list "~/Documents/Org/elfeed.org"))
+
+(setopt url-queue-timeout 30)
+
 (require 'elfeed)
 (require 'elfeed-tube)
 (require 'elfeed-tube-mpv)
@@ -197,9 +217,7 @@ and the download is cancelled."
 
 (with-eval-after-load 'elfeed-show
   (keymap-sets elfeed-show-mode-map
-    '(("M-n" . scroll-up-1/3)
-      ("M-p" . scroll-down-1/3)
-      ("C-c C-o" . +open-link-with-mpv)
+    '(("C-c C-o" . +open-link-with-mpv)
       ("C-c C-f" . elfeed-tube-fetch)
       ("C-c C-l" . elfeed-tube-mpv-follow-mode)
       ("C-c C-w" . elfeed-tube-mpv-where)
