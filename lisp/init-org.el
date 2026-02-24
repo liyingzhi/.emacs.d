@@ -35,6 +35,8 @@
 ;;       '((sequence "TODO(t!)" "WAIT(w@/!)" "|" "DONE(d@/!)" "CANCEL(c@/!)")
 ;;         (sequence "REPORT(r!)" "BUG(b@/!)" "|" "FIXED(f@/!)")))
 
+(setq org-priority-lowest ?D)
+
 ;;; org latex preview
 (setq org-format-latex-options (plist-put org-format-latex-options :scale user/org-format-latex-options-scale))
 
@@ -304,16 +306,12 @@
 (setq valign-facy-bar t)
 (add-hook 'org-mode-hook #'valign-mode)
 
-(setq org-fancy-priorities-list
-      '((?A . "A")
-        (?B . "⬆")
-        (?C . "⬇")
-        (?D . "☕")
-        (?1 . "⚡")
-        (?2 . "2")
-        (?3 . "3")
-        (?4 . "☕")
-        (?I . "Important")))
+(setopt org-fancy-priorities-list
+        '((?A . "⚡")
+          (?B . "B")
+          (?C . "C")
+          (?D . "☕")))
+
 (add-hook 'org-mode-hook #'org-fancy-priorities-mode)
 
 (add-hook 'org-mode-hook
@@ -534,6 +532,27 @@ prepended to the element after the #+HEADER: tag."
           (equal major-mode 'org-mode))
         ("q" "Quit" transient-quit-one)]])
 
+(transient-define-prefix transient-priority-setting ()
+  "Setting priority."
+  :transient-non-suffix 'transient--do-stay
+  [
+   :description (lambda ()
+                  (let* ((priority (org-entry-get nil "PRIORITY" t))
+                         (priority-char (string-to-char priority)))
+                    (format "Priority list: [%s]"
+                            (string-join
+                             (mapcar (lambda (item)
+                                       (pcase-let* ((`(,pro . ,value) item))
+                                         (if (equal pro priority-char)
+                                             (format "[%s]" value)
+                                           value)))
+                                     org-fancy-priorities-list)
+                             ", "))))
+   :class transient-row
+   ("K" "↑" org-priority-up :transient t)
+   ("J" "↓" org-priority-down :transient t)
+   ("q" "Quit" transient-quit-one)])
+
 (defun org-insert-or-surround (open close)
   "Insert or surround text with LaTeX-style delimiters.
 
@@ -612,6 +631,21 @@ OPEN and CLOSE. Otherwise, insert the delimiters with space for text in between.
    ("C-c C-o" . org-open-at-point)
    ("M-s n" . consult-notes)
    ("M-s N" . consult-notes-search-in-all-notes)))
+
+;; for embark
+(with-eval-after-load 'embark
+  (keymap-binds embark-org-item-map
+    ("c" . ("Cycle" . org-cycle-list-bullet)))
+
+  (keymap-binds embark-org-heading-map
+    ("n" . ("Note" . org-add-note))
+    ("c" . ("Clone" . org-clone-subtree-with-time-shift))
+    ("K" . ("Priority Up" . (lambda () (interactive)
+                              (org-priority-up)
+                              (transient-priority-setting))))
+    ("J" . ("Priority Down" . (lambda () (interactive)
+                                (org-priority-down)
+                                (transient-priority-setting))))))
 
 ;;; Org capf
 (defun my/org-capf ()
