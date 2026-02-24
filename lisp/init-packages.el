@@ -245,7 +245,8 @@
     inhibit-mouse))
 
 (defvar *package-mms-install-list*
-  '(emms))
+  '(emms
+    ready-player))
 
 (defvar *package-window-install-list*
   '(popper

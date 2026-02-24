@@ -310,5 +310,7 @@ Only works when current buffer is the EMMS playlist buffer."
 (which-key-add-key-based-replacements
   "C-c m" "Multimedia")
 
+(setopt ready-player-minor-mode-map-prefix "C-c m r")
+
 (provide 'init-mms)
 ;;; init-mms.el ends here
