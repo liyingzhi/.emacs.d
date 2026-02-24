@@ -608,9 +608,6 @@ OPEN and CLOSE. Otherwise, insert the delimiters with space for text in between.
 
     ("C-c C-l" . ar/org-insert-link-dwim)
 
-    ("M-g n" . org-next-visible-heading)
-    ("M-g p" . org-previous-visible-heading)
-
     ("M-g o" . consult-org-heading)
 
     ("<" . ,(lambda ()

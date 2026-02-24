@@ -348,9 +348,7 @@ current window."
 ;;; symbol-overlay and symbol-overlay-mc
 (global-set-keys
  '(("M-a" . symbol-overlay-mc-mark-all)
-   ("M-i" . symbol-overlay-put)
-   ("M-g n" . symbol-overlay-jump-next)
-   ("M-g p" . symbol-overlay-jump-prev)))
+   ("M-i" . symbol-overlay-put)))
 
 ;;; webjump
 ;; (lazy-load-global-keys
