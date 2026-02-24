@@ -104,6 +104,14 @@
             deepseek/deepseek-r1:free
             deepseek/deepseek-chat-v3-0324:free))
 
+(gptel-make-anthropic "MiniMax"
+  :stream t
+  :protocol "https"
+  :host "api.minimaxi.com"
+  :endpoint "/anthropic/v1/messages"
+  :key #'gptel-api-key
+  :models '(MiniMax-M2.5 MiniMax-M2.5-highspeed))
+
 (setq gptel-backend
       (gptel-get-backend user/ai-backend-free))
 (setq gptel-model user/ai-model-free)
