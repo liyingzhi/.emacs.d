@@ -198,6 +198,10 @@ and the download is cancelled."
 ;;; elfeed setting
 (setq elfeed-search-print-entry-function #'+elfeed-search-print-entry--better-default)
 
+(add-hook 'elfeed-show-mode-hook
+          #'visual-line-mode)
+
+
 (defun tab-bar-switch-or-create-rss ()
   "Create or switch elfeed tab bar."
   (interactive)
