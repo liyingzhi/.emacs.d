@@ -209,6 +209,7 @@ then write results to OUTPUT-FILEPATH, one element per line."
 ;; autoload
 (autoload #'emms "emms" nil t)
 (autoload #'emms-pause "emms" nil t)
+(autoload #'emms-history-load "emms-history" nil t)
 
 ;;** EMMS helpers
 ;; transient to control EMMS
@@ -255,8 +256,8 @@ then write results to OUTPUT-FILEPATH, one element per line."
    ["Favorites"
     :pad-keys t
     ("l" "Load fav playlist" (lambda ()
-                             (interactive)
-                             (emms-play-playlist +favorites-playlist)))
+                               (interactive)
+                               (emms-play-playlist +favorites-playlist)))
     ("E" "Filter roi and Export" filter-music-buffer-and-save-to-file)
     ("G" "Get entry to fav" +emms-add-to-favorites :transient t)
     ("g" "Goto entry line" +emms-select-song)]
@@ -315,8 +316,10 @@ Only works when current buffer is the EMMS playlist buffer."
   (interactive)
   (autoload 'tab-bar-switch-or-create "lib-tabbar" nil t)
   (tab-bar-switch-or-create "Music")
-  (call-interactively #'emms-history-load)
-  (call-interactively #'emms))
+  (if (bound-and-true-p emms-playlist-buffer)
+      (emms-playlist-mode-go)
+    (call-interactively #'emms-history-load)
+    (emms-playlist-mode-go)))
 
 (global-bind-keys
  ("C-c l s" . ("Rss Tab" . tab-bar-switch-or-create-music)))
