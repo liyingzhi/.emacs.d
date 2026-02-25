@@ -247,10 +247,6 @@
  '((("C-c <") . remember-init)
    (("C-c >") . remember-jump)))
 
-(keymap-binds buffer-navigation-repeat-map
-  ("n" . next-buffer)
-  ("p" . previous-buffer))
-
 ;;; editkit
 (autoload #'editkit-transform-menu "editkit" nil t)
 (autoload #'editkit-rectangle-menu "editkit" nil t)
