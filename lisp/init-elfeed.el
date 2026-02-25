@@ -90,6 +90,7 @@ certain tags, with a default icon if no specific match is found."
         ((member "forum" tags) (nerd-icons-faicon "nf-fa-forumbee" :face '(:foreground "#EF9120")))
         ((member "github" tags) (nerd-icons-faicon "nf-fa-github"))
         ((member "sourcehut" tags) (nerd-icons-faicon "nf-fa-circle_o"))
+        ((member "blog" tags) (nerd-icons-faicon "nf-fa-blog"))
         (t (nerd-icons-faicon "nf-fae-feedly" :face '(:foreground "#2AB24C")))))
 
 (defun +elfeed-search-print-entry--better-default (entry)
