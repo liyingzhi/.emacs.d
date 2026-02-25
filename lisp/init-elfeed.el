@@ -46,7 +46,8 @@
     (run-hooks 'elfeed-search-update-hook)))
 
 (defun +elfeed-overview--update-list ()
-  "Update `elfeed-search-filter' list."
+  "Update `elfeed-search-filter' list.
+Get the latest content of each elfeed entry."
   (let* ((head (list nil))
          (tail head)
          (count 0))
