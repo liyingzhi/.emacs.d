@@ -310,6 +310,17 @@ Only works when current buffer is the EMMS playlist buffer."
 (which-key-add-key-based-replacements
   "C-c m" "Multimedia")
 
+(defun tab-bar-switch-or-create-music ()
+  "Create or switch music tab bar."
+  (interactive)
+  (autoload 'tab-bar-switch-or-create "lib-tabbar" nil t)
+  (tab-bar-switch-or-create "Music")
+  (call-interactively #'emms-history-load)
+  (call-interactively #'emms))
+
+(global-bind-keys
+ ("C-c l s" . ("Rss Tab" . tab-bar-switch-or-create-music)))
+
 ;;; ready-player
 (setopt ready-player-minor-mode-map-prefix "C-c m r")
 ;; (ready-player-mode)
