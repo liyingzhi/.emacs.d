@@ -1,3 +1,4 @@
+
 ;;; init-git.el --- init package about git           -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2025  lizqwer scott
@@ -194,6 +195,7 @@ _p_rev       _U_pper              _=_: upper/lower       _r_esolve
     ("gl" "Git Link" git-link-dispatch)
     ("gc" "Git Clone" ar/git-clone-clipboard-url)
     ("gr" "Git Recipe" straight-get-recipe-from-clipboard-url)
+    ("gs" "Git Standup" magit-standup)
     ("e" "Ediff revision" casual-ediff-revision)
     ("R" "Blame reveal mode" blame-reveal-mode)]]
   [("q" "Quit" transient-quit-one)])
