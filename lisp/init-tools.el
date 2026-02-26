@@ -55,6 +55,11 @@
 (with-hook detached-list-mode
   (detached-list--apply-filter (alist-get "recnet-12h" detached-list-filters nil nil #'string=)))
 
+(defalias 'detached-embark-action-map detached-embark-action-map)
+
+(global-set-keys
+ '(("C-c D" . ("Detached action" . detached-embark-action-map))))
+
 ;;; bookmark
 
 ;; Display icons for bookmarks
