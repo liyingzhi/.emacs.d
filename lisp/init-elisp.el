@@ -21,7 +21,7 @@
 (keymap-sets (emacs-lisp-mode-map lisp-interaction-mode-map)
   '(("C-c C-p" . ielm)
     ("C-h ?" . helpful-at-point)
-    ("C-c e" . macrostep-expand)))
+    ("C-c C-c e" . macrostep-expand)))
 
 ;;; macrostep
 (with-eval-after-load 'macrostep

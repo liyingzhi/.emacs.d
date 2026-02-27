@@ -58,7 +58,7 @@
 (defalias 'detached-embark-action-map detached-embark-action-map)
 
 (global-set-keys
- '(("C-c D" . ("Detached action" . detached-embark-action-map))))
+ '(("C-c e d" . ("Detached action" . detached-embark-action-map))))
 
 ;;; bookmark
 

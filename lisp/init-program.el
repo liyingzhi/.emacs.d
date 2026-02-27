@@ -11,6 +11,12 @@
 
 ;;; envrc
 (add-hook 'after-init-hook 'envrc-global-mode)
+(with-eval-after-load 'envrc
+  (global-set-keys
+   '(("C-c e e" . ("Envrc" . envrc-command-map)))))
+
+(which-key-add-key-based-replacements
+  "C-c e"   "Tool Extend")
 
 ;;; outli
 (setq outli-allow-indented-headlines t)
