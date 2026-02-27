@@ -177,7 +177,7 @@ and update transparent."
   (require 'pdf-tools)
   (require 'pdf-roll)
   (with-hook pdf-view-mode
-    (pdf-view-themed-minor-mode)
+    ;; (pdf-view-themed-minor-mode)
     (pdf-tools-enable-minor-modes))
 
   (keymap-sets pdf-view-mode-map
