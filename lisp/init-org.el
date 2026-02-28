@@ -37,6 +37,14 @@
 
 (setq org-priority-lowest ?D)
 
+;;; org link preview
+
+;; display link previews in the accessible portion of the buffer.
+;; With numeric prefix ARG 11, do the same, but include links with descriptions.
+(with-hook org-mode
+  (org-unmodified
+   (when org-startup-with-inline-images (org-link-preview '(11)))))
+
 ;;; org latex preview
 (setq org-format-latex-options (plist-put org-format-latex-options :scale user/org-format-latex-options-scale))
 
