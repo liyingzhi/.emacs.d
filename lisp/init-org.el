@@ -654,6 +654,14 @@ OPEN and CLOSE. Otherwise, insert the delimiters with space for text in between.
 
 ;;; Org capf
 (defun my/org-capf ()
+  "Set up `completion-at-point' functions for Org mode.
+
+This function configures a custom `completion-at-point' setup for Org mode
+buffers, providing:
+- File path completion (`cape-file')
+- Shell command completion (`pcomplete-completions-at-point')
+- Elisp block completion (`cape-elisp-block')
+- Super completion combining dabbrev and dictionary completion"
   (setq-local completion-at-point-functions
               `(cape-file
                 pcomplete-completions-at-point
