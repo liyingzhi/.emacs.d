@@ -1,9 +1,9 @@
-;;; meow-emt-cjk.el --- emt for meow                 -*- lexical-binding: t; -*-
+;;; meow-emt-cjk.el --- Meow integration with EMT for CJK text processing -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2026  fly_lilee
 
 ;; Author: fly_lilee <liyl2015@mail.ustc.edu.cn>
-;; Keywords: tools
+;; Keywords: tools, meow, cjk, emt, tokenizer
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,7 +20,12 @@
 
 ;;; Commentary:
 
+;; This package provides integration between Meow modal editing system and
+;; EMT (Emacs Windows Tokenizer) for enhanced CJK (Chinese, Japanese, Korean)
+;; text processing capabilities.
 ;;
+;; It enables intelligent CJK tokenization and word-based navigation when
+;; using Meow mode, improving editing efficiency for CJK text.
 
 ;;; Code:
 
@@ -28,12 +33,22 @@
  '((emt :host github :repo "LuciusChen/emt" :files ("*.el" "module/*" "module"))
    (meow-cjk :host github :repo "LuciusChen/meow-cjk")))
 
-;;; CJK tokenizer
-;; Emacs Windows Tokenizer with ICU.
-;; https://github.com/Master-Hash/ewt-rs
-;; Download icu version libwet.so dynamic module init var/emt/ directory
-;; https://github.com/roife/emt
-;; Install emt.el first, put the module dynamic lib into `emt-lib-path'
+;;; CJK tokenizer configuration
+;;
+;; EMT (Emacs Windows Tokenizer) is a dynamic module that provides ICU-based
+;; CJK text tokenization. This enables accurate word segmentation for Chinese,
+;; Japanese, and Korean text.
+;;
+;; Project references:
+;; - EWT-RS (Emacs Windows Tokenizer in Rust): https://github.com/Master-Hash/ewt-rs
+;; - EMT (Emacs Module for Tokenization): https://github.com/roife/emt
+;;
+;; Installation requirements:
+;; 1. Install emt.el package first
+;; 2. Download the ICU version of libewt.so dynamic module
+;; 3. Place the module in the `emt-lib-path' directory
+;;
+;; The module should be located at: var/emt/libewt.so relative to user-emacs-directory
 (setopt emt-lib-path (expand-file-name "var/emt/libewt.so"
                                        user-emacs-directory))
 ;; (add-hook 'after-init-hook #'emt-mode)
