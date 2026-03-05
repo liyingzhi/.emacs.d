@@ -372,6 +372,8 @@
 ;;             :override
 ;;             #'meow-next-thing-cjk)
 
+(require 'meow-emt-cjk)
+
 (require 'meow-smart-enter)
 
 (provide 'init-meow)

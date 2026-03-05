@@ -203,16 +203,6 @@
 ;;; select and copy utils
 (require 'select-copy-utils)
 
-;;; CJK tokenizer
-;; Emacs Windows Tokenizer with ICU.
-;; https://github.com/Master-Hash/ewt-rs
-;; Download icu version libwet.so dynamic module init var/emt/ directory
-;; https://github.com/roife/emt
-;; Install emt.el first, put the module dynamic lib into `emt-lib-path'
-(setopt emt-lib-path (expand-file-name "var/emt/libewt.so"
-                                       user-emacs-directory))
-;; (add-hook 'after-init-hook #'emt-mode)
-
 ;;; grugru
 (grugru-default-setup)
 
