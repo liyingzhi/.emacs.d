@@ -161,7 +161,7 @@
                                                                 '(("to" . "english")
                                                                   ("user_name" . "lizqwerscott"))))))
 
-(setq gptel-include-reasoning nil)
+(setq gptel-include-reasoning 'ignore)
 
 (require 'init-gptel-tools)
 
