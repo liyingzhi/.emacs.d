@@ -76,11 +76,11 @@
      ((or `51 `53 `55) "nf-weather-sleet")
      ((or `56 `57) "nf-weather-snow")
      ((or `61 `63 `65) "nf-weather-day_rain_mix")
-     ((or `66 `67) "nf-weather-rain-mix")
+     ((or `66 `67) "nf-weather-rain_mix")
      ((or `71 `73 `75) "nf-weather-snow")
      (`77 "nf-weather-snow")
      ((or `80 `81 `82) "nf-weather-rain")
-     ((or `85 `86) "nf-weather-rain-mix")
+     ((or `85 `86) "nf-weather-rain_mix")
      ((or `95 `96 `99) "nf-weather-thunderstorm")
      (_ "Unknown"))))
 
