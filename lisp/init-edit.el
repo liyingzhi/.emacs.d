@@ -134,7 +134,7 @@
     (isearch-forward-symbol-at-point))
 
   (keymap-sets isearch-mode-map
-    '(("<escape>" . isearch-exit)
+    '(("<escape>" . isearch-abort)
       ("C-." . my/isearch-forward-symbol-at-point)
       ("C-n" . my-isearch-consult-line-from-isearch)
       ("C-b" . my-occur-from-isearch)
@@ -154,6 +154,11 @@
   :repeat t
   "s" #'isearch-repeat-forward
   "r" #'isearch-repeat-backward)
+
+;; Center search results automatically during isearch
+(add-hook 'isearch-update-post-hook
+          (lambda ()
+            (recenter nil t)))
 
 ;;; nxml
 (with-eval-after-load 'nxml-mode
