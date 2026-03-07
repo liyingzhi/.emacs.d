@@ -29,7 +29,7 @@
 
 (require 'init-snippet)
 (require 'init-color-rg)
-(require 'init-blink-search)
+
 (require 'init-tramp)
 
 (require 'init-toolkit)

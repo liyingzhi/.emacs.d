@@ -1,5 +1,11 @@
-(setq blink-search-history-path no-littering-var-directory)
-(setq blink-search-db-path no-littering-var-directory)
+
+
+(setq blink-search-history-path (expand-file-name
+                                 (concat no-littering-var-directory
+                                         (file-name-as-directory "blink-search")
+                                         "history.txt")))
+(setq blink-search-db-path (expand-file-name "blink-search.db" no-littering-var-directory))
+
 (require 'blink-search)
 ;; (add-hook 'blink-search-mode-hook #'meow-insert-mode)
 ;; (setq blink-search-search-backends
