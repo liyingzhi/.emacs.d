@@ -24,7 +24,7 @@
 
 ;;; Code:
 
-(require 'difftastic)
+;; (require 'difftastic)
 
 ;; Add commands to a `magit-difftastic'
 (eval-after-load 'magit-diff
