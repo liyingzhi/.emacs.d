@@ -8,23 +8,35 @@
    elfeed-tube-mpv
    elfeed-org))
 
-;; Load elfeed-org
-(require 'elfeed-org)
-;; Initialize elfeed-org
-;; This hooks up elfeed-org to read the configuration when elfeed
-;; is started with =M-x elfeed=
-(elfeed-org)
 
-;; Optionally specify a number of files containing elfeed
-;; configuration. If not set then the location below is used.
-;; Note: The customize interface is also supported.
-(setopt rmh-elfeed-org-files (list "~/Documents/Org/elfeed.org"))
+(with-eval-after-load 'elfeed
+  ;; Load elfeed-org
+  ;; (require 'elfeed-org)
+  ;; Initialize elfeed-org
+  ;; This hooks up elfeed-org to read the configuration when elfeed
+  ;; is started with =M-x elfeed=
+  (elfeed-org)
+
+  ;; Optionally specify a number of files containing elfeed
+  ;; configuration. If not set then the location below is used.
+  ;; Note: The customize interface is also supported.
+  (setopt rmh-elfeed-org-files (list "~/Documents/Org/elfeed.org"))
+
+  (require 'elfeed-tube)
+  (require 'elfeed-tube-mpv)
+
+  (add-hook 'elfeed-show-mode-hook #'visual-line-mode)
+
+  (setq elfeed-tube-backend 'yt-dlp)
+
+  (setopt elfeed-tube-captions-languages
+          '("zh" "en" "english (auto generated)")
+          ;; mpv-default-options '("--http-proxy=http://127.0.0.1:7897"
+          ;;                       "--ytdl-raw-options-append=proxy=http://127.0.0.1:7897")
+          )
+  (elfeed-tube-setup))
 
 (setopt url-queue-timeout 30)
-
-(require 'elfeed)
-(require 'elfeed-tube)
-(require 'elfeed-tube-mpv)
 
 ;;; elfeed functions
 (defun +elfeed-overview ()
@@ -199,10 +211,6 @@ and the download is cancelled."
 ;;; elfeed setting
 (setq elfeed-search-print-entry-function #'+elfeed-search-print-entry--better-default)
 
-(add-hook 'elfeed-show-mode-hook
-          #'visual-line-mode)
-
-
 (defun tab-bar-switch-or-create-rss ()
   "Create or switch elfeed tab bar."
   (interactive)
@@ -212,16 +220,6 @@ and the download is cancelled."
 
 (global-bind-keys
  ("C-c l r" . ("Rss Tab" . tab-bar-switch-or-create-rss)))
-
-(setq elfeed-tube-backend 'yt-dlp)
-
-(setopt elfeed-tube-captions-languages
-        '("zh" "en" "english (auto generated)")
-        ;; mpv-default-options '("--http-proxy=http://127.0.0.1:7897"
-        ;;                       "--ytdl-raw-options-append=proxy=http://127.0.0.1:7897")
-        )
-
-(elfeed-tube-setup)
 
 (with-eval-after-load 'elfeed-show
   (keymap-sets elfeed-show-mode-map
