@@ -148,7 +148,9 @@ return (HOSTING-SITE OWNER REPO-NAME)。"
   (packages! *package-early-install-list*)
 
   ;; (require 'benchmark-init)
-  ;; (benchmark-init/activate)
+  (benchmark-init/activate)
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'after-init-hook 'benchmark-init/deactivate)
 
   (require 'init-const)
   (require 'init-custom)
