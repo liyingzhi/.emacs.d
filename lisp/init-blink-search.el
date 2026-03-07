@@ -1,4 +1,11 @@
+;;; init-blink-search.el --- Configure blink-search package  -*- lexical-binding: t; -*-
 
+;; Package-Requires: ((blink-search))
+
+;;; Commentary:
+;; Configuration for blink-search, a modern multiple source search UI for Emacs.
+
+;;; Code:
 
 (setq blink-search-history-path (expand-file-name
                                  (concat no-littering-var-directory
@@ -26,3 +33,4 @@
 (setq blink-search-grep-pdf-search-paths "~/tankData/pdf")
 
 (provide 'init-blink-search)
+;;; init-blink-search.el ends here
