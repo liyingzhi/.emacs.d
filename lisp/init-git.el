@@ -39,7 +39,8 @@
   (setq ediff-keep-variants nil
         ediff-make-buffers-readonly-at-startup nil
         ediff-merge-revisions-with-ancestor t
-        ediff-show-clashes-only t))
+        ediff-show-clashes-only t)
+  (casual-ediff-install))
 
 (add-hook 'ediff-startup-hook
           (lambda ()
@@ -48,7 +49,6 @@
                 (with-current-buffer buffer
                   (outline-show-all))))))
 
-(casual-ediff-install)
 (add-hook 'ediff-keymap-setup-hook
           (lambda ()
             (keymap-set ediff-mode-map "C-o" #'casual-ediff-tmenu)))
@@ -163,6 +163,9 @@ _p_rev       _U_pper              _=_: upper/lower       _r_esolve
               (unpackaged/smerge-hydra/body))))
 
 ;;; menu
+
+(autoload 'casual-ediff-revision "casual-ediff-utils" nil t)
+
 (transient-define-prefix git-dispatch ()
   "Git dispatch menu"
   :transient-non-suffix 'transient--do-stay
