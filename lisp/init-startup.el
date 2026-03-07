@@ -191,11 +191,10 @@
                   "~"))
     (kill-buffer diff-buf)))
 (with-eval-after-load 'backup-walker
-  (advice-add 'backup-walker-refresh :override #'my-backup-walker-refresh)
+  (advice-add 'backup-walker-refresh :override #'my-backup-walker-refresh))
 
-  (global-set-keys
-   '(("C-c e b" . backup-walker-start))))
-
+(global-set-keys
+ '(("C-c e b" . backup-walker-start)))
 
 (customize-set-variable 'kill-do-not-save-duplicates t)
 (setq ad-redefinition-action 'accept)
