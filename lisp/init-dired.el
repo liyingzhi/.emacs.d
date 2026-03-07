@@ -114,7 +114,7 @@
 (diredfl-global-mode)
 
 (require 'lib-transient)
-(require 'casual-dired)
+(require 'casual-dired-sort-by)
 
 ;;; Menu
 (pretty-transient-define-prefix dired-dispatch ()

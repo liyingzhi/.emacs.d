@@ -97,7 +97,7 @@ sort is date-added"
   :group 'dired
   :type '(list string))
 
-(require 'casual-dired)
+(require 'casual-dired-sort-by)
 
 (defun dired-check-auto-sort-dir ()
   "Check auto sort dir."
