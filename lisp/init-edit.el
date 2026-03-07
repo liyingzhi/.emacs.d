@@ -158,7 +158,8 @@
 ;; Center search results automatically during isearch
 (add-hook 'isearch-update-post-hook
           (lambda ()
-            (recenter nil t)))
+            (unless (pos-visible-in-window-p)
+              (recenter nil t))))
 
 ;;; nxml
 (with-eval-after-load 'nxml-mode
