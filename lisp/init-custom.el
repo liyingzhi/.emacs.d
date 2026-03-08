@@ -92,6 +92,11 @@ events."
   :type '(repeat symbol)
   :group 'appearance)
 
+(defcustom user/auto-random-theme nil
+  "Is auto random select theme with custom rule."
+  :group 'user
+  :type 'boolean)
+
 (defcustom user/sidebar-magitblame nil
   "Use side bar to show commit id when magit-blame."
   :group 'user

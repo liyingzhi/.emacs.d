@@ -193,6 +193,8 @@
 
 (defvar *package-ui-install-list*
   '(ef-themes
+    modus-themes
+    doric-themes
     solarized-theme
     koishi-theme
     miasma-theme
