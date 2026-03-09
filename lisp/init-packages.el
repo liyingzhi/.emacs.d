@@ -103,6 +103,7 @@
 
 (defvar *package-language-mode-install-list*
   '(markdown-mode
+    markdown-indent-mode
     log4j-mode
     just-mode
     elvish-mode
