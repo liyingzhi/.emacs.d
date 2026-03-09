@@ -78,20 +78,25 @@
       (gt--at-paragraph-boundary-p)))
 
 ;;; gt with AI
-(defvar my-ai-oneshot-models nil)
+(defvar my-ai-oneshot-models nil
+  "List of AI models available for one-shot translation.")
 
 (defcustom my-ai-oneshot-prompts
   (list "优化、润色文本" "逐句解释代码用法" "请认真分析代码，修复代码存在的错误，并给出建议")
-  "Prompts candidate."
+  "List of preset prompts for AI one-shot translation tasks."
   :type '(repeat string)
   :group 'lib-gt)
 
-(defvar my-ai-oneshot-last-model nil)
+(defvar my-ai-oneshot-last-model nil
+  "Last used AI model for one-shot translation.")
 
-(defvar my-ai-oneshot-history nil)
+(defvar my-ai-oneshot-history nil
+  "History of prompts used in one-shot translation.")
 
 (defun my/gt-ai-oneshot ()
-  "Use C-. C-, to switch model."
+  "One-shot AI translation/prompting.
+Select prompt from history or presets. Use C-. and C-, to switch AI model.
+The selected text is sent to the AI model with the chosen prompt."
   (interactive)
   (let ((prompt nil)
         (model (or my-ai-oneshot-last-model
