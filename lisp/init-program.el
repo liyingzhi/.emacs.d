@@ -394,6 +394,15 @@ ARGS is ORIG-FN args."
 (setopt markdown-fontify-code-blocks-natively t)
 (add-hook 'markdown-mode-hook #'markdown-indent-mode)
 
+;; repeat for markdown navigation
+(defvar-keymap markdown-navigation-repeat-map
+  :repeat t
+  "b" #'markdown-outline-previous-same-level
+  "f" #'markdown-outline-next-same-level
+  "n" #'markdown-outline-next
+  "p" #'markdown-outline-previous
+  "u" #'markdown-outline-up)
+
 ;;; Local Variables
 
 ;; Local Variables:
