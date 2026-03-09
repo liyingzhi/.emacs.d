@@ -25,8 +25,21 @@
 ;;; Code:
 
 (require 'rime)
-(setq rime-user-data-dir "~/.config/fcitx5/rime/")
-;; (setq rime-user-data-dir "~/.local/share/fcitx5/rime/")
+
+(when sys/macp
+  (custom-set-variables
+   '(rime-librime-root "~/.emacs.d/librime/dist"))
+  (custom-set-variables
+   `(rime-emacs-module-header-root
+     ,(if (file-exists-p "/Applications/Emacs.app/Contents/Resources/include/")
+          "/Applications/Emacs.app/Contents/Resources/include/"
+        "/opt/homebrew/include/"))))
+
+(if sys/macp
+    (setq rime-user-data-dir "~/Library/Rime")
+  (setq rime-user-data-dir "~/.config/fcitx5/rime/")
+  ;; (setq rime-user-data-dir "~/.local/share/fcitx5/rime/")
+  )
 
 (defun rime-predicate-org-in-src-block-p+ ()
   "Whether point is in an org-mode's code source block."
