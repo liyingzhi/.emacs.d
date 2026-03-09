@@ -44,11 +44,14 @@
                 (when (and doom-modeline-battery
                            (not (my/unsupport-battery-or-charging)))
                   (display-battery-mode))))
+
+  (setq doom-modeline-modal-icon t)
+  
   (setopt nyan-minimum-window-width 100
           nyan-bar-length 20)
 
   (nyan-mode)
-  
+
   (with-hook my/tramp-remote-file-hook
     (setq-local nyan-mode nil)))
 
