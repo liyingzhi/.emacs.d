@@ -57,6 +57,12 @@
 
 (defalias 'detached-embark-action-map detached-embark-action-map)
 
+(keymap-sets detached-embark-action-map
+  '(("l" . detached-list-sessions)
+    ("d" . detached-detach-session)
+    ("D" . detached-delete-session)
+    ("." . detached-describe-session)))
+
 (global-set-keys
  '(("C-c e d" . ("Detached action" . detached-embark-action-map))))
 
