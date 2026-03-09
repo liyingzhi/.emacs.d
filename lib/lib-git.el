@@ -136,6 +136,7 @@ Raise an error if no matching project is found."
 (require 'nerd-icons)
 (require 'consult)
 
+;;;###autoload
 (defun consult-switch-git-status-buffer ()
   "Parse git status from an expanded path and switch to a file.
 The completion candidates include the Git status of each file."
