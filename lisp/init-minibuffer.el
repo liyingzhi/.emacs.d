@@ -329,7 +329,7 @@ DEFS is a plist associating completion categories to commands."
   "All Bufferlo buffer candidate source for `consult-buffer'.")
 
 ;; add in the reverse order of display preference
-;; (add-to-list 'consult-buffer-sources 'my:bufferlo-consult--source-all-buffers)
+(add-to-list 'consult-buffer-sources 'my:bufferlo-consult--source-all-buffers)
 (add-to-list 'consult-buffer-sources 'my:bufferlo-consult--source-other-buffers)
 (add-to-list 'consult-buffer-sources 'my:bufferlo-consult--source-local-sepcial-buffers)
 (add-to-list 'consult-buffer-sources 'my:bufferlo-consult--source-local-buffers)
