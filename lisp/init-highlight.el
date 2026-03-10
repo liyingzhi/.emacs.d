@@ -127,8 +127,7 @@
 
 ;;; Color identifiers
 (setq color-identifiers:recoloring-delay 1)
-(add-hook 'prog-mode-hook
-          'color-identifiers-mode)
+(add-hook 'after-init-hook 'global-color-identifiers-mode)
 
 ;;; Highlight lisp
 (with-hook (lisp-mode)
