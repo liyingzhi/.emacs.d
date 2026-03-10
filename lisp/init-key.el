@@ -48,6 +48,10 @@
     '(("s-n" . compilation-next-error)
       ("s-p" . compilation-previous-error))))
 
+(keymap-sets Info-mode-map
+  '(("j" . next-line)
+    ("k" . previous-line)))
+
 ;;;###autoload
 (defmacro lazy-one-key-create-menu (title &rest keybinds)
   (let (one-key-key-alist)
