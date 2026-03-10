@@ -125,10 +125,6 @@
 ;;; Pulse modified region
 (require 'init-pulsar)
 
-;;; Color identifiers
-(setq color-identifiers:recoloring-delay 1)
-(add-hook 'after-init-hook 'global-color-identifiers-mode)
-
 ;;; Highlight lisp
 (with-hook (lisp-mode)
   (highlight-function-calls-mode 1)

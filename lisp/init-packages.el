@@ -214,7 +214,6 @@
     doom-modeline
     nyan-mode
     pretty-mode
-    color-identifiers-mode
     lisp-extra-font-lock
     highlight-function-calls
     focus
