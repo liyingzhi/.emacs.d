@@ -24,14 +24,19 @@
 
 ;;; Code:
 
-(setopt yas-snippet-dirs
-        (list
-         (expand-file-name "config/yasnippet/snippets/"
-                           user-emacs-directory))
-        yas-buffer-local-condition #'meow-insert-mode-p)
+(with-eval-after-load 'yasnippet
+ (setopt yas-snippet-dirs
+         (list
+          (expand-file-name "config/yasnippet/snippets/"
+                            user-emacs-directory))
+         yas-buffer-local-condition yas-not-string-or-comment-condition)
 
-(add-hook 'after-init-hook
-          #'yas-global-mode)
+ (advice-add #'yas-maybe-expand-abbrev-key-filter
+             :around
+             (lambda (orig-fn &rest args)
+               (when (meow-insert-mode-p)
+                 (apply orig-fn args)))))
+(add-hook 'after-init-hook #'yas-global-mode)
 
 (add-hook 'org-mode-hook
           (lambda ()
