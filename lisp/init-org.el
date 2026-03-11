@@ -472,8 +472,8 @@ prepended to the element after the #+HEADER: tag."
     ("X" (yas-expand-snippet (yas-lookup-snippet "latex-chinese")) "Latex chinese")
     ("pl" (insert "#+STARTUP: latexpreview ") "Latex Preview")
     ("pi" (insert "#+STARTUP: showall inlineimages") "Showall and Image Preview")
-    ("Mb" (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-bigblow.setup") "Html Bigblow Theme")
-    ("Mr" (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup") "Html Readtheorg Theme")
+    ("Mb" (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/html-theme-bigblow.setup") "Html Bigblow Theme")
+    ("Mr" (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/html-theme-readtheorg.setup") "Html Readtheorg Theme")
     ("Mn" (insert "#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"http://gongzhitaao.org/orgcss/org.css\"/>") "Html Normal Css"))
 
    "Source"
