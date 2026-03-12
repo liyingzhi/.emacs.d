@@ -316,6 +316,16 @@
   (add-hook 'after-init-hook
             #'server-mode))
 
+;;; native comp
+(add-hook 'window-setup-hook
+          (lambda ()
+            (when-let* ((buffer (get-buffer "*Async-native-compile-log*")))
+              (switch-to-buffer-other-window buffer)
+              (add-hook 'native-comp-async-all-done-hook
+                        (lambda ()
+                          (when-let* ((window (get-buffer-window buffer)))
+                            (quit-window window)))))))
+
 ;;; Local Variables
 
 ;; Local Variables:
