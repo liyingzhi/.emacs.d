@@ -275,16 +275,26 @@ normal weight to distinguish it from other elements."
   (let ((func (local-key-binding "m")))
     (and func (funcall func))))
 
-(advice-add #'dashboard-refresh-buffer :after #'dashboard-jump-to-recents)
+(advice-add #'dashboard-refresh-buffer
+            :around
+            (lambda (orig-fn &rest args)
+              (when (derived-mode-p 'dashboard-mode)
+                (apply orig-fn args))))
+
+(advice-add #'dashboard-refresh-buffer
+            :after
+            (lambda ()
+              (when (derived-mode-p 'dashboard-mode)
+                (dashboard-jump-to-recents))))
 
 (pcase user/dashboard
   ('dashboard
    (dashboard-setup-startup-hook)
-   (add-hook 'after-init-hook
+   (add-hook 'window-setup-hook
              (lambda ()
                (weather-fetch-weather-data nil #'dashboard-refresh-buffer dashboard-buffer-name))))
   ('scratch
-   (add-hook 'after-init-hook
+   (add-hook 'window-setup-hook
              #'+evan/scratch-setup))
   ('enlight
    (add-hook 'window-setup-hook
