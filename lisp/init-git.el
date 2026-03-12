@@ -117,7 +117,9 @@
               (magit-delta-mode t)))
 
 (with-eval-after-load 'magit
-  (require 'forge))
+  (require 'forge)
+  (transient-append-suffix 'magit-dispatch "M"
+    '("N" "Forge" forge-dispatch)))
 
 (if user/sidebar-magitblame
     ;; Make `magit-blame' always with sidebar style.
