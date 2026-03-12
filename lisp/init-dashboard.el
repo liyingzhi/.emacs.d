@@ -285,7 +285,8 @@ normal weight to distinguish it from other elements."
             :after
             (lambda ()
               (when (derived-mode-p 'dashboard-mode)
-                (dashboard-jump-to-recents))))
+                (dashboard-jump-to-recents)
+                (message "Fresh dashboard finish."))))
 
 (pcase user/dashboard
   ('dashboard
