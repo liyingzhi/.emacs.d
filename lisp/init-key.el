@@ -221,7 +221,7 @@ current window."
  (:key "G" :description "gptel menu" :command gptel-menu)
  (:key "h" :description "gptel aibo" :command gptel-aibo)
  (:key "a" :description "gptel agent" :command gptel-agent)
- (:key "A" :description "Aider" :command aidermacs-transient-menu)
+ (:key "A" :description "agent shell" :command agent-shell)
  (:key "c" :description "gptel global chat" :command agental-global-chat)
  (:key "p" :description "gptel project chat" :command agental-project-chat)
  (:key "o" :description "Casual-main-tmenu" :command casual-editkit-main-tmenu)
