@@ -2,8 +2,12 @@
 ;;; Commentary:
 ;;; Code:
 
+;;; init and load custom
+(require 'init-const)
+(require 'init-custom)
 (and (file-readable-p custom-file) (load custom-file))
 
+;;; install early basic packages
 (defvar *package-early-install-list*
   '(no-littering
     benchmark-init
@@ -17,13 +21,13 @@
 
 (packages! *package-early-install-list*)
 
+;;; benchmark activate
 ;; (require 'benchmark-init)
 (benchmark-init/activate)
 ;; To disable collection of benchmark data after init is done.
 (add-hook 'after-init-hook 'benchmark-init/deactivate)
 
-(require 'init-const)
-(require 'init-custom)
+;;; init
 (require 'init-startup)
 (require 'lazy-load)
 (require 'one-key)
