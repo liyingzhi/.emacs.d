@@ -255,7 +255,7 @@ then calls `open-dashboard' to display it."
     ("Q" quit-dashboard "quit" :exit t))))
 
 (global-set-keys
- '(("M-<f2>" . open-dashboard-from-other-buffer)))
+ '(("<f2>" . open-dashboard-from-other-buffer)))
 
 (with-eval-after-load 'dashboard
   (keymap-sets dashboard-mode-map
