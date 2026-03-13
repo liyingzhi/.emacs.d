@@ -344,7 +344,8 @@
                     :repo "kmontag/macher")
             shell-maker
             acp
-            agent-shell)))
+            agent-shell
+            (ai-code-interface.el :host github :repo "tninja/ai-code-interface.el"))))
 
 (defvar *package-toolkit-install-list*
   '((thing-edit :host github :repo "manateelazycat/thing-edit")
