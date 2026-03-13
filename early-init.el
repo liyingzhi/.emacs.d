@@ -132,32 +132,7 @@ return (HOSTING-SITE OWNER REPO-NAME)。"
 
   (add-subdirs-to-load-path
    (concat user-emacs-directory
-           "site-lisp/"))
-
-  (defvar *package-early-install-list*
-    '(no-littering
-      benchmark-init
-      exec-path-from-shell
-
-      pretty-mode
-      doom-themes
-
-      (lazy-load :host github :repo "manateelazycat/lazy-load")
-      (one-key :host github :repo "manateelazycat/one-key")))
-
-  (packages! *package-early-install-list*)
-
-  ;; (require 'benchmark-init)
-  (benchmark-init/activate)
-  ;; To disable collection of benchmark data after init is done.
-  (add-hook 'after-init-hook 'benchmark-init/deactivate)
-
-  (require 'init-const)
-  (require 'init-custom)
-  (require 'init-startup)
-  (require 'lazy-load)
-  (require 'one-key)
-  (require 'init-font))
+           "site-lisp/")))
 
 ;; Local Variables:
 ;; no-byte-compile: t
