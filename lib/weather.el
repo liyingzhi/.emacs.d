@@ -103,8 +103,8 @@
 
 (defun weather--roi-window-is-active (roi-buffer-name)
   "Check if ROI-BUFFER-NAME is the currently active and visible window."
-  (or (string= roi-buffer-name (buffer-name (window-buffer (selected-window))))
-      (get-buffer-window roi-buffer-name 'visible)))
+  (and (string= roi-buffer-name (buffer-name (window-buffer (selected-window))))
+       (get-buffer-window roi-buffer-name 'visible)))
 
 (defun weather-fetch-weather-data (&optional initial fn roi-buffer-name)
   "Fetch weather data from Open-Meteo API.
@@ -139,6 +139,8 @@ ROI-BUFFER-NAME is the buffer name to check for visibility before calling FN."
                         (when initial
                           (run-with-timer 900 900 #'weather-fetch-weather-data))
                         (when fn
+                          (when-let* ((roi-buffer-window (get-buffer-window roi-buffer-name 'visible)))
+                            (select-window roi-buffer-window))
                           (when (weather--roi-window-is-active roi-buffer-name)
                             (with-current-buffer (get-buffer roi-buffer-name)
                               (funcall fn)))))))
