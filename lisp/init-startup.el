@@ -324,7 +324,7 @@
               (add-hook 'native-comp-async-all-done-hook
                         (lambda ()
                           (when-let* ((window (get-buffer-window buffer)))
-                            (quit-window window)))))))
+                            (quit-window nil window)))))))
 
 ;;; Local Variables
 
