@@ -106,7 +106,7 @@
   (and (string= roi-buffer-name (buffer-name (window-buffer (selected-window))))
        (get-buffer-window roi-buffer-name 'visible)))
 
-(defun weather-fetch-weather-data (&optional initial fn roi-buffer-name)
+(defun weather-fetch-weather-data (roi-buffer-name &optional initial fn select-win)
   "Fetch weather data from Open-Meteo API.
 INITIAL indicates if this is the first fetch.
 FN is a callback function to execute after fetching weather info.
@@ -139,7 +139,8 @@ ROI-BUFFER-NAME is the buffer name to check for visibility before calling FN."
                         (when initial
                           (run-with-timer 900 900 #'weather-fetch-weather-data))
                         (when fn
-                          (when-let* ((roi-buffer-window (get-buffer-window roi-buffer-name 'visible)))
+                          (when-let* ((select-win)
+                                      (roi-buffer-window (get-buffer-window roi-buffer-name 'visible)))
                             (select-window roi-buffer-window))
                           (when (weather--roi-window-is-active roi-buffer-name)
                             (with-current-buffer (get-buffer roi-buffer-name)

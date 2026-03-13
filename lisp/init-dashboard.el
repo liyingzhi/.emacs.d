@@ -204,7 +204,8 @@ normal weight to distinguish it from other elements."
   (let ((buf (get-buffer dashboard-buffer-name)))
     (unless buf
       (dashboard-open)))
-  (weather-fetch-weather-data nil #'dashboard-refresh-buffer dashboard-buffer-name)
+  
+  (weather-fetch-weather-data dashboard-buffer-name nil #'dashboard-refresh-buffer nil)
 
   (unless (weather--roi-window-is-active dashboard-buffer-name)
     (dashboard-refresh-buffer)))
@@ -306,7 +307,7 @@ then calls `open-dashboard' to display it."
    (dashboard-setup-startup-hook)
    (add-hook 'window-setup-hook
              (lambda ()
-               (weather-fetch-weather-data nil #'dashboard-refresh-buffer dashboard-buffer-name))))
+               (weather-fetch-weather-data dashboard-buffer-name nil #'dashboard-refresh-buffer t))))
   ('scratch
    (add-hook 'window-setup-hook
              #'+evan/scratch-setup))
