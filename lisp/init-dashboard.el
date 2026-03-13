@@ -209,6 +209,18 @@ normal weight to distinguish it from other elements."
   (unless (weather--roi-window-is-active dashboard-buffer-name)
     (dashboard-refresh-buffer)))
 
+(defun open-dashboard-from-other-buffer ()
+  "Switch to dashboard buffer after opening it.
+
+If a dashboard buffer (`dashboard-buffer-name') already exists, switch to it
+and refresh its contents.  Otherwise, create a new dashboard.
+
+This command first calls `dashboard-open' to ensure a dashboard buffer exists,
+then calls `open-dashboard' to display it."
+  (interactive)
+  (dashboard-open)
+  (open-dashboard))
+
 (defun quit-dashboard ()
   "Quit dashboard window."
   (interactive)
@@ -243,7 +255,7 @@ normal weight to distinguish it from other elements."
     ("Q" quit-dashboard "quit" :exit t))))
 
 (global-set-keys
- '(("<f2>" . open-dashboard)))
+ '(("M-<f2>" . open-dashboard-from-other-buffer)))
 
 (with-eval-after-load 'dashboard
   (keymap-sets dashboard-mode-map
@@ -252,6 +264,7 @@ normal weight to distinguish it from other elements."
       ("P" . hydra-straight-helper/body)
       ("M" . mason-manager)
       ("H" . mcp-hub)
+      ("<f2>" . open-dashboard)
       ("q" . quit-dashboard)
       ("h" . hydra-dashboard/body)
       ("?" . hydra-dashboard/body)))
