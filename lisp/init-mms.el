@@ -214,7 +214,7 @@ then write results to OUTPUT-FILEPATH, one element per line."
 ;;** EMMS helpers
 ;; transient to control EMMS
 ;; https://tech.toryanderson.com/2023/11/29/transient-for-convenience-with-emms/
-
+;; https://github.com/ifinkelstein/dotemacs/blob/96f9d0e12ccf06d8a0d5dfebf22b98a3daf405a1/library/setup/my-setup-media.el#L82
 (transient-define-prefix my/transient-emms ()
   "EMMS music"
   :transient-non-suffix 'transient--do-stay
