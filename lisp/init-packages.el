@@ -345,7 +345,7 @@
             shell-maker
             acp
             agent-shell
-            (ai-code-interface.el :host github :repo "tninja/ai-code-interface.el"))))
+            ai-code)))
 
 (defvar *package-toolkit-install-list*
   '((thing-edit :host github :repo "manateelazycat/thing-edit")
