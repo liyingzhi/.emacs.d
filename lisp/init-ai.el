@@ -100,7 +100,7 @@
   (ai-code-prompt-filepath-completion-mode 1)
 
   ;; Optional: Ask AI to run test after code changes, for a tighter build-test loop
-  (setopt ai-code-auto-test-type 'ask-me)
+  (setopt ai-code-auto-test-type nil)
   (setopt ai-code-prompt-suffix "Only use English in code file, but Reply in Simplified Chinese language"))
 
 ;; Optional: Set up Magit integration for AI commands in Magit popups
