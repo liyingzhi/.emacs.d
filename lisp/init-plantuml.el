@@ -127,7 +127,8 @@ OUTPUT-TYPE is export file type."
                 '(cape--plantuml-keyword)))
 
   (keymap-binds plantuml-mode-map
-    ("C-c C-e" . plantuml-export)))
+    ("C-c C-e" . plantuml-export)
+    ("C-c C-d" . plantuml-convert-dir)))
 
 (autoload #'plantuml-convert-dir "plantuml-mode" nil t)
 
