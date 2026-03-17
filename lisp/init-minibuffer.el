@@ -341,13 +341,39 @@ DEFS is a plist associating completion categories to commands."
 (setopt tab-bar-new-tab-choice "*scratch*"
         bufferlo-bookmark-tab-replace-policy 'new)
 
+;; bufferlo keymap bindings
+(defvar-keymap my/bufferlo-frame-map
+  :doc "bufferlo frame keymap"
+  :prefix t
+  "l" #'bufferlo-bm-frame-load
+  "k" #'bufferlo-bm-frame-close-curr
+  "s" #'bufferlo-bm-frame-save)
 
-(global-bind-keys
- ("C-c l L" . ("Load save tab" . bufferlo-bookmark-tab-load))
- ("C-c l K" . ("Kill save tab" . bufferlo-bookmark-close-current))
- ("C-c l S" . ("Store save tab" . bufferlo-bookmark-tab-save-current))
+(defvar-keymap my/bufferlo-tab-map
+  :doc "bufferlo tab keymap"
+  :prefix t
+  "l" #'bufferlo-bm-tab-load
+  "k" #'bufferlo-bm-tab-close-curr
+  "s" #'bufferlo-bm-tab-save)
 
- ("C-c ;" . ("Switch scratch" . bufferlo-switch-to-scratch-buffer)))
+(defvar-keymap my/bufferlo-set-map
+  :doc "bufferlo set keymap"
+  :prefix t
+  "l" #'bufferlo-set-load
+  "k" #'bufferlo-set-close
+  "s" #'bufferlo-set-load
+  "a" #'bufferlo-set-add)
+
+(defvar-keymap my/bufferlo-map
+  :doc "bufferlo main keymap"
+  :prefix t
+  "f" #'my/bufferlo-frame-map
+  "t" #'my/bufferlo-tab-map
+  "s" #'my/bufferlo-set-map)
+
+(global-set-keys
+ '(("C-c l L" . ("bufferlo" . my/bufferlo-map))
+   ("C-c ;" . ("Switch scratch" . bufferlo-switch-to-scratch-buffer))))
 
 (bufferlo-mode)
 (bufferlo-anywhere-mode)
