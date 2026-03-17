@@ -322,7 +322,7 @@ Only works when current buffer is the EMMS playlist buffer."
     (emms-playlist-mode-go)))
 
 (global-bind-keys
- ("C-c l s" . ("Rss Tab" . tab-bar-switch-or-create-music)))
+ ("C-c l s" . ("Music Tab" . tab-bar-switch-or-create-music)))
 
 ;;; ready-player
 (setopt ready-player-minor-mode-map-prefix "C-c m r")
