@@ -256,6 +256,11 @@ DEFS is a plist associating completion categories to commands."
 (global-bind-keys
  ("M-g p" . ("Goto page" . consult-goto-page)))
 
+;; C-x n: narrow region
+(global-unset-key (kbd "C-x C-n"))
+(global-bind-keys
+ (("C-x n c") . set-goal-column))
+
 ;;; bufferlo
 
 ;; modeline
