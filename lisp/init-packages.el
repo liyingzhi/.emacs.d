@@ -197,6 +197,9 @@
     modus-themes
     doric-themes
     solarized-theme
+    (gruber-darker-theme :host github :repo "Eason0210/gruber-darker-theme")
+    (gruber-lighter-theme :host github :repo "Eason0210/gruber-lighter-theme")
+    (rose-pine :host github :repo "LuciusChen/rose-pine")
     koishi-theme
     miasma-theme
     catppuccin-theme
