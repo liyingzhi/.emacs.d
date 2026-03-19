@@ -272,13 +272,6 @@ ARGS is ORIG-FN args."
     (require 'multi-vterm)
     (multi-vterm-run command)))
 
-;;; lisp
-(add-hook 'before-save-hook
-          #'(lambda ()
-              (when (or (equal major-mode 'emacs-lisp-mode)
-                        (equal major-mode 'lisp-mode)
-                        (equal major-mode 'scheme-mode))
-                (call-interactively #'check-parens))))
 ;;; latex
 
 ;; (require 'tex-site) is autoloaded by AUCTex tex-site.el
