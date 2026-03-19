@@ -610,7 +610,7 @@ OPEN and CLOSE. Otherwise, insert the delimiters with space for text in between.
     ("M-J" . org-metadown)
     ("M-H" . org-metaleft)
     ("M-L" . org-metaright)
-    (("M-RET" "s-<return>") . org-meta-return-auto)
+    ;; (("M-RET" "s-<return>") . org-meta-return-auto)
 
     ("C-c C-'" . separedit/edit-org-any-block)
 
@@ -630,6 +630,7 @@ OPEN and CLOSE. Otherwise, insert the delimiters with space for text in between.
 (keymap-unset org-mode-map "M-<right>")
 (keymap-unset org-mode-map "S-<return>")
 (keymap-unset org-mode-map "C-c ;")
+(keymap-unset org-mode-map "M-RET")
 
 (global-set-keys
  '(("C-c L" . org-store-link)
