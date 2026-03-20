@@ -221,7 +221,7 @@ current window."
  (:key "G" :description "gptel menu" :command gptel-menu)
  (:key "h" :description "gptel aibo" :command gptel-aibo)
  (:key "H" :description "gptel agent" :command gptel-agent)
- (:key "a" :description "ai code interface" :command (lambda ()
+ (:key "a" :description "ai code / agent shell" :command (lambda ()
                                                        (interactive)
                                                        (if user/ai-code-interface
                                                            (ai-code-menu)
