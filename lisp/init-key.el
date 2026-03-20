@@ -221,7 +221,11 @@ current window."
  (:key "G" :description "gptel menu" :command gptel-menu)
  (:key "h" :description "gptel aibo" :command gptel-aibo)
  (:key "H" :description "gptel agent" :command gptel-agent)
- (:key "a" :description "ai code interface" :command ai-code-menu)
+ (:key "a" :description "ai code interface" :command (lambda ()
+                                                       (interactive)
+                                                       (if user/ai-code-interface
+                                                           (ai-code-menu)
+                                                         (agent-shell))))
  (:key "A" :description "agent shell" :command agent-shell)
  (:key "c" :description "gptel global chat" :command agental-global-chat)
  (:key "p" :description "gptel project chat" :command agental-project-chat)

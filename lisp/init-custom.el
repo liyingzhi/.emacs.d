@@ -218,6 +218,11 @@ Each element should be a symbol representing a model name."
   :group 'user
   :type 'string)
 
+(defcustom user/ai-code-interface nil
+  "Use ai-code-interface."
+  :group 'user
+  :type 'boolean)
+
 (defcustom user/aider-deepseek-api t
   "Is use deepseek-api for aider ai."
   :group 'user
