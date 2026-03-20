@@ -355,12 +355,12 @@
 
 (require 'repeat-fu)
 (setq repeat-fu-preset 'meow)
-(add-hook 'meow-mode-hook
-          #'(lambda ()
-              (when (and (not (minibufferp)) (not (derived-mode-p 'special-mode)))
-                (repeat-fu-mode)
-                (define-key meow-normal-state-keymap (kbd "C-'") 'repeat-fu-execute)
-                (define-key meow-insert-state-keymap (kbd "C-'") 'repeat-fu-execute))))
+
+(with-hook meow-mode
+  (when (and (not (minibufferp)) (not (derived-mode-p 'special-mode)))
+    (repeat-fu-mode)
+    (define-key meow-normal-state-keymap (kbd "C-'") 'repeat-fu-execute)
+    (define-key meow-insert-state-keymap (kbd "C-'") 'repeat-fu-execute)))
 
 ;; (require 'meow-pyim-cjk)
 
