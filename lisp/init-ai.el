@@ -88,6 +88,10 @@
 ;;; ai-code-interface
 
 (when user/ai-code-interface
+
+  (wait-packages!
+   '(ai-code))
+
   (with-eval-after-load 'ai-code
     ;; use codex as backend, other options are 'claude-code, 'gemini, 'github-copilot-cli, 'opencode,
     ;; 'grok, 'cursor, 'kiro, 'codebuddy, 'aider, 'eca, 'agent-shell, 'claude-code-ide, 'claude-code-el
@@ -102,11 +106,13 @@
 
     ;; Optional: Ask AI to run test after code changes, for a tighter build-test loop
     (setopt ai-code-auto-test-type nil)
-    (setopt ai-code-prompt-suffix "Only use English in code file, but Reply in Simplified Chinese language")))
+    (setopt ai-code-prompt-suffix "Only use English in code file, but Reply in Simplified Chinese language"))
 
-;; Optional: Set up Magit integration for AI commands in Magit popups
-(with-eval-after-load 'magit
-  (ai-code-magit-setup-transients))
+  ;; Optional: Set up Magit integration for AI commands in Magit popups
+  (with-eval-after-load 'magit
+    (ai-code-magit-setup-transients)))
+
+
 
 ;;; mcp
 (require 'init-mcp)
