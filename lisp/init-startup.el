@@ -190,8 +190,11 @@
                                           'face 'font-lock-keyword-face))
                   "~"))
     (kill-buffer diff-buf)))
+
 (with-eval-after-load 'backup-walker
-  (advice-add 'backup-walker-refresh :override #'my-backup-walker-refresh))
+  (advice-add 'backup-walker-refresh :override #'my-backup-walker-refresh)
+  (with-hook backup-walker-minor-mode
+    (meow-motion-mode)))
 
 (global-set-keys
  '(("C-c e b" . backup-walker-start)))
