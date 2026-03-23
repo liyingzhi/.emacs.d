@@ -194,17 +194,36 @@
 (with-eval-after-load 'backup-walker
   (advice-add 'backup-walker-refresh :override #'my-backup-walker-refresh)
 
-  (with-hook backup-walker-minor-mode
-    (meow-motion-mode))
+  (defvar-keymap backup-walker-user-key-map
+    :doc "User key map for the backup-walker minor mode."
+    "m" '("Meow switch state" . (lambda ()
+                                  (interactive)
+                                  (cond
+                                   ((eq meow--current-state 'normal)
+                                    (meow--switch-state 'motion)
+                                    (message "Switch Meow motion state"))
+                                   ((eq meow--current-state 'motion)
+                                    (meow--switch-state 'normal)
+                                    (message "Switch Meow normal state"))
+                                   (t
+                                    (message "Invalid Meow state"))))))
 
-  (keymap-binds backup-walker-ro-map
-    ("M" . ("Meow switch state" . (lambda ()
-                                    (interactive)
-                                    (if (meow-normal-mode-p)
-                                        (meow-motion-mode)
-                                      (if (meow-motion-mode-p)
-                                          (meow-normal-mode)
-                                        (message "Ivalid Meow state"))))))))
+  (defvar backup-walker--overriding-element
+    "Element for `emulation-mode-map-alists' used to override keys in `backup-walker-minor-mode'.
+ This is an alist with `buffer-read-only' as the key and `backup-walker-user-key-map' as the value.
+ When `backup-walker-minor-mode' is enabled, this element is added to `emulation-mode-map-alists' to
+ give its keymap priority.  When the mode is disabled, the element is removed.  This mechanism is
+ used to bind a key for switching Meow states (normal/motion) only within this minor mode."
+    `((buffer-read-only . ,backup-walker-user-key-map)))
+
+  (with-hook backup-walker-minor-mode
+    (if backup-walker-minor-mode
+        (progn
+          (meow--switch-state 'motion)
+          ;; use emulation-mode-map-alists raise keymap priority binding key for meow state switch.
+          (add-to-list 'emulation-mode-map-alists backup-walker--overriding-element))
+      (setq emulation-mode-map-alists
+            (delq backup-walker--overriding-element emulation-mode-map-alists)))))
 
 (global-set-keys
  '(("C-c e b" . backup-walker-start)))
