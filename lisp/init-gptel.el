@@ -110,7 +110,7 @@
   :host "api.minimaxi.com"
   :endpoint "/anthropic/v1/messages"
   :key #'gptel-api-key
-  :models '(MiniMax-M2.5 MiniMax-M2.5-highspeed))
+  :models '(MiniMax-M2.5 MiniMax-M2.5-highspeed MiniMax-M2.7 MiniMax-M2.7-highspeed))
 
 (setq gptel-backend
       (gptel-get-backend user/ai-backend-free))
