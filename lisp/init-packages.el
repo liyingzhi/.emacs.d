@@ -40,6 +40,7 @@
     consult-notes
     consult-yasnippet
     consult-dir
+    consult-symbol
     bufferfile
     file-info
     bufferlo

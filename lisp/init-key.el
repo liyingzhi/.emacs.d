@@ -106,6 +106,7 @@ current window."
  (:key "L" :description "Search in line in multi buffer" :command consult-line-multi)
  (:key "i" :description "Search imenu" :command consult-imenu)
  (:key "I" :description "Search imenu in multi buffer" :command consult-imenu-multi)
+ (:key "e" :description "Search emacs symbol" :command consult-symbol)
  (:key "o" :description "Search outline" :command consult-outline)
  (:key "B" :description "Bookmark" :command consult-bookmark)
  (:key "s" :description "Blink Search" :command blink-search :filename "init-blink-search")
@@ -391,6 +392,7 @@ current window."
  '(("M-s l" . consult-line)
    ("M-s L" . consult-line-multi)
    ("M-s u" . consult-isearch-history)
+   ("M-s e" . consult-symbol)
    ("M-s f" . ("Search file" . consult-fd))
    ("M-s d" . ("Search dir" . consult-fd-dir))))
 
