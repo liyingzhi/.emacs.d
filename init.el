@@ -31,7 +31,6 @@
 (require 'init-startup)
 (require 'lazy-load)
 (require 'one-key)
-(require 'init-font)
 
 ;; 启动必须加载
 ;; Need install packages
@@ -40,6 +39,7 @@
 (unless (fboundp #'igc-stats)
   (require 'init-gcmh))
 
+(require 'init-font)
 ;; (require 'init-auto-save)
 (require 'init-super-save)
 
