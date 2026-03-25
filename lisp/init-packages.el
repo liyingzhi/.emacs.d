@@ -130,6 +130,7 @@
     visual-replace
     visual-regexp
     visual-regexp-steroids
+    visible-mark
     (fingertip :host github :repo "manateelazycat/fingertip")
     shift-number
     (expreg :host github

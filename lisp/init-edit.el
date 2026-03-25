@@ -56,6 +56,11 @@
 ;; extension to visual-regexp which enables the use of modern regexp engines
 (require 'visual-regexp-steroids)
 
+;;; visible-mark
+(setopt visible-mark-max 1)
+(setopt visible-mark-faces `(visible-mark-face1 visible-mark-face2))
+(global-visible-mark-mode 1)
+
 ;;; Visual Replace
 (require 'visual-replace)
 (global-set-key (kbd "C-c C-r") #'visual-replace)
