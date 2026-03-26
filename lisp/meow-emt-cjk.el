@@ -30,7 +30,7 @@
 ;;; Code:
 
 (wait-packages!
- '((emt :host github :repo "LuciusChen/emt" :files ("*.el" "module/*" "module"))
+ '((emt :host github :repo "LuciusChen/emt" :files ("*.el"))
    (meow-cjk :host github :repo "LuciusChen/meow-cjk")))
 
 ;;; CJK tokenizer configuration
@@ -48,9 +48,10 @@
 ;; 2. Download the ICU version of libewt.so dynamic module
 ;; 3. Place the module in the `emt-lib-path' directory
 ;;
-;; The module should be located at: var/emt/libewt.so relative to user-emacs-directory
-(setopt emt-lib-path (expand-file-name "var/emt/libewt.so"
-                                       user-emacs-directory))
+;; The module should be located at: var/emt/libemt_module.module-file-suffix relative to user-emacs-directory
+(setopt emt-lib-path
+        (concat user-emacs-directory "var/emt/libemt_module" module-file-suffix))
+
 ;; (add-hook 'after-init-hook #'emt-mode)
 
 (with-hook meow-mode
