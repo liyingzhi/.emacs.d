@@ -281,6 +281,7 @@
     org-roam
     org-roam-ui
     ox-reveal
+    org-contrib
     logos
     olivetti
     spacious-padding
