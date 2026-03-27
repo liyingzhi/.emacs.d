@@ -7,6 +7,9 @@
 (add-hook 'emms-playlist-mode-hook #'meow-motion-mode)
 (defvar +favorites-playlist "~/Music/fav.m3u")
 
+(defvar emms-player-mpv-volume 30)
+(defvar mms/emms-player-mpv-volume-mute nil)
+
 ;;; setting
 (with-eval-after-load 'emms
   (require 'emms-setup)
@@ -87,9 +90,6 @@ If the track already exists in the playlist, it won't be duplicated."
 
   ;; mpv integration
   ;; https://www.reddit.com/r/emacs/comments/syop1h/control_emmsmpv_volume/
-  (defvar emms-player-mpv-volume 30)
-  (defvar mms/emms-player-mpv-volume-mute nil)
-
   ;; set init volume
   (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume))
 
@@ -319,6 +319,8 @@ Only works when current buffer is the EMMS playlist buffer."
   (if (bound-and-true-p emms-playlist-buffer)
       (emms-playlist-mode-go)
     (call-interactively #'emms-history-load)
+    ;; set init volume
+    (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume))
     (emms-playlist-mode-go)))
 
 (global-bind-keys
