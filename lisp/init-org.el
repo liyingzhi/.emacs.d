@@ -196,6 +196,11 @@
 ;; LaTeX PDF Export settings
 
 (with-eval-after-load 'ox-latex
+
+  ;; (when user/org-latex-preview-feature
+  ;;   ;; stop Precompile the preamble during export
+  ;;   (setq org-latex-precompile nil))
+
   (add-list-to-list
    'org-latex-classes
    (let ((filename (expand-file-name "config/template/org-latex-class.el" user-emacs-directory)))
