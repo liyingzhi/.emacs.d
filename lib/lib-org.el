@@ -140,7 +140,9 @@ Returns an alist where keys are export formats and values are file paths."
      ((null files)
       (message "No export files found for current buffer"))
      (t
-      (dired (cons default-directory files))))))
+      (dired (cons default-directory files))
+      (when (bound-and-true-p dired-omit-mode)
+        (dired-omit-mode -1))))))
 
 (defun my/org-open-links-in-dired ()
   "Open all ‘file:’ links in Dired buffer."
