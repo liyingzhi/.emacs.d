@@ -18,7 +18,6 @@ blink-search
 lsp-bridge
 popweb
 tree-sitter/*
-/site-lisp/emacs-application-framework/
 .aider*
 /eln-cache/
 /straight/repos/
@@ -27,3 +26,4 @@ tree-sitter/*
 /straight/build-cache.el
 /straight/watcher/
 /mason/
+/site-lisp/
