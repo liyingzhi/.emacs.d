@@ -294,7 +294,13 @@
       )
   ;; for emacs built-in org show raw latex fragments when at preview point
   ;;================start===================
-  (add-hook 'org-mode-hook 'org-fragtog-mode)
+  (if (not user/org-latex-preview-with-RaTex)
+      (add-hook 'org-mode-hook 'org-fragtog-mode)
+    (require 'ratex)
+    (add-hook 'latex-mode-hook #'ratex-mode)
+    (add-hook 'LaTeX-mode-hook #'ratex-mode)
+    (add-hook 'org-mode-hook #'ratex-mode)
+    (add-hook 'markdown-mode-hook #'ratex-mode))
   ;;================end===================
   )
 

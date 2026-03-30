@@ -20,6 +20,13 @@ mode buffers. When nil, these features are disabled."
   :group 'user
   :type 'boolean)
 
+(defcustom user/org-latex-preview-with-RaTex nil
+  "Non-nil means enable Org mode latex preview with RateX backend.
+When non-nil, Org mode will use RateX to render LaTeX formulas in previews.
+When nil (the default), Org mode uses its default LaTeX preview backend."
+  :group 'user
+  :type 'boolean)
+
 (defcustom user/org-agenda-to-appt nil
   "Non-nil means enable appointment integration from Org agenda.
 If this option is non-nil, Org agenda entries with a time of day are
