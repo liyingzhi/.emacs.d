@@ -39,11 +39,25 @@
 
 ;;; org link preview
 
-;; display link previews in the accessible portion of the buffer.
-;; With numeric prefix ARG 11, do the same, but include links with descriptions.
-(with-hook org-mode
-  (org-unmodified
-   (when org-startup-with-inline-images (org-link-preview '(11)))))
+;; `org-link-preview', `org-link-preview-region', `org-toggle-buffer-link-preview'
+;; `org-link-preview-overlays' start from org-version >= org-9.8
+(if (version< org-version "9.8-pre")
+    (progn
+      (defalias #'org-toggle-buffer-link-preview #'org-toggle-inline-images)
+      (defvaralias 'org-link-preview-overlays 'org-inline-image-overlays))
+
+  (defun org-toggle-buffer-link-preview ()
+    "Toggle buffer link preview."
+    (interactive)
+    (if org-link-preview-overlays
+        (org-link-preview-clear)
+      (org-link-preview-region t)))
+
+  ;; display link previews in the accessible portion of the buffer.
+  ;; With numeric prefix ARG 11, do the same, but include links with descriptions.
+  (with-hook org-mode
+    (org-unmodified
+     (when org-startup-with-inline-images (org-link-preview '(11))))))
 
 ;;; org latex preview
 (setopt org-format-latex-options (plist-put org-format-latex-options :scale user/org-format-latex-options-scale))
@@ -512,13 +526,6 @@ prepended to the element after the #+HEADER: tag."
     ("Y" (hot-expand "<s" "ipython :session :exports both :results raw drawer\n$0") "ipython")
     ("G" (hot-expand "<s" "gnuplot :results output :file ./result.png") "gnuplot")
     ("<" self-insert-command "ins"))))
-
-(defun org-toggle-buffer-link-preview ()
-  "Toggle buffer link preview."
-  (interactive)
-  (if org-link-preview-overlays
-      (org-link-preview-clear)
-    (org-link-preview-region t)))
 
 (require 'lib-transient)
 (pretty-transient-define-prefix transient-org-toggles ()
