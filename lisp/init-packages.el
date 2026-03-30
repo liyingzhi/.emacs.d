@@ -30,7 +30,8 @@
               "(provide 'org-version)\n")))
          :pin nil))
     ;; emacs built-in org
-    '((org :type built-in))))
+    '((org :type built-in)
+      org-fragtog)))
 
 (defvar *package-base-install-list*
   '(gcmh
@@ -287,7 +288,6 @@
     spacious-padding
     ox-hugo
     org-appear
-    org-fragtog
     org-journal
     valign
     ftable
