@@ -209,12 +209,12 @@
                                     (message "Invalid Meow state"))))))
 
   (defvar backup-walker--overriding-element
+    `((buffer-read-only . ,backup-walker-user-key-map))
     "Element for `emulation-mode-map-alists' used to override keys in `backup-walker-minor-mode'.
  This is an alist with `buffer-read-only' as the key and `backup-walker-user-key-map' as the value.
  When `backup-walker-minor-mode' is enabled, this element is added to `emulation-mode-map-alists' to
  give its keymap priority.  When the mode is disabled, the element is removed.  This mechanism is
- used to bind a key for switching Meow states (normal/motion) only within this minor mode."
-    `((buffer-read-only . ,backup-walker-user-key-map)))
+ used to bind a key for switching Meow states (normal/motion) only within this minor mode.")
 
   (with-hook backup-walker-minor-mode
     (if backup-walker-minor-mode
