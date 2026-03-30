@@ -16,13 +16,13 @@
 (setopt org-default-notes-file "~/Documents/Org/index.org")
 
 (setopt org-tags-column -80
-      org-log-done 'time
-      org-catch-invisible-edits 'smart
-      org-startup-indented t
-      org-startup-folded 'show2levels
-      org-pretty-entities nil
-      org-hide-emphasis-markers t
-      org-link-keep-stored-after-insertion t)
+        org-log-done 'time
+        org-catch-invisible-edits 'smart
+        org-startup-indented t
+        org-startup-folded 'show2levels
+        org-pretty-entities nil
+        org-hide-emphasis-markers t
+        org-link-keep-stored-after-insertion t)
 
 (setopt org-enforce-todo-dependencies t)
 (setopt org-todo-keywords
