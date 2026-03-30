@@ -393,6 +393,7 @@ current window."
    ("M-s L" . consult-line-multi)
    ("M-s u" . consult-isearch-history)
    ("M-s e" . consult-symbol)
+   ("C-h C-e" . consult-symbol)
    ("M-s f" . ("Search file" . consult-fd))
    ("M-s d" . ("Search dir" . consult-fd-dir))))
 
