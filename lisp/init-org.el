@@ -13,9 +13,9 @@
 
 (require 'lib-org)
 
-(setq org-default-notes-file "~/Documents/Org/index.org")
+(setopt org-default-notes-file "~/Documents/Org/index.org")
 
-(setq org-tags-column -80
+(setopt org-tags-column -80
       org-log-done 'time
       org-catch-invisible-edits 'smart
       org-startup-indented t
@@ -24,18 +24,18 @@
       org-hide-emphasis-markers t
       org-link-keep-stored-after-insertion t)
 
-(setq org-enforce-todo-dependencies t)
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "DOING(i)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)")
-        (sequence "⚑(T)" "🏴(I)" "❓(H)" "|" "✔(D)" "✘(C)")
-        (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
-        (sequence "PROJECT(p)" "|" "DONE(d!/!)" "CANCELLED(c/!)")
-        (sequence "WAITING(w/!)" "DELEGATED(e!)" "HOLD(h)" "|" "CANCELLED(c/!)")))
-;; (setq org-todo-keywords
+(setopt org-enforce-todo-dependencies t)
+(setopt org-todo-keywords
+        '((sequence "TODO(t)" "DOING(i)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)")
+          (sequence "⚑(T)" "🏴(I)" "❓(H)" "|" "✔(D)" "✘(C)")
+          (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
+          (sequence "PROJECT(p)" "|" "DONE(d!/!)" "CANCELLED(c/!)")
+          (sequence "WAITING(w/!)" "DELEGATED(e!)" "HOLD(h)" "|" "CANCELLED(c/!)")))
+;; (setopt org-todo-keywords
 ;;       '((sequence "TODO(t!)" "WAIT(w@/!)" "|" "DONE(d@/!)" "CANCEL(c@/!)")
 ;;         (sequence "REPORT(r!)" "BUG(b@/!)" "|" "FIXED(f@/!)")))
 
-(setq org-priority-lowest ?D)
+(setopt org-priority-lowest ?D)
 
 ;;; org link preview
 
@@ -46,7 +46,7 @@
    (when org-startup-with-inline-images (org-link-preview '(11)))))
 
 ;;; org latex preview
-(setq org-format-latex-options (plist-put org-format-latex-options :scale user/org-format-latex-options-scale))
+(setopt org-format-latex-options (plist-put org-format-latex-options :scale user/org-format-latex-options-scale))
 
 (unless user/org-latex-preview-feature
   (setopt org-preview-latex-process-alist
@@ -185,11 +185,11 @@
 ;;; org export
 ;; Generic Org Export Settings
 (with-eval-after-load 'org
-  (setq org-export-with-drawers nil
-        org-export-with-todo-keywords nil
-        org-export-with-toc nil
-        org-export-with-smart-quotes t
-        org-export-date-timestamp-format "%e %B %Y"))
+  (setopt org-export-with-drawers nil
+          org-export-with-todo-keywords nil
+          org-export-with-toc nil
+          org-export-with-smart-quotes t
+          org-export-date-timestamp-format "%e %B %Y"))
 
 (require 'ox-org)
 
@@ -210,37 +210,37 @@
          (read (current-buffer)))))))
 
 ;; Multiple LaTeX passes for bibliographies
-(setq org-latex-pdf-process '("%latex -interaction nonstopmode -output-directory %o %f"
-                              "%bib %b"
-                              "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
-                              "%latex -shell-escape -interaction nonstopmode -output-directory %o %f")
-      org-latex-compiler "xelatex")
+(setopt org-latex-pdf-process '("%latex -interaction nonstopmode -output-directory %o %f"
+                                "%bib %b"
+                                "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
+                                "%latex -shell-escape -interaction nonstopmode -output-directory %o %f")
+        org-latex-compiler "xelatex")
 
 ;; Clean temporary files after export
-(setq org-latex-logfiles-extensions
-      (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out"
-              "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk"
-              "blg" "brf" "fls" "entoc" "ps" "spl" "bbl"
-              "tex" "bcf")))
+(setopt org-latex-logfiles-extensions
+        (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out"
+                "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk"
+                "blg" "brf" "fls" "entoc" "ps" "spl" "bbl"
+                "tex" "bcf")))
 
 (with-eval-after-load 'ox
   (require 'ox-hugo)
-  (setq org-hugo-base-dir
-        (file-truename user/org-hugo-base-dir-path)
-        org-hugo-front-matter-format "yaml"
-        org-hugo-auto-set-lastmod t)
+  (setopt org-hugo-base-dir
+          (file-truename user/org-hugo-base-dir-path)
+          org-hugo-front-matter-format "yaml"
+          org-hugo-auto-set-lastmod t)
   (add-to-list 'org-hugo-special-block-type-properties
                '("sidenote" . (:trim-pre t :trim-post t))))
 
 (with-eval-after-load 'ox
   (require 'ox-reveal)
-  (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
+  (setopt org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
 
 (with-eval-after-load 'ox
   (require 'ox-epub))
 
 ;; export html
-(setq org-html-validation-link nil)
+(setopt org-html-validation-link nil)
 
 ;;; Org babel
 (org-babel-do-load-languages
@@ -252,14 +252,14 @@
    (shell . t)
    (dot . t)))
 
-(setq org-confirm-babel-evaluate
-      (lambda (lang body)
-        (let* ((context (org-element-context))
-               (parameters (org-element-property :parameters context)))
-          ;; check if exist :eval yes
-          (if parameters
-              (not (string-match-p ":eval +yes" parameters))
-            t))))
+(setopt org-confirm-babel-evaluate
+        (lambda (lang body)
+          (let* ((context (org-element-context))
+                 (parameters (org-element-property :parameters context)))
+            ;; check if exist :eval yes
+            (if parameters
+                (not (string-match-p ":eval +yes" parameters))
+              t))))
 
 ;;; UI
 
@@ -274,8 +274,8 @@
       (plist-put org-latex-preview-appearance-options
                  :page-width 0.8)
       (add-hook 'org-mode-hook 'org-latex-preview-mode)
-      (setq org-latex-preview-mode-display-live t)
-      (setq org-latex-preview-mode-update-delay 0.25)
+      (setopt org-latex-preview-mode-display-live t)
+      (setopt org-latex-preview-mode-update-delay 0.25)
       ;;================end===================
       )
   ;; for emacs built-in org show raw latex fragments when at preview point
@@ -300,7 +300,8 @@
                       ("HANGUP" . ?⏸)
                       ("CANCEL" . ?✖)
                       ("NEXT"   . ?➡))))
-(setq org-superstar-special-todo-items t)
+
+(setopt org-superstar-special-todo-items t)
 (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 
 ;; Make verbatim with highlight text background.
@@ -404,8 +405,8 @@
 
 ;;; org-sliced-images
 (require 'org-sliced-images)
-(setq org-sliced-images-round-image-height t)
-(setq org-sliced-images-consume-dummies t)
+(setopt org-sliced-images-round-image-height t)
+(setopt org-sliced-images-consume-dummies t)
 ;; (org-sliced-images-mode 1)
 
 ;; fix: close super-save-delete-trailing-whitespace when org-sliced-images-mode is activated
@@ -679,11 +680,11 @@ buffers, providing:
 (add-hook 'org-mode-hook #'my/org-capf)
 
 ;;; Org consult
-(setq consult-notes-file-dir-sources
-      '(("Org"             ?o "~/Documents/Org/")))
-(setq consult-notes-org-headings-files
-      '("~/Documents/Org/idea.org"
-        "~/Documents/Org/quote.org"))
+(setopt consult-notes-file-dir-sources
+        '(("Org"             ?o "~/Documents/Org/")))
+(setopt consult-notes-org-headings-files
+        '("~/Documents/Org/idea.org"
+          "~/Documents/Org/quote.org"))
 
 (consult-notes-org-headings-mode)
 ;; (consult-notes-org-roam-mode)
