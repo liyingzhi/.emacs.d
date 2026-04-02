@@ -98,51 +98,49 @@
  '(dashboard-items-face ((t (:weight normal))))
  '(dashboard-no-items-face ((t (:weight normal)))))
 
-(setq dashboard-banner-logo-title "EMACS - Enjoy Programming & Writing"
-      dashboard-startup-banner (or user/logo 'official)
-      dashboard-image-banner-max-width 300
-      dashboard-image-banner-max-height 150
-      dashboard-path-max-length 60
-      dashboard-path-style 'truncate-middle
-      dashboard-page-separator "\f\n"
-      dashboard-center-content t
-      dashboard-vertically-center-content t
-      dashboard-projects-backend 'project-el
+(setopt dashboard-banner-logo-title "EMACS - Enjoy Programming & Writing"
+        dashboard-startup-banner (or user/logo 'official)
+        dashboard-image-banner-max-width 300
+        dashboard-image-banner-max-height 150
+        dashboard-path-max-length 60
+        dashboard-path-style 'truncate-middle
+        dashboard-page-separator "\f\n"
+        dashboard-center-content t
+        dashboard-vertically-center-content t
+        dashboard-projects-backend 'project-el
 
-      dashboard-items '((recents . 5)
-                        ;; (bookmarks . 5)
-                        (projects . 5)
-                        ;; (agenda . 5)
-                        )
-      dashboard-startupify-list '(dashboard-insert-banner
-                                  dashboard-insert-newline
-                                  dashboard-insert-banner-title
-                                  dashboard-insert-newline
-                                  my-dashboard-insert-weather-info
-                                  dashboard-insert-newline
-                                  my-dashboard-insert-time
-                                  ;; dashboard-insert-newline
-                                  ;; dashboard-insert-navigator
-                                  dashboard-insert-newline
-                                  dashboard-insert-init-info
-                                  dashboard-insert-items
-                                  ;; dashboard-insert-newline
-                                  dashboard-insert-footer)
+        dashboard-items '((recents . 5)
+                          ;; (bookmarks . 5)
+                          (projects . 5)
+                          ;; (agenda . 5)
+                          )
+        dashboard-startupify-list '(dashboard-insert-banner
+                                    dashboard-insert-newline
+                                    dashboard-insert-banner-title
+                                    dashboard-insert-newline
+                                    my-dashboard-insert-weather-info
+                                    dashboard-insert-newline
+                                    my-dashboard-insert-time
+                                    ;; dashboard-insert-newline
+                                    ;; dashboard-insert-navigator
+                                    dashboard-insert-newline
+                                    dashboard-insert-init-info
+                                    dashboard-insert-items
+                                    ;; dashboard-insert-newline
+                                    dashboard-insert-footer)
 
-      dashboard-display-icons-p t
-      dashboard-icon-type 'nerd-icons
-      dashboard-set-heading-icons t
-      dashboard-set-file-icons t
-      dashboard-heading-icons '((recents   . "nf-oct-history")
-                                (bookmarks . "nf-oct-bookmark")
-                                (agenda    . "nf-oct-calendar")
-                                (projects  . "nf-oct-briefcase")
-                                (registers . "nf-oct-database"))
-      dashboard-footer-icon
-      (nerd-icons-octicon "nf-oct-heart" :height 1.2 :face 'nerd-icons-lred)
-
-      dashboard-set-init-info t
-      dashboard-set-footer t)
+        dashboard-display-icons-p t
+        dashboard-icon-type 'nerd-icons
+        dashboard-set-heading-icons t
+        dashboard-set-file-icons t
+        dashboard-heading-icons '((recents   . "nf-oct-history")
+                                  (bookmarks . "nf-oct-bookmark")
+                                  (agenda    . "nf-oct-calendar")
+                                  (projects  . "nf-oct-briefcase")
+                                  (registers . "nf-oct-database"))
+        dashboard-footer-icon
+        (nerd-icons-octicon "nf-oct-heart" :height 1.2 :face 'nerd-icons-lred)
+        dashboard-set-footer t)
 
 (with-eval-after-load 'dashboard
   (defun my-dashboard-insert-copyright ()
@@ -204,7 +202,7 @@ normal weight to distinguish it from other elements."
   (let ((buf (get-buffer dashboard-buffer-name)))
     (unless buf
       (dashboard-open)))
-  
+
   (weather-fetch-weather-data dashboard-buffer-name nil #'dashboard-refresh-buffer nil)
 
   (unless (weather--roi-window-is-active dashboard-buffer-name)
