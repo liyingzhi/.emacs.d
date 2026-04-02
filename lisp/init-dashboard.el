@@ -235,7 +235,7 @@ then calls `open-dashboard' to display it."
   (:title (pretty-hydra-title "Dashboard" 'mdicon "nf-md-view_dashboard")
           :color pink :quit-key ("q" "C-g"))
   ("Navigator"
-   (("P" hydra-straight-helper/body "package manage" :exit t)
+   (("S" hydra-straight-helper/body "straight manager" :exit t)
     ("M" mason-manager "mason manager" :exit t)
     ("H" mcp-hub "mcphub manager" :exit t)
     ("C" find-custom-file "custom settings" :exit t)
