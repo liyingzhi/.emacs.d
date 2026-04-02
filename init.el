@@ -8,6 +8,8 @@
 (and (file-readable-p custom-file) (load custom-file))
 
 ;;; install early basic packages
+(require 'init-straight)
+
 (defvar *package-early-install-list*
   '(no-littering
     benchmark-init
