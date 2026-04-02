@@ -238,7 +238,7 @@ then calls `open-dashboard' to display it."
    (("P" hydra-straight-helper/body "package manage" :exit t)
     ("M" mason-manager "mason manager" :exit t)
     ("H" mcp-hub "mcphub manager" :exit t)
-    ("S" find-custom-file "settings" :exit t)
+    ("C" find-custom-file "custom settings" :exit t)
     ("I" find-init-file "init file" :exit t))
    "Item"
    (("RET" widget-button-press "open" :exit t)
@@ -258,9 +258,9 @@ then calls `open-dashboard' to display it."
 
 (with-eval-after-load 'dashboard
   (keymap-sets dashboard-mode-map
-    '(("S" . find-custom-file)
+    '(("C" . find-custom-file)
       ("I" . find-init-file)
-      ("P" . hydra-straight-helper/body)
+      ("S" . hydra-straight-helper/body)
       ("M" . mason-manager)
       ("H" . mcp-hub)
       ("<f2>" . open-dashboard)
