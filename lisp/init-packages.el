@@ -5,6 +5,7 @@
 (defvar *package-build-in-install-list*
   (if user/org-latex-preview-feature
       ;; for latex-preview enhanced branch
+      ;; Reference: https://abode.karthinks.com/org-latex-preview/
       '((org
          :fork (:host nil
                       :repo "https://git.tecosaur.net/tec/org-mode.git"
