@@ -344,5 +344,27 @@ Falls back to `citar-open-entry' if not in a Denote file or no any reference."
 (global-set-keys
  '(("C-c n j" . ("Denote Journal" . denote-journal-keymap))))
 
+;;; denote sequence
+
+(setopt denote-sequence-scheme 'alphanumeric-delimited)
+
+(defvar-keymap denote-sequence-keymap
+  :doc "Denote sequence keymap [n]otes with [s]equence"
+  :prefix t
+  ;; - `denote-sequence-new-parent'
+  ;; - `denote-sequence-new-sibling'
+  ;; - `denote-sequence-new-child'
+  "s" '("sequence" . denote-sequence)
+  "f" '("sequence find" . denote-sequence-find)
+  "l" '("sequence link" . denote-sequence-link)
+  "d" '("sequence dired" . denote-sequence-dired)
+  "r" '("sequence reparent" . denote-sequence-reparent)
+  "c" '("sequence convert" . denote-sequence-convert)
+  "C" '("sequence current child" . denote-sequence-new-child-of-current)
+  "S" '("sequence current sibling" . denote-sequence-new-sibling-of-current))
+
+(global-set-keys
+ '(("C-c n s" . ("Denote Sequence" . denote-sequence-keymap))))
+
 (provide 'init-writer)
 ;;; init-writer.el ends here
