@@ -226,17 +226,18 @@ current window."
  (:key "h" :description "gptel aibo" :command gptel-aibo)
  (:key "H" :description "gptel agent" :command gptel-agent)
  (:key "a" :description "ai code / agent shell" :command (lambda ()
-                                                       (interactive)
-                                                       (if user/ai-code-interface
-                                                           (ai-code-menu)
-                                                         (agent-shell))))
+                                                           (interactive)
+                                                           (if user/ai-code-interface
+                                                               (ai-code-menu)
+                                                             (agent-shell))))
  (:key "A" :description "agent shell" :command agent-shell)
  (:key "c" :description "gptel global chat" :command agental-global-chat)
  (:key "p" :description "gptel project chat" :command agental-project-chat)
  (:key "o" :description "Casual-main-tmenu" :command casual-editkit-main-tmenu)
  (:key "t" :description "llm task with gt engine" :command my/gt-ai-oneshot)
  (:key "I" :description "Up-down convert dispatch" :command my/string-convert-dispatch)
- (:key "j" :description "Calculator" :command calc))
+ (:key "j" :description "Calculator" :command calc)
+ (:key "m" :description "mu4e" :command mu4e :filename "init-mu4e"))
 
 (lazy-one-key-create-menu
  "EAF"

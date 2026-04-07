@@ -254,7 +254,8 @@
 
 (defvar *package-mms-install-list*
   '(emms
-    ready-player))
+    ready-player
+    (mu :host github :repo "djcb/mu" :files (:defaults "mu4e/*.el"))))
 
 (defvar *package-window-install-list*
   '(popper
