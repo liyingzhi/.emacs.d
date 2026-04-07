@@ -70,7 +70,10 @@
 (add-list-to-list
  'display-buffer-alist
  '(;; right side window
-   ((or (derived-mode . help-mode) (derived-mode . helpful-mode) (derived-mode . fanyi-mode))
+   ((or (derived-mode . help-mode)
+        (derived-mode . helpful-mode)
+        (derived-mode . fanyi-mode)
+        (derived-mode . denote-sequence-hierarchy-mode))
     (display-buffer-in-side-window)
     (dedicated . t)
     (side . right)

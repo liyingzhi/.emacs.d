@@ -361,10 +361,14 @@ Falls back to `citar-open-entry' if not in a Denote file or no any reference."
   "r" '("sequence reparent" . denote-sequence-reparent)
   "c" '("sequence convert" . denote-sequence-convert)
   "C" '("sequence current child" . denote-sequence-new-child-of-current)
-  "S" '("sequence current sibling" . denote-sequence-new-sibling-of-current))
+  "S" '("sequence current sibling" . denote-sequence-new-sibling-of-current)
+  "h" '("sequence view hierarchy" . denote-sequence-view-hierarchy))
 
 (global-set-keys
  '(("C-c n s" . ("Denote Sequence" . denote-sequence-keymap))))
+
+(with-eval-after-load 'init-meow
+  (add-to-list 'meow-mode-state-list '(denote-sequence-hierarchy-mode . motion)))
 
 (provide 'init-writer)
 ;;; init-writer.el ends here
