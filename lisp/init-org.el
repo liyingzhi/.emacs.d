@@ -253,6 +253,9 @@
 (with-eval-after-load 'ox
   (require 'ox-epub))
 
+(with-eval-after-load 'ox
+  (require 'ox-gemini))
+
 ;; export html
 (setopt org-html-validation-link nil)
 

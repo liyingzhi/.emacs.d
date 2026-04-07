@@ -327,6 +327,9 @@
     citar-denote
     denote-explore
     ox-epub
+    ox-gemini
+    gemini-mode
+    (elpher :host github :repo "emacsmirror/elpher")
     auctex
     cdlatex
     (consult-reftex :host github :repo "karthink/consult-reftex")))
