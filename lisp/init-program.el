@@ -258,6 +258,11 @@ ARGS is ORIG-FN args."
 (advice-add #'previous-error-no-select :around #'not-split-window)
 (advice-add #'compile-goto-error :around #'not-split-window)
 
+;;; shell
+;; Save a file with a shebang, and Emacs chmod +x it for you.
+(add-hook 'after-save-hook
+          #'executable-make-buffer-file-executable-if-script-p)
+
 ;;; eshell
 (require 'init-eshell)
 
