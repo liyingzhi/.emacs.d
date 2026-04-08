@@ -141,7 +141,24 @@
                   (mu4e-drafts-folder . "/gmail/Drafts")
                   (mu4e-refile-folder . "/gmail/Archive")
                   (mu4e-sent-folder . "/gmail/Sent")
-                  (mu4e-trash-folder . "/gmail/Trash")))))
+                  (mu4e-trash-folder . "/gmail/Trash")))
+        ,(make-mu4e-context
+          :name "qq"
+          :enter-func
+          (lambda () (mu4e-message "Enter sd_liyingli@foxmail.com context"))
+          :leave-func
+          (lambda () (mu4e-message "Leave sd_liyingli@foxmail.com context"))
+          :match-func
+          (lambda (msg)
+            (when msg
+              (mu4e-message-contact-field-matches msg
+                                                  :to "sd_liyingli@foxmail.com")))
+          :vars '((user-mail-address . "sd_liyingli@foxmail.com" )
+                  (user-full-name . "Fly lilee")
+                  (mu4e-drafts-folder . "/qq/Drafts")
+                  (mu4e-refile-folder . "/qq/Archive")
+                  (mu4e-sent-folder . "/qq/Sent Messages")
+                  (mu4e-trash-folder . "/qq/Deleted Messages")))))
 
 (add-to-list 'display-buffer-alist
              '("\\*mu4e-update\\*"
@@ -161,7 +178,8 @@
                      (message-fetch-field "from")))
              (account
               (cond
-               ((string-match "liyingli2018@gmail.com" from) "gmail"))))
+               ((string-match "liyingli2018@gmail.com" from) "gmail")
+               ((string-match "sd_liyingli@foxmail.com" from) "qq"))))
 
           (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
