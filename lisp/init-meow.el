@@ -250,7 +250,6 @@
      '("e" . one-key-menu-eaf)))
 
   (meow-leader-define-key
-   '("1" . delete-other-windows)
    '("2" . split-window-below)
    '("3" . split-window-horizontally)
    '("0" . delete-window))
