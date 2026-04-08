@@ -229,6 +229,11 @@
  '(("C-c e b" . backup-walker-start)))
 
 (customize-set-variable 'kill-do-not-save-duplicates t)
+
+;;; saveClipboard
+;;Reference: https://emacsredux.com/blog/2026/04/07/stealing-from-the-best-emacs-configs/
+(setq save-interprogram-paste-before-kill t)
+
 (setq ad-redefinition-action 'accept)
 
 (setq create-lockfiles nil)
