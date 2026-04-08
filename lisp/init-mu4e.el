@@ -124,6 +124,14 @@
       mu4e-headers-list-mark      '("l" . "🔈 ")
       mu4e-headers-personal-mark  '("p" . "👨 ")
       mu4e-headers-calendar-mark  '("c" . "📅 ")
+
+      mu4e-maildir-shortcuts
+      '( (:maildir "/gmail/INBOX" :key ?i)
+         (:maildir "/gmail/Trash" :key ?t)
+         (:maildir "/gmail/Archive" :key ?a)
+         (:maildir "/qq/Sent Messages" :key ?s)
+         (:maildir "/qq/INBOX"  :key ?q))
+
       mu4e-contexts
       `(,(make-mu4e-context
           :name "gmail"
