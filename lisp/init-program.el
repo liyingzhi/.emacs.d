@@ -263,6 +263,10 @@ ARGS is ORIG-FN args."
 (add-hook 'after-save-hook
           #'executable-make-buffer-file-executable-if-script-p)
 
+(global-bind-keys
+ ("s-!" . shell-command)
+ ("s-&" . async-shell-command))
+
 ;;; eshell
 (require 'init-eshell)
 
