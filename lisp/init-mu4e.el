@@ -210,5 +210,17 @@
 ;; mu4e address completion
 ;; (add-hook 'mu4e-compose-mode-hook 'company-mode)
 
+(defun mu4e-quit-and-kill-tabbar ()
+  "Stop mu4e and close the current tab.
+Stops the mu4e background process via `mu4e--stop' and closes
+the tab containing the mu4e view using `tab-bar-close-tab'."
+  (interactive)
+  (mu4e--stop)
+  (tab-bar-close-tab))
+
+;; menu key bindings
+(keymap-sets (mu4e-main-mode-map mu4e-view-mode-map mu4e-headers-mode-map)
+  '(("C-c l k" . mu4e-quit-and-kill-tabbar)))
+
 (provide 'init-mu4e)
 ;;; init-mu4e.el ends here
