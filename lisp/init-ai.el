@@ -74,16 +74,15 @@
      (wingman-accept-full))))
 
 ;;; agent-shell
-(require 'acp)
-(require 'agent-shell)
 
-(setq agent-shell-file-completion-enabled t
-      agent-shell-qwen-authentication (agent-shell-qwen-make-authentication :login t))
+(with-eval-after-load 'agent-shell
+  (setq agent-shell-file-completion-enabled t
+        agent-shell-qwen-authentication (agent-shell-qwen-make-authentication :login t))
 
-(keymap-sets agent-shell-mode-map
-  '(("C-o" . agent-shell-help-menu)
-    ("C-c RET" . shell-maker-submit)
-    ("RET" . newline)))
+  (keymap-sets agent-shell-mode-map
+    '(("C-o" . agent-shell-help-menu)
+      ("C-c RET" . shell-maker-submit)
+      ("RET" . newline))))
 
 ;;; ai-code-interface
 
