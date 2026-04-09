@@ -22,6 +22,7 @@
 
 (tab-rename "Main")
 
+;;; Menu tab-bar
 (global-bind-keys
  ("C-c l l" . ("Switch Tab" . tab-bar-switch-to-tab))
  ("C-c l b" . consult-buffer-other-tab)
@@ -31,6 +32,18 @@
  ("C-c l k" . ("Close Tab" . tab-bar-close-tab))
  ("C-c l m" . ("Main Tab" .  tab-bar-switch-or-create-main))
  ("C-c l p" . project-switch-project-other-tab))
+
+;;; Email
+(when user/load-email
+  (defun tab-bar-switch-or-create-email ()
+    "Create or switch music tab bar."
+    (interactive)
+    (autoload 'mu4e "init-mu4e" nil t)
+    (tab-bar-switch-or-create "Email")
+    (call-interactively #'mu4e))
+
+  (global-bind-keys
+   ("C-c l e" . ("Email Tab" . tab-bar-switch-or-create-email))))
 
 (provide 'init-tab-bar)
 ;;; init-tab-bar.el ends here

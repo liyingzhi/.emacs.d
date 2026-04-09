@@ -141,6 +141,11 @@ events."
   :group 'user
   :type 'string)
 
+(defcustom user/load-email nil
+  "Enable mu4e email module."
+  :group 'user
+  :type 'boolean)
+
 (defcustom user/load-elfeed nil
   "Require init-elfeed file."
   :group 'user
