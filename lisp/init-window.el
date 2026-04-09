@@ -139,10 +139,10 @@
       popper-echo-dispatch-actions t
       popper-display-control nil)
 
-(keymap-sets popper-mode-map
-  '(("C-h z" . popper-toggle)
-    ("C-<tab>" . popper-cycle)
-    ("C-M-<tab>" . popper-toggle-type)))
+(keymap-binds popper-mode-map
+  ("C-h Z" . popper-toggle)
+  ("C-<tab>" . popper-cycle)
+  ("C-M-<tab>" . popper-toggle-type))
 
 (setq popper-reference-buffers
       '("\\*Messages\\*$"
