@@ -118,7 +118,7 @@
   (global-telega-url-shorten-nerd-mode))
 
 (when (and user/telega-start (display-graphic-p))
-  (add-hook 'after-init-hook
+  (add-hook 'window-setup-hook
             (lambda ()
               (message "start telega")
               (autoload '+lizqwer/toggle-telega "lib-telega" nil t)
