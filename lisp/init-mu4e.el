@@ -126,11 +126,14 @@
       mu4e-headers-calendar-mark  '("c" . "📅 ")
 
       mu4e-maildir-shortcuts
-      '( (:maildir "/gmail/INBOX" :key ?i)
-         (:maildir "/gmail/Trash" :key ?t)
-         (:maildir "/gmail/Archive" :key ?a)
-         (:maildir "/qq/Sent Messages" :key ?s)
-         (:maildir "/qq/INBOX"  :key ?q))
+      '((:maildir "/gmail/INBOX" :key ?i)
+        (:maildir "/gmail/Trash" :key ?t)
+        (:maildir "/gmail/Archive" :key ?a)
+        (:maildir "/gmail/Sent" :key ?s)
+        (:maildir "/qq/INBOX"  :key ?I)
+        (:maildir "/qq/Deleted Messages" :key ?T)
+        (:maildir "/qq/Archive" :key ?A)
+        (:maildir "/qq/Sent Messages" :key ?S))
 
       mu4e-contexts
       `(,(make-mu4e-context
