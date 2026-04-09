@@ -124,7 +124,12 @@
       mu4e-headers-list-mark      '("l" . "🔈 ")
       mu4e-headers-personal-mark  '("p" . "👨 ")
       mu4e-headers-calendar-mark  '("c" . "📅 ")
-
+      mu4e-headers-fields '((:human-date    .   12)
+                            (:flags         .    6)
+                            (:mailing-list  .   10)
+                            (:from          .   22)
+                            ;; (:subject       .   nil)
+                            (:thread-subject .  nil))
       mu4e-maildir-shortcuts
       '((:maildir "/gmail/INBOX" :key ?i)
         (:maildir "/gmail/Trash" :key ?t)
