@@ -318,10 +318,14 @@ Only works when current buffer is the EMMS playlist buffer."
   (tab-bar-switch-or-create "Music")
   (if (bound-and-true-p emms-playlist-buffer)
       (emms-playlist-mode-go)
-    (call-interactively #'emms-history-load)
+    (emms-history-load)
+    (if(and (stringp emms-history-file)
+            (file-exists-p emms-history-file))
+        (emms-playlist-mode-go)
+      (emms)
+      (emms-play-playlist user/mms-playlist-file))
     ;; set init volume
-    (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume))
-    (emms-playlist-mode-go)))
+    (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume))))
 
 (global-bind-keys
  ("C-c l s" . ("Music Tab" . tab-bar-switch-or-create-music)))
