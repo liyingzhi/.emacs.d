@@ -253,9 +253,12 @@
     inhibit-mouse))
 
 (defvar *package-mms-install-list*
-  '(emms
+  `(emms
     ready-player
-    (mu :host github :repo "djcb/mu" :files (:defaults "mu4e/*.el"))))
+    ,@(when user/load-email
+        '((mu :host github :repo "djcb/mu" :files (:defaults "mu4e/*.el"))
+          (org-mime :type git :host github :repo "org-mime/org-mime")))
+    ))
 
 (defvar *package-window-install-list*
   '(popper

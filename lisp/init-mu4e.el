@@ -210,6 +210,18 @@
 ;; mu4e address completion
 ;; (add-hook 'mu4e-compose-mode-hook 'company-mode)
 
+
+;;; org-mime
+(setq org-mime-export-options '(:section-numbers nil
+                                                 :with-author nil
+                                                 :with-toc nil))
+(add-hook 'org-mime-html-hook
+          (lambda ()
+            (org-mime-change-element-style
+             "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
+                           "#E6E1DC" "#232323"))))
+
+(add-hook 'message-send-hook 'org-mime-confirm-when-no-multipart)
 (defun mu4e-quit-and-kill-tabbar ()
   "Stop mu4e and close the current tab.
 Stops the mu4e background process via `mu4e--stop' and closes
