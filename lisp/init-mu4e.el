@@ -102,7 +102,12 @@
         ;; start with the first (default) context;
         mu4e-context-policy 'pick-first
         ;; ask for context if no context matches;
-        mu4e-compose-context-policy 'ask)
+        mu4e-compose-context-policy 'ask
+
+        mail-user-agent 'mu4e-user-agent
+
+        mu4e-completing-read-function #'completing-read)
+
 ;; header view formatting
 (setq mu4e-headers-thread-single-orphan-prefix '("─>" . "─▶")
       mu4e-headers-thread-orphan-prefix '("┬>" . "┬▶ ")
@@ -210,6 +215,58 @@
 ;; mu4e address completion
 ;; (add-hook 'mu4e-compose-mode-hook 'company-mode)
 
+;;; mu4e org capture
+;; M-x mu4e-org-store-and-capture to capture a link to the current e-mail with a capture template.
+(with-eval-after-load 'init-org-capture
+  (push '("m" "Email Workflow")
+        org-capture-templates)
+  (push '("mf" "Follow Up" entry (file+olp "~/Documents/Org/mail.org" "Follow Up")
+          "* TODO Follow up with %:fromname on %a\nSCHEDULED:%t\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))\n\n%i" :immediate-finish t)
+        org-capture-templates)
+  (push '("mr" "Read Later" entry (file+olp "~/Documents/Org/mail.org" "Read Later")
+          "* TODO Read %:subject\nSCHEDULED:%t\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))\n\n%a\n\n%i" :immediate-finish t)
+        org-capture-templates))
+
+(with-eval-after-load 'init-org-agenda
+  (add-to-list 'org-agenda-files "~/Documents/Org/mail.org"))
+
+(with-eval-after-load 'meow
+  (add-list-to-list 'meow-mode-state-list '((mu4e-headers-mode . motion)
+                                            (mu4e-view-mode . motion)))
+  (keymap-binds mu4e-view-mode-map
+    ("j" . next-line)
+    ("k" . previous-line)
+    ("h" . left-char)
+    ("l" . right-char)))
+
+(defun my/capture-mail-follow-up (msg)
+  "Capture email as org task for follow up.
+Stores link to MSG via `org-store-link' and captures with template \"mf\"."
+  (interactive)
+  (call-interactively 'org-store-link)
+  (org-capture nil "mf"))
+
+(defun my/capture-mail-read-later (msg)
+  "Capture email as org task for reading later.
+  Stores link to MSG via `org-store-link' and captures with template \"mr\"."
+  (interactive)
+  (call-interactively 'org-store-link)
+  (org-capture nil "mr"))
+
+;; Add custom actions for our capture templates
+(add-to-list 'mu4e-headers-actions
+             '("follow up" . my/capture-mail-follow-up) t)
+(add-to-list 'mu4e-view-actions
+             '("follow up" . my/capture-mail-follow-up) t)
+(add-to-list 'mu4e-headers-actions
+             '("read later" . my/capture-mail-read-later) t)
+(add-to-list 'mu4e-view-actions
+             '("read later" . my/capture-mail-read-later) t)
+
+(add-to-list 'mu4e-headers-actions
+             '("Retag message" . mu4e-action-retag-message) t)
+(add-to-list 'mu4e-view-actions
+             '("Retag message" . mu4e-action-retag-message) t)
 
 ;;; org-mime
 (setq org-mime-export-options '(:section-numbers nil
@@ -222,6 +279,22 @@
                            "#E6E1DC" "#232323"))))
 
 (add-hook 'message-send-hook 'org-mime-confirm-when-no-multipart)
+
+;;; menu key bindings
+
+(defun my/store-link-to-mu4e-query ()
+  "Store an org-link to the current mu4e headers query.
+Uses `mu4e-org-link-query-in-headers-mode' to create query-based
+links instead of message ID links, making them resilient to maildir
+rebuilding."
+  (interactive)
+  (let ((mu4e-org-link-query-in-headers-mode t))
+    (call-interactively 'org-store-link)))
+
+
+(keymap-binds mu4e-headers-mode-map
+  ("C-c L" . my/store-link-to-mu4e-query))
+
 (defun mu4e-quit-and-kill-tabbar ()
   "Stop mu4e and close the current tab.
 Stops the mu4e background process via `mu4e--stop' and closes
@@ -230,7 +303,6 @@ the tab containing the mu4e view using `tab-bar-close-tab'."
   (mu4e--stop)
   (tab-bar-close-tab))
 
-;; menu key bindings
 (keymap-sets (mu4e-main-mode-map mu4e-view-mode-map mu4e-headers-mode-map)
   '(("C-c l k" . mu4e-quit-and-kill-tabbar)))
 
