@@ -271,6 +271,9 @@ Stores link to MSG via `org-store-link' and captures with template \"mf\"."
              '("Retag message" . mu4e-action-retag-message) t)
 
 ;;; org-mime
+;; Reference: https://systemcrafters.net/emacs-mail/enhance-email-with-org-mode/
+;; org-mime-htmlize, org-mime-edit-mail-in-org-mode,
+;; org-mime-org-buffer-htmlize, org-mime-org-subtree-htmlize
 (setq org-mime-export-options '(:section-numbers nil
                                                  :with-author nil
                                                  :with-toc nil))
