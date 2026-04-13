@@ -97,7 +97,7 @@ continue, per `org-agenda-skip-function'."
   ;; So we match everything and then skip entries with
   ;; `org-agenda-skip-function'.
   `((tags-todo "*"
-               ((org-agenda-overriding-header "Important tasks without a date\n")
+               ((org-agenda-overriding-header "Important tasks without a date")
                 ;; NOTE 2024-10-31: Those used to work, but now the
                 ;; query for the timestamp is ignored.  I thus wrote
                 ;; `prot-org-agenda-include-priority-no-timestamp'.
@@ -108,6 +108,22 @@ continue, per `org-agenda-skip-function'."
                 ;;    'notregexp ,(format "\\[#%s\\]" (char-to-string org-priority-highest))))
                 (org-agenda-skip-function #'prot-org-agenda-include-priority-no-timestamp)
                 (org-agenda-block-separator nil)))
+    (agenda "" ((org-agenda-overriding-header "\nToday's habit agenda")
+                (org-agenda-span 1)
+                (org-deadline-warning-days 0)
+                (org-agenda-block-separator nil)
+                (org-scheduled-past-days 0)
+                ;; only show habit, skip non-habit entry
+                (org-agenda-skip-function
+                 (lambda ()
+                   (unless (string= (org-entry-get (point) "STYLE") "habit")
+                     (outline-next-heading))))
+                ;; We don't need the `org-agenda-date-today'
+                ;; highlight because that only has a practical
+                ;; utility in multi-day views.
+                (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                (org-agenda-format-date "%A %-e %B %Y")
+                (org-habit-show-habits t)))
     (agenda "" ((org-agenda-overriding-header "\nPending scheduled tasks")
                 (org-agenda-time-grid nil)
                 (org-habit-show-habits nil)
@@ -121,9 +137,8 @@ continue, per `org-agenda-skip-function'."
                 (org-agenda-entry-types '(:scheduled))
                 (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
                 (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp "ROUTINE"))
-                (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-                (org-agenda-format-date "")))
-    (agenda "" ((org-agenda-overriding-header "\nToday's agenda\n")
+                (org-agenda-day-face-function (lambda (date) 'org-agenda-date))))
+    (agenda "" ((org-agenda-overriding-header "\nToday's agenda")
                 (org-agenda-span 1)
                 (org-deadline-warning-days 0)
                 (org-agenda-block-separator nil)
@@ -133,7 +148,8 @@ continue, per `org-agenda-skip-function'."
                 ;; highlight because that only has a practical
                 ;; utility in multi-day views.
                 (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-                (org-agenda-format-date "%A %-e %B %Y")))
+                (org-agenda-format-date "%A %-e %B %Y")
+                (org-habit-show-habits nil)))
     ;; (agenda "" ((org-agenda-overriding-header "\nRoutine")
     ;;             (org-agenda-time-grid nil)
     ;;             (org-agenda-start-on-weekday nil)
@@ -147,7 +163,7 @@ continue, per `org-agenda-skip-function'."
     ;;             (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp "ROUTINE"))
     ;;             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
     ;;             (org-agenda-format-date "")))
-    (agenda "" ((org-agenda-overriding-header "\nNext three days\n")
+    (agenda "" ((org-agenda-overriding-header "\nNext three days")
                 (org-agenda-start-on-weekday nil)
                 (org-agenda-start-day nil)
                 (org-agenda-start-day "+1d")
@@ -155,7 +171,7 @@ continue, per `org-agenda-skip-function'."
                 (org-deadline-warning-days 0)
                 (org-agenda-block-separator nil)
                 (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))))
-    (agenda "" ((org-agenda-overriding-header "\nUpcoming deadlines (+14d)\n")
+    (agenda "" ((org-agenda-overriding-header "\nUpcoming deadlines (+14d)")
                 (org-agenda-time-grid nil)
                 (org-agenda-start-on-weekday nil)
                 ;; We don't want to replicate the previous section's
