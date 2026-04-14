@@ -379,7 +379,8 @@
  '(eat
    vterm
    (meow-vterm :host github :repo "accelbread/meow-vterm")
-   (multi-vterm :host github :repo "lizqwerscott/multi-vterm")))
+   (multi-vterm :host github :repo "lizqwerscott/multi-vterm")
+   (ghostel :host github :repo "dakra/ghostel")))
 
 (defun site-lisp-update ()
   "Update site-lisp packages."
