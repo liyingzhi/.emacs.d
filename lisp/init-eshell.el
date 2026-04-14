@@ -82,5 +82,8 @@
     ("s-p" . eshell-previous-input)
     ("s-n" . eshell-next-input)))
 
+(global-bind-keys
+ ("C-`" . eshell))
+
 (provide 'init-eshell)
 ;;; init-eshell.el ends here
