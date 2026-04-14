@@ -282,6 +282,13 @@ continue, per `org-agenda-skip-function'."
 
 ;; Optional: set up keybindings
 (with-eval-after-load 'doing
+  (keymap-binds doing-command-map
+    ("N" . doing-note)
+    ("L" . doing-last)
+    ("C" . doing-cancel)
+    ("R" . doing-view-recent)
+    ("Y" . doing-view-yesterday)
+    ("S" . doing-view-since))
   (defalias 'doing-command-map doing-command-map))
 
 (autoload 'doing-command-map "doing" nil t 'keymap)
