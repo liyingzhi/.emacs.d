@@ -104,9 +104,17 @@
         ;; ask for context if no context matches;
         mu4e-compose-context-policy 'ask
 
+        mu4e-mu-allow-temp-file t  ; mu 1.12.0
+
         mail-user-agent 'mu4e-user-agent
 
-        mu4e-completing-read-function #'completing-read)
+        mu4e-read-option-use-builtin nil
+        mu4e-completing-read-function #'completing-read
+
+        mu4e-modeline-support nil
+
+        mu4e-index-lazy-check t
+        mu4e-confirm-quit nil)
 
 ;; header view formatting
 (setq mu4e-headers-thread-single-orphan-prefix '("─>" . "─▶")
@@ -115,20 +123,22 @@
       mu4e-headers-thread-first-child-prefix '("├>" . "├▶")
       mu4e-headers-thread-child-prefix '("├>" . "├▶")
       mu4e-headers-thread-last-child-prefix '("└>" . "╰▶")
-      mu4e-headers-unread-mark    '("u" . "📩 ")
-      mu4e-headers-draft-mark     '("D" . "🚧 ")
-      mu4e-headers-flagged-mark   '("F" . "🚩 ")
-      mu4e-headers-new-mark       '("N" . "✨ ")
-      mu4e-headers-passed-mark    '("P" . "↪ ")
-      mu4e-headers-replied-mark   '("R" . "↩ ")
-      mu4e-headers-seen-mark      '("S" . " ")
-      mu4e-headers-trashed-mark   '("T" . "🗑️ ")
-      mu4e-headers-attach-mark    '("a" . "📎 ")
-      mu4e-headers-encrypted-mark '("x" . "🔑 ")
-      mu4e-headers-signed-mark    '("s" . "🖊 ")
-      mu4e-headers-list-mark      '("l" . "🔈 ")
-      mu4e-headers-personal-mark  '("p" . "👨 ")
-      mu4e-headers-calendar-mark  '("c" . "📅 ")
+
+      mu4e-headers-draft-mark     '("D" . "⚒️")
+      mu4e-headers-flagged-mark   '("F" . "🚩")
+      mu4e-headers-new-mark       '("N" . "🔥")
+      mu4e-headers-passed-mark    '("P" . "📨")
+      mu4e-headers-replied-mark   '("R" . "✏️")
+      mu4e-headers-seen-mark      '("S" . "👁️‍🗨️")
+      mu4e-headers-trashed-mark   '("T" . "🗑️")
+      mu4e-headers-attach-mark    '("a" . "📎")
+      mu4e-headers-encrypted-mark '("x" . "🔒")
+      mu4e-headers-signed-mark    '("s" . "🔑")
+      mu4e-headers-unread-mark    '("u" . "💬")
+      mu4e-headers-list-mark      '("l" . "📬")
+      mu4e-headers-personal-mark  '("p" . "🦚")
+      mu4e-headers-calendar-mark  '("c" . "📅")
+
       mu4e-headers-fields '((:human-date    .   12)
                             (:flags         .    6)
                             (:mailing-list  .   10)
@@ -159,7 +169,7 @@
                                                   :to "liyingli2018@gmail.com")))
           :vars '((user-mail-address . "liyingli2018@gmail.com")
                   (user-full-name . "Fly lilee")
-                  (mu4e-compose-signature . "BR,\nlilee")
+                  (message-signature . "BR,\nlilee")
                   (mu4e-drafts-folder . "/gmail/Drafts")
                   (mu4e-refile-folder . "/gmail/Archive")
                   (mu4e-sent-folder . "/gmail/Sent")
@@ -177,7 +187,7 @@
                                                   :to "sd_liyingli@foxmail.com")))
           :vars '((user-mail-address . "sd_liyingli@foxmail.com" )
                   (user-full-name . "Fly lilee")
-                  (mu4e-compose-signature . "BR,\nlilee")
+                  (message-signature . "BR,\nlilee")
                   (mu4e-drafts-folder . "/qq/Drafts")
                   (mu4e-refile-folder . "/qq/Archive")
                   (mu4e-sent-folder . "/qq/Sent Messages")
@@ -187,6 +197,7 @@
              '("\\*mu4e-update\\*"
                (display-buffer-below-selected)
                (window-height . 0.1)))
+
 ;; chose from account before sending
 ;; this is a custom function that works for me.
 ;; well I stole it somewhere long ago.
