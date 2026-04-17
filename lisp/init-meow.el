@@ -24,7 +24,7 @@
         (rg-mode . insert)
         (lsp-bridge-ref-mode . insert)
         (vterm-mode . insert)
-        (ghostel-mode . motion)
+        (ghostel-mode . insert)
         (Info-mode . motion)
         (help-mode . normal)
         (devdocs-mode . normal)

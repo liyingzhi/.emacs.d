@@ -281,6 +281,15 @@ ARGS is ORIG-FN args."
     (require 'multi-vterm)
     (multi-vterm-run command)))
 
+;;; vterm
+(with-eval-after-load 'vterm
+  (keymap-sets vterm-mode-map
+    '(("C-y" . vterm-yank))))
+
+;;; ghostel
+
+(add-hook 'ghostel-mode-hook #'meow-ghostel-mode)
+
 ;;; latex
 
 ;; (require 'tex-site) is autoloaded by AUCTex tex-site.el

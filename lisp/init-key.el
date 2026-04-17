@@ -377,11 +377,6 @@ current window."
 ;;; yank
 (global-set-key (kbd "M-y") #'consult-yank-pop)
 
-;;; vterm
-(with-eval-after-load 'vterm
-  (keymap-sets vterm-mode-map
-    '(("C-y" . vterm-yank))))
-
 ;;; rg
 (lazy-load-global-keys
  '(("M-s s" . rg-dwim)

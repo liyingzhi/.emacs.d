@@ -380,7 +380,8 @@
    vterm
    (meow-vterm :host github :repo "accelbread/meow-vterm")
    (multi-vterm :host github :repo "lizqwerscott/multi-vterm")
-   (ghostel :host github :repo "dakra/ghostel")))
+   (ghostel :host github :repo "dakra/ghostel")
+   (meow-ghostel :host github :repo "lizqwerscott/meow-ghostel")))
 
 (defun site-lisp-update ()
   "Update site-lisp packages."
