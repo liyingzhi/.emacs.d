@@ -271,7 +271,8 @@
     (pdd :fetcher github :repo "lorniu/pdd.el")
     (gt :fetcher github :repo "lorniu/gt.el")
     unicode-math-input
-    rime
+    ;; rime
+    (rime :host github :repo "lizqwerscott/emacs-rime" :branch "get-input")
     pyim
     pyim-basedict
     (pyim-tsinghua-dict
