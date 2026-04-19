@@ -265,14 +265,18 @@
     ace-window))
 
 (defvar *package-language-install-list*
-  '(immersive-translate
+  `(immersive-translate
     quick-sdcv
     fanyi
     (pdd :fetcher github :repo "lorniu/pdd.el")
     (gt :fetcher github :repo "lorniu/gt.el")
     unicode-math-input
+    ,(pcase user/pinyin-regexp
+       ('pyim 'rime)
+       ('rime '(rime :host github :repo "lizqwerscott/emacs-rime" :branch "get-input"))
+       (_     'rime))
     ;; rime
-    (rime :host github :repo "lizqwerscott/emacs-rime" :branch "get-input")
+    ;; (rime :host github :repo "lizqwerscott/emacs-rime" :branch "get-input")
     pyim
     pyim-basedict
     (pyim-tsinghua-dict
