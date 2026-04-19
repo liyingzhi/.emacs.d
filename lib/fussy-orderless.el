@@ -29,9 +29,12 @@
 (require 'fussy)
 (require 'orderless)
 
-(defcustom fussy-orderless-affix-dispatch-alist '(
+(defcustom fussy-orderless-affix-dispatch-alist `(,(pcase user/pinyin-regexp
+                                                     ('pyim '(?= . fussy-orderless-chinese-regexp-score))
+                                                     ('rime '(?= . fussy-orderless-rime-chinese-regexp-score))
+                                                     (_     '(?= . fussy-orderless-literal-score)))
+                                                  ;; (?= . fussy-orderless-chinese-regexp-score)
                                                   ;; (?= . fussy-orderless-rime-chinese-regexp-score)
-                                                  (?= . fussy-orderless-chinese-regexp-score)
                                                   (?! . fussy-orderless-not-score)
                                                   (?, . fussy-orderless-initialism-score)
                                                   (?^ . fussy-orderless-literal-prefix-score)
@@ -41,8 +44,12 @@
   :type `(alist
           :key-type character
           :value-type (choice
+                       (const :tag "Chinese Regexp" ,(pcase user/pinyin-regexp
+                                                       ('pyim #'fussy-orderless-chinese-regexp-score)
+                                                       ('rime #'fussy-orderless-rime-chinese-regexp-score)
+                                                       (_     #'fussy-orderless-literal-score)))
+                       ;; (const :tag "Chinese Regexp" ,#'fussy-orderless-chinese-regexp-score)
                        ;; (const :tag "Chinese Regexp" ,#'fussy-orderless-rime-chinese-regexp-score)
-                       (const :tag "Chinese Regexp" ,#'fussy-orderless-chinese-regexp-score)
                        (const :tag "Not" ,#'fussy-orderless-not-score)
                        (const :tag "Initialism" ,#'fussy-orderless-initialism-score)
                        (const :tag "Literal prefix" ,#'fussy-orderless-literal-prefix-score)

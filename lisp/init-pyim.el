@@ -100,17 +100,19 @@ Can be used in `rime-disable-predicates' and `rime-inline-predicates'."
 
 ;; (advice-add 'orderless-regexp :around #'my-orderless-regexp)
 
-(defun chinese-orderless-regexp (component)
-  "Match COMPONENT as a chinese regexp."
-  (condition-case nil
-      (pyim-cregexp-build
-       (progn (string-match-p component "")
-              component))
-    (invalid-regexp nil)))
+(when (and (boundp 'user/pinyin-regexp)
+           (eq user/pinyin-regexp 'pyim))
+  (defun chinese-orderless-regexp (component)
+    "Match COMPONENT as a chinese regexp."
+    (condition-case nil
+        (pyim-cregexp-build
+         (progn (string-match-p component "")
+                component))
+      (invalid-regexp nil)))
 
-(with-eval-after-load 'orderless
-  (add-to-list 'orderless-affix-dispatch-alist
-               `(?= . ,#'chinese-orderless-regexp)))
+  (with-eval-after-load 'orderless
+    (add-to-list 'orderless-affix-dispatch-alist
+                 `(?= . ,#'chinese-orderless-regexp))))
 
 (require 'pyim-cstring-utils)
 (global-set-keys

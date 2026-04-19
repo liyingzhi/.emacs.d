@@ -85,27 +85,29 @@
 (require 'im-cursor-chg)
 (cursor-chg-mode t)
 
-;; (defun rime-chinese-orderless-regexp (component)
-;;   "Match COMPONENT as a chinese regexp."
-;;   (unless rime--lib-loaded
-;;     (unless (file-exists-p rime--module-path)
-;;       (rime-compile-module))
-;;     (rime--load-dynamic-module))
-;;   (condition-case nil
-;;       (let ((candidates (rime-lib-get-candidates-for-input component)))
-;;         (if candidates
-;;             (concat "\\("
-;;                     (mapconcat (lambda (cand)
-;;                                  (regexp-quote cand))
-;;                                candidates
-;;                                "\\|")
-;;                     "\\)")
-;;           "\\cc"))
-;;     (invalid-regexp nil)))
+(when (and (boundp 'user/pinyin-regexp)
+           (eq user/pinyin-regexp 'rime))
+  (defun rime-chinese-orderless-regexp (component)
+    "Match COMPONENT as a chinese regexp."
+    (unless rime--lib-loaded
+      (unless (file-exists-p rime--module-path)
+        (rime-compile-module))
+      (rime--load-dynamic-module))
+    (condition-case nil
+        (let ((candidates (rime-lib-get-candidates-for-input component)))
+          (if candidates
+              (concat "\\("
+                      (mapconcat (lambda (cand)
+                                   (regexp-quote cand))
+                                 candidates
+                                 "\\|")
+                      "\\)")
+            "\\cc"))
+      (invalid-regexp nil)))
 
-;; (with-eval-after-load 'orderless
-;;   (add-to-list 'orderless-affix-dispatch-alist
-;;                `(?= . ,#'rime-chinese-orderless-regexp)))
+  (with-eval-after-load 'orderless
+    (add-to-list 'orderless-affix-dispatch-alist
+                 `(?= . ,#'rime-chinese-orderless-regexp))))
 
 (provide 'init-rime)
 ;;; init-rime.el ends here

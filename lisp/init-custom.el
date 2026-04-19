@@ -12,6 +12,16 @@
   :group 'user
   :type '(list dir))
 
+(defcustom user/pinyin-regexp 'pyim
+  "Pinyin regular expression backend.
+This variable specifies which backend to use for pinyin-based
+regular expression matching.  Supported values:
+  `pyim' - Use pyim's pinyin regexp engine.
+  `rime' - Use rime's pinyin regexp engine."
+  :group 'user
+  :type '(choice (const :tag "pyim" 'pyim)
+                 (const :tag "rime" 'rime)))
+
 ;;; writter
 (defcustom user/org-latex-preview-feature nil
   "Non-nil means enable Org mode latex preview features.
