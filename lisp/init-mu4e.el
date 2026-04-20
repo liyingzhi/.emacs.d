@@ -247,8 +247,8 @@
   (add-list-to-list 'meow-mode-state-list '((mu4e-headers-mode . motion)
                                             (mu4e-view-mode . motion)))
   (keymap-binds mu4e-view-mode-map
-    ("j" . next-line)
-    ("k" . previous-line)
+    ("n" . next-line)
+    ("p" . previous-line)
     ("h" . left-char)
     ("l" . right-char)))
 
