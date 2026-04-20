@@ -88,6 +88,15 @@ continue, per `org-agenda-skip-function'."
         nil
       (line-beginning-position 2))))
 
+(defun my/org-agenda-no-habit ()
+  "Skip non-habit entries from the `org-agenda'.
+Meant to be used as `org-agenda-skip-function'.
+If the current entry is NOT a habit (i.e., STYLE property is not \"habit\"),
+return the position of the next line, thereby skipping this entry.
+If the entry is a habit, return nil to not skip and include it in the agenda."
+  (unless (string= (org-entry-get (point) "STYLE") "habit")
+    (line-beginning-position 2)))
+
 (defvar prot-org-custom-daily-agenda
   ;; NOTE 2021-12-08: Specifying a match like the following does not
   ;; work.
@@ -114,10 +123,8 @@ continue, per `org-agenda-skip-function'."
                 (org-agenda-block-separator nil)
                 (org-scheduled-past-days 0)
                 ;; only show habit, skip non-habit entry
-                (org-agenda-skip-function
-                 (lambda ()
-                   (unless (string= (org-entry-get (point) "STYLE") "habit")
-                     (outline-next-heading))))
+                (org-agenda-skip-function #'my/org-agenda-no-habit)
+
                 ;; We don't need the `org-agenda-date-today'
                 ;; highlight because that only has a practical
                 ;; utility in multi-day views.
