@@ -24,7 +24,10 @@
         org-hide-emphasis-markers t
         org-link-keep-stored-after-insertion t)
 
-(setopt org-enforce-todo-dependencies t)
+(setopt org-enforce-todo-dependencies t
+        org-treat-insert-todo-heading-as-state-change t
+        org-log-into-drawer t)
+
 (setopt org-todo-keywords
         '((sequence "TODO(t)" "DOING(i)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)")
           (sequence "⚑(T)" "🏴(I)" "❓(H)" "|" "✔(D)" "✘(C)")
