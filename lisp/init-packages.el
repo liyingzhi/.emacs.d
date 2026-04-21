@@ -205,8 +205,8 @@
     (rose-pine :host github :repo "LuciusChen/rose-pine")
     koishi-theme
     miasma-theme
-    catppuccin-theme
-    (modus-catppuccin :host gitlab :repo "magus/modus-catppuccin")
+    batppuccin
+    tokyo-night
     kanagawa-themes
     nerd-icons
     nerd-icons-dired

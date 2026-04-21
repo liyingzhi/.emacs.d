@@ -121,12 +121,7 @@ set of themes to either dark or light variants."
 
 (if user/auto-random-theme
     (spike-leung/themes-load-random)
-
-  (+lizqwer/load-theme user/night-theme)
-  ;; catppuccin themes
-  (when (eq user/night-theme 'catppuccin)
-    (setq catppuccin-flavor user/catppuccin-flavor)
-    (catppuccin-reload)))
+  (+lizqwer/load-theme user/night-theme))
 
 ;; modus and derivative themes
 (modus-themes-include-derivatives-mode 1)
