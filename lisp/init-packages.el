@@ -340,7 +340,8 @@
     (elpher :host github :repo "emacsmirror/elpher")
     auctex
     cdlatex
-    (consult-reftex :host github :repo "karthink/consult-reftex")))
+    (consult-reftex :host github :repo "karthink/consult-reftex")
+    boxquote))
 
 (defvar *package-ai-install-list*
   (append '((gptel :host github
