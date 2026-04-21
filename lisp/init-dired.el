@@ -166,7 +166,9 @@
     ("J" . dired-jump-first-file)
 
     ("<" . beginning-of-buffer)
-    (">" . end-of-buffer)))
+    (">" . end-of-buffer)
+    
+    ("c" . dired-do-compress-to-1)))
 
 ;;; dirvish
 (when user/dirvish
