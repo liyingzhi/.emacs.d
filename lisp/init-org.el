@@ -418,15 +418,6 @@
   (("C-s-y" "C-M-y") . org-rich-yank-with-media)
   (("C-s-p" "C-M-p") . org-rich-yank-with-media))
 
-;;; org-download
-(with-hook (org-mode dired-mode)
-  (org-download-enable))
-
-(with-eval-after-load 'org-download
-  (setopt org-download-image-dir (concat denote-directory "/assets/")
-          org-download-screenshot-method "flameshot gui --raw > %s"
-          org-download-heading-lvl nil))
-
 ;;; org-sliced-images
 (require 'org-sliced-images)
 (setopt org-sliced-images-round-image-height t)
