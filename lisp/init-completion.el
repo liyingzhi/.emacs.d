@@ -21,6 +21,7 @@
 (setq completion-cycle-threshold 4
       completions-detailed t
       completion-auto-help nil
+      read-file-name-completion-ignore-case t
       completion-styles '(basic))
 
 ;;; fussy
