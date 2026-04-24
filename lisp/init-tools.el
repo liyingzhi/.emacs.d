@@ -32,6 +32,7 @@
               proced-format 'medium     ; can be changed interactively with `F'
               proced-filter 'user       ;can be changed interactively with `f'
               )
+(global-set-keys '(("C-c e p" . proced)))
 
 ;;; fuzzy clock
 (require 'fuzzy-clock-zh)
