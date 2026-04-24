@@ -19,6 +19,10 @@
    ))
 
 (global-set-keys
+ '(("M-+" . shift-number-up)
+   ("M-_" . shift-number-down)))
+
+(global-set-keys
  '(("RET" . newline-and-indent)
    (("s-o" "M-o") . ace-window)
    (("s-n" "M-n") . scroll-up-1/3)
