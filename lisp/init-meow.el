@@ -301,7 +301,7 @@
    '("m" . meow-join)
    '("n" . meow-search)
    '("N" . meow-visit)
-   '("o" . meow-block)
+   '("o" . meow-tree-sitter-node)
    '("O" . meow-to-block)
    '("p" . meow-yank)
    '("P" . meow-yank-pop)
