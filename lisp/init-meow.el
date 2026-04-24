@@ -281,7 +281,7 @@
    '("b" . meow-back-word)
    '("B" . meow-back-symbol)
    '("c" . meow-change)
-   '("C" . comment-or-uncomment-region)
+   '("C" . comment-dwim-2)
    '("s" . meow-delete)
    '("e" . meow-next-word)
    '("E" . meow-next-symbol)

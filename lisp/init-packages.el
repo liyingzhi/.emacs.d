@@ -135,6 +135,7 @@
     visual-regexp-steroids
     (fingertip :host github :repo "manateelazycat/fingertip")
     shift-number
+    comment-dwim-2
     (expreg :host github
             :repo "bommbo/expreg"
             :branch "add-numbered-selection")
