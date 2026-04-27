@@ -208,6 +208,7 @@
     miasma-theme
     batppuccin
     tokyo-night
+    ayu-theme
     kanagawa-themes
     nerd-icons
     nerd-icons-dired
