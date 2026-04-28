@@ -46,6 +46,13 @@
   (and (derived-mode-p 'org-mode)
        (org-in-src-block-p t)))
 
+(defun rime-predicate-gptel-preset-p ()
+  "Whether point is in an `gptel-mode' and start input preset."
+  (and gptel-mode
+       (save-excursion
+         (let ((pos (max (point-min) (1- (point)))))
+           (char-equal (char-after pos) ?@)))))
+
 (setq rime-show-candidate 'posframe)
 (setq rime-disable-predicates
       '(meow-normal-mode-p
@@ -63,7 +70,10 @@
         rime-predicate-punctuation-line-begin-p
 
         rime-predicate-after-alphabet-char-p
-        rime-predicate-punctuation-after-space-cc-p))
+        rime-predicate-punctuation-after-space-cc-p
+
+        rime-predicate-gptel-preset-p))
+
 (setq rime-inline-predicates
       ;; If cursor is after a whitespace
       ;; which follow a non-ascii character.
