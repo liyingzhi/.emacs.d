@@ -4,6 +4,8 @@
 
 ;; Reference: https://github.com/LuciusChen/.emacs.d/blob/main/lisp/init-mu4e.el
 
+;; mu version config file: usr/share/emacs/site-lisp/mu4e/mu4e-config.el
+
 ;; brew install mu isync msmtp
 ;; mkdir -p ~/.maildir/qq ~/.maildir/gmail
 ;;
