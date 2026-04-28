@@ -23,18 +23,20 @@
                       :weight (face-attribute 'default :weight)
                       :slant (face-attribute 'default :slant)))
 
+(defconst user/fallback-fonts
+  '("Jetbrains Mono" "Source Code Pro" "PragmataPro Mono Liga"
+    "Aporetic Sans Mono" "Aporetic Sans" "Cascadia Code" "Fira Code"
+    "SF Mono" "Hack" "Menlo" "Monaco" "DejaVu Sans Mono" "Consolas")
+  "Monospace fonts to try in order when `user/favourite-font' is unavailable.")
+
 (defun setup-fonts (&optional font-size)
   "Setup fonts.
 FONT-SIZE is the default font size."
-
   ;; Setting the default
-
-
   (when (display-graphic-p)
     ;; Set default font
-    (cl-loop for font in '("MonoLisa Lucius" "Jetbrains Mono" "Source Code Pro" "PragmataPro Mono Liga"
-                           "Aporetic Sans Mono" "Aporetic Sans" "Cascadia Code" "Fira Code"
-                           "SF Mono" "Hack" "Menlo" "Monaco" "DejaVu Sans Mono" "Consolas")
+    (cl-loop for font in (append user/favourite-fonts
+                                 user/fallback-fonts)
              when (font-installed-p font)
              return (set-face-attribute 'default nil
                                         :family font

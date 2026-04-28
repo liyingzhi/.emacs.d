@@ -86,6 +86,11 @@ events."
   :group 'user
   :type 'string)
 
+(defcustom user/favourite-fonts '("PragmataPro Mono" "MonoLisa Lucius")
+  "List of favourite fonts."
+  :group 'user
+  :type '(repeat string))
+
 (defcustom user/*term-default-font* nil
   "Font name for term."
   :group 'user
