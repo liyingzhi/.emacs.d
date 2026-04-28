@@ -105,8 +105,8 @@
    telega-symbol-summarize-out (nerd-icons-octicon "nf-oct-unfold"))
 
   ;; 替代两行头像，防止头像因为字符高度不统一裂开。
-  ;; (setopt  telega-avatar-workaround-gaps-for (when (display-graphic-p) '(return t)))
-  (setf (alist-get 2 telega-avatar-factors-alist ) '(0.5 . 0.1))
+  (setopt  telega-avatar-workaround-gaps-for (when (display-graphic-p) '(return t)))
+  (setf (alist-get 2 telega-avatar-factors-alist ) '(0.7 . 0.1))
 
   (custom-theme-set-faces 'user
                           `(telega-msg-heading ((t (:background nil)))))
