@@ -209,6 +209,7 @@ current window, or in another window if OTHER-WINDOW is non-nil."
   (interactive "P")
   (zoxide-open-with nil (lambda (file) (dired-jump other-window file)) t))
 
+;;; dired-compress customize
 ;;;###autoload
 (defun dired-do-compress-to-1 ()
   "Compress selected files and directories to an archive.
