@@ -207,7 +207,8 @@ selecting a directory, open it with `dired-jump'.  The command
 `dired-jump' switches to a Dired buffer for the directory in the
 current window, or in another window if OTHER-WINDOW is non-nil."
   (interactive "P")
-  (zoxide-open-with nil (lambda (file) (dired-jump other-window file)) t))
+  (let ((vertico-sort-function nil))
+    (zoxide-open-with nil (lambda (file) (dired-jump other-window file)) t)))
 
 ;;; dired-compress customize
 ;;;###autoload
