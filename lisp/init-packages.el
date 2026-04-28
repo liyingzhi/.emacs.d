@@ -335,6 +335,7 @@
     denote-review
     denote-explore
     denote-project-notes
+    (denote-wordcloud :host codeberg :repo "treflip/denote-wordcloud")
     citar-embark
     citar-denote
     ox-epub

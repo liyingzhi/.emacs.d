@@ -96,5 +96,12 @@ Prompt for the directory using minibuffer completion."
 ;;; denote-project-notes
 (require 'denote-project-notes)
 
+;;; denote-wordcloud
+(autoload #'denote-wordcloud-list-by-frequency "denote-wordcloud" nil t)
+
+(global-set-keys
+ '(("C-c n w c" . denote-wordcloud)
+   ("C-c n w f" . denote-wordcloud-list-by-frequency)))
+
 (provide 'init-denote)
 ;;; init-denote.el ends here
