@@ -94,7 +94,7 @@ FONT-SIZE is the default font size."
              when (font-installed-p font)
              return (progn
                       ;; (setq face-font-rescale-alist `((,font . 1.2)))
-                      (dolist (charset '(kana han symbol cjk-misc bopomofo))
+                      (dolist (charset '(kana han cjk-misc bopomofo))
                         (set-fontset-font t charset
                                           (font-spec :family font)))))
 
