@@ -93,15 +93,30 @@ Prompt for the directory using minibuffer completion."
   (let ((denote-directory (read-directory-name "New note in: " nil nil :must-match)))
     (call-interactively 'denote)))
 
+;;; denote-review
+(defvar-keymap denote-review-keymap
+  :doc "Denote review keymap"
+  :prefix t
+  "s" '("New journal" . denote-review-set-date)
+  "l" '("New or open journal" . denote-review-display-list))
+
+(global-set-keys
+ '(("C-c n r" . ("Denote Review" . denote-review-keymap))))
+
 ;;; denote-project-notes
 (require 'denote-project-notes)
 
 ;;; denote-wordcloud
 (autoload #'denote-wordcloud-list-by-frequency "denote-wordcloud" nil t)
 
+(defvar-keymap denote-wordcloud-keymap
+  :doc "Denote wordcloud keymap"
+  :prefix t
+  "c" '("New journal" . denote-wordcloud)
+  "f" '("New or open journal" . denote-wordcloud-list-by-frequency))
+
 (global-set-keys
- '(("C-c n w c" . denote-wordcloud)
-   ("C-c n w f" . denote-wordcloud-list-by-frequency)))
+ '(("C-c n w" . ("Denote Wordcloud" . denote-wordcloud-keymap))))
 
 (provide 'init-denote)
 ;;; init-denote.el ends here

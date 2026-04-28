@@ -110,9 +110,7 @@
    ("C-c n d R" . denote-rename-file-using-front-matter)
    ("C-c n d m" . denote-menu-list-notes)
    ("C-c n d g" . consult-denote-grep)
-   ("C-c n d f" . consult-denote-find)
-   ("C-c n d v s" . denote-review-set-date)
-   ("C-c n d v l" . denote-review-display-list)))
+   ("C-c n d f" . consult-denote-find)))
 
 ;;; denote-org
 (global-set-keys
