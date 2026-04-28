@@ -333,9 +333,10 @@
     denote-sequence
     denote-silo
     denote-review
+    denote-explore
+    denote-project-notes
     citar-embark
     citar-denote
-    denote-explore
     ox-epub
     ox-gemini
     gemini-mode

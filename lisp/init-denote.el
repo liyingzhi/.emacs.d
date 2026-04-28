@@ -93,6 +93,8 @@ Prompt for the directory using minibuffer completion."
   (let ((denote-directory (read-directory-name "New note in: " nil nil :must-match)))
     (call-interactively 'denote)))
 
+;;; denote-project-notes
+(require 'denote-project-notes)
 
 (provide 'init-denote)
 ;;; init-denote.el ends here

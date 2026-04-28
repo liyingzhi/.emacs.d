@@ -104,6 +104,12 @@
     ("e e" "Edit" project-edit-dir-local)
     ("e s" "Trust" project-add-to-safe-local-variable)
     ("e a" "Add" project-add-dir-local-variable)]
+   ["Notes"
+    :if (lambda ()
+          (bound-and-true-p denote-project-notes-denote-directory))
+    ("n d" "Dwim" denote-project-notes-dwim)
+    ("n s" "Trust" denote-project-notes-show)
+    ("n i" "Add" denote-project-notes-set-identifier)]
    ["Other"
     ("v" "Magit status" unpackaged/magit-project-status)
     ("r" "Rsync" rsync-project-dispatch)
