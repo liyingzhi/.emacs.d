@@ -86,7 +86,7 @@ FONT-SIZE is the default font size."
     (cl-loop for font in '("LXGW WenKai" "LXGW Neo Xihei" "WenQuanYi Zen Hei" "PingFang SC" "Microsoft Yahei" "STFangsong")
              when (font-installed-p font)
              return (progn
-                      (setq face-font-rescale-alist `((,font . 1.2)))
+                      ;; (setq face-font-rescale-alist `((,font . 1.2)))
                       (dolist (charset '(kana han symbol cjk-misc bopomofo))
                         (set-fontset-font t charset
                                           (font-spec :family font)))))
