@@ -27,3 +27,4 @@ tree-sitter/*
 /straight/watcher/
 /mason/
 /site-lisp/
+/.dir-locals.el
