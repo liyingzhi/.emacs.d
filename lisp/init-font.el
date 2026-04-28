@@ -65,7 +65,7 @@ FONT-SIZE is the default font size."
 
     ;; Specify font for all unicode characters
     ;; https://www.wfonts.com/font/symbola
-    (cl-loop for font in '("Segoe UI Symbol" "Symbola" "Symbol")
+    (cl-loop for font in '("Apple Symbols" "Segoe UI Symbol" "Symbola" "Symbol")
              when (font-installed-p font)
              return (if (< emacs-major-version 27)
                         (set-fontset-font "fontset-default" 'unicode font nil 'prepend)
