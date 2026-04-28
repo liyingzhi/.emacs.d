@@ -108,10 +108,6 @@
   (setopt  telega-avatar-workaround-gaps-for (when (display-graphic-p) '(return t)))
   (setf (alist-get 2 telega-avatar-factors-alist ) '(0.7 . 0.1))
 
-  (custom-theme-set-faces 'user
-                          `(telega-msg-heading ((t (:background nil)))))
-
-
   (setopt telega-box-button-styles (let ((styles (copy-tree telega-box-button-styles)))
                                      (setf (alist-get 'admin-sender-tag styles)
                                            '(:inherit owner-sender-tag
