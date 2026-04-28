@@ -91,6 +91,11 @@ events."
   :group 'user
   :type '(repeat string))
 
+(defcustom user/favourite-zh-fonts '("LXGW WenKai Screen")
+  "List of favourite zh fonts."
+  :group 'user
+  :type '(repeat string))
+
 (defcustom user/*term-default-font* nil
   "Font name for term."
   :group 'user

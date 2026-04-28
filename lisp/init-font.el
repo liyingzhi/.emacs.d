@@ -29,6 +29,12 @@
     "SF Mono" "Hack" "Menlo" "Monaco" "DejaVu Sans Mono" "Consolas")
   "Monospace fonts to try in order when `user/favourite-font' is unavailable.")
 
+(defconst user/fallback-zh-fonts
+  '("LXGW Neo Xihei" "WenQuanYi Zen Hei"
+    "PingFang SC" "Microsoft Yahei" "STFangsong")
+  "Zh fonts to try in order when `user/favourite-zh-font' is unavailable.")
+
+
 (defun setup-fonts (&optional font-size)
   "Setup fonts.
 FONT-SIZE is the default font size."
@@ -83,7 +89,8 @@ FONT-SIZE is the default font size."
                       (set-fontset-font t 'emoji (font-spec :family font) nil 'prepend))))
 
     ;; Specify font for Chinese characters
-    (cl-loop for font in '("LXGW WenKai" "LXGW Neo Xihei" "WenQuanYi Zen Hei" "PingFang SC" "Microsoft Yahei" "STFangsong")
+    (cl-loop for font in (append user/favourite-zh-fonts
+                                 user/fallback-zh-fonts)
              when (font-installed-p font)
              return (progn
                       ;; (setq face-font-rescale-alist `((,font . 1.2)))
