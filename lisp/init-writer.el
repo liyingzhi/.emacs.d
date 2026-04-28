@@ -99,23 +99,6 @@
               (diredfl-mode -1)
               (denote-dired-mode))))
 
-(global-set-keys
- '(("C-c n d b" . denote-find-backlink)
-   ("C-c n d d" . denote-date)
-   ("C-c n d l" . denote-find-link)
-   ("C-c n d i" . denote-link-or-create)
-   ("C-c n d k" . denote-rename-file-keywords)
-   ("C-c n d n" . denote-open-or-create)
-   ("C-c n d r" . denote-rename-file)
-   ("C-c n d R" . denote-rename-file-using-front-matter)
-   ("C-c n d m" . denote-menu-list-notes)
-   ("C-c n d g" . consult-denote-grep)
-   ("C-c n d f" . consult-denote-find)))
-
-;;; denote-org
-(global-set-keys
- '(("C-c n d h" . denote-org-link-to-heading)))
-
 ;; for Hugo export
 (with-eval-after-load 'denote
   (advice-add 'denote-link-ol-export :around
@@ -145,6 +128,25 @@
 (with-eval-after-load 'embark
   (keymap-sets embark-defun-map
     '(("g" . org-dblock-update))))
+
+(defvar-keymap denote-commands-keymap
+  :doc "Denote commands keymap"
+  :prefix t
+  "b" '("Find backlink" . denote-find-backlink)
+  "d" '("Date" . denote-date)
+  "l" '("Find link" . denote-find-link)
+  "i" '("Link or create" . denote-link-or-create)
+  "k" '("Rename keywords" . denote-rename-file-keywords)
+  "n" '("Open or create" . denote-open-or-create)
+  "r" '("Rename file" . denote-rename-file)
+  "R" '("Rename using front-matter" . denote-rename-file-using-front-matter)
+  "m" '("Menu list notes" . denote-menu-list-notes)
+  "g" '("Consult grep" . consult-denote-grep)
+  "f" '("Consult find" . consult-denote-find)
+  "h" '("Org link to heading" . denote-org-link-to-heading))
+
+(global-set-keys
+ '(("C-c n d" . ("Denote" . denote-commands-keymap))))
 
 ;;; consult notes for denote
 ;; (add-list-to-list 'consult-notes-file-dir-sources
