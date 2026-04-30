@@ -135,7 +135,8 @@
     ("M" "Date Metadata Changed" casual-dired--sort-by-date-metadata-changed :transient t)
     ("s" "Size" casual-dired--sort-by-size :transient t)]
    ["Setting"
-    ("F" "dirvish-fd-switches-menu" dirvish-fd-switches-menu)]]
+    ("F" "dirvish-fd-switches-menu" dirvish-fd-switches-menu)
+    ("C-o" "casual-dired-tmenu" casual-dired-tmenu)]]
   [("q" "Quit" transient-quit-all)])
 
 ;;; Keymap
@@ -167,7 +168,7 @@
 
     ("<" . beginning-of-buffer)
     (">" . end-of-buffer)
-    
+
     ("c" . dired-do-compress-to-1)))
 
 ;;; dirvish

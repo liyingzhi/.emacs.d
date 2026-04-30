@@ -80,6 +80,10 @@
 
 (keymap-set org-mode-map "C-o" #'casual-org-tmenu)
 
+;; bind casual-editkit-main-tmenu
+(global-set-keys
+ '(("C-c e c" . casual-editkit-main-tmenu)))
+
 (require 'lib-transient)
 (pretty-transient-define-prefix transient-toggles ()
   "Toggles menu."
