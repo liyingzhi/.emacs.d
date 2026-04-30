@@ -218,7 +218,8 @@ DENOTE-DIR is denote dir."
 
 (global-set-keys
  '(("C-c n f" . consult-denote-find)
-   ("C-c n g" . consult-denote-grep)))
+   ("C-c n g" . consult-denote-grep)
+   ("C-c n o" . denote-open-or-create)))
 
 ;;; citar-denote
 (setopt citar-open-always-create-notes t
