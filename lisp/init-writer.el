@@ -216,6 +216,11 @@ DENOTE-DIR is denote dir."
 (with-eval-after-load 'consult-denote
   (consult-denote-mode 1))
 
+(consult-customize
+ consult-denote-grep
+ :initial (selected-region-or-symbol-at-point)
+ :preview-key 'any)
+
 (global-set-keys
  '(("C-c n f" . consult-denote-find)
    ("C-c n g" . consult-denote-grep)
