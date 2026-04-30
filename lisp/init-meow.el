@@ -5,6 +5,7 @@
 (require 'meow)
 ;; (setq meow-expand-hint-remove-delay 5.0)
 (setq meow-visit-sanitize-completion nil)
+(setq meow-keypad-ctrl-meta-prefix nil)
 (setq meow-esc-delay 0.001)
 (setq meow-keypad-meta-prefix nil)
 (setq meow-keypad-leader-dispatch "C-c")
