@@ -107,32 +107,6 @@ current window."
       (narrow-to-region start end)
       (consult-line))))
 
-(lazy-one-key-create-menu
- "Search"
- (:key "l" :description "Search in buffer" :command consult-line)
- (:key "L" :description "Search in line in multi buffer" :command consult-line-multi)
- (:key "i" :description "Search imenu" :command consult-imenu)
- (:key "I" :description "Search imenu in multi buffer" :command consult-imenu-multi)
- (:key "e" :description "Search emacs symbol" :command consult-symbol)
- (:key "o" :description "Search outline" :command consult-outline)
- (:key "B" :description "Bookmark" :command consult-bookmark)
- (:key "s" :description "Blink Search" :command blink-search :filename "init-blink-search")
- (:key "j" :description "color rg search symbol in directory" :command color-rg-search-input)
- (:key "p" :description "color rg search symbol in project" :command color-rg-search-input-in-project)
- (:key "r" :description "rg menu" :command rg-menu :filename "init-rg")
- (:key "b" :description "Webjump" :command webjump :filename "init-webjump")
- (:key "G" :description "Google this" :command one-key-menu-google :filename "init-google-this")
- (:key "g" :description "Project find with regexp" :command project-find-regexp)
- (:key "f" :description "Search file in home" :command consult-fd-in-home)
- (:key "y" :description "Search YASsnippet" :command consult-yasnippet)
- (:key "w" :description "Search in omni sources" :command consult-omni-multi :filename "init-consult-omni")
- (:key "m" :description "Search global mark" :command consult-global-mark)
- (:key "t" :description "Search project TODO" :command hl-todo-rg-project :filename "lib-hl-todo")
- (:key "T" :description "Search TODO with prompt" :command hl-todo-rg :filename "lib-hl-todo")
- (:key "n" :description "Search Notes" :command consult-notes)
- (:key "d" :description "Grep Denote" :command consult-denote-grep)
- (:key "D" :description "Grep Denote" :command consult-denote-find))
-
 (defun switch-*scratch*-buffer ()
   (interactive)
   (switch-to-buffer "*scratch*"))
@@ -383,22 +357,54 @@ current window."
 
 ;;; rg
 (lazy-load-global-keys
- '(("M-s s" . rg-dwim)
-   ("M-s R" . rg-menu)
-   ("M-s r" . rg)
-   ("M-s t" . rg-literal)
-   ("M-s p" . rg-project))
+ '(("M-s R" . rg-menu)
+   ("M-s r" . rg))
  "init-rg")
+
+;;; search key menu
+(global-set-keys
+ '(("M-s j" . color-rg-search-input)
+   ("M-s p" . color-rg-search-input-in-project)
+   ("M-s g" . project-find-regexp)))
+
+(lazy-load-global-keys
+ '(("M-s s" . blink-search))
+ "init-blink-search")
+
+(lazy-load-global-keys
+ '(("M-s b" . webjump))
+ "init-webjump")
+
+(lazy-load-global-keys
+ '(("M-s G" . one-key-menu-google))
+ "init-google-this")
+
+(lazy-load-global-keys
+ '(("M-s w" . consult-omni-multi))
+ "init-consult-omni")
+
+(lazy-load-global-keys
+ '(("M-s t" . hl-todo-rg-project)
+   ("M-s T" . hl-todo-rg))
+ "lib-hl-todo")
 
 ;;; consult
 (global-set-keys
  '(("M-s l" . consult-line)
    ("M-s L" . consult-line-multi)
-   ("M-s u" . consult-isearch-history)
+   ("M-s i" . consult-imenu)
+   ("M-s I" . consult-imenu-multi)
    ("M-s e" . consult-symbol)
-   ("C-h C-e" . consult-symbol)
-   ("M-s f" . ("Search file" . consult-fd))
-   ("M-s d" . ("Search dir" . consult-fd-dir))))
+   ("M-s o" . consult-outline)
+   ("M-s B" . consult-bookmark)
+   ("M-s u" . consult-isearch-history)
+   ("M-s y" . consult-yasnippet)
+   ("M-s m" . consult-global-mark)
+   ("M-s n" . consult-notes)
+   ("M-s d" . consult-denote-grep)
+   ("M-s f" . ("Search file in home" . consult-fd-in-home))
+   ("M-s D" . ("Search dir" . consult-fd-dir))
+   ("C-h C-e" . consult-symbol)))
 
 (defun my/one-key-menu-auto-popup-advice (fn)
   (let ((one-key-popup-window t))

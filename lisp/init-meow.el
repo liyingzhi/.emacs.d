@@ -269,7 +269,7 @@ available."
    '("w" . hydra-window/body)
    '("u" . one-key-menu-useful)
    '("j" . one-key-menu-code)
-   '("s" . one-key-menu-search)
+   '("s" . "M-s")
    '("f" . one-key-menu-file)
    '("b" . one-key-menu-buffer)
    '("o" . one-key-menu-org)
@@ -364,7 +364,6 @@ available."
 
   (meow-normal-define-key
    '("g" . "M-g")
-   '("S" . "M-s")
    (cons "F" find-map))
 
   (meow-normal-define-key
