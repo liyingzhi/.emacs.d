@@ -293,6 +293,11 @@ Stores link to MSG via `org-store-link' and captures with template \"mf\"."
 ;; Reference: https://systemcrafters.net/emacs-mail/enhance-email-with-org-mode/
 ;; org-mime-htmlize, org-mime-edit-mail-in-org-mode,
 ;; org-mime-org-buffer-htmlize, org-mime-org-subtree-htmlize
+
+(autoload #'org-mime-edit-mail-in-org-mode "org-mime" nil t)
+(keymap-binds mu4e-compose-mode-map
+  ("C-c C-o" . org-mime-edit-mail-in-org-mode))
+
 (setq org-mime-export-options '(:section-numbers nil
                                                  :with-author nil
                                                  :with-toc nil))
