@@ -123,6 +123,10 @@
   (keymap-binds telega-msg-button-map
     ("SPC" . meow-keypad))
 
+  (keymap-binds telega-root-mode-map
+    ("j" . telega-button-forward)
+    ("k" . telega-button-backward))
+
   (keymap-binds telega-prefix-map
     ("p" . telega-chatbuf-filter-search)
     ("d" . telega-chat-remove-member)
