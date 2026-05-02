@@ -251,8 +251,14 @@
   (keymap-binds mu4e-view-mode-map
     ("n" . next-line)
     ("p" . previous-line)
+    ("j" . next-line)
+    ("k" . previous-line)
     ("h" . left-char)
-    ("l" . right-char)))
+    ("l" . right-char))
+
+  (keymap-unset mu4e-search-minor-mode-map "j")
+  (keymap-binds mu4e-search-minor-mode-map
+    ("J" . mu4e-search-maildir)))
 
 (defun my/capture-mail-follow-up (msg)
   "Capture email as org task for follow up.
@@ -311,7 +317,9 @@ rebuilding."
 
 
 (keymap-binds mu4e-headers-mode-map
-  ("C-c L" . my/store-link-to-mu4e-query))
+  ("C-c L" . my/store-link-to-mu4e-query)
+  ("j" . mu4e-headers-next)
+  ("k" . mu4e-headers-prev))
 
 (defun mu4e-quit-and-kill-tabbar ()
   "Stop mu4e and close the current tab.
