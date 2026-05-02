@@ -149,6 +149,8 @@ See `consult--with-preview' about STATE and CANDIDATE."
   (keymap-sets elfeed-search-mode-map
     '(("l" . +elfeed-overview)
       ("F" . elfeed-tube-fetch)
+      ("j" . next-line)
+      ("k" . previous-line)
       ("C-x C-s" . elfeed-tube-save))))
 
 (provide 'init-elfeed)
