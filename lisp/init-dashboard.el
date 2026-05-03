@@ -262,6 +262,7 @@ then calls `open-dashboard' to display it."
       ("I" . find-init-file)
       ("S" . hydra-straight-helper/body)
       ("M" . mason-manager)
+      ("n" . dashboard-next-line)
       ("H" . mcp-hub)
       ("<f2>" . open-dashboard)
       ("q" . quit-dashboard)
