@@ -317,6 +317,7 @@
 
 (defvar *package-write-install-list*
   '(nov
+    (buffer-to-pdf :host github :repo "protesilaos/buffer-to-pdf")
     pdf-tools
     ;; (reader :fetcher codeberg :repo "divyaranjan/emacs-reader"
     ;;       	:files ("*.el" "*.dylib" "*.so")

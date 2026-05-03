@@ -376,5 +376,12 @@ Falls back to `citar-open-entry' if not in a Denote file or no any reference."
 (with-eval-after-load 'init-meow
   (add-to-list 'meow-mode-state-list '(denote-sequence-hierarchy-mode . motion)))
 
+;;; buffer-to-pdf
+(advice-add #'buffer-to-pdf
+            :around
+            #'(lambda (orig-fun buffer orientation)
+                (let (_ (header-line-format nil))
+                  (funcall orig-fun buffer orientation))))
+
 (provide 'init-writer)
 ;;; init-writer.el ends here
