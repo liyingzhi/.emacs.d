@@ -32,7 +32,13 @@
               proced-format 'medium     ; can be changed interactively with `F'
               proced-filter 'user       ;can be changed interactively with `f'
               )
-(global-set-keys '(("C-c e p" . proced)))
+(global-set-keys '(("C-c e t p" . proced)))
+
+;;; show-font-tabulated
+(which-key-add-key-based-replacements
+  "C-c e t"   "Tools")
+
+(global-set-keys '(("C-c e t f" . show-font-tabulated)))
 
 ;;; fuzzy clock
 (require 'fuzzy-clock-zh)
