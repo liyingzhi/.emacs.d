@@ -268,6 +268,7 @@ DEFS is a plist associating completion categories to commands."
 
 ;; Adding to the list of consult-dir sources
 (add-to-list 'consult-dir-sources 'consult-dir--source-quick)
+(setq consult-dir-default-command #'dired)
 
 (global-set-keys
  '(("C-x C-d" . consult-dir)))
