@@ -58,6 +58,13 @@
 (push (expand-file-name recentf-save-file) recentf-exclude)
 (add-to-list 'recentf-filename-handlers #'abbreviate-file-name)
 
+(defun my/+history-delete-old-duplicates (var elt &rest _)
+  (when-let* ((hist (symbol-value var))
+              ((and (listp hist) (integerp history-length)))
+              (old (nthcdr 100 hist)))
+    (setcdr old (delete elt (cdr old)))))
+(advice-add #'add-to-history :before #'my/+history-delete-old-duplicates)
+
 ;;; savehist
 (setq enable-recursive-minibuffers t  ; Allow commands in minibuffers
       history-length 1000
