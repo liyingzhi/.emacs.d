@@ -107,6 +107,9 @@
  :initial (selected-region-or-symbol-at-point)
  :preview-key 'any)
 
+(keymap-binds minibuffer-local-map
+  ("C-g" . abort-recursive-edit))
+
 (defun my/consult--read (fn &rest args)
   "Select initial texts in `consult--read'."
   (minibuffer-with-setup-hook
