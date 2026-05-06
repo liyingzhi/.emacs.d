@@ -247,6 +247,12 @@
  '((("C-c <") . remember-init)
    (("C-c >") . remember-jump)))
 
+;;; bufferfile
+(autoload #'bufferfile-dired-do-rename "bufferfile" nil t)
+(with-eval-after-load 'dired
+  (keymap-binds dired-mode-map
+    ("r" . bufferfile-dired-do-rename)))
+
 ;;; editkit
 (autoload #'editkit-transform-menu "editkit" nil t)
 (autoload #'editkit-rectangle-menu "editkit" nil t)
