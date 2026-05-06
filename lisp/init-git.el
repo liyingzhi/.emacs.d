@@ -179,6 +179,13 @@ _p_rev       _U_pper              _=_: upper/lower       _r_esolve
             (when smerge-mode
               (unpackaged/smerge-hydra/body))))
 
+;;; vc-dir
+(defun my/vc-dir-here ()
+  "Run `vc-dir' on `default-directory'.
+In Dired, this uses the current Dired directory."
+  (interactive)
+  (vc-dir default-directory))
+
 ;;; menu
 
 (autoload 'casual-ediff-revision "casual-ediff-utils" nil t)
@@ -209,7 +216,9 @@ _p_rev       _U_pper              _=_: upper/lower       _r_esolve
                                 (my/git-pull-upstream-by-project-name ".emacs.igc.d" "straight")))]
    ["Log"
     ("oh" "Region history" vc-region-history)
-    ("ol" "File log" magit-log-buffer-file)]
+    ("ol" "File log" magit-log-buffer-file)
+    ("od" "File log" my/vc-dir-here)]
+
    ["Git"
     ("b" "Switch Modified buffer" consult-switch-git-status-buffer)
     ("gl" "Git Link" git-link-dispatch)
