@@ -174,7 +174,9 @@ If currently muted, restore previous volume; otherwise set volume to zero."
 
   (keymap-sets emms-playlist-mode-map
     '(("C-o" . my/transient-emms)
-      ("F" . +emms-add-to-favorites))))
+      ("F" . +emms-add-to-favorites)
+      ("j" . next-line)
+      ("k" . previous-line))))
 
 ;;; select roi songs
 (defun filter-music-buffer-and-save-to-file (json-filepath output-filepath)
