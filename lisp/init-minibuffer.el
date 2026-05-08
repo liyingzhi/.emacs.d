@@ -11,6 +11,8 @@
 
 (setq enable-recursive-minibuffers t)
 
+(setopt transient-show-during-minibuffer-read t)
+
 ;;; Vertico
 (require 'vertico)
 
