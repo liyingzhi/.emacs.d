@@ -42,7 +42,7 @@
   "Install all required language grammars."
   (interactive)
   (treesit-install-language-grammar 'elisp)
-  (let ((treesit-auto-langs '(bash c cpp lua python rust zig yaml toml cmake markdown)))
+  (let ((treesit-auto-langs '(bash c cpp lua python rust zig yaml toml cmake)))
     (treesit-auto-install-all)))
 
 ;; from https://github.com/renzmann/treesit-auto/issues/135#issuecomment-3314598444
