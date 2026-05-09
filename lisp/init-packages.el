@@ -134,7 +134,7 @@
     visual-replace
     visual-regexp
     visual-regexp-steroids
-    (fingertip :host github :repo "manateelazycat/fingertip")
+    puni
     shift-number
     comment-dwim-2
     (expreg :host github

@@ -36,8 +36,8 @@
       '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode))
 (global-hungry-delete-mode t)
 
-;;; fingertip
-(require 'init-fingertip)
+;;; puni
+(require 'init-puni)
 
 ;;; expreg
 (with-eval-after-load 'expreg
