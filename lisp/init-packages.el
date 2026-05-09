@@ -61,6 +61,7 @@
     xclip
     helpful
     which-key
+    treesit-auto
     hydra
     pretty-hydra))
 
