@@ -37,7 +37,10 @@
 (setq treesit-auto-install 'prompt)
 (delete 'markdown treesit-auto-langs)
 
-(treesit-auto-add-to-auto-mode-alist 'all)
+;; direct modify `auto-mode-alist' with ext and ts-mode
+;; (treesit-auto-add-to-auto-mode-alist 'all)
+
+;; chang to ts-mode by local `major-mode-remap-alist' remapping settings
 (global-treesit-auto-mode)
 
 (defun +treesit-install-required-language-grammars ()
