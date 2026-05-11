@@ -278,14 +278,16 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
 (add-hook 'magit-mode-hook #'gptel-magit-install)
 
 (with-eval-after-load 'gptel-magit
-  (defun gptel-no-tool-wrap (orig-fn &rest args)
+  (defun gptel-no-tool-no-include-reasoning-wrap (orig-fn &rest args)
     "Let ORIG-FN not use tools.
 ARGS is ORIG-FN args."
     (let ((gptel-tools nil)
-          (gptel-use-tools nil))
+          (gptel-use-tools nil)
+          (gptel-include-reasoning nil)
+          (gptel--request-params user/gptel-close-thinking))
       (apply orig-fn args)))
 
-  (advice-add #'gptel-magit-commit-generate :around #'gptel-no-tool-wrap))
+  (advice-add #'gptel-magit--generate :around #'gptel-no-tool-no-include-reasoning-wrap))
 
 
 (provide 'init-gptel)

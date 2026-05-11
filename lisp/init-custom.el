@@ -290,6 +290,14 @@ Each element should be a symbol representing a model name."
   :group 'user
   :type 'symbol)
 
+(defcustom user/gptel-close-thinking '(:thinking (:type "disabled"))
+  "Control the thinking/reasoning mode for GPTel.
+When set to \\'(:thinking (:type \"disabled\")), thinking mode is disabled
+for supported models.  Adjust the plist to enable or configure thinking
+behaviour as needed."
+  :group 'user
+  :type 'plist)
+
 ;;; Tools
 (defcustom user/beancount nil
   "Enable beancount."
