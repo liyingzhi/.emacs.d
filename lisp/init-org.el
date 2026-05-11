@@ -291,6 +291,24 @@
       ;; for latex-preview enhanced branch
       ;;================start===================
       (require 'org-latex-preview)
+
+      ;; Note: The org-latex-preview feature version has known issues:
+      ;; - LaTeX export
+      ;; - Hugo markdown export
+      ;; When exporting, use the built-in Org version instead.
+
+      ;; (with-temp-buffer
+      ;;   (insert
+      ;;    (with-current-buffer (car (find-function-noselect 'org-html-format-latex))
+      ;;      (goto-char (cdr (find-function-noselect 'org-html-format-latex)))
+      ;;      (let ((start (point)))
+      ;;        (forward-sexp)
+      ;;        (buffer-substring start (point)))))
+      ;;   (eval-buffer))
+
+      ;; (byte-compile-file "/home/ii/github/igc_emacs/.emacs.igc.d/straight/repos/org/lisp/org-compat.el")
+      ;; (load "/home/ii/github/igc_emacs/.emacs.igc.d/straight/repos/org/lisp/org-compat.elc")
+
       (plist-put org-latex-preview-appearance-options
                  :page-width 0.8)
       (add-hook 'org-mode-hook 'org-latex-preview-mode)
