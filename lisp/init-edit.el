@@ -27,8 +27,7 @@
 (advice-add #'meow-grab
             :before
             #'(lambda ()
-                (call-interactively #'electric-pair-mode)
-                (call-interactively #'fingertip-mode)))
+                (call-interactively #'electric-pair-mode)))
 
 (require 'hungry-delete)
 (setq hungry-delete-chars-to-skip " \t\f\v"

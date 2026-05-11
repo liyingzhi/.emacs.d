@@ -52,30 +52,36 @@ S-expression."
    ["Move"
     ("F" "Forward Sexp" puni-forward-sexp :transient t)
     ("B" "Backward Sexp" puni-backward-sexp :transient t)
+    ("h" "Forward Sexp" puni-syntactic-backward-punct :transient t)
+    ("l" "Backward Sexp" puni-syntactic-forward-punct :transient t)
     ("a" "Beginning Sexp" puni-beginning-of-sexp :transient t)
     ("e" "End Sexp" puni-end-of-sexp :transient t)]]
 
   [("q" "Quit" transient-quit-all)])
 
-(with-eval-after-load 'meow
-  (meow-normal-define-key
-   '("(" . puni-wrap-round)
-   '("s-[" . puni-wrap-square)
-   '("M-[" . puni-wrap-square)
-   '("{" . puni-wrap-curly)
-   '("<" . puni-wrap-angle)
-   '("\"" . puni-wrap-double-quote)
-   '("'" . puni-wrap-single-quote)
-   '(")" . puni-splice)
-   '("C-j" . puni-jump-out-pair-and-newline)
-   '("X" . puni-sexp-menu)))
-
-(with-eval-after-load 'puni-mode
+(with-eval-after-load 'puni-autoloads
   (keymap-binds puni-mode-map
+    ("M-(" . puni-wrap-round)
+    ("s-(" . puni-wrap-round)
+    ("s-[" . puni-wrap-square)
+    ("M-[" . puni-wrap-square)
+    ("M-{" . puni-wrap-curly)
+    ("s-{" . puni-wrap-curly)
+    ("M-<" . puni-wrap-angle)
+    ("s-<" . puni-wrap-angle)
+    ("M-\"" . puni-wrap-double-quote)
+    ("s-\"" . puni-wrap-double-quote)
+    ("M-'" . puni-wrap-single-quote)
+    ("s-'" . puni-wrap-single-quote)
+    ("M-)" . puni-splice)
+    ("s-)" . puni-splice)
+    ("C-j" . puni-jump-out-pair-and-newline)
     ("C-<backword>" . puni-backward-kill-word)
-
     ("C-s-f" . puni-forward-sexp)
-    ("C-s-b" . puni-backward-sexp)))
+    ("C-s-b" . puni-backward-sexp)
+    ("C-s-a" . puni-beginning-of-sexp)
+    ("C-s-e" . puni-end-of-sexp)
+    ("X" . puni-sexp-menu)))
 
 (add-hooks '(prog-mode-hook sgml-mode-hook nxml-mode-hook tex-mode-hook eval-expression-minibuffer-setup-hook yaml-ts-mode-hook)
            #'puni-mode)

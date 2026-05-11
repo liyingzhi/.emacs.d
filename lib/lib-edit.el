@@ -64,7 +64,7 @@ Otherwise, jump out of the current pair and insert a newline."
    ((nth 4 (syntax-ppss)) ; Inside a comment
     (comment-indent-new-line))
    (t
-    (fingertip-jump-out-pair-and-newline))))
+    (puni-jump-out-pair-and-newline))))
 
 ;;; Navigation
 
