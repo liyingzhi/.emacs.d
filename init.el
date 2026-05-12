@@ -38,6 +38,11 @@
 ;; Need install packages
 (require 'init-packages)
 
+(let* ((autoload-file (expand-file-name "user-lisp/.user-lisp-autoloads.el"
+                                        user-emacs-directory)))
+  (unless (file-exists-p autoload-file)
+    (prepare-user-lisp)))
+
 (unless (fboundp #'igc-stats)
   (require 'init-gcmh))
 
