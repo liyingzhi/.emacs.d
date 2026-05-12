@@ -248,7 +248,8 @@ then calls `open-dashboard' to display it."
     ("C-n" next-line "next line")
     ("C-p" previous-line "previous  line"))
    "Misc"
-   (("<f2>" open-dashboard "open" :exit t)
+   (("U" prepare-user-lisp "prepare user-lisp (C-u force)" :exit t)
+    ("<f2>" open-dashboard "open" :exit t)
     ("g" dashboard-refresh-buffer "refresh" :exit t)
 
     ("Q" quit-dashboard "quit" :exit t))))
@@ -263,6 +264,7 @@ then calls `open-dashboard' to display it."
       ("S" . hydra-straight-helper/body)
       ("M" . mason-manager)
       ("n" . dashboard-next-line)
+      ("U" . prepare-user-lisp)
       ("H" . mcp-hub)
       ("<f2>" . open-dashboard)
       ("q" . quit-dashboard)
