@@ -275,20 +275,21 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
 
 (require 'init-gptel-aibo)
 
+;;; gptel-magit
 (add-hook 'magit-mode-hook #'gptel-magit-install)
 
+;; gptel-magit self-handling does not include thinking content.
+;; (gptel--request-params user/gptel-close-thinking)
+
 (with-eval-after-load 'gptel-magit
-  (defun gptel-no-tool-no-include-reasoning-wrap (orig-fn &rest args)
+  (defun gptel-no-tool-wrap (orig-fn &rest args)
     "Let ORIG-FN not use tools.
 ARGS is ORIG-FN args."
     (let ((gptel-tools nil)
-          (gptel-use-tools nil)
-          (gptel-include-reasoning nil)
-          (gptel--request-params user/gptel-close-thinking))
+          (gptel-use-tools nil))
       (apply orig-fn args)))
 
-  (advice-add #'gptel-magit--generate :around #'gptel-no-tool-no-include-reasoning-wrap))
-
+  (advice-add #'gptel-magit--request :around #'gptel-no-tool-wrap))
 
 (provide 'init-gptel)
 ;;; init-gptel.el ends here
