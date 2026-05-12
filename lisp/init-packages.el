@@ -221,6 +221,7 @@
     (grid :host github :repo "ichernyshovvv/grid.el")
     enlight
     doom-modeline
+    hide-mode-line
     nyan-mode
     pretty-mode
     lisp-extra-font-lock

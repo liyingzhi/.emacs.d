@@ -55,5 +55,10 @@
   (with-hook my/tramp-remote-file-hook
     (setq-local nyan-mode nil)))
 
+;;; hide-mode-line
+
+(add-hooks '(vterm-mode eshell-mode ghostel-mode shell-mode term-mode embark-collect-mode)
+           #'turn-on-hide-mode-line-mode)
+
 (provide 'init-modeline)
 ;;; init-modeline.el ends here
