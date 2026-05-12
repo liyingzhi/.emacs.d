@@ -217,7 +217,7 @@ In Dired, this uses the current Dired directory."
    ["Log"
     ("oh" "Region history" vc-region-history)
     ("ol" "File log" magit-log-buffer-file)
-    ("od" "File log" my/vc-dir-here)]
+    ("od" "Dir vc state" my/vc-dir-here)]
 
    ["Git"
     ("b" "Switch Modified buffer" consult-switch-git-status-buffer)
