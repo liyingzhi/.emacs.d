@@ -50,7 +50,6 @@
                      '(pair ("<") (">"))
                      '(pair ("<") (">")))
 
-(require 'mark-comment)
 (meow-thing-register 'comment #'mark-comment-inner-of-comment #'mark-comment-inner-of-comment)
 
 (defvar wrap-keymap

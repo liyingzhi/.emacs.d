@@ -28,8 +28,6 @@
 
 ;; (flx-rs-load-dyn)
 
-(autoload #'fussy-orderless-score-with-flx "fussy-orderless")
-
 (with-eval-after-load 'fussy
   (add-to-list 'fussy-whitespace-ok-fns
                #'fussy-orderless-score-with-flx))

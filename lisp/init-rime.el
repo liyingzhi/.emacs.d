@@ -92,7 +92,6 @@
 (keymap-sets rime-mode-map
   '(("C-`" . rime-send-keybinding)))
 
-(require 'im-cursor-chg)
 (cursor-chg-mode t)
 
 (when (and (boundp 'user/pinyin-regexp)

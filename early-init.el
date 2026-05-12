@@ -38,6 +38,8 @@
    (concat user-emacs-directory
            "site-lisp/")))
 
+(setopt user-lisp-auto-scrape nil)
+
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; no-native-compile: t

@@ -87,9 +87,9 @@
 ;; (require 'init-code-stats)
 
 (require 'axis)
-(setq axis-db-location
-      (expand-file-name "var/axis-data.sqlite"
-                        user-emacs-directory))
+(setopt axis-db-location
+        (expand-file-name "var/axis-data.sqlite"
+                          user-emacs-directory))
 
 (with-hook (prog-mode text-mode)
   (when (and buffer-file-name

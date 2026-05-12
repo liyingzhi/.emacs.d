@@ -278,12 +278,7 @@ DEFS is a plist associating completion categories to commands."
 (global-set-keys
  '(("C-x C-d" . consult-dir)))
 
-;;; consult color
-(autoload #'consult-colors-web "consult-colors" nil t)
-(autoload #'consult-colors-emacs "consult-colors" nil t)
-
 ;;; consult goto page
-(autoload #'consult-goto-page "consult-goto-page" nil t)
 (global-bind-keys
  ("M-g p" . ("Goto page" . consult-goto-page)))
 

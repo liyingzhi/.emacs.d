@@ -41,8 +41,7 @@
 (global-set-keys '(("C-c e t f" . show-font-tabulated)))
 
 ;;; fuzzy clock
-(require 'fuzzy-clock-zh)
-(setq fuzzy-clock-zh-fuzziness 'fifteen-minutes)
+(setopt fuzzy-clock-zh-fuzziness 'fifteen-minutes)
 (fuzzy-clock-zh-mode 1)
 
 ;;; beancount

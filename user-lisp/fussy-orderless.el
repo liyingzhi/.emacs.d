@@ -286,6 +286,7 @@ ARGS is normal score fn args."
     (cons total-score
           match-pos)))
 
+;;;###autoload
 (defun fussy-orderless-score-with-flx (str query &rest args)
   "Score STR for QUERY with ARGS using orderless."
   (require 'flx)
@@ -302,6 +303,7 @@ ARGS is normal score fn args."
           normal-scores)
       prefix-scores)))
 
+;;;###autoload
 (defun fussy-orderless-score-with-flx-rs (str query &rest args)
   "Score STR for QUERY with ARGS using orderless."
   (require 'flx-rs)
