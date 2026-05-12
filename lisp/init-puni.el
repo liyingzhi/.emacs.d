@@ -59,6 +59,14 @@ S-expression."
 
   [("q" "Quit" transient-quit-all)])
 
+(with-eval-after-load 'meow
+  (meow-normal-define-key
+   '("(" . puni-wrap-round)
+   '(")" . puni-splice)
+   '("{" . puni-wrap-curly)
+   '("\"" . puni-wrap-double-quote)
+   '("'" . puni-wrap-single-quote)))
+
 (keymap-binds puni-mode-map
   ("M-(" . puni-wrap-round)
   ("s-(" . puni-wrap-round)
