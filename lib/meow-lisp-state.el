@@ -56,8 +56,8 @@ report errors as appropriate for this kind of usage."
   '("l" . puni-forward-sexp)
   '("h" . puni-backward-sexp)
   '("j" . down-list)
-  '("k" . up-list)
-  '("K" . backward-up-list)
+  '("k" . backward-up-list)
+  '("K" . up-list)
   '("J" . backward-down-list)
 
   '("n" . puni-slurp-forward)
