@@ -58,7 +58,7 @@
 ;;; hide-mode-line
 
 (add-hooks '(vterm-mode eshell-mode ghostel-mode shell-mode term-mode embark-collect-mode)
-           #'turn-on-hide-mode-line-mode)
+           #'mode-line-invisible-mode)
 
 (provide 'init-modeline)
 ;;; init-modeline.el ends here
