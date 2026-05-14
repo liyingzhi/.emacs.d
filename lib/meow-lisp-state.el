@@ -90,7 +90,13 @@ report errors as appropriate for this kind of usage."
   '("\"" . puni-wrap-double-quote)
   '("'" . puni-wrap-single-quote)
   '("C-j" . puni-jump-out-pair-and-newline)
-  '("<" . puni-wrap-angle))
+  '("<" . puni-wrap-angle)
+
+  '("y" . meow-save)
+
+  '("m s" . puni-mark-sexp-at-point)
+  '("m a" . puni-mark-sexp-around-point)
+  '("m l" . puni-mark-list-around-point))
 
 (provide 'meow-lisp-state)
 ;;; meow-lisp-state.el ends here
