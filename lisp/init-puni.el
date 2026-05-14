@@ -39,8 +39,7 @@ S-expression."
    '("(" . puni-wrap-round)
    '(")" . puni-splice)
    '("{" . puni-wrap-curly)
-   '("\"" . puni-wrap-double-quote)
-   '("'" . puni-wrap-single-quote)))
+   '("\"" . puni-wrap-double-quote)))
 
 (keymap-binds puni-mode-map
   ("M-(" . puni-wrap-round)
