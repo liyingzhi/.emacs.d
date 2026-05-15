@@ -232,6 +232,14 @@ Each element should be a symbol representing a model name."
           (const :tag "No models" nil)
           (list :tag "Model list" (repeat symbol))))
 
+(defcustom user/local-models nil
+  "List of available models for Qwen GPTel backend.
+Each element should be a symbol representing a model name."
+  :group 'user
+  :type '(choice
+          (const :tag "No models" nil)
+          (list :tag "Model list" (repeat symbol))))
+
 (defcustom user/modelscope-models '(deepseek-ai/DeepSeek-V3)
   "List of available models for modelscope GPTel backend.
 Each element should be a symbol representing a model name."

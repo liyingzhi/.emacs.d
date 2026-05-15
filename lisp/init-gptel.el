@@ -70,6 +70,13 @@
   :key #'gptel-api-key
   :models user/qwen-models)
 
+(gptel-make-openai "local-llm-backend"
+  :stream t
+  :host "localhost:8080"
+  :endpoint "/v1/chat/completions"
+  :protocol "http"
+  :models user/local-models)
+
 (gptel-make-openai "ModelScope"
   :stream t
   :protocol "https"
