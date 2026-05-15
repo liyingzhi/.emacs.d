@@ -435,9 +435,37 @@
            (org-rich-yank-indent paste)
          paste)))))
 
+(defun get-org-attach-file-path-at-point (&optional arg)
+  "Get the absolute file path of the attachment link at point.
+With ARG, prompt to select an attachment file interactively."
+  (interactive "P")
+  (let (full-path)
+    (if arg
+        ;; With prefix arg: prompt for attachment file
+        (let ((attach-dir (org-attach-dir t)))
+          (setq full-path
+                (expand-file-name
+                 (completing-read "Attachment file: "
+                                  (directory-files attach-dir nil "^[^.]"))
+                 attach-dir)))
+      ;; Without prefix arg: get attachment link at point
+      (let* ((context (org-element-context))
+             (link (when (eq (org-element-type context) 'link) context))
+             (protocol (when link (org-element-property :type link)))
+             (path (when link (org-element-property :path link)))
+             (attach-dir (when (string= protocol "attachment")
+                           (org-attach-dir))))
+        (unless (and attach-dir path)
+          (user-error "No attachment link at point or no attachment directory"))
+        (setq full-path (expand-file-name path attach-dir))))
+    (kill-new full-path)
+    (message "attachment file: %s" full-path)
+    full-path))
+
 (keymap-binds org-mode-map
   (("C-s-y" "C-M-y") . org-rich-yank-with-media)
-  (("C-s-p" "C-M-p") . org-rich-yank-with-media))
+  (("C-s-p" "C-M-p") . get-org-attach-file-path-at-point))
+
 
 ;;; org-sliced-images
 (require 'org-sliced-images)
