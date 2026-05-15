@@ -277,6 +277,9 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
 (global-set-keys
  '((("M-?" "s-?") . gptel-quick)))
 
+(keymap-binds gptel-mode-map
+  ("C-o" . gptel-menu))
+
 (add-hook 'gptel-mode-hook
           #'gptel-highlight-mode)
 
