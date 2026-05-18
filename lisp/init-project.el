@@ -113,7 +113,7 @@
    ["Other"
     ("v" "Magit status" unpackaged/magit-project-status)
     ("r" "Rsync" rsync-project-dispatch)
-    ("t" "Vterm" multi-vterm-project)
+    ("t" "Term" project-term)
     ("s" "Eshell" project-eshell)
     ("S" "blink search" project-blink-search )]]
   [("q" "Quit" transient-quit-all)])

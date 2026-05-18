@@ -322,9 +322,21 @@ ARGS is ORIG-FN args."
   (keymap-sets vterm-mode-map
     '(("C-y" . vterm-yank))))
 
+(defalias 'project-run-command-with-term #'project-run-command-with-vterm)
+
+(defalias 'project-term #'multi-vterm-project)
+(keymap-binds project-prefix-map
+  ("t" . ("Term" . multi-vterm-project)))
+
 ;;; ghostel
 
 (add-hook 'ghostel-mode-hook #'meow-ghostel-mode)
+
+;; (defalias 'project-run-command-with-term #'ghostel-compile)
+
+;; (defalias 'project-term #'ghostel-project)
+;; (keymap-binds project-prefix-map
+;;   ("t" . ("Term" . ghostel-project)))
 
 ;;; latex
 
