@@ -38,6 +38,9 @@
    (concat user-emacs-directory
            "site-lisp/")))
 
+;; prevent package.el loading packages prior to their init-file loading
+(setopt package-enable-at-startup nil)
+
 (setopt user-lisp-auto-scrape nil)
 
 ;; Local Variables:

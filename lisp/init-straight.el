@@ -35,8 +35,6 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(setq package-enable-at-startup nil)
-
 (defun packages! (packages)
   "Install PACKAGES."
   (dolist (package packages)
