@@ -146,6 +146,8 @@
 
 (add-hook 'org-mode-hook #'org-cdlatex-mode)
 
+(keymap-sets org-mode-map '(("$" . math-delimiters-insert)))
+
 ;; Add new template
 (add-list-to-list 'org-structure-template-alist
                   '(("n" . "sidenote")

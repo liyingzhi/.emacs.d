@@ -408,13 +408,17 @@ ARGS is ORIG-FN args."
 
 (with-eval-after-load 'cdlatex
   (keymap-sets cdlatex-mode-map
-    '(("TAB" . +cdlatex-complete))))
+    '(("TAB" . +cdlatex-complete)
+      ("$" . nil))))
 
 (add-hook 'TeX-mode-hook
           (lambda ()
             (prettify-symbols-mode)
             (cdlatex-mode)
             (setq-local corfu-auto nil)))
+
+(with-eval-after-load 'tex              ; for AUCTeX
+  (define-key TeX-mode-map "$" #'math-delimiters-insert))
 
 ;;; RefTex
 (setq reftex-plug-into-AUCTeX t)

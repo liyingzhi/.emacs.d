@@ -346,6 +346,7 @@
     (elpher :host github :repo "emacsmirror/elpher")
     auctex
     cdlatex
+    math-delimiters
     (consult-reftex :host github :repo "karthink/consult-reftex")
     boxquote))
 
