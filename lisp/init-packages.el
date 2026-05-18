@@ -222,7 +222,6 @@
     enlight
     doom-modeline
     nyan-mode
-    pretty-mode
     lisp-extra-font-lock
     highlight-function-calls
     focus

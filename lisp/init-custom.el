@@ -124,11 +124,6 @@ events."
   :group 'user
   :type 'boolean)
 
-(defcustom user/pretty-mode nil
-  "Is Use pretty-mode."
-  :group 'user
-  :type 'boolean)
-
 (defcustom user/hidden-outline t
   "Is hiden outline."
   :group 'user

@@ -239,12 +239,5 @@ while preserving other default attributes."
   (add-hook 'after-init-hook
             #'global-ligature-mode))
 
-;;; 替换符号
-(add-hooks '(emacs-lisp-mode lisp-mode)
-           #'(lambda ()
-               (require 'pretty-mode)
-               (when user/pretty-mode
-                 (pretty-mode 1))))
-
 (provide 'init-font)
 ;;; init-font.el ends here
