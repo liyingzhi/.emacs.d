@@ -31,7 +31,7 @@
 (setopt fussy-max-word-length-to-score 10000
         fussy-compare-same-score-fn 'fussy-histlen->strlen<)
 
-(fussy-setup-orderless)
+(fussy-orderless-setup)
 (fussy-eglot-setup)
 
 (with-eval-after-load 'corfu
