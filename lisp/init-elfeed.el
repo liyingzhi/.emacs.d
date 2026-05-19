@@ -25,6 +25,8 @@
   ;; Note: The customize interface is also supported.
   (setopt rmh-elfeed-org-files (list user/elfeed-org-files))
 
+  (setq elfeed-search-remain-on-entry t)
+
   (setopt url-queue-timeout 30)
 
   (add-hook 'elfeed-show-mode-hook #'visual-line-mode)
