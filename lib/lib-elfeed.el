@@ -98,7 +98,8 @@ certain tags, with a default icon if no specific match is found."
 
 (defun +elfeed-search-print-entry--better-default (entry)
   "Print ENTRY to the buffer."
-  (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
+  (let* ((date-float (elfeed-entry-date entry))
+         (date (elfeed-search-format-date date-float))
          (date-width (car (cdr elfeed-search-date-format)))
          (title (concat (or (elfeed-meta entry :title)
                             (elfeed-entry-title entry) "")
@@ -123,13 +124,24 @@ certain tags, with a default icon if no specific match is found."
          (align-to-feed-pixel (+ date-width
                                  (max elfeed-search-title-min-width
                                       (min title-width elfeed-search-title-max-width)))))
-    (insert (propertize date 'face 'elfeed-search-date-face) " ")
-    (insert (propertize title-column 'face title-faces 'kbd-help title))
+    (insert (elfeed-add-properties date
+                                   'face 'elfeed-search-date-face
+                                   'mouse-face 'highlight
+                                   'elfeed-date date-float
+                                   'follow-link [elfeed-date]) " ")
+
+    (insert (elfeed-add-properties title-column
+                                   'face title-faces
+                                   'kbd-help title
+                                   'mouse-face 'highlight
+                                   'follow-link [elfeed-entry]))
     (put-text-property (1- (point)) (point) 'display `(space :align-to ,align-to-feed-pixel))
     ;; (when feed-title (insert " " (propertize feed-title 'face 'elfeed-search-feed-face) " "))
     (when feed-title
       (insert " " (concat (nerd-icon-for-tags tags) " ")
-              (propertize feed-title 'face 'elfeed-search-feed-face) " "))
+              (propertize feed-title 'face 'elfeed-search-feed-face
+                          'mouse-face 'highlight
+                          'follow-link [elfeed-feed]) " "))
     (when tags (insert "(" tags-str ")"))))
 
 

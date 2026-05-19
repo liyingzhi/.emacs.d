@@ -31,6 +31,7 @@
 
   (require 'lib-elfeed)
   (setq elfeed-search-print-entry-function #'+elfeed-search-print-entry--better-default)
+  ;; (setq elfeed-search-print-entry-function #'elfeed-search-print-entry--default)
 
   ;; Reference: https://taxodium.ink/use-elfeed-to-read-feed-in-emacs.html
   (defun spike-leung/org-open-rss-feed-as-site-in-elfeed-org-files (orig-fun &rest args)
