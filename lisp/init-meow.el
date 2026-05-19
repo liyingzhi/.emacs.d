@@ -115,16 +115,40 @@
            (message "dont't know how to help")))))))
 
 (defun meow-next-enhance ()
+  "Enhanced next line command.
+Uses `scroll-up-one-line' when available and `user/move-style-motion' is nil,
+otherwise falls back to `meow-next'."
   (interactive)
   (if (and (fboundp #'scroll-up-one-line) (not user/move-style-motion))
       (call-interactively #'scroll-up-one-line)
     (call-interactively #'meow-next)))
 
 (defun meow-prev-enhance ()
+  "Enhanced previous line command.
+Uses `scroll-down-one-line' when available and `user/move-style-motion' is nil,
+otherwise falls back to `meow-prev'."
   (interactive)
   (if (and (fboundp #'scroll-up-one-line) (not user/move-style-motion))
       (call-interactively #'scroll-down-one-line)
     (call-interactively #'meow-prev)))
+
+(defun meow-normal-n-key-enhance ()
+  "Enhanced n-key command for meow normal state.
+In telega chat mode, goes to next message;
+otherwise falls back to `meow-search'."
+  (interactive)
+  (if (eq major-mode 'telega-chat-mode)
+      (call-interactively #'telega-msg-next)
+    (call-interactively #'meow-search)))
+
+(defun meow-normal-p-key-enhance ()
+  "Enhanced p-key command for meow normal state.
+In telega chat mode, goes to previous message;
+otherwise falls back to `meow-yank'."
+  (interactive)
+  (if (eq major-mode 'telega-chat-mode)
+      (call-interactively #'telega-msg-previous)
+    (call-interactively #'meow-yank)))
 
 (defun my/meow-quit ()
   "Meow quit."
@@ -335,11 +359,11 @@ available."
    '("l" . meow-right)
    '("L" . meow-right-expand)
    '("m" . meow-join)
-   '("n" . meow-search)
+   '("n" . meow-normal-n-key-enhance)
    '("N" . meow-visit)
    '("o" . meow-tree-sitter-block)
    '("O" . meow-to-block)
-   '("p" . meow-yank)
+   '("p" . meow-normal-p-key-enhance)
    '("P" . meow-yank-pop)
    '("q" . my/meow-quit)
    ;;   '("Q" . meow-goto-line)
