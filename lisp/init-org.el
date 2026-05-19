@@ -334,9 +334,9 @@
 (unless sys/macp
   (font-lock-add-keywords 'org-mode
                           '(("\\cc\\( \\)[/+*_=~][^a-zA-Z0-9/+*_=~\n]+?[/+*_=~]\\( \\)?\\cc?"
-                             (1 (prog1 () (compose-region (match-beginning 1) (match-end 1) ""))))
+                             (1 (prog1 () (put-text-property (match-beginning 1) (match-end 1) 'invisible t))))
                             ("\\cc?\\( \\)?[/+*_=~][^a-zA-Z0-9/+*_=~\n]+?[/+*_=~]\\( \\)\\cc"
-                             (2 (prog1 () (compose-region (match-beginning 2) (match-end 2) "")))))
+                             (2 (prog1 () (put-text-property (match-beginning 2) (match-end 2) 'invisible t)))))
                           'append))
 
 (with-eval-after-load 'org-superstar
