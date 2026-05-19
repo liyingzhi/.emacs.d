@@ -43,7 +43,8 @@
     ("F" gt-translate-prompt-with-simple-dict "Fanyi Input"))
 
    "English"
-   (("t" gt-translate "show (en->zh) with taker")
+   (("t" gt-translate "Show (en->zh) with taker")
+    ("b" gptel-translate-buffer "Translate (en->zh) buffer")
     ("e" (lambda ()
            (interactive)
            (activate-input-method default-input-method)
