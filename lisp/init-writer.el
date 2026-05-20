@@ -133,7 +133,8 @@
   :doc "Denote commands keymap"
   :prefix t
   "b" '("Find backlink" . denote-find-backlink)
-  "d" '("Date" . denote-date)
+  "D" '("Date" . denote-date)
+  "d" '("Sort dired" .   denote-sort-dired)
   "l" '("Find link" . denote-find-link)
   "i" '("Link or create" . denote-link-or-create)
   "k" '("Rename keywords" . denote-rename-file-keywords)

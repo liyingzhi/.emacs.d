@@ -81,8 +81,7 @@
     ("n"  (lambda ()
             (interactive)
             ;; (dired (denote-directories))
-            (denote-sort-dired ".*" denote-sort-dired-default-sort-component t nil)
-            ) "Denote-Dir")
+            (denote-sort-dired ".*" denote-sort-dired-default-sort-component t nil)) "Denote-Dir")
     ("v" (lambda ()
            (interactive)
            (when user/dirvish
