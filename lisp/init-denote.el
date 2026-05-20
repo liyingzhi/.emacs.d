@@ -40,6 +40,10 @@
 
 (setq denote-org-store-link-to-heading 'context)
 
+;; Remove group-function to avoid completion grouping being affected by completion-category-overrides.
+(setq denote-file-prompt-extra-metadata
+      (assq-delete-all 'group-function denote-file-prompt-extra-metadata))
+
 (defun create-denote--in-work-subdir ()
   (interactive)
   (let ((denote-directory (concat denote-directory "/work")))
