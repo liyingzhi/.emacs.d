@@ -81,8 +81,16 @@
 
   (keymap-sets agent-shell-mode-map
     '(("C-o" . agent-shell-help-menu)
+      ("C-c C-p" . agent-shell-previous-item)
+      ("C-c C-n" . agent-shell-next-item)
       ("C-c RET" . shell-maker-submit)
-      ("RET" . newline))))
+      ("RET" . newline)))
+
+  ;; repeat for agent-shell navigation
+  (defvar-keymap agent-shell-navigation-repeat-map
+    :repeat t
+    "p" #'agent-shell-previous-item
+    "n" #'agent-shell-next-item))
 
 ;;; ai-code-interface
 
