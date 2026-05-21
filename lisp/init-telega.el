@@ -117,6 +117,9 @@
   (when sys/macp
     (setq telega-server-libs-prefix "/opt/homebrew/"))
 
+  ;; Open telega chat files via org-open-file to respect `org-file-apps' configuration
+  (setq telega-open-file-function #'org-open-file)
+
   ;;; keymap
   (keymap-unset telega-msg-button-map "l")
   (keymap-unset telega-msg-button-map "k")
