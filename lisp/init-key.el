@@ -370,7 +370,7 @@ current window."
 (global-set-keys
  '(("M-s j" . color-rg-search-input)
    ("M-s p" . color-rg-search-input-in-project)
-   ("M-s g" . project-find-regexp)))
+   ("M-s P" . project-find-regexp)))
 
 (lazy-load-global-keys
  '(("M-s s" . blink-search))
