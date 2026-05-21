@@ -40,6 +40,13 @@
 
 (setopt org-priority-lowest ?D)
 
+;;; org-file-apps
+
+;; Configure default app for external file types (PDF, video, etc.)
+(add-to-list 'org-file-apps-gnu
+             (cons user/extern-open-regexp
+                   (format "%s %%s" user/extern-open-command)))
+
 ;;; org link preview
 
 ;; `org-link-preview', `org-link-preview-region', `org-toggle-buffer-link-preview'

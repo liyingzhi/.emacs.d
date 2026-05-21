@@ -23,21 +23,7 @@
 ;; Dont prompt about killing buffer visiting delete file
 (setq dired-clean-confirm-killing-deleted-buffers nil)
 (setq dired-guess-shell-alist-user
-      `((,(rx "."
-              (or
-               ;; Videos
-               "mp4" "avi" "mkv" "flv" "ogv" "ogg" "mov"
-               ;; Music
-               "wav" "mp3" "flac"
-               ;; Images
-               "jpg" "jpeg" "png" "gif" "xpm" "svg" "bmp"
-               ;; Docs
-               "pdf" "md" "djvu" "ps" "eps" "doc" "docx" "xls" "xlsx" "ppt" "pptx")
-              string-end)
-         ,(cond ((eq system-type 'gnu/linux) "xdg-open")
-                ((eq system-type 'darwin) "open")
-                ((eq system-type 'windows-nt) "start")
-                (t "")))))
+      `((,user/extern-open-regexp ,user/extern-open-command)))
 
 (setq ls-lisp-dirs-first t)
 (when sys/macp

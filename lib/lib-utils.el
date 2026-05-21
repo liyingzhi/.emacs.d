@@ -27,6 +27,24 @@
 (require 'cl-lib)
 (require 'json)
 
+(defvar user/extern-open-extensions
+  '("mp4" "avi" "mkv" "flv" "ogv" "ogg" "mov"
+    "wav" "mp3" "flac"
+    "jpg" "jpeg" "png" "gif" "xpm" "svg" "bmp"
+    "pdf" "md" "djvu" "ps" "eps" "doc" "docx" "xls" "xlsx" "ppt" "pptx")
+  "File extensions that should be opened with external programs.")
+
+(defvar user/extern-open-regexp
+  (concat "\\." (regexp-opt user/extern-open-extensions) "\\'")
+  "Regexp matching files that should be opened with external programs.")
+
+(defvar user/extern-open-command
+  (cond ((eq system-type 'gnu/linux) "xdg-open")
+        ((eq system-type 'darwin) "open")
+        ((eq system-type 'windows-nt) "start")
+        (t ""))
+  "External command to open files by their default application.")
+
 (defun convert-mode-to-hook (mode)
   "CONVERT MODE to hook."
   (let ((name (symbol-name mode)))
