@@ -33,6 +33,10 @@
 (setq hungry-delete-chars-to-skip " \t\f\v"
       hungry-delete-except-modes
       '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode))
+
+(keymap-sets hungry-delete-mode-map
+  '(("C-<backspace>" . hungry-delete-backward)))
+
 (global-hungry-delete-mode t)
 
 ;;; puni

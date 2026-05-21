@@ -56,7 +56,6 @@ S-expression."
   ("M-)" . puni-splice)
   ("s-)" . puni-splice)
   ("C-j" . puni-jump-out-pair-and-newline)
-  ("C-<backword>" . puni-backward-kill-word)
   ("C-s-f" . puni-forward-sexp)
   ("C-s-b" . puni-backward-sexp)
   ("C-s-a" . puni-beginning-of-sexp)
