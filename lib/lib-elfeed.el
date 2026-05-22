@@ -132,7 +132,6 @@ certain tags, with a default icon if no specific match is found."
 
     (insert (elfeed-add-properties title-column
                                    'face title-faces
-                                   'kbd-help title
                                    'mouse-face 'highlight
                                    'follow-link [elfeed-entry]))
     (put-text-property (1- (point)) (point) 'display `(space :align-to ,align-to-feed-pixel))
