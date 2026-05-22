@@ -29,15 +29,10 @@
             #'(lambda ()
                 (call-interactively #'electric-pair-mode)))
 
-(require 'hungry-delete)
-(setq hungry-delete-chars-to-skip " \t\f\v"
-      hungry-delete-except-modes
-      '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode))
-
-(keymap-sets hungry-delete-mode-map
-  '(("C-<backspace>" . hungry-delete-backward)))
-
-(global-hungry-delete-mode t)
+;;; smart-hungy-delete
+(smart-hungry-delete-add-default-hooks)
+(global-set-keys
+ '(("C-<backspace>" . smart-hungry-delete-backward-char)))
 
 ;;; puni
 (require 'init-puni)

@@ -122,7 +122,7 @@
     (repeat-fu :host codeberg :repo "ideasman42/emacs-repeat-fu")
     grugru
     auto-rename-tag
-    hungry-delete
+    smart-hungry-delete
     separedit
     symbol-overlay
     symbol-overlay-mc
