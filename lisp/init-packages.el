@@ -285,7 +285,7 @@
      :host github
      :repo "redguardtoo/pyim-tsinghua-dict"
      :files ("pyim-tsinghua-dict.el" "pyim-tsinghua-dict.pyim"))
-    ))
+    (gptel-translate :host github :repo "lizqwerscott/gptel-translate" :files (:defaults "prompts"))))
 
 (defvar *package-org-install-list*
   '(htmlize
