@@ -33,7 +33,7 @@
     ;; Music
     "wav" "mp3" "flac"
     ;; Images
-    "jpg" "jpeg" "png" "gif" "xpm" "svg" "bmp"
+    ;; "jpg" "jpeg" "png" "gif" "xpm" "svg" "bmp"
     ;; Docs
     "pdf" "md" "djvu" "ps" "eps" "doc" "docx" "xls" "xlsx" "ppt" "pptx")
   "File extensions that should be opened with external programs.")
