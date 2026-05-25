@@ -34,7 +34,7 @@
   "Get an overview of all feeds."
   (interactive)
   (with-current-buffer (elfeed-search-buffer)
-    (elfeed-save-excursion
+    (elfeed-with-position elfeed-entry
       (let* ((inhibit-read-only t)
              (standard-output (current-buffer)))
         (erase-buffer)
