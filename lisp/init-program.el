@@ -399,13 +399,6 @@ ARGS is ORIG-FN args."
     (">" "ins" self-insert-command)]]
   [("q" "Quit" transient-quit-one)])
 
-(add-hook 'LaTeX-mode-hook
-          (lambda ()
-            (add-list-to-list 'TeX-view-program-selection
-                              '((output-pdf "Evince")
-                                (output-pdf "Sioyek")
-                                (output-pdf "xdg-open")))))
-
 (with-eval-after-load 'latex
   (keymap-sets LaTeX-mode-map
     '(("M-g r" . consult-reftex-goto-label)
@@ -428,6 +421,19 @@ ARGS is ORIG-FN args."
             (prettify-symbols-mode)
             (cdlatex-mode)
             (setq-local corfu-auto nil)))
+
+(add-hook 'LaTeX-mode-hook
+          (lambda ()
+            (add-list-to-list 'TeX-view-program-selection
+                              '((output-pdf "Evince")
+                                (output-pdf "Sioyek")
+                                (output-pdf "xdg-open")))))
+
+;;Refs: https://mbork.pl/2026-05-25_Ignoring_pdfs_when_auto-reverting_files
+(setq global-auto-revert-ignore-modes '(pdf-view-mode))
+
+(add-hook 'TeX-after-compilation-finished-functions
+          #'TeX-revert-document-buffer)
 
 (with-eval-after-load 'tex              ; for AUCTeX
   (define-key TeX-mode-map "$" #'math-delimiters-insert))
