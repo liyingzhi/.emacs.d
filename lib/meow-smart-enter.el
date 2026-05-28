@@ -25,31 +25,38 @@
 ;;; Code:
 
 (require 'goto-addr)
-(require 'org)
-
 (require 'meow-util)
 
 (defun meow-smart-enter-goto-address ()
   "Goto address at point when meow normal mode."
   (interactive)
-  (when (meow-normal-mode-p)
-    (cond ((eq major-mode 'org-mode) (call-interactively #'org-return))
-          (t (call-interactively #'goto-address-at-point)))))
+  (cond ((eq major-mode 'org-mode)
+         (call-interactively #'org-return))
+        (t (call-interactively #'goto-address-at-point))))
 
-(defun meow-smart-enter ()
-  "Meow smart enter in normal state."
-  (interactive)
-  (cond ((eq major-mode 'org-mode) (call-interactively #'org-return))
-        ((and (featurep 'telega-chat) (eq major-mode 'telega-chat-mode))
-         (require 'telega-chat)
-         (call-interactively #'telega-chatbuf-newline-or-input-send))
-        (t
-         (call-interactively #'newline-and-indent))))
+(defun meow-smart-enter-keymap-normal-filter (cmd)
+  "Return CMD if `browse-url' and similar button bindings should be active.
+They are considered active only in read-only buffers."
+  (when (meow-normal-mode-p) cmd))
 
-(define-key goto-address-highlight-keymap (kbd "RET") #'meow-smart-enter-goto-address)
+(defun meow-smart-enter-keymap-normal-bind (binding)
+  "Behave like BINDING, but only when the buffer is read-only.
+BINDING should be a command to pput in a keymap.
+Return an element that can be added in a keymap with `keymap-set', such that
+it is active only when the current buffer is read-only."
+  `(menu-item
+    "" ,binding
+    :filter ,#'meow-smart-enter-keymap-normal-filter))
 
-(with-eval-after-load 'meow
-  (define-key meow-normal-state-keymap (kbd "RET") #'meow-smart-enter))
+(keymap-set goto-address-highlight-keymap "RET" (meow-smart-enter-keymap-normal-bind #'meow-smart-enter-goto-address))
+
+(with-eval-after-load 'org
+  (defun meow-smart-enter-org (orig-fn &rest args)
+    ""
+    (let ((org-return-follows-link (meow-normal-mode-p)))
+      (apply orig-fn args)))
+
+  (advice-add #'org-return :around #'meow-smart-enter-org))
 
 (provide 'meow-smart-enter)
 ;;; meow-smart-enter.el ends here

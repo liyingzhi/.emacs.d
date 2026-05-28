@@ -28,8 +28,6 @@
         org-treat-insert-todo-heading-as-state-change t
         org-log-into-drawer t)
 
-(setopt org-return-follows-link t)
-
 (setopt org-todo-keywords
         '((sequence "TODO(t)" "DOING(i)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)")
           (sequence "⚑(T)" "🏴(I)" "❓(H)" "|" "✔(D)" "✘(C)")
