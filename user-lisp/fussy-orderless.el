@@ -348,7 +348,7 @@ Set a text-property \='completion-score on candidates with their score.
           (unless fussy-filter-unscored-candidates
             (push (copy-sequence x) result))
 
-        (pcase-let* ((`(,score ,normal-position ,prefix-position) (fussy-orderless-score-with-flx-rs x string cache)))
+        (pcase-let* ((`(,score ,normal-position ,prefix-position) (fussy-orderless-score-with-flx x string cache)))
           (fussy--debug "fn: %S candidate: %s query: %s score %S"
                         'fussy-score x string score)
           ;; Candidates with a score of N or less are filtered.
