@@ -72,7 +72,8 @@
   (with-eval-after-load 'meow
     (add-to-list 'meow-mode-state-list '(telega-root-mode . motion)))
 
-  (setopt telega-chat-show-avatars t
+  (setopt telega-chat-send-message-on-ret 'if-at-the-end
+          telega-chat-show-avatars t
           telega-emoji-use-images nil
           telega-sticker-animated-play t
           telega-auto-translate-probe-language-codes nil
