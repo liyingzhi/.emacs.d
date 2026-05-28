@@ -78,7 +78,8 @@
 (with-eval-after-load 'csv-mode
   (keymap-set csv-mode-map "C-o" #'casual-csv-tmenu))
 
-(keymap-set org-mode-map "C-o" #'casual-org-tmenu)
+(with-eval-after-load 'org
+  (keymap-set org-mode-map "C-o" #'casual-org-tmenu))
 
 ;; bind casual-editkit-main-tmenu
 (global-set-keys
