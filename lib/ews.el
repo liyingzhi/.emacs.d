@@ -116,18 +116,18 @@ Use when adding or removing a BibTeX file from or to `ews-bibtex-directorys'."
 (defun ews-bibtex-biblio-lookup ()
   "Insert Biblio search results into current buffer or select BibTeX file."
   (interactive)
-  (if-let ((current-mode major-mode)
-	   ews-bibtex-files
-	   (bibfiles (length ews-bibtex-files))
-	   (bibfile (cond ((eq bibfiles 1) (car ews-bibtex-files))
-			  ((equal major-mode 'bibtex-mode)
-			   (buffer-file-name))
-			  (t (completing-read
-			      "Select BibTeX file:" ews-bibtex-files)))))
+  (if-let* ((current-mode major-mode)
+	        ews-bibtex-files
+	        (bibfiles (length ews-bibtex-files))
+	        (bibfile (cond ((eq bibfiles 1) (car ews-bibtex-files))
+			               ((equal major-mode 'bibtex-mode)
+			                (buffer-file-name))
+			               (t (completing-read
+			                   "Select BibTeX file:" ews-bibtex-files)))))
       (progn (find-file bibfile)
-	     (goto-char (point-max))
-	     (ews--bibtex-combined-biblio-lookup)
-	     (save-buffer))
+	         (goto-char (point-max))
+	         (ews--bibtex-combined-biblio-lookup)
+	         (save-buffer))
     (message "No BibTeX file(s) defined.")))
 
 ;; Search for missing BibTeX attachments and filenames
@@ -291,11 +291,11 @@ Customise `titlecase-style' for styling."
     (org-map-entries
      (lambda ()
        (let* ((heading (substring-no-properties (org-get-heading t t t t)))
-	      (level (org-current-level))
-	      (heading-lower (downcase heading))
+	          (level (org-current-level))
+	          (heading-lower (downcase heading))
               (new-heading (titlecase--string heading-lower style)))
-	 (when (<= level (or ews-org-heading-level-capitalise 999))
-	   (org-edit-headline new-heading)))))))
+	     (when (<= level (or ews-org-heading-level-capitalise 999))
+	       (org-edit-headline new-heading)))))))
 
 ;; Fixed by Prot
 (defun ews-denote-link-description-title-case (file)
