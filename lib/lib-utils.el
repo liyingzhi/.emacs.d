@@ -35,7 +35,8 @@
     ;; Images
     ;; "jpg" "jpeg" "png" "gif" "xpm" "svg" "bmp"
     ;; Docs
-    "pdf" "md" "djvu" "ps" "eps" "doc" "docx" "xls" "xlsx" "ppt" "pptx")
+    ;; "pdf" "md" "djvu" "ps" "eps"
+    "doc" "docx" "xls" "xlsx" "ppt" "pptx")
   "File extensions that should be opened with external programs.")
 
 (defvar user/extern-open-regexp
