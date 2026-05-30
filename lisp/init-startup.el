@@ -42,7 +42,7 @@
 (set-selection-coding-system 'utf-8)
 (modify-coding-system-alist 'process "*" 'utf-8)
 (setq default-process-coding-system '(utf-8 . utf-8))
-(setq default-buffer-file-coding-system 'utf-8)
+(setq-default buffer-file-coding-system 'utf-8)
 
 ;;; History
 (require 'recentf)
