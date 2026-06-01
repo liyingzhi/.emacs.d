@@ -107,26 +107,28 @@
           (message "run %s command finished" prompt))
       (message "cancel"))))
 
-(defun +lizqwer/straight-action-multi (action prompt &optional filter)
+(defun +lizqwer/straight-action-multi (action prompt &optional filter is-yes)
   "Execute straight ACTION on multiple packages selected via `completing-read-multiple'.
 ACTION is the suffix after \"straight-\" (e.g. \"pull-package\").
 PROMPT is displayed in the minibuffer.
-FILTER is passed to `straight--select-package' for candidate filtering."
+FILTER is passed to `straight--select-package' for candidate filtering.
+IS-YES when non-nil skips the `yes-or-no-p' confirmation."
   (let* ((command (intern (format "straight-%s" action)))
          (packages (completing-read-multiple
                     (concat prompt ": ")
                     (let ((pkgs nil))
                       (maphash (lambda (pkg recipe)
                                  (when (or (null filter)
-                                           (funcall filter (plist-put recipe :package pkg)))
+                                           (funcall filter recipe))
                                    (push pkg pkgs)))
                                straight--recipe-cache)
                       (nreverse pkgs))
                     nil t)))
     (when (and packages
-               (yes-or-no-p (format "Run %s on %d package(s) %s? "
-                                    prompt (length packages)
-                                    (string-join packages ", "))))
+               (or is-yes
+                   (yes-or-no-p (format "Run %s on %d package(s) %s? "
+                                        prompt (length packages)
+                                        (string-join packages ", ")))))
       (dolist (pkg packages)
         (message "[%d/%d] %s %s..."
                  (1+ (cl-position pkg packages :test #'equal))
@@ -150,7 +152,7 @@ _R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |_G_et r
   ("f" (+lizqwer/straight-action "fetch-all" "straight-fetch-all"))
   ("F" (+lizqwer/straight-action "fetch-package" "straight-fetch-package"))
   ("p" (+lizqwer/straight-action "pull-all" "straight-pull-all"))
-  ("P" (+lizqwer/straight-action-multi "pull-package" "Pull packages" #'straight--installed-p))
+  ("P" (+lizqwer/straight-action-multi "pull-package" "Pull packages" #'straight--installed-p t))
   ("m" (+lizqwer/straight-action "merge-all" "straight-merge-all"))
   ("M" (+lizqwer/straight-action "merge-package" "straight-merge-package"))
   ("n" (+lizqwer/straight-action "normalize-all" "straight-normalize-all"))
