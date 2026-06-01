@@ -45,6 +45,8 @@
    "English"
    (("t" gt-translate "Show (en->zh) with taker")
     ("b" gptel-translate-buffer "Translate (en->zh) buffer")
+    ("." gptel-translate-at-point "Translate (en->zh) at point")
+
     ("e" (lambda ()
            (interactive)
            (activate-input-method default-input-method)
