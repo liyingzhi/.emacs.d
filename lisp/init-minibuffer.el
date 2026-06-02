@@ -471,9 +471,19 @@ DEFS is a plist associating completion categories to commands."
   "t" #'my/bufferlo-tab-map
   "s" #'my/bufferlo-set-map)
 
+(defun my/switch-scratch (arg)
+  "Switch to scratch buffer.
+With \\[universal-argument], call `scratch'.
+Otherwise, call `bufferlo-switch-to-scratch-buffer'."
+  (interactive "P")
+  (if arg
+      (let ((current-prefix-arg nil))
+        (scratch (scratch--buffer-querymode)))
+    (call-interactively #'bufferlo-switch-to-scratch-buffer)))
+
 (global-set-keys
  '(("C-c l L" . ("bufferlo" . my/bufferlo-map))
-   ("C-c ;" . ("Switch scratch" . bufferlo-switch-to-scratch-buffer))))
+   ("C-c ;" . ("Switch scratch" . my/switch-scratch))))
 
 (bufferlo-mode)
 (bufferlo-anywhere-mode)

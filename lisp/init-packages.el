@@ -102,6 +102,7 @@
     (backup-walker :host github :repo "liyingzhi/backup-walker")
     detached
     envrc
+    scratch
     show-font
     zoxide))
 
