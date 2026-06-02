@@ -19,6 +19,24 @@
  '(aw-minibuffer-leading-char-face ((t (:inherit font-lock-keyword-face :bold t :height 1.0))))
  '(aw-mode-line-face ((t (:inherit mode-line-emphasis :bold t)))))
 
+;; Refs: https://emacs-china.org/t/emacs/31510/25
+(defun my/ace-next-window ()
+  "Switch to the next window in `aw-window-list', wrapping to the first."
+  (interactive)
+  (let* ((current-key (aref (window-parameter
+                             (selected-window) 'ace-window-path) 0))
+         (keys aw-keys)
+         (len (length (aw-window-list)))
+         (current-idx (cl-position current-key keys))
+         (next-idx (mod (1+ current-idx) len))
+         (next-key (nth next-idx keys)))
+    (catch 'found
+      (dolist (win (aw-window-list))
+        (when (eq next-key
+                  (aref (window-parameter win 'ace-window-path) 0))
+          (aw-switch-to-window win)
+          (throw 'found nil))))))
+
 (pretty-hydra-define-e hydra-window
   (:title (pretty-hydra-title "Window Management" 'faicon "nf-fa-th")
           :foreign-keys warn :quit-key ("<escape>" "q" "C-g") :posframe t)
@@ -58,6 +76,8 @@
     ("<right>" winner-redo "winner redo"))))
 
 (add-to-list 'aw-dispatch-alist '(?w hydra-window/body) t)
+(add-to-list 'aw-dispatch-alist '(?n my/ace-next-window))
+(global-set-key (kbd "C-`") #'my/ace-next-window)
 
 ;;; winner mode
 (winner-mode 1)
