@@ -18,7 +18,8 @@
 ;;       "-l --almost-all --human-readable --time-style=long-iso --group-directories-first --no-group")
 (unless user/dirvish
   (setq dired-movement-style 'bounded)
-  (setq dired-kill-when-opening-new-dired-buffer t))
+  ;; (setq dired-kill-when-opening-new-dired-buffer t)
+  )
 
 ;; Dont prompt about killing buffer visiting delete file
 (setq dired-clean-confirm-killing-deleted-buffers nil)
@@ -27,7 +28,16 @@
 
 (setq ls-lisp-dirs-first t)
 (when sys/macp
-  (setq insert-directory-program "/opt/homebrew/bin/gls"))
+  (if (executable-find "gls")
+      (progn
+        ;; Use GNU ls as `gls' from `coreutils' if available.
+        (setq insert-directory-program "gls")
+        ;; Using `insert-directory-program'
+        (setq ls-lisp-use-insert-directory-program t))
+    (progn
+      ;; Suppress the warning: `ls does not support --dired'.
+      (setq dired-use-ls-dired nil)
+      (setq dired-listing-switches "-alh"))))
 
 ;; Enable the disabled dired commands
 (put 'dired-find-alternate-file 'disabled nil)
@@ -125,36 +135,37 @@
   [("q" "Quit" transient-quit-all)])
 
 ;;; Keymap
-(keymap-sets dired-mode-map
-  '(("e" . dired-toggle-read-only)
-    ("f" . (lambda ()
-             (interactive)
-             (consult-fd default-directory)))
-    ("F" . consult-fd-dir)
-    ("W" . dired-copy-path)
-    ("C-c +" . dired-create-empty-file)
-    ("C-+" . dired-create-empty-file)
-    ("h" . dired-up-directory)
-    ("C-c C-r" . dired-rsync)
-    ("C-c C-x" . dired-rsync-transient)
-    ("C-c e" . dired-do-open-default)
-    ("C-c E" . dired-do-open)
-    (("C-j" "M-j" "s-j") . dired-other-window)
-    ("C-o" . dired-dispatch)
+(keymap-binds dired-mode-map
+  (")" . dired-git-info-mode)
+  ("e" . dired-toggle-read-only)
+  ("f" . (lambda ()
+           (interactive)
+           (consult-fd default-directory)))
+  ("F" . consult-fd-dir)
+  ("W" . dired-copy-path)
+  ("C-c +" . dired-create-empty-file)
+  ("C-+" . dired-create-empty-file)
+  ("h" . dired-up-directory)
+  ("C-c C-r" . dired-rsync)
+  ("C-c C-x" . dired-rsync-transient)
+  ("C-c e" . dired-do-open-default)
+  ("C-c E" . dired-do-open)
+  (("C-j" "M-j" "s-j") . dired-other-window)
+  ("C-o" . dired-dispatch)
 
-    ("/" . prot-dired-limit-regexp)
-    ("C-c C-l" . prot-dired-limit-regexp)
+  ("/" . prot-dired-limit-regexp)
+  ("C-c C-l" . prot-dired-limit-regexp)
 
-    (("M-n" "s-n") . prot-dired-subdirectory-next)
-    (("M-p" "s-p") . prot-dired-subdirectory-previous)
-    ("C-c C-n" . prot-dired-subdirectory-next)
-    ("C-c C-p" . prot-dired-subdirectory-previous)
-    ("J" . dired-jump-first-file)
+  (("M-n" "s-n") . prot-dired-subdirectory-next)
+  (("M-p" "s-p") . prot-dired-subdirectory-previous)
+  ("C-c C-n" . prot-dired-subdirectory-next)
+  ("C-c C-p" . prot-dired-subdirectory-previous)
+  ("J" . dired-jump-first-file)
 
-    ("<" . beginning-of-buffer)
-    (">" . end-of-buffer)
+  ("<" . beginning-of-buffer)
+  (">" . end-of-buffer)
 
-    ("c" . dired-do-compress-to-1)))
+  ("c" . dired-do-compress-to-1))
 
 ;;; dirvish
 (when user/dirvish
