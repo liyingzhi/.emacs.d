@@ -124,8 +124,11 @@
   ;;; keymap
   (keymap-unset telega-msg-button-map "l")
   (keymap-unset telega-msg-button-map "k")
+  (keymap-unset telega-msg-button-map "x")
   (keymap-binds telega-msg-button-map
-    ("SPC" . meow-keypad))
+    ("SPC" . meow-keypad)
+    ("h" . backward-char)
+    ("l" . forward-char))
 
   (keymap-binds telega-root-mode-map
     ("j" . telega-button-forward)
@@ -135,8 +138,7 @@
     ("p" . telega-chatbuf-filter-search)
     ("d" . telega-chat-remove-member)
     ("m" . telega-describe-chat-members)
-    ("h" . telega-notifications-history)
-    ("x" . telega-chatbuf-thread-cancel))
+    ("h" . telega-notifications-history))
 
   (defalias 'telega-prefix-map telega-prefix-map)
 
