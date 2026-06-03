@@ -70,7 +70,8 @@
   (telega-emoji-init)
 
   (with-eval-after-load 'meow
-    (add-to-list 'meow-mode-state-list '(telega-root-mode . motion)))
+    (add-list-to-list 'meow-mode-state-list '((telega-root-mode . motion)
+                                              (telega-webpage-mode . normal))))
 
   (setopt telega-chat-send-message-on-ret 'if-at-the-end
           telega-chat-show-avatars t
