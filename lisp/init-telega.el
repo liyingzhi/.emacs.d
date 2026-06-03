@@ -75,6 +75,8 @@
   (setopt telega-chat-send-message-on-ret 'if-at-the-end
           telega-chat-show-avatars t
           telega-emoji-use-images nil
+          telega-chat-fill-column 90
+          telega-sticker-size '(6 . 24)
           telega-sticker-animated-play t
           telega-auto-translate-probe-language-codes nil
           telega-translate-to-language-by-default "zh-CN"
@@ -162,7 +164,9 @@
   (unless sys/macp
     (telega-notifications-mode t))
 
-  (global-telega-url-shorten-nerd-mode))
+  (global-telega-url-shorten-nerd-mode)
+  (with-hook telega-image-mode
+    (image-transform-fit-to-window)))
 
 (when (and user/telega-start (display-graphic-p))
   (add-hook 'window-setup-hook
