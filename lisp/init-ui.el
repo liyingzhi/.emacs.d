@@ -189,6 +189,9 @@ and update transparent."
 (setq knockknock-icon-padding 2)             ; Spaces between icon and text
 (setq knockknock-text-column 4)              ; Column position for text
 
+;;; project color
+(global-project-color-mode)
+
 ;;; Local Variables
 
 ;; Local Variables:
