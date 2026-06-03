@@ -78,6 +78,10 @@
 (global-set-keys
  '(("C-c e d" . ("Detached action" . detached-embark-action-map))))
 
+;;; image-mode
+(with-hook image-mode
+  (image-transform-fill-window))
+
 ;;; bookmark
 
 ;; Display icons for bookmarks
