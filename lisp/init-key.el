@@ -24,7 +24,6 @@
 
 (global-set-keys
  '(("RET" . newline-and-indent)
-   (("s-o" "M-o") . ace-window)
    (("s-n" "M-n") . scroll-up-1/3)
    (("s-p" "M-p") . scroll-down-1/3)
    (("M-N" "s-N") . scroll-other-window-up-1/3)
