@@ -38,7 +38,7 @@
 (delete 'markdown treesit-auto-langs)
 
 ;; direct modify `auto-mode-alist' with ext and ts-mode
-;; (treesit-auto-add-to-auto-mode-alist 'all)
+(treesit-auto-add-to-auto-mode-alist 'all)
 
 ;; chang to ts-mode by local `major-mode-remap-alist' remapping settings
 (global-treesit-auto-mode)
@@ -64,8 +64,8 @@ See `jf/treesit-language-available-p' for usage.")
   ;; function was contributing to 75% of the CPU time.  And it was run
   ;; each time.
   (let ((cached-value
-         (gethash lang jf/treesit-lang-cache 'miss)))
-    (if (eq 'miss cached-value)
+         (gethash lang jf/treesit-lang-cache '(nil))))
+    (if (eq nil (car cached-value))
         (let ((value
                (apply fn lang rest)))
           (puthash lang value jf/treesit-lang-cache)
