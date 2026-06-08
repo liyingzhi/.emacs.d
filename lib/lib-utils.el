@@ -495,6 +495,27 @@ SUBSTR-LIST is a list of strings."
           (forward-line 1)))
       (nreverse results))))
 
+;; Ref: https://sachachua.com/blog/2026/06/emacs-pdf-view-replace-current-page-with-file-using-pdftk/
+(defun my/pdf-view-replace-current-page-with-file (file)
+  "Replace the current page in PDF View with FILE.
+Requires pdftk."
+  (interactive "FFile to insert: ")
+  (let ((temp-file (concat (make-temp-name "pdf-view") ".pdf")))
+    (call-process
+     "pdftk"
+     nil nil nil
+     (concat "A=" (expand-file-name (buffer-file-name)))
+     (concat "B=" (expand-file-name file))
+     "cat"
+     (format "A%d-%d"
+             1
+             (1- (pdf-view-current-page)))
+     "B"
+     (format "A%d-end"
+             (1+ (pdf-view-current-page)))
+     "output"
+     temp-file)
+    (rename-file temp-file (buffer-file-name) t)))
 
 ;;; Local Variables
 
