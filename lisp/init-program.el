@@ -65,19 +65,24 @@ See `jf/treesit-language-available-p' for usage.")
   ;; each time.
   (let ((cached-value
          (gethash lang jf/treesit-lang-cache '(nil))))
-    (if (eq nil (car cached-value))
+    (if (or (eq nil cached-value)
+            (and (listp cached-value)
+                 (eq nil (car cached-value))))
         (let ((value
                (apply fn lang rest)))
           (puthash lang value jf/treesit-lang-cache)
           value)
       ;; Transform cached value based on call arguments
       (cond
-       ;; rest is t, cached-value is t → return '(t)
-       ((and (car rest) (eq cached-value 't))
-        '(t))
        ;; rest is nil, cached-value is '(t) → return t
        ((and (null rest) (equal cached-value '(t)))
         t)
+       ;; rest is '(nil), cached-value is '(t) → return t
+       ((and (null (car rest)) (equal cached-value '(t)))
+        t)
+       ;; rest is '(t), cached-value is t → return '(t)
+       ((and (car rest) (eq cached-value t))
+        '(t))
        ;; Default: return cached-value as-is
        (t cached-value)))))
 
