@@ -70,7 +70,17 @@ See `jf/treesit-language-available-p' for usage.")
                (apply fn lang rest)))
           (puthash lang value jf/treesit-lang-cache)
           value)
-      cached-value)))
+      ;; Transform cached value based on call arguments
+      (cond
+       ;; rest is t, cached-value is t → return '(t)
+       ((and (car rest) (eq cached-value 't))
+        '(t))
+       ;; rest is nil, cached-value is '(t) → return t
+       ((and (null rest) (equal cached-value '(t)))
+        t)
+       ;; Default: return cached-value as-is
+       (t cached-value)))))
+
 (advice-add #'treesit-language-available-p
             :around #'jf/treesit-language-available-p)
 
