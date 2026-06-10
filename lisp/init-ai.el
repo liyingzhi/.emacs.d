@@ -83,8 +83,18 @@
     '(("C-o" . agent-shell-help-menu)
       ("C-c C-p" . agent-shell-previous-item)
       ("C-c C-n" . agent-shell-next-item)
+      ("C-c C-k" . agent-shell-interrupt)
       ("C-c RET" . shell-maker-submit)
       ("RET" . newline)))
+
+  (keymap-sets agent-shell-viewport-view-mode-map
+    '(("C-o" . agent-shell-viewport-help-menu)))
+
+  (keymap-sets agent-shell-viewport-edit-mode-map
+    '(("C-o" . agent-shell-viewport-compose-help-menu)))
+
+  (with-eval-after-load 'meow
+    (add-list-to-list 'meow-mode-state-list '((agent-shell-viewport-view-mode . motion))))
 
   ;; repeat for agent-shell navigation
   (defvar-keymap agent-shell-navigation-repeat-map
