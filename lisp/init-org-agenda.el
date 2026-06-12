@@ -279,12 +279,12 @@ If the entry is a habit, return nil to not skip and include it in the agenda."
   (let ((agenda-sorting-strategy (assoc 'agenda org-agenda-sorting-strategy)))
     (setcdr agenda-sorting-strategy (remove 'habit-down (cdr agenda-sorting-strategy)))))
 
-;;; agenda app
+;;; agenda appt
 (when user/org-agenda-to-appt
   (add-hook 'org-agenda-finalize-hook #'org-agenda-to-appt)
-  (with-hook 'after-init-hook
-    (run-at-time 0 3600 'org-agenda-to-appt)
-    (appt-activate t)))
+  (with-hook 'window-setup-hook
+    (appt-activate t)
+    (run-at-time 30 3600 'org-agenda-to-appt)))
 
 ;;; doing
 (setopt doing-directory "~/Documents/Org/doing/")
