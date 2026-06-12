@@ -282,9 +282,10 @@ If the entry is a habit, return nil to not skip and include it in the agenda."
 ;;; agenda appt
 (when user/org-agenda-to-appt
   (add-hook 'org-agenda-finalize-hook #'org-agenda-to-appt)
+  (setopt appt-display-duration 60)
   (with-hook 'window-setup-hook
-    (appt-activate t)
-    (run-at-time 30 3600 'org-agenda-to-appt)))
+    (run-at-time nil 3600 'org-agenda-to-appt)
+    (appt-activate t)))
 
 ;;; doing
 (setopt doing-directory "~/Documents/Org/doing/")
