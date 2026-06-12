@@ -94,7 +94,8 @@ Meant to be used as `org-agenda-skip-function'.
 If the current entry is NOT a habit (i.e., STYLE property is not \"habit\"),
 return the position of the next line, thereby skipping this entry.
 If the entry is a habit, return nil to not skip and include it in the agenda."
-  (unless (string= (org-entry-get (point) "STYLE") "habit")
+  (if (string= (org-entry-get (point) "STYLE") "habit")
+      nil
     (line-beginning-position 2)))
 
 (defvar prot-org-custom-daily-agenda
