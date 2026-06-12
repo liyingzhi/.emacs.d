@@ -20,6 +20,7 @@
                     ,(concat user/org-base-dir-path "/inbox.org")))
 
 ;; (add-list-to-list 'org-agenda-files (file-expand-wildcards (concat *org-path* "daily/*.org")))
+(add-list-to-list 'recentf-exclude org-agenda-files)
 
 ;; 计算待办事项创建至今的时间
 (defun org-todo-age (&optional pos)
@@ -71,7 +72,7 @@ Otherwise, calculate the age of the current entry."
 
 ;;; agennda format
 (setq org-agenda-span 'day
-      org-agenda-current-time-string (concat "◀┈┈┈┈┈┈┈┈┈┈┈┈┈ ⏰"))
+      org-agenda-current-time-string (concat "◀┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ⏰"))
 ;; (setq org-agenda-compact-blocks t)
 
 (setq org-columns-default-format-for-agenda
