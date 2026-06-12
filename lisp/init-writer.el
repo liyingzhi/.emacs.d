@@ -347,6 +347,7 @@ Falls back to `citar-open-entry' if not in a Denote file or no any reference."
   :prefix t
   "N" '("New journal" . denote-journal-new-entry)
   "n" '("New or open journal" . denote-journal-new-or-existing-entry)
+  "." '("New or open journal" . denote-journal-new-or-existing-entry)
   "l" '("Link Journal" . denote-journal-link-or-create-entry)
   "w" '("Week report" . denote-week-report-new-or-existing-entry)
   "<" '("Previous journal" . denote-journal-goto-previous-entry)
@@ -356,7 +357,8 @@ Falls back to `citar-open-entry' if not in a Denote file or no any reference."
 (defvar-keymap denote-journal-goto-repeat-map
   :repeat t
   "<" #'denote-journal-goto-previous-entry
-  ">" #'denote-journal-goto-next-entry)
+  ">" #'denote-journal-goto-next-entry
+  "." #'denote-journal-new-or-existing-entry)
 
 (global-set-keys
  '(("C-c n j" . ("Denote Journal" . denote-journal-keymap))))
