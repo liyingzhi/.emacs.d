@@ -135,6 +135,14 @@
   [("q" "Quit" transient-quit-all)])
 
 ;;; Keymap
+
+(defvar-keymap my/dired-file-filter
+  :doc "Dired file filter keymap"
+  :prefix t
+  "." '("Limit by regexp" . prot-dired-limit-regexp)
+  "*" '("Flat list by regexp" . prot-dired-search-flat-list)
+  "t" '("Flat list by regexp since days" . prot-dired-search-flat-list-since-days))
+
 (keymap-binds dired-mode-map
   (")" . dired-git-info-mode)
   ("e" . dired-toggle-read-only)
@@ -153,8 +161,7 @@
   (("C-j" "M-j" "s-j") . dired-other-window)
   ("C-o" . dired-dispatch)
 
-  ("/" . prot-dired-limit-regexp)
-  ("C-c C-l" . prot-dired-limit-regexp)
+  ("/" . ("dired file filter" . my/dired-file-filter))
 
   (("M-n" "s-n") . prot-dired-subdirectory-next)
   (("M-p" "s-p") . prot-dired-subdirectory-previous)

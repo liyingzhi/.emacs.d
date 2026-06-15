@@ -179,6 +179,69 @@ Restore the buffer with \\<dired-mode-map>`\\[revert-buffer]'."
   (dired-do-kill-lines)
   (add-to-history 'prot-dired--limit-hist regexp))
 
+;; Ref: https://protesilaos.com/codelog/2026-06-13-emacs-flat-dired-for-regexp-since-days/
+(defvar prot-dired-regexp-history nil
+  "Minibuffer history of `prot-dired-regexp-prompt'.")
+
+(defun prot-dired-regexp-prompt ()
+  (let ((default (car prot-dired-regexp-history)))
+    (read-regexp
+     (format-prompt "Files matching REGEXP" default)
+     default 'prot-dired-regexp-history)))
+
+(defvar prot-dired-days-prompt-history nil
+  "Minibuffer history for `prot-dired-days-prompt'.")
+
+(defun prot-dired-days-prompt ()
+  "Prompt for days and return them as a number."
+  (let* ((first (car prot-dired-days-prompt-history))
+         (default (when (stringp first)
+                    (string-to-number first))))
+    (read-number "Number of days: " default 'prot-dired-days-prompt-history)))
+
+(defun prot-dired--get-files (regexp)
+  "Return files matching REGEXP, recursively from `default-directory'."
+  (directory-files-recursively default-directory regexp nil))
+
+;;;###autoload
+(defun prot-dired-search-flat-list (regexp)
+  "Return a Dired buffer for files matching REGEXP.
+Perform the search recursively from the current directory."
+  (interactive (list (prot-dired-regexp-prompt)))
+  (if-let* ((files (prot-dired--get-files regexp))
+            (relative-paths (mapcar #'file-relative-name files)))
+      (dired (cons (format "prot-flat-dired for `%s'" regexp) relative-paths))
+    (error "No files matching `%s'" regexp)))
+
+(defun prot-dired--get-last-modified (files days)
+  "Return list of FILES last modified since DAYS."
+  (seq-filter
+   (lambda (file)
+     (and-let* ((attributes (file-attributes file))
+                (last-modified (nth 5 attributes))
+                (last-modified-seconds (time-to-seconds last-modified))
+                (current-time (current-time))
+                (current-time-seconds (time-to-seconds current-time))
+                (delta-seconds (* days 24 60 60))
+                (oldest-seconds (- current-time-seconds delta-seconds))
+                (_ (>= last-modified-seconds oldest-seconds)))))
+   files))
+
+;;;###autoload
+(defun prot-dired-search-flat-list-since-days (regexp days)
+  "Return Dired buffer with files matching REGEXP up to DAYS since last modification.
+Perform the search recursively from the current directory."
+  (interactive
+   (list
+    (prot-dired-regexp-prompt)
+    (prot-dired-days-prompt)))
+  (if-let* ((files (prot-dired--get-files regexp)))
+      (if-let* ((files-filtered (prot-dired--get-last-modified files days))
+                (relative-paths (mapcar #'file-relative-name files-filtered)))
+          (dired (cons (format "prot-flat-dired since %d days for `%s'" days regexp) relative-paths))
+        (error "No files last modified within the last %d days" days))
+    (error "No files matching `%s'" regexp)))
+
 ;;; zoxide-cd
 ;; ref: https://emacs-china.org/t/zlua-el-emacs/30586
 (defun my/zoxide-cd-to-scratch ()
