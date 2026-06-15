@@ -11,8 +11,6 @@
 
 (require 'lib-edit)
 
-(delete-selection-mode 1)
-
 ;;; can use superword-mode
 (add-hook 'prog-mode-hook
           'superword-mode)

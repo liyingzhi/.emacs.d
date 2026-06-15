@@ -13,6 +13,8 @@
 
 (setopt transient-show-during-minibuffer-read t)
 
+(add-hook 'minibuffer-setup-hook #'delete-selection-local-mode)
+
 ;;; Vertico
 (require 'vertico)
 
