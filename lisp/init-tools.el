@@ -80,7 +80,7 @@
 
 ;;; image-mode
 (with-hook image-mode
-  (image-transform-fill-window))
+  (image-transform-fit-to-window))
 
 ;;; bookmark
 
