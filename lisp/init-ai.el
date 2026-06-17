@@ -77,7 +77,7 @@
 
 (with-eval-after-load 'agent-shell
   (setq agent-shell-file-completion-enabled t
-        agent-shell-prefer-viewport-interaction t
+        ;; agent-shell-prefer-viewport-interaction t
         agent-shell-qwen-authentication (agent-shell-qwen-make-authentication :login t))
 
   (keymap-sets agent-shell-mode-map
