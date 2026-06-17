@@ -45,22 +45,20 @@
 (define-key project-prefix-map (kbd "F") #'project-find-file-other-window)
 (define-key project-prefix-map (kbd "b") #'consult-project-buffer)
 (define-key project-prefix-map (kbd "B") #'consult-project-buffer-other-window)
-(define-key project-prefix-map (kbd "v") #'magit-project-status)
+(define-key project-prefix-map (kbd "v") #'unpackaged/magit-project-status)
 (define-key project-prefix-map (kbd "q") #'keyboard-quit)
 
 ;;; project-switch-commands
-(setq project-switch-commands nil)
-(add-to-list 'project-switch-commands '(project-find-file "Find file") t)
-(add-to-list 'project-switch-commands '(project-find-file-other-window "Find file ow") t)
-(add-to-list 'project-switch-commands '(consult-project-buffer "switch to buffer") t)
-(add-to-list 'project-switch-commands '(consult-project-buffer-other-window "switch to buffer ow") t)
-(add-to-list 'project-switch-commands '(magit-project-status "Git Status") t)
-(add-to-list 'project-switch-commands '(project-find-dir "Find Dir") t)
-(add-to-list 'project-switch-commands '(project-dired "Dired") t)
-(add-to-list 'project-switch-commands '(project-find-regexp "Regexp") t)
-(add-to-list 'project-switch-commands '(keyboard-quit "Quit") t)
-
-(autoload #'project-list-projects "project-list" nil t nil)
+(setq project-switch-commands
+      '((project-find-file "Find file")
+        (project-find-regexp "Find regexp")
+        (project-find-dir "Find Dir")
+        (project-dired "Dired")
+        (unpackaged/magit-project-status "Git")
+        (consult-project-buffer "Switch buffer")
+        (project-find-file-other-window "Find file(OW)")
+        (consult-project-buffer-other-window "Switch buffer(OW)")
+        (keyboard-quit "Quit")))
 
 ;;; Menu
 (require 'transient)
