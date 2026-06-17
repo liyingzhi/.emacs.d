@@ -43,7 +43,7 @@
                              (date (cdr entry))
                              (month (car date))
                              (day (cdr date))
-                             (description (format "%s 生日" name)))
+                             (description (format "%s 生日/纪念日" name)))
                         `(holiday-lunar ,month ,day ,description)))
                     user/birthday-dic))
     (setq birthday-holiday-list nil))
