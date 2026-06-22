@@ -86,8 +86,10 @@
       ("C-c C-n" . agent-shell-next-item)
       ("C-c C-k" . agent-shell-interrupt)
       ("C-c RET" . shell-maker-submit)
-      ("RET" . newline)))
-
+      ("RET" . newline)
+      ("M-n" . scroll-up-1/3)
+      ("M-p" . scroll-down-1/3)))
+  
   (keymap-sets agent-shell-viewport-view-mode-map
     '(("C-o" . agent-shell-viewport-help-menu)))
 
