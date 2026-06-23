@@ -129,6 +129,10 @@ FONT-SIZE is the default font size."
 (add-hook 'window-setup-hook #'setup-fonts)
 (add-hook 'server-after-make-frame-hook #'setup-fonts)
 
+
+;; Ignore misc-fixed bitmap fonts to prevent them from being used as fallback
+(add-list-to-list 'face-ignored-fonts '("-misc-fixed-.*"))
+
 (defun set-font-size (symbol value)
   "Set font SYMBOL VALUE."
   (set-default-toplevel-value symbol value)
