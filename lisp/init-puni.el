@@ -45,8 +45,6 @@ S-expression."
   ("M-(" . puni-wrap-round)
   ("s-(" . puni-wrap-round)
   ("s-[" . puni-wrap-square)
-  ("M-[" . puni-wrap-square)
-  ("M-{" . puni-wrap-curly)
   ("s-{" . puni-wrap-curly)
   ("s-<" . puni-wrap-angle)
   ("M-\"" . puni-wrap-double-quote)

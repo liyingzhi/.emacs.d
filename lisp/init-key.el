@@ -28,6 +28,10 @@
    (("s-p" "M-p") . scroll-down-1/3)
    (("M-N" "s-N") . scroll-other-window-up-1/3)
    (("M-P" "s-P") . scroll-other-window-down-1/3)
+
+   (("M-}") . forward-paragraph)
+   (("M-{") . backward-paragraph)
+
    (("s-x" "M-x") . execute-extended-command)
    ("C-s-f" . forward-sexp)
    ("C-s-b" . backward-sexp)
