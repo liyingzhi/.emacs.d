@@ -143,7 +143,8 @@ current window."
  (:key "d" :description "Delete this file" :command bufferfile-delete :filename "init-bufferfile")
  (:key "r" :description "Rename this file" :command bufferfile-rename :filename "init-bufferfile")
  (:key "b" :description "Browse this file" :command browse-this-file :filename "init-func")
- (:key "e" :description "Dired open" :command dired-do-open-default))
+ (:key "e" :description "Dired open" :command dired-do-open-default)
+ (:key "a" :description "add file to gptel content" :command gptel-context-add))
 
 (one-key-create-menu
  "File"

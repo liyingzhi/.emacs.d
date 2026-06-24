@@ -278,8 +278,19 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
 (global-set-keys
  '((("M-?" "s-?") . gptel-quick)))
 
+(defun my/gptel-context-add-file-with-current-kill-ring ()
+  "Add file from `kill-ring' to gptel context."
+  (interactive)
+  (if (not kill-ring)
+      (user-error "Kill ring is empty")
+    (let ((file (current-kill 0)))
+      (if (and (stringp file) (file-exists-p file))
+          (gptel-add-file file)
+        (user-error "Current kill ring is not a valid real file path")))))
+
 (keymap-binds gptel-mode-map
-  ("C-o" . gptel-menu))
+  ("C-o" . gptel-menu)
+  (("C-s-p" "C-M-p") . my/gptel-context-add-file-with-current-kill-ring))
 
 (add-hook 'gptel-mode-hook
           #'gptel-highlight-mode)
