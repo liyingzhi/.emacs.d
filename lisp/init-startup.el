@@ -201,8 +201,26 @@
                   "~"))
     (kill-buffer diff-buf)))
 
+(defun my-backup-walker-minor-mode-advice (orig-fun &optional arg)
+  ":around advice for `backup-walker-minor-mode'.
+Prepend a \"<m> toggle meow \" indicator to `header-line-format'
+when the minor mode is activated, showing a keybinding hint for
+toggling Meow states (normal/motion) in backup-walker buffers.
+
+ORIG-FUN is the original `backup-walker-minor-mode' function.
+ARG is passed through to ORIG-FUN."
+  (let ((result (funcall orig-fun arg)))
+    (when backup-walker-minor-mode
+      (setq header-line-format
+            (concat (propertize "<m>" 'face 'italic)
+                    " toggle meow "
+                    header-line-format)))
+    result))
+
+
 (with-eval-after-load 'backup-walker
   (advice-add 'backup-walker-refresh :override #'my-backup-walker-refresh)
+  (advice-add 'backup-walker-minor-mode :around #'my-backup-walker-minor-mode-advice)
 
   (defvar-keymap backup-walker-user-key-map
     :doc "User key map for the backup-walker minor mode."
