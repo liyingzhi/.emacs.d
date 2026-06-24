@@ -451,12 +451,16 @@ With ARG, prompt to select an attachment file interactively."
   (let (full-path)
     (if arg
         ;; With prefix arg: prompt for attachment file
-        (let ((attach-dir (org-attach-dir t)))
-          (setq full-path
-                (expand-file-name
-                 (completing-read "Attachment file: "
-                                  (directory-files attach-dir nil "^[^.]"))
-                 attach-dir)))
+        (let ((attach-dir (org-attach-dir nil)))
+          (if attach-dir
+              (setq full-path
+                    (expand-file-name
+                     (completing-read "Attachment file: "
+                                      (directory-files attach-dir nil "^[^.]")
+                                      nil
+                                      t)
+                     attach-dir))
+            (user-error "No attachment link at point or no attachment directory")))
       ;; Without prefix arg: get attachment link at point
       (let* ((context (org-element-context))
              (link (when (eq (org-element-type context) 'link) context))
