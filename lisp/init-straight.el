@@ -102,5 +102,8 @@ return (HOSTING-SITE OWNER REPO-NAME)。"
                               repo-name)))
     (insert recipe)))
 
+;;; straight-overview
+(setopt straight-overview-build-on-pull t)
+
 (provide 'init-straight)
 ;;; init-straight.el ends here
