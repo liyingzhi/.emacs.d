@@ -211,8 +211,8 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
 (with-eval-after-load 'gptel-transient
   (transient-append-suffix 'gptel-menu '(2 -1)
     ["Quick Tools"
-     ("q t" "Translate select regions to english" gptel-translate-to-english)
-     ("q q" "gptel abort" gptel-abort)]))
+     ("t t" "Translate select regions to english" gptel-translate-to-english)
+     ("t q" "gptel abort" gptel-abort)]))
 
 ;;; preset
 (gptel-make-preset 'default
