@@ -262,6 +262,7 @@ then calls `open-dashboard' to display it."
     '(("C" . find-custom-file)
       ("I" . find-init-file)
       ("S" . hydra-straight-helper/body)
+      ("L" . straight-overview)
       ("M" . mason-manager)
       ("n" . dashboard-next-line)
       ("U" . prepare-user-lisp)

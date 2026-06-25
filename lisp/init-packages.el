@@ -104,7 +104,8 @@
     envrc
     scratch
     show-font
-    zoxide))
+    zoxide
+    (straight-overview :host github :repo "alberti42/straight-overview")))
 
 (defvar *package-language-mode-install-list*
   '(markdown-mode
