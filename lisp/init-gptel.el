@@ -278,14 +278,55 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
 (global-set-keys
  '((("M-?" "s-?") . gptel-quick)))
 
-(defun my/gptel-context-add-file-with-current-kill-ring ()
-  "Add file from `kill-ring' to gptel context."
-  (interactive)
+;; insert file into gptel content
+(defun my/org-link-file (file &optional arg)
+  "Generate an Org-mode file link from FILE path.
+
+When the current `default-directory' can be used as a relative root,
+a relative file link (e.g., \"file:relative/path\") is produced.
+Otherwise, an absolute file link is returned.
+
+With optional ARG equal to \\='(16) (i.e., \\='\\='\\=' prefix),
+the link uses `abbreviate-file-name' instead of trying to make it relative."
+  (let ((pwd (file-name-as-directory (expand-file-name ".")))
+	    (pwd1 (file-name-as-directory (abbreviate-file-name
+				                       (expand-file-name ".")))))
+    (cond ((equal arg '(16))
+	       (concat "file:"
+		           (abbreviate-file-name (expand-file-name file))))
+	      ((string-match
+	        (concat "^" (regexp-quote pwd1) "\\(.+\\)") file)
+	       (concat "file:" (match-string 1 file)))
+	      ((string-match
+	        (concat "^" (regexp-quote pwd) "\\(.+\\)")
+	        (expand-file-name file))
+	       (concat "file:"
+		           (match-string 1 (expand-file-name file))))
+	      (t (concat "file:" file)))))
+
+(defun my/gptel-context-add-file-with-current-kill-ring (arg)
+  "Add file from `kill-ring' to gptel context.
+
+With \\='(4) prefix ARG (i.e., \\='C-u'), insert an Org-mode file link
+into the current buffer instead of adding the file contents directly.
+
+When called without prefix, delegate to `gptel-add-file' to include
+the file content as context.
+
+Signal `user-error' if `kill-ring' is empty, or if the current
+kill-ring entry is not a string representing an existing file path."
+  (interactive "P")
   (if (not kill-ring)
       (user-error "Kill ring is empty")
-    (let ((file (current-kill 0)))
+    (let ((file (current-kill 0 'do-not-move)))
       (if (and (stringp file) (file-exists-p file))
-          (gptel-add-file file)
+          (if arg
+              (prog1
+                  (insert (org-link-make-string-for-buffer (my/org-link-file file)
+                                                           nil
+                                                           nil))
+                (setq gptel-track-media t))
+            (gptel-add-file file))
         (user-error "Current kill ring is not a valid real file path")))))
 
 (keymap-binds gptel-mode-map
