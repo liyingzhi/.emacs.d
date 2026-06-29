@@ -262,7 +262,7 @@
     ,@(when user/load-email
         '((mu :host github :repo "djcb/mu" :files (:defaults "mu4e/*.el"))
           (org-mime :type git :host github :repo "org-mime/org-mime")))
-    ))
+    (ytm-radio :host github :repo "LuciusChen/ytm-radio")))
 
 (defvar *package-window-install-list*
   '(popper

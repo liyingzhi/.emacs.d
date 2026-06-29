@@ -37,24 +37,24 @@
     "Select and play a song from the current EMMS playlist."
     (interactive)
     (with-current-emms-playlist
-      (emms-playlist-mode-center-current)
-      (let* ((current-line-number (line-number-at-pos))
-             (lines (cl-loop
-                     with min-line-number = (line-number-at-pos (point-min))
-                     with buffer-text-lines = (split-string (buffer-string) "\n")
-                     with lines = nil
-                     for l in buffer-text-lines
-                     for n = min-line-number then (1+ n)
-                     unless (string-empty-p l)
-                     do (push (cons l n)
-                              lines)
-                     finally return (nreverse lines)))
-             (selected-line (completing-read "Song: " lines)))
-        (when selected-line
-          (let ((line (cdr (assoc selected-line lines))))
-            (goto-line line)
-            (emms-playlist-mode-play-smart)
-            (emms-playlist-mode-center-current))))))
+     (emms-playlist-mode-center-current)
+     (let* ((current-line-number (line-number-at-pos))
+            (lines (cl-loop
+                    with min-line-number = (line-number-at-pos (point-min))
+                    with buffer-text-lines = (split-string (buffer-string) "\n")
+                    with lines = nil
+                    for l in buffer-text-lines
+                    for n = min-line-number then (1+ n)
+                    unless (string-empty-p l)
+                    do (push (cons l n)
+                             lines)
+                    finally return (nreverse lines)))
+            (selected-line (completing-read "Song: " lines)))
+       (when selected-line
+         (let ((line (cdr (assoc selected-line lines))))
+           (goto-line line)
+           (emms-playlist-mode-play-smart)
+           (emms-playlist-mode-center-current))))))
 
   ;;;###autoload
   (defun +emms-add-to-favorites ()
@@ -335,6 +335,10 @@ Only works when current buffer is the EMMS playlist buffer."
 ;;; ready-player
 (setopt ready-player-minor-mode-map-prefix "C-c m r")
 ;; (ready-player-mode)
+
+;;; ytm-radio
+(global-set-keys
+ `(("C-c m y" . ytm-radio)))
 
 (provide 'init-mms)
 ;;; init-mms.el ends here
