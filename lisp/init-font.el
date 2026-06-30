@@ -222,6 +222,12 @@ while preserving other default attributes."
 
 (advice-add 'face-at-point :around #'+suggest-other-faces)
 
+;;; nerd-icons-set-font
+(require 'nerd-icons)
+(when (display-graphic-p)
+  (unless (find-font (font-spec :name nerd-icons-font-family))
+    (nerd-icons-install-fonts t))
+  (nerd-icons-set-font))
 
 ;;; 连体字体
 (with-eval-after-load 'ligature
