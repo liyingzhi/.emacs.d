@@ -337,6 +337,12 @@ Only works when current buffer is the EMMS playlist buffer."
 ;; (ready-player-mode)
 
 ;;; ytm-radio
+(with-eval-after-load 'ytm-radio
+  (keymap-unset ytm-radio--mode-map "g")
+  (keymap-sets ytm-radio--mode-map
+    '(("G" . ytm-radio-refresh)
+      ("g i" . consult-imenu))))
+
 (global-set-keys
  `(("C-c m y" . ytm-radio)))
 
