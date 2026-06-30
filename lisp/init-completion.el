@@ -22,6 +22,7 @@
       completions-detailed t
       completion-auto-help nil
       read-file-name-completion-ignore-case t
+      read-buffer-completion-ignore-case t
       completion-styles '(basic))
 
 ;;; fussy
