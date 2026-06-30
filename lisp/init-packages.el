@@ -212,6 +212,7 @@
     batppuccin
     tokyo-night
     ayu-theme
+    (kusanagi-theme :host github :repo "LionyxML/kusanagi-theme")
     kanagawa-themes
     nerd-icons
     nerd-icons-dired
