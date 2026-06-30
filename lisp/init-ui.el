@@ -190,7 +190,7 @@ and update transparent."
 (setq knockknock-text-column 4)              ; Column position for text
 
 ;;; project color
-(global-project-color-mode)
+;; (global-project-color-mode)
 
 ;;; Local Variables
 
