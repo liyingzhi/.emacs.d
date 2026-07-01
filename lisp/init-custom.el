@@ -102,6 +102,12 @@ events."
   :type '(choice (const :tag "None" nil)
                  (string :tag "font name")))
 
+(defcustom user/*ytm-radio-default-font* nil
+  "Font name and size for ytm-radio."
+  :group 'user
+  :type '(choice (const :tag "None" nil)
+                 (string :tag "font name and size")))
+
 (defcustom a-theme-whitelist-light
   '(modus-operandi-tinted)
   "List of light themes available for random selection."

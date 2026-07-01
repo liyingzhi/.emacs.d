@@ -338,6 +338,9 @@ Only works when current buffer is the EMMS playlist buffer."
 
 ;;; ytm-radio
 (with-eval-after-load 'ytm-radio
+  (set-font-for-modes
+   `((ytm-radio--mode . ,user/*ytm-radio-default-font*)))
+
   (keymap-unset ytm-radio--mode-map "g")
   (keymap-sets ytm-radio--mode-map
     '(("G" . ytm-radio-refresh)
