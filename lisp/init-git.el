@@ -97,7 +97,10 @@
   (keymap-unset magit-status-mode-map "M-p")
 
   (add-hook 'magit-status-sections-hook
-            #'magit-insert-worktrees t))
+            #'magit-insert-worktrees t)
+
+  (keymap-sets with-editor-mode-map
+    '(("C-o" . git-commit-insert-trailer))))
 
 (with-eval-after-load 'magit-log
   ;; Set `magit-log-margin' value in :init as many other variables will be
