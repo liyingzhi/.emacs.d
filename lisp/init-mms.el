@@ -344,6 +344,8 @@ Only works when current buffer is the EMMS playlist buffer."
   (keymap-unset ytm-radio--mode-map "g")
   (keymap-sets ytm-radio--mode-map
     '(("G" . ytm-radio-refresh)
+      ("h" . ytm-radio-back)
+      ("C-o" . ytm-radio-current-actions)
       ("g i" . consult-imenu))))
 
 (global-set-keys
