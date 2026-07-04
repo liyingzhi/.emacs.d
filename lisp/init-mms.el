@@ -313,24 +313,33 @@ Only works when current buffer is the EMMS playlist buffer."
 (which-key-add-key-based-replacements
   "C-c m" "Multimedia")
 
-(defun tab-bar-switch-or-create-music ()
-  "Create or switch music tab bar."
-  (interactive)
+(defun tab-bar-switch-or-create-music (&optional arg)
+  "Create or switch music tab bar.
+With prefix argument ARG, start ytm-radio instead of emms."
+  (interactive "P")
   (autoload 'tab-bar-switch-or-create "lib-tabbar" nil t)
   (tab-bar-switch-or-create "Music")
-  (if (bound-and-true-p emms-playlist-buffer)
-      (emms-playlist-mode-go)
-    (emms-history-load)
-    (if (and (stringp emms-history-file)
-             (file-exists-p emms-history-file))
+  (if arg
+      (prog1 (ytm-radio)
+        (when (> (count-windows) 1)
+          (toggle-delete-other-windows)
+          (ytm-radio-refresh)))
+    (if (bound-and-true-p emms-playlist-buffer)
         (emms-playlist-mode-go)
-      (emms)
-      (emms-play-playlist user/mms-playlist-file))
-    ;; set init volume
-    (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume))))
+      (emms-history-load)
+      (if (and (stringp emms-history-file)
+               (file-exists-p emms-history-file))
+          (emms-playlist-mode-go)
+        (emms)
+        (emms-play-playlist user/mms-playlist-file))
+      ;; set init volume
+      (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume)))))
 
 (global-bind-keys
- ("C-c l s" . ("Music Tab" . tab-bar-switch-or-create-music)))
+ ("C-c l s" . ("Music Tab emms" . tab-bar-switch-or-create-music))
+ ("C-c l y" . ("Music Tab ytm" . (lambda ()
+                                   (interactive)
+                                   (tab-bar-switch-or-create-music t)))))
 
 ;;; ready-player
 (setopt ready-player-minor-mode-map-prefix "C-c m r")
