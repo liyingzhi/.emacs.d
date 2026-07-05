@@ -347,8 +347,10 @@ With prefix argument ARG, start ytm-radio instead of emms."
 
 ;;; ytm-radio
 (with-eval-after-load 'ytm-radio
-  (set-font-for-modes
-   `((ytm-radio--mode . ,user/*ytm-radio-default-font*)))
+  (when user/*ytm-radio-default-font*
+    (set-font-for-modes
+     `((ytm-radio--mode . ,user/*ytm-radio-default-font*))))
+  (setq ytm-radio-auto-show-now-playing nil)
 
   (keymap-unset ytm-radio--mode-map "g")
   (keymap-sets ytm-radio--mode-map
