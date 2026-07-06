@@ -73,6 +73,9 @@
     (add-list-to-list 'meow-mode-state-list '((telega-root-mode . motion)
                                               (telega-webpage-mode . normal))))
 
+  (when sys/macp
+    (setq telega-server-libs-prefix "/opt/homebrew/"))
+
   (setopt telega-chat-send-message-on-ret 'if-at-the-end
           telega-chat-show-avatars t
           telega-emoji-use-images nil
@@ -118,11 +121,56 @@
                                                       :passive-face telega-shadow))
                                      styles))
 
-  (when sys/macp
-    (setq telega-server-libs-prefix "/opt/homebrew/"))
-
   ;; Open telega chat files via org-open-file to respect `org-file-apps' configuration
   (setq telega-open-file-function #'org-open-file)
+
+  ;; ignore messages from blocked senders (users or chats)
+  (add-hook 'telega-msg-ignore-predicates
+            (telega-match-gen-predicate 'msg '(sender is-blocked)))
+
+  ;; Normalize the heart reaction to the emoji variant so both the
+  ;; message bubble and `!' completion candidates use ❤️ instead of ❤.
+  (with-eval-after-load 'telega-ins
+    (advice-add 'telega-ins--msg-reaction-type :around
+                (lambda (fn rt)
+                  (if (eq (telega--tl-type rt) 'reactionTypeEmoji)
+                      (telega-ins
+                       (if (equal (telega-tl-str rt :emoji) "❤") "❤️"
+                         (telega-tl-str rt :emoji)))
+                    (funcall fn rt)))))
+
+  (with-eval-after-load 'telega-util
+    (advice-add 'telega-msg-reaction-title-for-completion :filter-return
+                (lambda (s)
+                  (if (string-prefix-p "❤" s)
+                      (concat "❤️" (substring s 1))
+                    s))))
+
+  ;;; notification
+  (add-hook 'telega-connection-state-hook #'+tab-bar-telega-icon-update)
+  (add-hook 'telega-kill-hook #'+tab-bar-telega-icon-update)
+  (advice-add #'telega--on-updateUnreadChatCount :after #'+tab-bar-telega-icon-update)
+  (advice-add #'telega--on-updateChatUnreadMentionCount :after #'+tab-bar-telega-icon-update)
+  (advice-add #'telega--on-updateChatUnreadReactionCount :after #'+tab-bar-telega-icon-update)
+  (advice-add #'telega-msg-observable-p :after  #'+tab-bar-telega-icon-update)
+
+  (unless sys/macp
+    (telega-notifications-mode t))
+
+  ;; telega-url-shorten
+  (global-telega-url-shorten-nerd-mode)
+  ;; telega-mnz
+  (global-telega-mnz-mode 1)
+
+  (with-hook telega-chat-mode
+    (telega-completions-setup-capf)
+    (my/telega-chat-capf)
+    (setq-local completion-cycle-threshold nil)
+    (electric-pair-local-mode -1)
+    (mode-line-invisible-mode))
+
+  (with-hook telega-image-mode
+    (image-transform-fit-to-window))
 
   ;;; keymap
   (keymap-unset telega-msg-button-map "l")
@@ -148,26 +196,7 @@
   (global-set-keys
    '(("C-c t" . ("Telega" . telega-prefix-map))
 
-     ("C-c l t" . ("Chat Tab" . tab-bar-switch-or-create-chat))))
-
-  ;;; notification
-  (add-hook 'telega-connection-state-hook #'+tab-bar-telega-icon-update)
-  (add-hook 'telega-kill-hook #'+tab-bar-telega-icon-update)
-
-  (advice-add #'telega--on-updateUnreadChatCount :after #'+tab-bar-telega-icon-update)
-  (advice-add #'telega--on-updateChatUnreadMentionCount :after #'+tab-bar-telega-icon-update)
-  (advice-add #'telega--on-updateChatUnreadReactionCount :after #'+tab-bar-telega-icon-update)
-  (advice-add #'telega-msg-observable-p :after  #'+tab-bar-telega-icon-update)
-
-  (add-hook 'telega-chat-mode-hook #'my/telega-chat-capf)
-  (add-hook 'telega-chat-mode-hook #'mode-line-invisible-mode)
-
-  (unless sys/macp
-    (telega-notifications-mode t))
-
-  (global-telega-url-shorten-nerd-mode)
-  (with-hook telega-image-mode
-    (image-transform-fit-to-window)))
+     ("C-c l t" . ("Chat Tab" . tab-bar-switch-or-create-chat)))))
 
 (when (and user/telega-start (display-graphic-p))
   (add-hook 'window-setup-hook
