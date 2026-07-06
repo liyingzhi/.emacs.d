@@ -336,6 +336,7 @@
     denote-org
     denote-sequence
     denote-silo
+    denote-solo
     denote-review
     denote-explore
     denote-project-notes

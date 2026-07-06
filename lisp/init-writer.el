@@ -144,7 +144,8 @@
   "m" '("Menu list notes" . denote-menu-list-notes)
   "g" '("Consult grep" . consult-denote-grep)
   "f" '("Consult find" . consult-denote-find)
-  "h" '("Org link to heading" . denote-org-link-to-heading))
+  "h" '("Org link to heading" . denote-org-link-to-heading)
+  "s" '("switch workspace" . denote-solo-switch))
 
 (global-set-keys
  '(("C-c n d" . ("Denote" . denote-commands-keymap))))

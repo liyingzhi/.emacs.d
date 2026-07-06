@@ -122,5 +122,11 @@ Prompt for the directory using minibuffer completion."
 (global-set-keys
  '(("C-c n w" . ("Denote Wordcloud" . denote-wordcloud-keymap))))
 
+;;; denote-solo
+(setopt denote-solo--last-directory-file
+        (expand-file-name "var/denote-solo-last-directory"
+                          user-emacs-directory))
+(denote-solo-mode 1)
+
 (provide 'init-denote)
 ;;; init-denote.el ends here
