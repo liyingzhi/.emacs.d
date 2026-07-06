@@ -5,7 +5,8 @@
 ;;; Kitty Keyboard protocol in Emacs (kkp)
 (unless (display-graphic-p)
   (wait-packages! '(kkp))
-  (global-kkp-mode +1))
+  (with-hook 'tty-setup-hook
+    (global-kkp-mode +1)))
 
 ;;; repeat mode
 (setopt repeat-exit-timeout 5) ;; exit after 5 seconds of inactivity

@@ -45,7 +45,6 @@ S-expression."
 (keymap-binds puni-mode-map
   ("M-(" . puni-wrap-round)
   ("s-(" . puni-wrap-round)
-  ("M-[" . puni-wrap-square)
   ("s-[" . puni-wrap-square)
   ("s-{" . puni-wrap-curly)
   ("s-<" . puni-wrap-angle)
@@ -60,6 +59,11 @@ S-expression."
   ("C-s-b" . puni-backward-sexp)
   ("C-s-a" . puni-beginning-of-sexp)
   ("C-s-e" . puni-end-of-sexp))
+
+;; Disable "M-[" (="ESC [" ninrtlrmi)al),which cconfliictswith  with Kitty Keyboard Pr otocol (KKP)
+(when (display-graphic-p)
+  (keymap-binds puni-mode-map
+    ("M-[" . puni-wrap-square)))
 
 (add-hooks '(prog-mode-hook sgml-mode-hook nxml-mode-hook tex-mode-hook eval-expression-minibuffer-setup-hook yaml-ts-mode-hook)
            #'puni-mode)
