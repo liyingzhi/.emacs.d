@@ -185,6 +185,10 @@
     ("j" . telega-button-forward)
     ("k" . telega-button-backward))
 
+  (keymap-binds telega-chat-mode-map
+    ("M-n" . scroll-up-1/3)
+    ("M-p" . scroll-up-1/3))
+
   (keymap-binds telega-prefix-map
     ("p" . telega-chatbuf-filter-search)
     ("d" . telega-chat-remove-member)
