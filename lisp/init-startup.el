@@ -262,6 +262,8 @@ ARG is passed through to ORIG-FUN."
 ;;Reference: https://emacsredux.com/blog/2026/04/07/stealing-from-the-best-emacs-configs/
 (setq save-interprogram-paste-before-kill t)
 
+(setq x-select-enable-clipboard-manager nil)
+
 (setq ad-redefinition-action 'accept)
 
 (setq create-lockfiles nil)
