@@ -280,16 +280,36 @@ ARG is passed through to ORIG-FUN."
 ;; (setq bidi-paragraph-direction 'left-to-right)
 
 ;; from doom emacs
+;; from roife emacs
+;; [so-long] Workaround for long one-line file
 (setq-default bidi-display-reordering 'left-to-right
               bidi-paragraph-direction 'left-to-right)
 
 ;; PERF: Disabling BPA makes redisplay faster, but might produce incorrect
 ;;   reordering of bidirectional text with embedded parentheses (and other
 ;;   bracket characters whose 'paired-bracket' Unicode property is non-nil).
+
+;; Disable [bidirectional text] scanning for a modest performance
+;; Will improve long line display performance
 (setq bidi-inhibit-bpa t
       long-line-threshold 1000
       large-hscroll-threshold 1000
       syntax-wholeline-max 1000)
+
+(add-hook 'after-init-hook #'global-so-long-mode)
+
+(with-eval-after-load 'so-long
+  (dolist (mode '(conf-mode text-mode))
+    (add-to-list 'so-long-target-modes mode))
+
+  (dolist (mode '(eldoc-mode
+                  auto-composition-mode))
+    (add-to-list 'so-long-minor-modes mode))
+
+  (dolist (override '((bidi-display-reordering . nil)
+                      (font-lock-maximum-decoration . 1)
+                      (save-place-alist . nil)))
+    (add-to-list 'so-long-variable-overrides override)))
 
 ;;; performance
 ;; Disable garbage collection when entering commands.

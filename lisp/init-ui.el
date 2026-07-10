@@ -144,7 +144,6 @@ and update transparent."
 
 ;; (require 'zone)
 ;; (zone-when-idle 600)
-(global-so-long-mode 1)
 
 ;;; Click (C-c RET) to browse URL or to send to e-mail address
 (add-hook 'text-mode-hook
