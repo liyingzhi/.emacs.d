@@ -77,7 +77,7 @@
 
 (with-eval-after-load 'agent-shell
   (setq agent-shell-file-completion-enabled t
-        ;; agent-shell-prefer-viewport-interaction t
+        agent-shell-prefer-viewport-interaction t
         agent-shell-qwen-authentication (agent-shell-qwen-make-authentication :login t))
 
   (keymap-sets agent-shell-mode-map
@@ -89,7 +89,7 @@
       ("RET" . newline)
       ("M-n" . scroll-up-1/3)
       ("M-p" . scroll-down-1/3)))
-  
+
   (keymap-sets agent-shell-viewport-view-mode-map
     '(("C-o" . agent-shell-viewport-help-menu)))
 
