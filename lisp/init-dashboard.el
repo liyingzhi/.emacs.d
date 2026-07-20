@@ -258,20 +258,20 @@ then calls `open-dashboard' to display it."
  '(("<f2>" . open-dashboard-from-other-buffer)))
 
 (with-eval-after-load 'dashboard
-  (keymap-sets dashboard-mode-map
-    '(("C" . find-custom-file)
-      ("I" . find-init-file)
-      ("S" . hydra-straight-helper/body)
-      ("L" . straight-overview)
-      ("M" . mason-manager)
-      ("n" . dashboard-next-line)
-      ("U" . prepare-user-lisp)
-      ("H" . mcp-hub)
-      ("<f2>" . open-dashboard)
-      ("q" . quit-dashboard)
-      ("h" . hydra-dashboard/body)
-      ("?" . hydra-dashboard/body)))
-  (keymap-unset dashboard-mode-map "g"))
+  (keymap-binds dashboard-mode-map
+    ("C" . find-custom-file)
+    ("I" . find-init-file)
+    ("S" . hydra-straight-helper/body)
+    ("L" . straight-overview)
+    ("M" . mason-manager)
+    ("n" . dashboard-next-line)
+    ("U" . prepare-user-lisp)
+    ("H" . mcp-hub)
+    ("<f2>" . open-dashboard)
+    ("q" . quit-dashboard)
+    ("h" . hydra-dashboard/body)
+    ("?" . hydra-dashboard/body)
+    ("g" . goto-map)))
 
 (defun dashboard-goto-recent-files ()
   "Go to recent files."
