@@ -108,8 +108,7 @@
     (straight-overview :host github :repo "alberti42/straight-overview")))
 
 (defvar *package-language-mode-install-list*
-  '(markdown-mode
-    markdown-indent-mode
+  '(markdown-indent-mode
     log4j-mode
     just-mode
     elvish-mode

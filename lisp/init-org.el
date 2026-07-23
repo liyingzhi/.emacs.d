@@ -333,7 +333,7 @@
     (add-hook 'latex-mode-hook #'ratex-mode)
     (add-hook 'LaTeX-mode-hook #'ratex-mode)
     (add-hook 'org-mode-hook #'ratex-mode)
-    (add-hook 'markdown-mode-hook #'ratex-mode))
+    (add-hook 'markdown-ts-mode-hook #'ratex-mode))
   ;;================end===================
   )
 
@@ -402,7 +402,7 @@
 ;;                         (org-count-words-mode -1))))
 
 ;; pangu-spacing
-;; (add-hooks '(markdown-mode org-mode)
+;; (add-hooks '(markdown-ts-mode org-mode)
 ;;            #'pangu-spacing-mode)
 
 ;; (setopt pangu-spacing-real-insert-separtor t)

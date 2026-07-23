@@ -140,7 +140,7 @@ The selected text is sent to the AI model with the chosen prompt."
                            :prompt #'identity)
                  :render (gt-buffer-render
                           :name (format "*ai-oneshot-%s*" model)
-                          :mode 'markdown-mode
+                          :mode 'markdown-ts-mode
                           :init (lambda () (markdown-toggle-markup-hiding 1))
                           :dislike-header t
                           :dislike-source t

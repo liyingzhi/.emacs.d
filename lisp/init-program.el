@@ -35,7 +35,7 @@
 (require 'treesit-auto)
 
 (setq treesit-auto-install 'prompt)
-(delete 'markdown treesit-auto-langs)
+;; (delete 'markdown treesit-auto-langs)
 
 ;; direct modify `auto-mode-alist' with ext and ts-mode
 (treesit-auto-add-to-auto-mode-alist 'all)
@@ -476,18 +476,16 @@ ARGS is ORIG-FN args."
 (setq json-ts-mode-indent-offset 4)
 
 ;; markdown
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-(setopt markdown-fontify-code-blocks-natively t)
-(add-hook 'markdown-mode-hook #'markdown-indent-mode)
+(add-hook 'markdown-ts-mode-hook #'markdown-indent-mode)
 
 ;; repeat for markdown navigation
 (defvar-keymap markdown-navigation-repeat-map
   :repeat t
-  "b" #'markdown-outline-previous-same-level
-  "f" #'markdown-outline-next-same-level
-  "n" #'markdown-outline-next
-  "p" #'markdown-outline-previous
-  "u" #'markdown-outline-up)
+  "b" #'outline-backward-same-level
+  "f" #'outline-forward-same-level
+  "n" #'outline-next-heading
+  "p" #'outline-previous-heading
+  "u" #'outline-up-heading)
 
 ;;; Local Variables
 
