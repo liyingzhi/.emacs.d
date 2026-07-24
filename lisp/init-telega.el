@@ -121,6 +121,15 @@
                                                       :passive-face telega-shadow))
                                      styles))
 
+  ;; telega-root
+  (setopt telega-root-default-view-function 'telega-view-folders
+          telega-root-keep-cursor 'track
+          telega-root-show-avatars nil
+          ;; remove chat folder icons
+          telega-chat-folders-insexp (lambda () nil)
+          telega-filters-custom nil
+          telega-filter-custom-show-folders nil)
+
   ;; Open telega chat files via org-open-file to respect `org-file-apps' configuration
   (setq telega-open-file-function #'org-open-file)
 
