@@ -475,11 +475,16 @@ ARGS is ORIG-FN args."
 (add-hook 'json-mode-hook #'(lambda () (treesit-parser-create 'json)))
 (setq json-ts-mode-indent-offset 4)
 
-;; markdown
+;;; markdown
 (add-hook 'markdown-ts-mode-hook #'markdown-indent-mode)
 
-;; repeat for markdown navigation
-(defvar-keymap markdown-navigation-repeat-map
+(with-eval-after-load 'markdown-ts-mode
+  (keymap-binds markdown-ts-mode-map
+    ("C-c C-e" . markdown-ts-convert)
+    (("S-RET" "S-<return>") . markdown-ts-insert-list-item)))
+
+;; repeat for outline navigation
+(defvar-keymap outline-navigation-repeat-map
   :repeat t
   "b" #'outline-backward-same-level
   "f" #'outline-forward-same-level
