@@ -94,7 +94,14 @@ FONT-SIZE is the default font size."
              when (font-installed-p font)
              return (progn
                       ;; (setq face-font-rescale-alist `((,font . 1.2)))
-                      (dolist (charset '(kana han cjk-misc bopomofo))
+                      
+                      ;; Do not use 'unicode charset, it will cause the English font setting invalid
+                      ;; kana       = Japanese Hiragana & Katakana (e.g., あ, ア)
+                      ;; han        = Chinese characters used in Chinese/Japanese/Korean (e.g., 中, 日, 韓)
+                      ;; cjk-misc   = CJK punctuation & symbols (e.g., 、 。 ① ②)
+                      ;; bopomofo   = Taiwanese phonetic symbols (e.g., ㄅ, ㄆ, ㄇ)
+                      ;; hangul     = Korean Hangul alphabet (e.g., 가, 나, 한)
+                      (dolist (charset '(kana han cjk-misc bopomofo hangul))
                         (set-fontset-font t charset
                                           (font-spec :family font)))))
 
