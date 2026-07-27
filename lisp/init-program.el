@@ -40,6 +40,8 @@
 ;; direct modify `auto-mode-alist' with ext and ts-mode
 (treesit-auto-add-to-auto-mode-alist 'all)
 
+;; treesit-auto--on TURN-ON function will be called to try to install the grammar matching the current file extension.
+;; If installation of the grammar is successful, activate the tree-sitter major mode.
 ;; chang to ts-mode by local `major-mode-remap-alist' remapping settings
 (global-treesit-auto-mode)
 
