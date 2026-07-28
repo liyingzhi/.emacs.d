@@ -468,6 +468,7 @@ ARGS is ORIG-FN args."
 (add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.jsonc\\'" . json-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.jsonl\\'" . json-ts-mode))
 
 (require 'init-elisp)
 
