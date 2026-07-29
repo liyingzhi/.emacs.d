@@ -112,6 +112,7 @@
   (add-hook 'telega-connection-state-hook #'+tab-bar-telega-icon-update)
   (add-hook 'telega-kill-hook #'+tab-bar-telega-icon-update)
   (advice-add #'telega--on-updateUnreadChatCount :after #'+tab-bar-telega-icon-update)
+  (advice-add #'telega--on-updateChatReadInbox :after #'+tab-bar-telega-icon-update)
   (advice-add #'telega--on-updateChatUnreadMentionCount :after #'+tab-bar-telega-icon-update)
   (advice-add #'telega--on-updateChatUnreadReactionCount :after #'+tab-bar-telega-icon-update)
   (advice-add #'telega-msg-observable-p :after  #'+tab-bar-telega-icon-update)
