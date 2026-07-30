@@ -72,10 +72,12 @@
 
 
 ;;; cape
+(setopt cape-dabbrev-buffer-function #'current-buffer)
 (add-list-to-list 'completion-at-point-functions
                   '(cape-file
                     cape-elisp-block
-                    cape-keyword))
+                    cape-keyword
+                    cape-dabbrev))
 
 (require 'cape)
 
@@ -95,7 +97,8 @@
                       #'cape-dabbrev)))
                 ,(cape-capf-super
                   #'eglot-completion-at-point
-                  (cape-capf-prefix-length #'cape-dabbrev 5)))))
+                  (cape-capf-prefix-length #'cape-dabbrev 5)))
+              cape-dabbrev-buffer-function #'cape-same-mode-buffers))
 
 (defun my/eglot-capf ()
   "Setup up eglot capf."
