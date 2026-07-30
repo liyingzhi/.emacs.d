@@ -372,7 +372,8 @@
 
 
 (setopt valign-fancy-bar t)
-(add-hook 'org-mode-hook #'valign-mode)
+;; (setopt valign-max-table-size 1000)
+;; (add-hook 'org-mode-hook #'valign-mode)
 
 (setopt org-fancy-priorities-list
         '((?A . "⚡")
