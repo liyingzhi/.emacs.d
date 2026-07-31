@@ -57,5 +57,22 @@ Functions are called with no arguments.")
 
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
+;;; tramp-rpc
+;; auto-load
+;; (require 'tramp-rpc)
+
+;; Prefer building from source over downloading (default: nil)
+;; (setopt tramp-rpc-deploy-prefer-build t)
+
+;; Prefer downloading server binaries when running from a git checkout (default: 'auto)
+;; (setopt tramp-rpc-deploy-git-build-policy 'release)
+
+;; Local cache directory (default: ~/.emacs.d/tramp-rpc/)
+(setopt tramp-rpc-deploy-local-cache-directory (expand-file-name "var/tramp-rpc"
+                                                                 user-emacs-directory))
+
+;; Remote installation directory (default: ~/.cache/emacs/tramp-rpc)
+(setopt tramp-rpc-deploy-remote-directory "~/.cache/emacs/tramp-rpc")
+
 (provide 'init-tramp)
 ;;; init-tramp.el ends here

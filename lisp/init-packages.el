@@ -143,7 +143,8 @@
             :repo "bommbo/expreg"
             :branch "add-numbered-selection")
     (diverted :host github :repo "xenodium/diverted")
-    (home-row-expreg-diverted :host github :repo "bommbo/home-row-expreg-diverted")))
+    (home-row-expreg-diverted :host github :repo "bommbo/home-row-expreg-diverted")
+    (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc" :files ("lisp/*.el"))))
 
 (defvar *package-program-install-list*
   `(yasnippet
