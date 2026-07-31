@@ -171,15 +171,15 @@ See `jf/treesit-language-available-p' for usage.")
         (add-hook #'flymake-mode-hook
                   #'flymake-popon-mode))
        ('flycheck
-        (wait-packages! '(flycheck consult-flycheck flycheck-eglot flycheck-package))
+        (wait-packages! '(flycheck consult-flycheck flycheck-package))
         ;; flycheck
         (require 'flycheck)
         (setq flycheck-emacs-lisp-load-path 'inherit)
         (global-flycheck-mode 1)
 
-        (require 'flycheck-eglot)
         (setq-default flycheck-eglot-exclusive nil)
-        (global-flycheck-eglot-mode 1))))
+        (global-flycheck-eglot-mode 1)
+        (global-flycheck-annotate-mode 1))))
 
    (defcustom user/diagnostic 'flymake
      "Diagnostic."
