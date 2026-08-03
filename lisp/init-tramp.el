@@ -65,7 +65,7 @@ Functions are called with no arguments.")
 ;; (setopt tramp-rpc-deploy-prefer-build t)
 
 ;; Prefer downloading server binaries when running from a git checkout (default: 'auto)
-;; (setopt tramp-rpc-deploy-git-build-policy 'release)
+(setopt tramp-rpc-deploy-git-build-policy 'release)
 
 ;; Local cache directory (default: ~/.emacs.d/tramp-rpc/)
 (setopt tramp-rpc-deploy-local-cache-directory (expand-file-name "var/tramp-rpc"
