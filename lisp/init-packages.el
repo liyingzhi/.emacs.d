@@ -351,11 +351,11 @@
     auctex
     cdlatex
     math-delimiters
-    (consult-reftex :host github :repo "karthink/consult-reftex")
     ;; https://github.com/radian-software/straight.el#customizing-how-packages-are-built
     ;; (boxquote :type git :host github :repo "davep/boxquote.el" :build nil)
     ;; (boxquote :type git :host github :repo "davep/boxquote.el" :build (:not compile autoloads))
-    boxquote))
+    ;; boxquote
+    (consult-reftex :host github :repo "karthink/consult-reftex")))
 
 (defvar *package-ai-install-list*
   (append '((gptel :host github
