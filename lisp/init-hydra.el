@@ -150,7 +150,7 @@ _R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |_G_et r
   ("r" (+lizqwer/straight-action "rebuild-all" "straight-rebuild-all"))
   ("R" (+lizqwer/straight-action "rebuild-package" "straight-rebuild-package"))
   ("f" (+lizqwer/straight-action "fetch-all" "straight-fetch-all"))
-  ("F" (+lizqwer/straight-action "fetch-package" "straight-fetch-package"))
+  ("F" (+lizqwer/straight-action-multi "fetch-package" "Fetch packages" #'straight--installed-p t))
   ("p" (+lizqwer/straight-action "pull-all" "straight-pull-all"))
   ("P" (+lizqwer/straight-action-multi "pull-package" "Pull packages" #'straight--installed-p t))
   ("m" (+lizqwer/straight-action "merge-all" "straight-merge-all"))
