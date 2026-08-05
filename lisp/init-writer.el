@@ -402,6 +402,21 @@ Falls back to `citar-open-entry' if not in a Denote file or no any reference."
 (with-eval-after-load 'init-meow
   (add-to-list 'meow-mode-state-list '(denote-sequence-hierarchy-mode . motion)))
 
+;;; denote silo
+(defvar-keymap denote-silo-keymap
+  :doc "Denote silo keymap [n]otes with s[i]lo"
+  :prefix t
+  "s" '("select then command" . denote-silo-select-silo-then-command)
+  "c" '("cd" . denote-silo-cd)
+  "d" '("dired" . denote-silo-dired)
+  "n" '("open or create" . denote-silo-open-or-create)
+
+  "f" '("find" .  consult-denote-find-in-silo)
+  "g" '("grep" . consult-denote-grep-in-silo))
+
+(global-set-keys
+ '(("C-c n i" . ("Denote Silo" . denote-silo-keymap))))
+
 ;;; buffer-to-pdf
 (advice-add #'buffer-to-pdf
             :around
