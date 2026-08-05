@@ -129,6 +129,18 @@
   (keymap-sets embark-defun-map
     '(("g" . org-dblock-update))))
 
+(defun my/dwim-denote-rename-file ()
+  "Rename the current Denote note, DWIM-style.
+
+When called from a Dired buffer, invoke `denote-dired-rename-files'
+which renames all marked files (or the file at point if none are
+marked).  Otherwise invoke `denote-rename-file' to rename the file
+visited by the current buffer. "
+  (interactive)
+  (if (derived-mode-p 'dired-mode)
+      (call-interactively #'denote-dired-rename-files)
+    (call-interactively #'denote-rename-file)))
+
 (defvar-keymap denote-commands-keymap
   :doc "Denote commands keymap"
   :prefix t
@@ -139,7 +151,7 @@
   "i" '("Link or create" . denote-link-or-create)
   "k" '("Rename keywords" . denote-rename-file-keywords)
   "n" '("Open or create" . denote-open-or-create)
-  "r" '("Rename file" . denote-rename-file)
+  "r" '("Rename file" . my/dwim-denote-rename-file)
   "R" '("Rename using front-matter" . denote-rename-file-using-front-matter)
   "m" '("Menu list notes" . denote-menu-list-notes)
   "g" '("Consult grep" . consult-denote-grep)
