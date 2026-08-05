@@ -249,10 +249,12 @@ DENOTE-DIR is denote dir."
 (global-set-keys
  '(("C-c n b e" . my/citar-denote-open-reference-entry)))
 
+(autoload #'denote-silo-directory-prompt "denote-silo" nil nil)
 (global-set-keys
  '(("C-c n b c" . citar-create-note)
    ("C-c n b n" . citar-denote-open-note)
-   ("C-c n b x" . citar-denote-nocite)))
+   ("C-c n b x" . citar-denote-nocite)
+   ("C-c n b s" . citar-denote-create-silo-note)))
 
 (keymap-sets org-mode-map
   '(("C-c n b k" . citar-denote-add-citekey)
@@ -381,7 +383,7 @@ Falls back to `citar-open-entry' if not in a Denote file or no any reference."
 (setopt denote-sequence-scheme 'alphanumeric-delimited)
 
 (defvar-keymap denote-sequence-keymap
-  :doc "Denote sequence keymap [n]otes with [s]equence"
+  :doc "Denote sequence keymap [n]otes with [S]equence"
   :prefix t
   ;; - `denote-sequence-new-parent'
   ;; - `denote-sequence-new-sibling'
@@ -397,14 +399,14 @@ Falls back to `citar-open-entry' if not in a Denote file or no any reference."
   "h" '("sequence view hierarchy" . denote-sequence-view-hierarchy))
 
 (global-set-keys
- '(("C-c n s" . ("Denote Sequence" . denote-sequence-keymap))))
+ '(("C-c n S" . ("Denote Sequence" . denote-sequence-keymap))))
 
 (with-eval-after-load 'init-meow
   (add-to-list 'meow-mode-state-list '(denote-sequence-hierarchy-mode . motion)))
 
 ;;; denote silo
 (defvar-keymap denote-silo-keymap
-  :doc "Denote silo keymap [n]otes with s[i]lo"
+  :doc "Denote silo keymap [n]otes with [s]ilo"
   :prefix t
   "s" '("select then command" . denote-silo-select-silo-then-command)
   "c" '("cd" . denote-silo-cd)
@@ -415,7 +417,7 @@ Falls back to `citar-open-entry' if not in a Denote file or no any reference."
   "g" '("grep" . consult-denote-grep-in-silo))
 
 (global-set-keys
- '(("C-c n i" . ("Denote Silo" . denote-silo-keymap))))
+ '(("C-c n s" . ("Denote Silo" . denote-silo-keymap))))
 
 ;;; buffer-to-pdf
 (advice-add #'buffer-to-pdf
