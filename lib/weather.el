@@ -20,7 +20,10 @@
 
 ;;; Commentary:
 
-;;
+;; On-demand weather via Open-Meteo.  No background timer: callers use
+;; `weather-ensure-fresh' when opening or refreshing a UI.  Cache TTL is
+;; `weather-cache-ttl' (default 900 seconds).  Public API: `weather-info'
+;; (format cached data) and `weather-ensure-fresh' (fetch if stale).
 
 ;;; Code:
 
@@ -35,6 +38,14 @@
 (defvar weather-temperature nil)
 (defvar weather-description nil)
 (defvar weather-icon nil)
+(defvar weather-last-fetch-time nil
+  "Time of the last successful weather fetch.")
+
+(defvar weather--fetching nil
+  "Non-nil while a weather request is in flight.")
+
+(defvar weather--pending-callback nil
+  "Callback to run after the in-flight weather request finishes.")
 
 (defcustom weather-latitude nil
   "Latitude for weather information."
@@ -45,6 +56,11 @@
   "Longitude for weather information in weather package."
   :group 'weather
   :type 'float)
+
+(defcustom weather-cache-ttl 900
+  "Seconds before cached weather data is considered stale."
+  :group 'weather
+  :type 'natnum)
 
 (defface weather-text-info-face
   '((t :inherit default :height 0.9 :bold nil))
@@ -101,61 +117,75 @@
     ((or `95 `96 `99) "Thunderstorm")
     (_ "Unknown")))
 
-(defun weather--roi-window-is-active (roi-buffer-name)
-  "Check if ROI-BUFFER-NAME is the currently active and visible window."
-  (and (string= roi-buffer-name (buffer-name (window-buffer (selected-window))))
-       (get-buffer-window roi-buffer-name 'visible)))
+(defun weather--configured-p ()
+  "Return non-nil if latitude and longitude are configured."
+  (and (floatp weather-latitude) (floatp weather-longitude)
+       (> weather-latitude 0.0) (> weather-longitude 0.0)))
 
-(defun weather-fetch-weather-data (roi-buffer-name &optional initial fn select-win)
-  "Fetch weather data from Open-Meteo API.
-INITIAL indicates if this is the first fetch.
-FN is a callback function to execute after fetching weather info.
-ROI-BUFFER-NAME is the buffer name to check for visibility before calling FN."
+(defun weather--fresh-p ()
+  "Return non-nil if cached weather data is still within TTL."
+  (and weather-last-fetch-time
+       (< (float-time (time-since weather-last-fetch-time))
+          weather-cache-ttl)))
+
+(defun weather--fetch ()
+  "Fetch weather data from Open-Meteo asynchronously."
+  (setq weather--fetching t)
   (let ((url-request-method "GET")
         (url-request-extra-headers '(("Content-Type" . "application/json")))
         (url (format "https://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&current_weather=true"
                      weather-latitude weather-longitude)))
-    (url-retrieve url
-                  (lambda (status &rest cbargs)
-                    (if (plist-get status :error)
-                        (let ((err (plist-get status :error)))
-                          (when fn
-                            (when (weather--roi-window-is-active roi-buffer-name)
-                              (with-current-buffer (get-buffer roi-buffer-name)
-                                (funcall fn))))
-                          (message "URL retrieval error: %S" err))
+    (url-retrieve
+     url
+     (lambda (status)
+       (unwind-protect
+           (if-let* ((err (plist-get status :error)))
+               (progn
+                 (setq weather--pending-callback nil)
+                 (message "Weather fetch error: %S" err))
+             (goto-char (point-min))
+             (re-search-forward "^$")
+             (let* ((json-data (buffer-substring-no-properties (point) (point-max)))
+                    (json-obj (json-read-from-string json-data)))
+               (let-alist json-obj
+                 (setq weather-temperature
+                       (format "%.1f" .current_weather.temperature)
+                       weather-description
+                       (format "%s" (weather--code-to-string
+                                     .current_weather.weathercode))
+                       weather-icon
+                       (weather--icon-from-code .current_weather.weathercode)
+                       weather-last-fetch-time (current-time)))
+               (when-let* ((cb weather--pending-callback))
+                 (setq weather--pending-callback nil)
+                 (funcall cb))))
+         (setq weather--fetching nil)
+         (when (buffer-live-p (current-buffer))
+           (kill-buffer (current-buffer)))))
+     nil
+     t)))
 
-                      (goto-char (point-min))
-                      (re-search-forward "^$")
-                      (let* ((json-data (buffer-substring-no-properties (point) (point-max)))
-                             (json-obj (json-read-from-string json-data)))
-                        (let-alist json-obj
-                          (setq weather-temperature (format "%.1f" .current_weather.temperature))
-                          (setq weather-description
-                                (format "%s" (weather--code-to-string .current_weather.weathercode)))
-                          (setq weather-icon
-                                (weather--icon-from-code .current_weather.weathercode)))
-                        ;; Only set up the recurring timer after initial fetch
-                        (when initial
-                          (run-with-timer 900 900 #'weather-fetch-weather-data))
-                        (when fn
-                          (when-let* ((select-win)
-                                      (roi-buffer-window (get-buffer-window roi-buffer-name 'visible)))
-                            (select-window roi-buffer-window))
-                          (when (weather--roi-window-is-active roi-buffer-name)
-                            (with-current-buffer (get-buffer roi-buffer-name)
-                              (funcall fn)))))))
-                  nil
-                  t)))
+(defun weather-ensure-fresh (&optional callback)
+  "Ensure weather cache is fresh, then call CALLBACK.
 
-(defun weather--show-weather-info ()
-  "Check if we have latitude and longitude to show weather info."
-  (and (floatp weather-latitude) (floatp weather-longitude)
-       (> weather-latitude 0.0) (> weather-longitude 0.0)))
+If coordinates are not configured, do nothing.  If the cache is still
+fresh, call CALLBACK immediately.  Otherwise start an asynchronous
+fetch and call CALLBACK after a successful update.  Concurrent calls
+while a fetch is in flight replace the pending callback."
+  (when (weather--configured-p)
+    (cond
+     ((weather--fresh-p)
+      (when callback
+        (funcall callback)))
+     (weather--fetching
+      (setq weather--pending-callback callback))
+     (t
+      (setq weather--pending-callback callback)
+      (weather--fetch)))))
 
 (defun weather-info ()
   "Get weather info."
-  (when (weather--show-weather-info)
+  (when (weather--configured-p)
     (if weather-description
         (format "%s %s, %s%s"
                 weather-icon

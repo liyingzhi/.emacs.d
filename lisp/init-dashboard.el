@@ -184,6 +184,23 @@ normal weight to distinguish it from other elements."
     (dashboard-insert-center
      (weather-info))))
 
+(defun my-dashboard-redraw ()
+  "Redraw the dashboard buffer from current state."
+  (when-let* ((buf (get-buffer dashboard-buffer-name)))
+    (with-current-buffer buf
+      (dashboard-refresh-buffer))))
+
+(defun my-dashboard-redraw-if-visible ()
+  "Redraw the dashboard buffer when it is visible."
+  (when (get-buffer-window dashboard-buffer-name 'visible)
+    (my-dashboard-redraw)))
+
+(defun my-dashboard-refresh ()
+  "Refresh dashboard and ensure weather cache is fresh."
+  (interactive)
+  (my-dashboard-redraw)
+  (weather-ensure-fresh #'my-dashboard-redraw-if-visible))
+
 (defun open-dashboard ()
   "Open the *dashboard* buffer and jump to the first widget."
   (interactive)
@@ -203,10 +220,7 @@ normal weight to distinguish it from other elements."
     (unless buf
       (dashboard-open)))
 
-  (weather-fetch-weather-data dashboard-buffer-name nil #'dashboard-refresh-buffer nil)
-
-  (unless (weather--roi-window-is-active dashboard-buffer-name)
-    (dashboard-refresh-buffer)))
+  (my-dashboard-refresh))
 
 (defun open-dashboard-from-other-buffer ()
   "Switch to dashboard buffer after opening it.
@@ -250,7 +264,7 @@ then calls `open-dashboard' to display it."
    "Misc"
    (("U" prepare-user-lisp "prepare user-lisp (C-u force)" :exit t)
     ("<f2>" open-dashboard "open" :exit t)
-    ("g" dashboard-refresh-buffer "refresh" :exit t)
+    ("g" my-dashboard-refresh "refresh" :exit t)
 
     ("Q" quit-dashboard "quit" :exit t))))
 
@@ -309,7 +323,7 @@ then calls `open-dashboard' to display it."
    (dashboard-setup-startup-hook)
    (add-hook 'window-setup-hook
              (lambda ()
-               (weather-fetch-weather-data dashboard-buffer-name nil #'dashboard-refresh-buffer t))))
+               (weather-ensure-fresh #'my-dashboard-redraw-if-visible))))
   ('scratch
    (add-hook 'window-setup-hook
              #'+evan/scratch-setup))
