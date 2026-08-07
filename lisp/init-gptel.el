@@ -336,6 +336,13 @@ kill-ring entry is not a string representing an existing file path."
 (add-hook 'gptel-mode-hook
           #'gptel-highlight-mode)
 
+(add-hook 'gptel-mode-hook
+          #'(lambda ()
+              (when (bound-and-true-p org-latex-preview-mode)
+                (org-latex-preview-mode -1))
+              (when (bound-and-true-p ratex-mode)
+                (ratex-mode -1))))
+
 (require 'init-gptel-aibo)
 
 ;;; gptel-magit
