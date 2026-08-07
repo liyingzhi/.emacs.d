@@ -185,10 +185,17 @@ normal weight to distinguish it from other elements."
      (weather-info))))
 
 (defun my-dashboard-redraw ()
-  "Redraw the dashboard buffer from current state."
+  "Redraw the dashboard buffer without stealing the selected window.
+
+Uses `dashboard-refresh-buffer' (and its advice) inside the dashboard
+window or buffer.  The around advice avoids `dashboard-open''s
+`switch-to-buffer', which would otherwise replace the selected window."
   (when-let* ((buf (get-buffer dashboard-buffer-name)))
-    (with-current-buffer buf
-      (dashboard-refresh-buffer))))
+    (if-let* ((win (get-buffer-window buf 'visible)))
+        (with-selected-window win
+          (dashboard-refresh-buffer))
+      (with-current-buffer buf
+        (dashboard-refresh-buffer)))))
 
 (defun my-dashboard-redraw-if-visible ()
   "Redraw the dashboard buffer when it is visible."
@@ -308,12 +315,16 @@ then calls `open-dashboard' to display it."
 (advice-add #'dashboard-refresh-buffer
             :around
             (lambda (orig-fn &rest args)
-              (when (derived-mode-p 'dashboard-mode)
+              ;; Alias of `dashboard-open': its `switch-to-buffer' steals the
+              ;; selected window when refreshing.  Refresh in place if already
+              ;; in dashboard; otherwise keep the original open behavior.
+              (if (derived-mode-p 'dashboard-mode)
+                  (dashboard-insert-startupify-lists t)
                 (apply orig-fn args))))
 
 (advice-add #'dashboard-refresh-buffer
             :after
-            (lambda ()
+            (lambda (&rest _)
               (when (derived-mode-p 'dashboard-mode)
                 (dashboard-jump-to-recents)
                 (message "Fresh dashboard finish."))))

@@ -23,7 +23,8 @@
 ;; On-demand weather via Open-Meteo.  No background timer: callers use
 ;; `weather-ensure-fresh' when opening or refreshing a UI.  Cache TTL is
 ;; `weather-cache-ttl' (default 900 seconds).  Public API: `weather-info'
-;; (format cached data) and `weather-ensure-fresh' (fetch if stale).
+;; (format cached data) and `weather-ensure-fresh' (fetch if stale;
+;; CALLBACK runs only after a successful fetch, not when cache is fresh).
 
 ;;; Code:
 
@@ -166,23 +167,22 @@
      t)))
 
 (defun weather-ensure-fresh (&optional callback)
-  "Ensure weather cache is fresh, then call CALLBACK.
+  "Ensure weather cache is fresh, then call CALLBACK after a fetch.
 
 If coordinates are not configured, do nothing.  If the cache is still
-fresh, call CALLBACK immediately.  Otherwise start an asynchronous
-fetch and call CALLBACK after a successful update.  Concurrent calls
-while a fetch is in flight replace the pending callback."
+fresh, return without calling CALLBACK (callers should already have
+rendered cached data).  Otherwise start an asynchronous fetch and call
+CALLBACK after a successful update.  Concurrent calls while a fetch is
+in flight replace the pending callback."
   (when (weather--configured-p)
     (cond
      ((weather--fresh-p)
-      (when callback
-        (funcall callback)))
+      nil)
      (weather--fetching
       (setq weather--pending-callback callback))
      (t
       (setq weather--pending-callback callback)
       (weather--fetch)))))
-
 (defun weather-info ()
   "Get weather info."
   (when (weather--configured-p)
