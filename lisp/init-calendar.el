@@ -20,12 +20,15 @@
 
 ;;; Commentary:
 
-;;
+;; Week starts Monday; Chinese holidays via cal-china-x;
+;; birthdays from `user/birthday-dic' as lunar holidays.
 
 ;;; Code:
-(with-eval-after-load 'calendar
-  (setq calendar-week-start-day 1)
 
+
+(setopt calendar-week-start-day 1)
+
+(with-eval-after-load 'calendar
   (keymap-sets calendar-mode-map
     '(("f" . calendar-forward-day)
       ("b" . calendar-backward-day)
@@ -35,45 +38,40 @@
       ("C-b" . calendar-backward-month)))
 
   (require 'cal-china-x)
-
-  (if (boundp 'user/birthday-dic)
-      (setq birthday-holiday-list
-            (mapcar (lambda (entry)
-                      (let* ((name (car entry))
-                             (date (cdr entry))
-                             (month (car date))
-                             (day (cdr date))
-                             (description (format "%s 生日/纪念日" name)))
-                        `(holiday-lunar ,month ,day ,description)))
-                    user/birthday-dic))
-    (setq birthday-holiday-list nil))
-
   (cal-china-x-setup)
-  (setq calendar-mark-holidays-flag t
-        cal-china-x-important-holidays (append birthday-holiday-list
-                                               '((holiday-float 5 0 2 "母亲节")
-                                                 (holiday-float 6 0 3 "父亲节")))
-        cal-china-x-general-holidays (append cal-china-x-chinese-holidays
-                                             '((holiday-lunar 1 3 "春节" 0)
-                                               (holiday-lunar 1 4 "春节" 0)
-                                               (holiday-lunar 1 5 "春节" 0)
-                                               (holiday-lunar 1 6 "春节" 0)
-                                               (holiday-lunar 1 7 "春节" 0)))
-        holiday-oriental-holidays '((holiday-lunar 1 15 "元宵节")
-                                    (holiday-lunar 7 7 "七夕节")
-                                    (holiday-fixed 3 8 "妇女节")
-                                    (holiday-fixed 3 12 "植树节")
-                                    (holiday-fixed 5 4 "青年节")
-                                    (holiday-fixed 6 1 "儿童节")
-                                    (holiday-fixed 9 10 "教师节"))
-        holiday-other-holidays '((holiday-fixed 2 14 "情人节")
-                                 (holiday-fixed 4 1 "愚人节")
-                                 (holiday-fixed 12 25 "圣诞节")
-                                 (holiday-float 11 4 4 "感恩节"))
-        calendar-holidays (append cal-china-x-important-holidays
-                                  cal-china-x-general-holidays
-                                  holiday-oriental-holidays
-                                  holiday-other-holidays)))
+
+  (let* ((birthday-holidays
+          (mapcar (lambda (entry)
+                    (pcase-let* ((`(,name . (,month . ,day)) entry))
+                      `(holiday-lunar ,month ,day
+                                      ,(format "%s 生日/纪念日" name))))
+                  user/birthday-dic))
+         (spring-extra
+          (mapcar (lambda (d) `(holiday-lunar 1 ,d "春节" 0))
+                  '(3 4 5 6 7)))
+         (oriental '((holiday-lunar 1 15 "元宵节")
+                     (holiday-lunar 7 7 "七夕节")
+                     (holiday-fixed 3 8 "妇女节")
+                     (holiday-fixed 3 12 "植树节")
+                     (holiday-fixed 5 4 "青年节")
+                     (holiday-fixed 6 1 "儿童节")
+                     (holiday-fixed 9 10 "教师节")))
+         (other '((holiday-fixed 2 14 "情人节")
+                  (holiday-fixed 4 1 "愚人节")
+                  (holiday-fixed 12 25 "圣诞节")
+                  (holiday-float 11 4 4 "感恩节"))))
+    (setq calendar-mark-holidays-flag t
+          cal-china-x-important-holidays (append birthday-holidays
+                                                 '((holiday-float 5 0 2 "母亲节")
+                                                   (holiday-float 6 0 3 "父亲节")))
+          cal-china-x-general-holidays (append cal-china-x-chinese-holidays
+                                               spring-extra)
+          holiday-oriental-holidays oriental
+          holiday-other-holidays other
+          calendar-holidays (append cal-china-x-important-holidays
+                                    cal-china-x-general-holidays
+                                    holiday-oriental-holidays
+                                    holiday-other-holidays))))
 
 (provide 'init-calendar)
 ;;; init-calendar.el ends here

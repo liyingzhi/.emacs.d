@@ -75,6 +75,7 @@
 (require 'init-super-save)
 
 (require 'init-hydra)
+(require 'init-calendar)
 (require 'init-ui)
 (require 'init-meow)
 (require 'init-key)
@@ -97,9 +98,7 @@
 (require 'init-dired)
 (require 'init-ibuffer)
 (require 'init-helpful)
-(require 'init-calendar)
 (require 'init-tools)
-
 
 (require 'init-org)
 (require 'init-denote)
