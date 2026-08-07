@@ -208,7 +208,7 @@
     solarized-theme
     (gruber-darker-theme :host github :repo "Eason0210/gruber-darker-theme")
     (gruber-lighter-theme :host github :repo "Eason0210/gruber-lighter-theme")
-    (rose-pine :host github :repo "LuciusChen/rose-pine")
+    (ashen :host github :repo "LuciusChen/ashen")
     koishi-theme
     miasma-theme
     batppuccin
