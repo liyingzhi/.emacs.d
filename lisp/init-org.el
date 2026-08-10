@@ -540,7 +540,7 @@ prepended to the element after the #+HEADER: tag."
     ("e" (hot-expand "<e") "example")
     ("E" (hot-expand "<E") "export")
     ("l" (hot-expand "<l") "latex")
-    ("q" (hot-expand "<q") "quote")
+    ("x" (hot-expand "<q") "quote")
     ("v" (hot-expand "<v") "verse")
     ("b" (hot-expand "<s" "bash") "bash"))
    "Head"
