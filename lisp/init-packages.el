@@ -100,6 +100,12 @@
      :repo "manateelazycat/blink-search"
      :files (:defaults "*.el" "*.py" "backend" "core" "icons"))
     (backup-walker :host github :repo "liyingzhi/backup-walker")
+    casual
+    casual-symbol-overlay
+    time-zones
+    tmr
+    (doing.el :host github :repo "xiaoxinghu/doing.el")
+    inhibit-mouse
     detached
     envrc
     scratch
@@ -252,12 +258,7 @@
     (breadcrumb :host github
                 :repo "joaotavora/breadcrumb")
     (prism :host github :repo "alphapapa/prism.el")
-    casual
-    casual-symbol-overlay
-    time-zones
-    tmr
-    (doing.el :host github :repo "xiaoxinghu/doing.el")
-    inhibit-mouse))
+    (graph-fa2 :fetcher github :repo "elij/graph-fa2")))
 
 (defvar *package-mms-install-list*
   `(emms

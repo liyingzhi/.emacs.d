@@ -314,7 +314,10 @@ Falls back to `citar-open-entry' if not in a Denote file or no any reference."
   ;; Visualise denote
   "n" #'denote-explore-network
   "v" #'denote-explore-network-regenerate
-  "D" #'denote-explore-barchart-degree)
+  "D" #'denote-explore-barchart-degree
+  ;; Visualise denote graph in emacs
+  "g" #'denote-graph-current-network
+  "G" #'denote-graph-fa2-network)
 
 (global-set-keys
  '(("C-c n x" . ("Denote Explore" . denote-explore-keymap))))
