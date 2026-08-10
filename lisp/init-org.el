@@ -555,6 +555,7 @@ prepended to the element after the #+HEADER: tag."
     ("L" (hot-expand "<L") "LaTeX")
     ("X" (yas-expand-snippet (yas-lookup-snippet "latex-chinese")) "Latex chinese")
     ("pl" (insert "#+STARTUP: latexpreview ") "Latex Preview")
+    ("pc" (org-latex-preview-clear-cache) "Latex Preview Clear")
     ("pi" (insert "#+STARTUP: showall inlineimages") "Showall and Image Preview")
     ("Mb" (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/html-theme-bigblow.setup") "Html Bigblow Theme")
     ("Mr" (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/html-theme-readtheorg.setup") "Html Readtheorg Theme")
