@@ -10,51 +10,187 @@
 (defvar emms-player-mpv-volume 30)
 (defvar mms/emms-player-mpv-volume-mute nil)
 
+(defun +emms-source-file-directory-tree-fd (dir regex)
+  "Return files below DIR whose absolute names match REGEX."
+  (let ((directory (expand-file-name dir)))
+    (when (file-directory-p directory)
+      (if-let* ((fd (executable-find "fd")))
+          (with-temp-buffer
+            (let ((status
+                   (call-process fd nil t nil
+                                 "--type" "f" "--absolute-path" "--print0"
+                                 "." directory)))
+              (unless (zerop status)
+                (error "fd failed: %s" (string-trim (buffer-string))))
+              (seq-filter
+               (lambda (file) (string-match-p regex file))
+               (split-string (buffer-string) "\0" t))))
+        (directory-files-recursively directory regex)))))
+
+(defun +emms-extract-embedded-cover (track)
+  "Return TRACK's embedded artwork as a large cover file.
+
+When called interactively, use the currently selected EMMS track."
+  (interactive
+   (list
+    (if-let* ((selected-track (emms-playlist-current-selected-track)))
+        (emms-track-name selected-track)
+      (user-error "No selected EMMS track"))))
+  (let ((cover (expand-file-name "cover_large.png"
+                                 (file-name-directory track))))
+    (unless (file-readable-p cover)
+      (unless (zerop
+               (call-process
+                (executable-find "ffmpeg") nil nil nil "-nostdin" "-v" "error" "-y"
+                "-i" track "-map" "0:v:0" "-frames:v" "1" "-update" "1" cover))
+        (when (file-exists-p cover) (delete-file cover))))
+    (and (file-readable-p cover) cover)))
+
+(defun +emms-extract-embedded-covers ()
+  "Extract missing large covers from embedded artwork."
+  (interactive)
+  (require 'emms-browser)
+  (let (albums)
+    (dolist (track
+             (+emms-source-file-directory-tree-fd
+              emms-source-file-default-directory (emms-source-file-regex)))
+      (unless (member (file-name-directory track) albums)
+        (push (file-name-directory track) albums)
+        (+emms-extract-embedded-cover track))))
+  (when (hash-table-p emms-browser--cache-hash)
+    (emms-browser-clear-cache-hash))
+  (when (buffer-live-p emms-browser-buffer)
+    (kill-buffer emms-browser-buffer)))
+
+(defun +emms-browser-cover (directory size)
+  "Return an EMMS SIZE cover from DIRECTORY, extracting large artwork on demand."
+  (if (eq size 'large)
+      (let ((cover (expand-file-name "cover_large.png" directory)))
+        (or (and (file-readable-p cover) cover)
+            (when-let* ((track (car (directory-files
+                                     directory t (emms-source-file-regex)))))
+              (+emms-extract-embedded-cover track))))
+    (emms-browser-cache-thumbnail-async directory size)))
+
+(defun +emms-lyrics-find-with-info-lyric (file)
+  "Find external lyric FILE, falling back to the current track's tag."
+  (or (emms-lyrics-find-lyric file)
+      (when-let* ((track (emms-playlist-current-selected-track))
+                  (_ (or (emms-track-get track 'info-lyrics)
+                         (emms-info-exiftool track)))
+                  (lyrics (emms-track-get track 'info-lyrics))
+                  (cache-file (expand-file-name
+                               (concat (md5 (emms-track-name track)) ".lrc")
+                               (expand-file-name "lyrics/" emms-directory)))
+                  ((stringp lyrics))
+                  ((not (string-empty-p lyrics))))
+        (when (or (not (file-exists-p cache-file))
+                  (file-newer-than-file-p (emms-track-name track)
+                                          cache-file))
+          (make-directory (file-name-directory cache-file) t)
+          (let ((coding-system-for-write 'utf-8-unix))
+            (with-temp-file cache-file
+              (insert lyrics))))
+        cache-file)))
+
+(defun +emms-lyrics-lrclib-get (&optional track force interactive)
+  "Fetch synchronized lyrics for TRACK from LRCLIB.
+
+This is the EMMS LRCLIB command with optional album metadata.  LRCLIB
+can match a track using its title, artist, and duration when the album
+tag is missing."
+  (if (> emms-lyrics-lrclib-requests emms-lyrics-lrclib-max-requests)
+      (emms-later-do #'+emms-lyrics-lrclib-get track force interactive)
+    (when-let* ((track (or track (emms-playlist-current-selected-track)))
+                ((eq (emms-track-type track) 'file))
+                (file (emms-track-name track))
+                (lrc (replace-regexp-in-string "\\.[^.]+\\'" ".lrc" file))
+                ((or force (not (file-exists-p lrc))))
+                ((file-writable-p lrc))
+                (title (emms-lyrics-lrclib-encode-name
+                        (emms-track-get track 'info-title)))
+                (artist (emms-lyrics-lrclib-encode-name
+                         (emms-track-get track 'info-artist)))
+                (time (emms-track-get track 'info-playing-time)))
+      (let ((album (emms-lyrics-lrclib-encode-name
+                    (emms-track-get track 'info-album))))
+        (setq emms-lyrics-lrclib-requests
+              (1+ emms-lyrics-lrclib-requests))
+        (when interactive (message "Searching for lyrics..."))
+        (url-retrieve
+         (url-encode-url
+          (format "%sget?artist_name=%s&track_name=%s%s&duration=%d"
+                  emms-lyrics-lrclib-url artist title
+                  (if (and album (not (string-empty-p album)))
+                      (format "&album_name=%s" album)
+                    "")
+                  time))
+         #'emms-lyrics-lrclib-parse (list lrc track interactive))))))
+
+
 ;;; setting
 (with-eval-after-load 'emms
   (require 'emms-setup)
   (require 'emms-mpris)
+  (require 'emms-lyrics-lrclib)
+  (advice-add 'emms-lyrics-lrclib-get
+              :override #'+emms-lyrics-lrclib-get)
 
-  (setq emms-playlist-buffer-name "*Music*")
   ;; (emms-default-players)
-  (setq emms-player-list '(emms-player-mpv emms-player-vlc))
+  (setq emms-player-list '(emms-player-mpv emms-player-vlc)
+        emms-player-mpv-parameters '("--quiet" "--no-video" "--force-window=no"))
+
   (setq emms-source-file-default-directory "~/Music")
   (setq +favorites-playlist (concat emms-source-file-default-directory "/fav.m3u"))
 
   ;; covers
-  (setq emms-browser-covers #'emms-browser-cache-thumbnail-async)
-  (setq emms-browser-thumbnail-small-size 100)
-  (setq emms-browser-thumbnail-medium-size 200)
+  (setq emms-browser-covers #'+emms-browser-cover
+        emms-browser-thumbnail-small-size 64
+        emms-browser-thumbnail-medium-size 128
+        emms-info-functions '(emms-info-exiftool)
+        emms-track-description-function #'emms-info-track-description
+        emms-lyrics-find-lyric-function #'+emms-lyrics-find-with-info-lyric
+        emms-lyrics-scroll-p nil
+        emms-source-file-directory-tree-function #'+emms-source-file-directory-tree-fd
+        emms-playlist-buffer-name "*Music*"
+        emms-playlist-mode-center-when-go t
+        emms-info-asynchronously t
+        emms-info-auto-update t
+        emms-volume-change-amount 5
+        emms-volume-change-function #'emms-volume-mpv-change
+        emms-show-format "♪ %s")
 
-  (setq emms-show-format "Playing: %s")
+  (setopt emms-player-mpv-update-metadata t)
 
   (emms-all)
   (emms-mpris-enable)
   ;; history
   ;; (emms-history-load)
 
+  (emms-cache 1)
+
   (defun +emms-select-song ()
     "Select and play a song from the current EMMS playlist."
     (interactive)
     (with-current-emms-playlist
-     (emms-playlist-mode-center-current)
-     (let* ((current-line-number (line-number-at-pos))
-            (lines (cl-loop
-                    with min-line-number = (line-number-at-pos (point-min))
-                    with buffer-text-lines = (split-string (buffer-string) "\n")
-                    with lines = nil
-                    for l in buffer-text-lines
-                    for n = min-line-number then (1+ n)
-                    unless (string-empty-p l)
-                    do (push (cons l n)
-                             lines)
-                    finally return (nreverse lines)))
-            (selected-line (completing-read "Song: " lines)))
-       (when selected-line
-         (let ((line (cdr (assoc selected-line lines))))
-           (goto-line line)
-           (emms-playlist-mode-play-smart)
-           (emms-playlist-mode-center-current))))))
+      (emms-playlist-mode-center-current)
+      (let* ((current-line-number (line-number-at-pos))
+             (lines (cl-loop
+                     with min-line-number = (line-number-at-pos (point-min))
+                     with buffer-text-lines = (split-string (buffer-string) "\n")
+                     with lines = nil
+                     for l in buffer-text-lines
+                     for n = min-line-number then (1+ n)
+                     unless (string-empty-p l)
+                     do (push (cons l n)
+                              lines)
+                     finally return (nreverse lines)))
+             (selected-line (completing-read "Song: " lines)))
+        (when selected-line
+          (let ((line (cdr (assoc selected-line lines))))
+            (goto-line line)
+            (emms-playlist-mode-play-smart)
+            (emms-playlist-mode-center-current))))))
 
   ;;;###autoload
   (defun +emms-add-to-favorites ()
@@ -159,10 +295,8 @@ If currently muted, restore previous volume; otherwise set volume to zero."
     (when transient--suffixes
       (transient-setup 'my/transient-emms)))
 
-  ;; `emms-info-native' supports mp3,flac,ogg and requires NO CLI tools
-  (unless (memq 'emms-info-native emms-info-functions)
-    (require 'emms-info-native)
-    (push 'emms-info-native emms-info-functions))
+  (with-eval-after-load 'emms-info-exiftool
+    (add-to-list 'emms-info-exiftool-field-map '(info-lyrics . Lyrics)))
 
   ;; extract track info when loading the playlist
   (push 'emms-info-initialize-track emms-track-initialize-functions)
@@ -176,7 +310,11 @@ If currently muted, restore previous volume; otherwise set volume to zero."
     '(("C-o" . my/transient-emms)
       ("F" . +emms-add-to-favorites)
       ("j" . next-line)
-      ("k" . previous-line))))
+      ("k" . previous-line)
+      ("N" . emms-ui-now-playing)
+      ("L" . emms-ui-list)
+      ("A" . emms-ui-albums)
+      ("U" . emms-ui))))
 
 ;;; select roi songs
 (defun filter-music-buffer-and-save-to-file (json-filepath output-filepath)
@@ -212,7 +350,7 @@ then write results to OUTPUT-FILEPATH, one element per line."
 (autoload #'emms "emms" nil t)
 (autoload #'emms-pause "emms" nil t)
 (autoload #'emms-history-load "emms-history" nil t)
-
+(autoload 'emms-info-exiftool "emms-info-exiftool")
 ;;** EMMS helpers
 ;; transient to control EMMS
 ;; https://tech.toryanderson.com/2023/11/29/transient-for-convenience-with-emms/
@@ -253,8 +391,8 @@ then write results to OUTPUT-FILEPATH, one element per line."
     :pad-keys t
     ("m" "Mute" emms-player-mpv-mute-volume :transient t)
     ("z" "Zero" emms-player-mpv-zero-volume :transient t)
-    ("=" "Vol+" emms-player-mpv-raise-volume :transient t)
-    ("-" "Vol-" emms-player-mpv-lower-volume :transient t)]
+    ("=" "Vol+" emms-volume-mode-plus :transient t)
+    ("-" "Vol-" emms-volume-mode-minus :transient t)]
    ["Favorites"
     :pad-keys t
     ("l" "Load fav playlist" (lambda ()
@@ -267,6 +405,7 @@ then write results to OUTPUT-FILEPATH, one element per line."
     :pad-keys t
     ("d" "Emms mark with dired" emms-play-dired)
     ("D" "Emms play directory" emms-play-directory)
+    ("t" "Emms add dir tree" emms-add-directory-tree)
     ("F" "Emms play find" emms-play-find)
     ;; ("u" "Music dir" tsa/jump-to-music) ;; invokes a bookmark, which in turn hops to my bookmarked music directory
     ;; ("M" "   Modeline" emms-mode-line-mode)
@@ -276,8 +415,12 @@ then write results to OUTPUT-FILEPATH, one element per line."
 ;;; keymap
 
 (global-set-keys
- `(("C-c m b" . emms-browser)
+ `(("C-c m b" . emms-smart-browse)
+   ("C-c m C" . +emms-extract-embedded-covers)
+   ("C-c m c" . +emms-extract-embedded-cover)
    ("C-c m e" . emms)
+   ("C-c m l" . emms-lyrics-lrclib-get)
+   ("C-c m L" . emms-lyrics-visit-lyric)
    ("C-c m o" . my/transient-emms)
    ("C-c m p" . ("emms-play-playlist" .
                  ,(lambda (arg)
@@ -307,8 +450,8 @@ Only works when current buffer is the EMMS playlist buffer."
    ("<XF86AudioPlay>" . emms-pause)
    ("<XF86AudioMute>" . emms-player-mpv-mute-volume)
    ("<XF86AudioPause>" . emms-pause)
-   ("<XF86AudioRaiseVolume>" . emms-player-mpv-raise-volume)
-   ("<XF86AudioLowerVolume>" . emms-player-mpv-lower-volume)))
+   ("<XF86AudioRaiseVolume>" . emms-volume-mode-plus)
+   ("<XF86AudioLowerVolume>" . emms-volume-mode-minus)))
 
 (which-key-add-key-based-replacements
   "C-c m" "Multimedia")
@@ -361,6 +504,23 @@ With prefix argument ARG, start ytm-radio instead of emms."
 
 (global-set-keys
  `(("C-c m y" . ytm-radio)))
+;;; emms-ui
+(setopt emms-ui-album-cover-size 220
+        emms-ui-track-columns '(status info-title info-playing-time info-artist
+                                       info-album info-genre info-year play-count)
+        emms-ui-now-playing-cover-max-size 640
+        emms-ui-now-playing-default-view 'cover)
+
+(with-eval-after-load 'emms-ui
+  (keymap-binds emms-ui-now-playing-mode-map
+    (("+" "=") . emms-player-mpv-raise-volume)
+    ("-" . emms-player-mpv-lower-volume)))
+
+;;; consult-emms
+(setq consult-emms--sort-album-function #'string<)
+(global-set-keys
+ `(("C-c m a" . consult-emms-library)
+   ("C-c m j" . consult-emms-current-playlist)))
 
 (provide 'init-mms)
 ;;; init-mms.el ends here
