@@ -386,7 +386,8 @@ If currently muted, restore previous volume; otherwise set volume to zero."
       ("N" . emms-ui-now-playing)
       ("L" . emms-ui-list)
       ("A" . emms-ui-albums)
-      ("U" . emms-ui))))
+      ("U" . emms-ui)
+      ("SPC" . emms-pause))))
 
 ;;; select roi songs
 (defun filter-music-buffer-and-save-to-file (json-filepath output-filepath)
@@ -585,8 +586,8 @@ With prefix argument ARG, start ytm-radio instead of emms."
 
 (with-eval-after-load 'emms-ui
   (keymap-binds emms-ui-now-playing-mode-map
-    (("+" "=") . emms-player-mpv-raise-volume)
-    ("-" . emms-player-mpv-lower-volume)))
+    (("+" "=") . emms-volume-mode-plus)
+    ("-" . emms-volume-mode-minus)))
 
 ;;; consult-emms
 (setq consult-emms--sort-album-function #'string<)
