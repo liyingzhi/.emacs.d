@@ -174,7 +174,7 @@ Restore the buffer with \\<dired-mode-map>`\\[revert-buffer]'."
              "matching PATTERN: ")
      nil 'prot-dired--limit-hist)
     current-prefix-arg))
-  (dired-mark-files-regexp regexp)
+  (dired-mark-files-regexp (pyim-cregexp-build regexp))
   (unless omit (dired-toggle-marks))
   (dired-do-kill-lines)
   (add-to-history 'prot-dired--limit-hist regexp))
