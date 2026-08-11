@@ -93,6 +93,78 @@ When called interactively, use the currently selected EMMS track."
               (insert lyrics))))
         cache-file)))
 
+(defcustom +emms-syncedlyrics-program "syncedlyrics"
+  "Executable used as the fallback lyrics provider."
+  :type 'string)
+
+(defcustom +emms-syncedlyrics-providers
+  '("netease" "musixmatch" "megalobiz")
+  "Providers used by `syncedlyrics' after LRCLIB fails."
+  :type '(repeat string))
+
+(defun +emms-lyrics-file-nonempty-p (file)
+  "Return non-nil when FILE exists and contains data."
+  (and (file-readable-p file)
+       (> (file-attribute-size (file-attributes file)) 0)))
+
+(defun +emms-syncedlyrics-sentinel (process _event)
+  "Handle completion of a `syncedlyrics' PROCESS."
+  (when (memq (process-status process) '(exit signal))
+    (let ((file (process-get process 'emms-lyrics-file))
+          (track (process-get process 'emms-lyrics-track))
+          (interactive (process-get process 'emms-lyrics-interactive)))
+      (if (and (= 0 (process-exit-status process))
+               (+emms-lyrics-file-nonempty-p file))
+          (progn
+            (when interactive
+              (message "Saved fallback synced lyrics at \"%s\"" file))
+            (when (and (boundp 'emms-lyrics-display-p)
+                       emms-lyrics-display-p
+                       emms-player-playing-p
+                       (equal track (emms-playlist-current-selected-track)))
+              (emms-lyrics-catchup file)))
+        (when interactive
+          (message "No synchronized lyrics found from fallback providers."))))))
+
+(defun +emms-lyrics-syncedlyrics-get (track file interactive)
+  "Fetch TRACK's synchronized lyrics with `syncedlyrics' into FILE."
+  (if-let* ((program (executable-find +emms-syncedlyrics-program))
+            (query (mapconcat
+                    #'identity
+                    (delq nil
+                          (list (emms-track-get track 'info-title)
+                                (emms-track-get track 'info-artist)
+                                (emms-track-get track 'info-album)))
+                    " "))
+            (process
+             (apply #'start-process
+                    (format "emms-syncedlyrics-%s" (float-time))
+                    nil
+                    program
+                    (append (list "-p")
+                            +emms-syncedlyrics-providers
+                            (list "-o" file "--synced-only" query)))))
+      (process-put process 'emms-lyrics-file file)
+      (process-put process 'emms-lyrics-track track)
+      (process-put process 'emms-lyrics-interactive interactive)
+      (set-process-sentinel process #'+emms-syncedlyrics-sentinel)
+      (when interactive
+        (message "LRCLIB had no result; trying alternate lyric providers..."))
+    (when interactive
+      (message "Fallback unavailable: install the `syncedlyrics' command."))))
+
+(defun +emms-lyrics-lrclib-parse (status file track interactive)
+  "Parse LRCLIB response and fall back to other providers when needed."
+  (let ((existing (file-exists-p file)))
+    (condition-case err
+        (emms-lyrics-lrclib-parse status file track interactive)
+      (error
+       (when interactive
+         (message "LRCLIB request failed: %s"
+                  (error-message-string err)))))
+    (unless (or existing (+emms-lyrics-file-nonempty-p file))
+      (+emms-lyrics-syncedlyrics-get track file interactive))))
+
 (defun +emms-lyrics-lrclib-get (&optional track force interactive)
   "Fetch synchronized lyrics for TRACK from LRCLIB.
 
@@ -125,7 +197,7 @@ tag is missing."
                       (format "&album_name=%s" album)
                     "")
                   time))
-         #'emms-lyrics-lrclib-parse (list lrc track interactive))))))
+         #'+emms-lyrics-lrclib-parse (list lrc track interactive))))))
 
 
 ;;; setting
