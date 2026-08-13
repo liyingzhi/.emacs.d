@@ -144,12 +144,13 @@ When called interactively, use the currently selected EMMS track."
                     (append (list "-p")
                             +emms-syncedlyrics-providers
                             (list "-o" file "--synced-only" query)))))
-      (process-put process 'emms-lyrics-file file)
-      (process-put process 'emms-lyrics-track track)
-      (process-put process 'emms-lyrics-interactive interactive)
-      (set-process-sentinel process #'+emms-syncedlyrics-sentinel)
-      (when interactive
-        (message "LRCLIB had no result; trying alternate lyric providers..."))
+      (progn
+        (process-put process 'emms-lyrics-file file)
+        (process-put process 'emms-lyrics-track track)
+        (process-put process 'emms-lyrics-interactive interactive)
+        (set-process-sentinel process #'+emms-syncedlyrics-sentinel)
+        (when interactive
+          (message "LRCLIB had no result; trying alternate lyric providers...")))
     (when interactive
       (message "Fallback unavailable: install the `syncedlyrics' command."))))
 
