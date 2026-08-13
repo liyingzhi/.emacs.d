@@ -588,7 +588,19 @@ With prefix argument ARG, start ytm-radio instead of emms."
 (with-eval-after-load 'emms-ui
   (keymap-binds emms-ui-now-playing-mode-map
     (("+" "=") . emms-volume-mode-plus)
-    ("-" . emms-volume-mode-minus)))
+    ("-" . emms-volume-mode-minus)
+    ("A" . emms-ui-albums)
+    ("E" . emms))
+  (keymap-binds emms-ui-albums-mode-map
+    (("+" "=") . emms-volume-mode-plus)
+    ("-" . emms-volume-mode-minus)
+    ("A" . emms-ui-list)
+    ("E" . emms))
+  (keymap-binds emms-ui-list-mode-map
+    (("+" "=") . emms-volume-mode-plus)
+    ("-" . emms-volume-mode-minus)
+    ("A" . emms-ui-albums)
+    ("E" . emms)))
 
 ;;; consult-emms
 (setq consult-emms--sort-album-function #'string<)
