@@ -132,9 +132,10 @@ When called interactively, use the currently selected EMMS track."
             (query (mapconcat
                     #'identity
                     (delq nil
-                          (list (emms-track-get track 'info-title)
-                                (emms-track-get track 'info-artist)
-                                (emms-track-get track 'info-album)))
+                          (list (emms-lyrics-lrclib-encode-name (emms-track-get track 'info-title))
+                                (emms-lyrics-lrclib-encode-name (emms-track-get track 'info-artist))
+                                ;; (emms-lyrics-lrclib-encode-name (emms-track-get track 'info-album))
+                                ))
                     " "))
             (process
              (apply #'start-process
