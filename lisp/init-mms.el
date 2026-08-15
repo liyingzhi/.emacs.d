@@ -216,6 +216,56 @@ tag is missing."
     (when-let* ((track (emms-playlist-current-selected-track)))
       (+emms-lyrics-lrclib-get track nil nil))))
 
+(defcustom +emms-lrc-adjuster-program "lrc-adjuster"
+  "CLI used to shift all timestamps in an LRC file."
+  :type 'string)
+
+(defun +emms-lyrics-current-file ()
+  "Return the current track's LRC path, or nil if none exists.
+Path resolution matches `emms-lyrics-visit-lyric'."
+  (when-let* ((track (emms-playlist-current-selected-track))
+              (name (emms-track-get track 'name))
+              (lrc (funcall emms-lyrics-find-lyric-function
+                            (emms-replace-regexp-in-string
+                             (concat "\\." (file-name-extension name) "\\'")
+                             ".lrc"
+                             (file-name-nondirectory name))))
+              ((stringp lrc))
+              ((not (string-empty-p lrc)))
+              ((file-exists-p lrc)))
+    lrc))
+
+(defun +emms-lyrics-adjust-time (seconds)
+  "Shift the current track's LRC timestamps by SECONDS (may be negative).
+
+Runs `+emms-lrc-adjuster-program' on the lyric file found by
+`+emms-lyrics-current-file', replaces the original with the adjusted
+output, and reloads displayed lyrics when EMMS is playing."
+  (interactive (list (read-number "Adjust lyrics by seconds: ")))
+  (let* ((program (or (executable-find +emms-lrc-adjuster-program)
+                      (user-error "%s not found" +emms-lrc-adjuster-program)))
+         (lrc (or (+emms-lyrics-current-file)
+                  (user-error "No lyric file for the current track")))
+         (offset (number-to-string seconds))
+         adjusted)
+    (with-temp-buffer
+      (unless (zerop (call-process program nil t nil lrc offset))
+        (user-error "lrc-adjuster failed: %s" (string-trim (buffer-string))))
+      (goto-char (point-min))
+      (unless (re-search-forward "Adjusted file saved as '\\(.*\\)'\\." nil t)
+        (user-error "Unexpected lrc-adjuster output: %s"
+                   (string-trim (buffer-string))))
+      (setq adjusted (match-string 1)))
+    (rename-file adjusted lrc t)
+    (when-let* ((buf (find-buffer-visiting lrc)))
+      (with-current-buffer buf
+        (revert-buffer t t t)))
+    (when (and (boundp 'emms-lyrics-display-p)
+               emms-lyrics-display-p
+               (bound-and-true-p emms-player-playing-p))
+      (emms-lyrics-catchup lrc))
+    (message "Adjusted lyrics by %s s → %s" seconds lrc)))
+
 
 ;;; setting
 (with-eval-after-load 'emms
@@ -557,6 +607,7 @@ With prefix ARG, or when that file is missing, prompt for a playlist."
     ;; ("u" "Music dir" tsa/jump-to-music) ;; invokes a bookmark, which in turn hops to my bookmarked music directory
     ;; ("M" "   Modeline" emms-mode-line-mode)
     ("I" "Current info" emms-show)
+    ("T" "Adjust lyric time" +emms-lyrics-adjust-time)
     ("e" "Emms" emms)]])
 
 ;;; keymap
@@ -568,6 +619,7 @@ With prefix ARG, or when that file is missing, prompt for a playlist."
    ("C-c m e" . emms)
    ("C-c m l" . emms-lyrics-lrclib-get)
    ("C-c m L" . emms-lyrics-visit-lyric)
+   ("C-c m T" . +emms-lyrics-adjust-time)
    ("C-c m o" . mms/transient-emms)
    ("C-c m p" . ("emms-play-playlist" . mms/emms-play-default-playlist))
    ("C-c m f" . ("emms-filter-playlist" . mms/filter-playlist-and-save))
