@@ -408,6 +408,57 @@ If currently muted, restore previous volume; otherwise set volume to zero."
       ("SPC" . emms-pause))))
 
 ;;; select roi songs
+(defun mms/filter-playlist-and-save (substring output-file)
+  "Filter the EMMS playlist for SUBSTRING and save track paths to OUTPUT-FILE.
+
+SUBSTRING is comma-separated; a playlist line matching any part is kept.
+Matching uses the displayed line text (title/artist meta when present).
+Each saved entry is the track path from `emms-track-get' name, or
+`emms-track-force-description' when name is missing — so tracks without
+meta keep their original path."
+  (interactive
+   (progn
+     (unless (and (boundp 'emms-playlist-buffer-name)
+                  emms-playlist-buffer-name
+                  (string-match
+                   (concat "^" (regexp-quote emms-playlist-buffer-name)
+                           "\\(?:<[0-9]+>\\)?$")
+                   (buffer-name)))
+       (user-error "Current buffer is not the EMMS playlist"))
+     (list (read-string "Substring to match (comma-separated): ")
+           (read-file-name "Save matching tracks to file: "
+                           (and (boundp 'emms-source-file-default-directory)
+                                emms-source-file-default-directory)))))
+  (let* ((substrings (split-string substring "," t " "))
+         (regexps (mapcar #'regexp-quote substrings))
+         (matched-paths '()))
+    (save-excursion
+      (goto-char (point-min))
+      (while (not (eobp))
+        (let* ((line (buffer-substring-no-properties
+                      (line-beginning-position)
+                      (line-end-position)))
+               (track (emms-playlist-track-at (point)))
+               (path (and track
+                          (or (emms-track-get track 'name)
+                              (emms-track-force-description track)))))
+          (when (and path
+                     (cl-some (lambda (regexp)
+                                (string-match-p regexp line))
+                              regexps))
+            (push (expand-file-name path) matched-paths)))
+        (forward-line 1)))
+    (setq matched-paths (nreverse matched-paths))
+    (when (and matched-paths
+               (y-or-n-p (format "Found %d matching tracks. Save to %s? "
+                                 (length matched-paths) output-file)))
+      (with-temp-file output-file
+        (dolist (path matched-paths)
+          (insert path "\n")))
+      (message "Wrote %d matching tracks to %s"
+               (length matched-paths) output-file)
+      (find-file-other-window output-file))))
+
 (defun mms/filter-music-buffer-and-save-to-file (json-filepath output-filepath)
   "If current buffer is named `emms-playlist-buffer-name', read JSON file JSON-FILEPATH to extract titles.
 then prompt user to continue. If user answers yes, filter current buffer to collect matching lines,
@@ -519,16 +570,7 @@ With prefix ARG, or when that file is missing, prompt for a playlist."
    ("C-c m L" . emms-lyrics-visit-lyric)
    ("C-c m o" . mms/transient-emms)
    ("C-c m p" . ("emms-play-playlist" . mms/emms-play-default-playlist))
-   ("C-c m f" . ("emms-filter-playlist" .
-                 ,(lambda ()
-                    "Filter EMMS playlist interactively.
-Only works when current buffer is the EMMS playlist buffer."
-                    (interactive)
-                    (if (bound-and-true-p emms-playlist-buffer-name)
-                        (if (string= emms-playlist-buffer-name (buffer-name))
-                            (call-interactively #'filter-lines-containing-and-save)
-                          (message "Current buffer is not %s" emms-playlist-buffer-name))
-                      (message "Not exists EMMS buffer")))))
+   ("C-c m f" . ("emms-filter-playlist" . mms/filter-playlist-and-save))
    ("<XF86AudioPrev>" . emms-previous)
    ("<XF86AudioNext>" . emms-next)
    ("<XF86AudioPlay>" . emms-pause)
