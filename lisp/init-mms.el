@@ -640,16 +640,19 @@ With prefix argument ARG, start ytm-radio instead of emms."
     (("+" "=") . emms-volume-mode-plus)
     ("-" . emms-volume-mode-minus)
     ("A" . emms-ui-albums)
+    ("L" . emms-ui-list)
     ("E" . emms))
   (keymap-binds emms-ui-albums-mode-map
     (("+" "=") . emms-volume-mode-plus)
     ("-" . emms-volume-mode-minus)
-    ("A" . emms-ui-list)
+    ("N" . emms-ui-now-playing)
+    ("L" . emms-ui-list)
     ("E" . emms))
   (keymap-binds emms-ui-list-mode-map
     (("+" "=") . emms-volume-mode-plus)
     ("-" . emms-volume-mode-minus)
     ("A" . emms-ui-albums)
+    ("N" . emms-ui-now-playing)
     ("E" . emms)))
 
 ;;; consult-emms
