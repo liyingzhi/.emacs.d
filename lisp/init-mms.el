@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'cl-lib)
+
 ;;; emms
 
 (add-hook 'emms-playlist-mode-hook #'meow-motion-mode)
@@ -39,11 +41,14 @@ When called interactively, use the currently selected EMMS track."
   (let ((cover (expand-file-name "cover_large.png"
                                  (file-name-directory track))))
     (unless (file-readable-p cover)
-      (unless (zerop
-               (call-process
-                (executable-find "ffmpeg") nil nil nil "-nostdin" "-v" "error" "-y"
-                "-i" track "-map" "0:v:0" "-frames:v" "1" "-update" "1" cover))
-        (when (file-exists-p cover) (delete-file cover))))
+      (let ((ffmpeg (executable-find "ffmpeg")))
+        (unless ffmpeg
+          (user-error "ffmpeg not found; install it to extract embedded covers"))
+        (unless (zerop
+                 (call-process
+                  ffmpeg nil nil nil "-nostdin" "-v" "error" "-y"
+                  "-i" track "-map" "0:v:0" "-frames:v" "1" "-update" "1" cover))
+          (when (file-exists-p cover) (delete-file cover)))))
     (and (file-readable-p cover) cover)))
 
 (defun +emms-extract-embedded-covers ()
@@ -101,6 +106,10 @@ When called interactively, use the currently selected EMMS track."
   '("netease" "musixmatch" "megalobiz")
   "Providers used by `syncedlyrics' after LRCLIB fails."
   :type '(repeat string))
+
+(defcustom +emms-auto-fetch-lyrics nil
+  "When non-nil, fetch synchronized lyrics when a track starts playing."
+  :type 'boolean)
 
 (defun +emms-lyrics-file-nonempty-p (file)
   "Return non-nil when FILE exists and contains data."
@@ -201,6 +210,12 @@ tag is missing."
                   time))
          #'+emms-lyrics-lrclib-parse (list lrc track interactive))))))
 
+(defun mms/emms--maybe-fetch-lyrics ()
+  "Fetch lyrics for the current track when `+emms-auto-fetch-lyrics' is set."
+  (when +emms-auto-fetch-lyrics
+    (when-let* ((track (emms-playlist-current-selected-track)))
+      (+emms-lyrics-lrclib-get track nil nil))))
+
 
 ;;; setting
 (with-eval-after-load 'emms
@@ -209,9 +224,12 @@ tag is missing."
   (require 'emms-lyrics-lrclib)
   (advice-add 'emms-lyrics-lrclib-get
               :override #'+emms-lyrics-lrclib-get)
+  ;; EMMS still assumes list timestamps; Emacs may return (TICKS . HZ).
+  (defalias 'mms--emms-time-less-p #'time-less-p)
+  (advice-add 'emms-time-less-p :override #'mms--emms-time-less-p)
 
   ;; (emms-default-players)
-  (setq emms-player-list '(emms-player-mpv emms-player-vlc)
+  (setq emms-player-list '(emms-player-mpv)
         emms-player-mpv-parameters '("--quiet" "--no-video" "--force-window=no"))
 
   (setq emms-source-file-default-directory "~/Music")
@@ -231,7 +249,7 @@ tag is missing."
         emms-info-asynchronously t
         emms-info-auto-update t
         emms-volume-change-amount 5
-        emms-volume-change-function #'emms-volume-mpv-change
+        emms-volume-change-function #'mms/emms-volume-mpv-change
         emms-show-format "♪ %s")
 
   (setopt emms-player-mpv-update-metadata t)
@@ -243,29 +261,6 @@ tag is missing."
 
   (emms-cache 1)
 
-  (defun +emms-select-song ()
-    "Select and play a song from the current EMMS playlist."
-    (interactive)
-    (with-current-emms-playlist
-      (emms-playlist-mode-center-current)
-      (let* ((current-line-number (line-number-at-pos))
-             (lines (cl-loop
-                     with min-line-number = (line-number-at-pos (point-min))
-                     with buffer-text-lines = (split-string (buffer-string) "\n")
-                     with lines = nil
-                     for l in buffer-text-lines
-                     for n = min-line-number then (1+ n)
-                     unless (string-empty-p l)
-                     do (push (cons l n)
-                              lines)
-                     finally return (nreverse lines)))
-             (selected-line (completing-read "Song: " lines)))
-        (when selected-line
-          (let ((line (cdr (assoc selected-line lines))))
-            (goto-line line)
-            (emms-playlist-mode-play-smart)
-            (emms-playlist-mode-center-current))))))
-
   ;;;###autoload
   (defun +emms-add-to-favorites ()
     "Add the current track to the favorites playlist.
@@ -273,40 +268,70 @@ The track is added to the playlist file specified by `+favorites-playlist'.
 If the track already exists in the playlist, it won't be duplicated."
     (interactive)
     (emms-playlist-mode-center-current)
-    (+emms-playlist-save 'm3u +favorites-playlist))
+    (+emms-playlist-save +favorites-playlist))
+
+  (defun mms/emms--playlist-contains-path-p (file path)
+    "Return non-nil when FILE already lists PATH as an m3u entry."
+    (let ((playlist-dir (file-name-directory file)))
+      (with-temp-buffer
+        (insert-file-contents file)
+        (goto-char (point-min))
+        (cl-loop
+         while (not (eobp))
+         for line = (string-trim
+                     (buffer-substring-no-properties
+                      (line-beginning-position)
+                      (line-end-position)))
+         when (and (not (string-empty-p line))
+                   (not (string-prefix-p "#" line))
+                   (string= (expand-file-name line playlist-dir) path))
+         return t
+         do (forward-line 1)))))
+
+  (defun mms/emms--file-ends-with-newline-p (file)
+    "Return non-nil when FILE is empty or ends with a newline."
+    (let ((size (file-attribute-size (file-attributes file))))
+      (or (zerop size)
+          (with-temp-buffer
+            (insert-file-contents file nil (1- size) size)
+            (eq (char-after (point-min)) ?\n)))))
 
   ;;;###autoload
-  (defun +emms-playlist-save (format file)
-    "Save the current track to a playlist file.
-FORMAT is the playlist format (e.g., 'm3u).
-FILE is the path to the playlist file.
-If the track already exists in the playlist, it won't be duplicated."
-    (interactive (list (emms-source-playlist-read-format)
-                       (read-file-name "Store as: "
+  (defun +emms-playlist-save (file)
+    "Append the track at point to playlist FILE as an m3u entry.
+FILE is created with an `#EXTM3U' header when missing.  Duplicate
+paths (exact line match after expand) are skipped."
+    (interactive (list (read-file-name "Store as: "
                                        emms-source-file-default-directory)))
     (let* ((track (emms-playlist-track-at (point)))
-           (new-content (or (emms-track-get track 'name)
-                            (emms-track-force-description track))))
-      (if (and (file-exists-p file)
-               (with-temp-buffer
-                 (insert-file-contents file)
-                 (search-forward new-content nil t)))
+           (path (expand-file-name
+                  (or (emms-track-get track 'name)
+                      (emms-track-force-description track))))
+           (file (expand-file-name file))
+           (exists (file-exists-p file)))
+      (if (and exists (mms/emms--playlist-contains-path-p file path))
           (message "Playlist already contains the same entries. Not saving.")
-        (with-temp-buffer
-          (insert "\n")
-          (insert new-content)
-          (let ((append-to-file t))
-            (write-region (point-min) (point-max) file t))))))
+        (let ((coding-system-for-write 'utf-8-unix)
+              (need-newline (and exists
+                                 (not (mms/emms--file-ends-with-newline-p file)))))
+          (with-temp-buffer
+            (unless exists
+              (insert "#EXTM3U\n"))
+            (when need-newline
+              (insert "\n"))
+            (insert path "\n")
+            (write-region (point-min) (point-max) file exists))))))
 
   ;; mpv integration
   ;; https://www.reddit.com/r/emacs/comments/syop1h/control_emmsmpv_volume/
-  ;; set init volume
-  (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume))
+  (defun mms/emms--mpv-set-initial-volume ()
+    "Apply `emms-player-mpv-volume' once per mpv IPC connection."
+    (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume)))
 
-  (defun emms-player-mpv-get-volume ()
-    "Sets `emms-player-mpv-volume' to the current volume value
-and sends a message of the current volume status.
-and refresh emms transient menu."
+  (add-hook 'emms-player-mpv-event-connect-hook #'mms/emms--mpv-set-initial-volume)
+
+  (defun mms/emms-mpv-get-volume ()
+    "Sync `emms-player-mpv-volume' from mpv and refresh the transient."
     (emms-player-mpv-cmd '(get_property volume)
                          #'(lambda (vol err)
                              (unless err
@@ -315,34 +340,25 @@ and refresh emms transient menu."
                                  (message "Music volume: %s%%" vol)
                                  (mms/transient-emms--refresh-volume))))))
 
-  (defun emms-player-mpv-raise-volume (&optional amount)
-    "Raise the volume of the MPV player by AMOUNT.
-If AMOUNT is not provided, it defaults to 10.
-The volume will not exceed 100."
-    (interactive)
+  (defun mms/emms-volume-mpv-change (amount)
+    "Change mpv volume by AMOUNT, respecting mute and updating UI state."
     (unless mms/emms-player-mpv-volume-mute
-      (let* ((amount (or amount 10))
-             (new-volume (+ emms-player-mpv-volume amount)))
-        (if (> new-volume 100)
-            (emms-player-mpv-cmd '(set_property volume 100))
-          (emms-player-mpv-cmd `(add volume ,amount))))
-      (emms-player-mpv-get-volume)))
+      (let ((new-volume (+ emms-player-mpv-volume amount)))
+        (cond ((> new-volume 100)
+               (emms-player-mpv-cmd '(set_property volume 100)))
+              ((< new-volume 0)
+               (emms-player-mpv-cmd '(set_property volume 0)))
+              (t
+               (emms-player-mpv-cmd `(add volume ,amount)))))
+      (mms/emms-mpv-get-volume)))
 
-  (defun emms-player-mpv-lower-volume (&optional amount)
-    "Lower the volume of the MPV player by AMOUNT.
-If AMOUNT is not provided, it defaults to 10."
-    (interactive)
-    (unless mms/emms-player-mpv-volume-mute
-      (emms-player-mpv-cmd `(add volume ,(- (or amount '10))))
-      (emms-player-mpv-get-volume)))
-
-  (defun emms-player-mpv-zero-volume ()
+  (defun mms/emms-mpv-zero-volume ()
     "Set the volume of the MPV player to zero."
     (interactive)
     (emms-player-mpv-cmd '(set_property volume 0))
-    (emms-player-mpv-get-volume))
+    (mms/emms-mpv-get-volume))
 
-  (defun emms-player-mpv-mute-volume ()
+  (defun mms/emms-mpv-mute-volume ()
     "Toggle mute status of the MPV player.
 If currently muted, restore previous volume; otherwise set volume to zero."
     (interactive)
@@ -351,7 +367,8 @@ If currently muted, restore previous volume; otherwise set volume to zero."
           (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume))
           (setq mms/emms-player-mpv-volume-mute nil))
       (emms-player-mpv-cmd '(set_property volume 0))
-      (setq mms/emms-player-mpv-volume-mute t)))
+      (setq mms/emms-player-mpv-volume-mute t))
+    (mms/transient-emms--refresh-volume))
 
   (defun mms/emms--volumes-description ()
     "Return a formatted string describing the current volume for display in menu."
@@ -367,7 +384,7 @@ If currently muted, restore previous volume; otherwise set volume to zero."
   (defun mms/transient-emms--refresh-volume ()
     "Update volume information when transient menu are present."
     (when transient--suffixes
-      (transient-setup 'my/transient-emms)))
+      (transient-setup 'mms/transient-emms)))
 
   (with-eval-after-load 'emms-info-exiftool
     (add-to-list 'emms-info-exiftool-field-map '(info-lyrics . Lyrics)))
@@ -375,13 +392,12 @@ If currently muted, restore previous volume; otherwise set volume to zero."
   ;; extract track info when loading the playlist
   (push 'emms-info-initialize-track emms-track-initialize-functions)
 
-  (add-hook 'emms-player-started-hook 'emms-show)
+  (add-hook 'emms-player-started-hook #'emms-show)
+  (add-hook 'emms-player-started-hook #'mms/emms--maybe-fetch-lyrics)
   (emms-mode-line-mode -1)
-  (advice-add 'emms-volume-raise :override #'emms-player-mpv-raise-volume)
-  (advice-add 'emms-volume-lower :override #'emms-player-mpv-lower-volume)
 
   (keymap-sets emms-playlist-mode-map
-    '(("C-o" . my/transient-emms)
+    '(("C-o" . mms/transient-emms)
       ("F" . +emms-add-to-favorites)
       ("j" . next-line)
       ("k" . previous-line)
@@ -392,7 +408,7 @@ If currently muted, restore previous volume; otherwise set volume to zero."
       ("SPC" . emms-pause))))
 
 ;;; select roi songs
-(defun filter-music-buffer-and-save-to-file (json-filepath output-filepath)
+(defun mms/filter-music-buffer-and-save-to-file (json-filepath output-filepath)
   "If current buffer is named `emms-playlist-buffer-name', read JSON file JSON-FILEPATH to extract titles.
 then prompt user to continue. If user answers yes, filter current buffer to collect matching lines,
 then write results to OUTPUT-FILEPATH, one element per line."
@@ -401,7 +417,7 @@ then write results to OUTPUT-FILEPATH, one element per line."
          (read-file-name "Save results to file (output path): ")))
   ;; Check buffer name
   (unless (string= (buffer-name) emms-playlist-buffer-name)
-    (error "Current buffer is not Emms-Playlist-Buffer, operation cancelled"))
+    (user-error "Current buffer is not Emms-Playlist-Buffer, operation cancelled"))
   ;; Extract title list
   (let ((my-roi-song-names (extract-song-titles-from-file json-filepath)))
     (unless (listp my-roi-song-names)
@@ -421,6 +437,16 @@ then write results to OUTPUT-FILEPATH, one element per line."
 
 ;;; menu
 
+(defun mms/emms-play-default-playlist (&optional arg)
+  "Play `user/mms-playlist-file'.
+With prefix ARG, or when that file is missing, prompt for a playlist."
+  (interactive "P")
+  (if (or arg
+          (not (and (stringp user/mms-playlist-file)
+                    (file-exists-p user/mms-playlist-file))))
+      (call-interactively #'emms-play-playlist)
+    (emms-play-playlist user/mms-playlist-file)))
+
 ;; autoload
 (autoload #'emms "emms" nil t)
 (autoload #'emms-pause "emms" nil t)
@@ -430,7 +456,7 @@ then write results to OUTPUT-FILEPATH, one element per line."
 ;; transient to control EMMS
 ;; https://tech.toryanderson.com/2023/11/29/transient-for-convenience-with-emms/
 ;; https://github.com/ifinkelstein/dotemacs/blob/96f9d0e12ccf06d8a0d5dfebf22b98a3daf405a1/library/setup/my-setup-media.el#L82
-(transient-define-prefix my/transient-emms ()
+(transient-define-prefix mms/transient-emms ()
   "EMMS music"
   :transient-non-suffix 'transient--do-stay
   ["EMMS"
@@ -447,12 +473,7 @@ then write results to OUTPUT-FILEPATH, one element per line."
    ["Playlist"
     :pad-keys t
     ("h" "History" emms-history-load)
-    ("L" "Load playlist"
-     (lambda (&optional arg)
-       (interactive "P")
-       (if arg
-           (call-interactively #'emms-play-playlist)
-         (emms-play-playlist user/mms-playlist-file))))
+    ("L" "Load playlist" mms/emms-play-default-playlist)
     ("%" "Sort playlist" emms-sort :transient t)
     ("O" "Random track" emms-random :transient t)
     ("R" "Toggle shuffle" emms-toggle-random-playlist :transient t)
@@ -464,8 +485,8 @@ then write results to OUTPUT-FILEPATH, one element per line."
    [:description
     mms/emms--volumes-description
     :pad-keys t
-    ("m" "Mute" emms-player-mpv-mute-volume :transient t)
-    ("z" "Zero" emms-player-mpv-zero-volume :transient t)
+    ("m" "Mute" mms/emms-mpv-mute-volume :transient t)
+    ("z" "Zero" mms/emms-mpv-zero-volume :transient t)
     ("=" "Vol+" emms-volume-mode-plus :transient t)
     ("-" "Vol-" emms-volume-mode-minus :transient t)]
    ["Favorites"
@@ -473,9 +494,9 @@ then write results to OUTPUT-FILEPATH, one element per line."
     ("l" "Load fav playlist" (lambda ()
                                (interactive)
                                (emms-play-playlist +favorites-playlist)))
-    ("E" "Filter roi and Export" filter-music-buffer-and-save-to-file)
+    ("E" "Filter roi and Export" mms/filter-music-buffer-and-save-to-file)
     ("G" "Get entry to fav" +emms-add-to-favorites :transient t)
-    ("g" "Goto entry line" +emms-select-song)]
+    ("g" "Goto entry line" consult-emms-current-playlist)]
    ["Global/External"
     :pad-keys t
     ("d" "Emms mark with dired" emms-play-dired)
@@ -496,20 +517,8 @@ then write results to OUTPUT-FILEPATH, one element per line."
    ("C-c m e" . emms)
    ("C-c m l" . emms-lyrics-lrclib-get)
    ("C-c m L" . emms-lyrics-visit-lyric)
-   ("C-c m o" . my/transient-emms)
-   ("C-c m p" . ("emms-play-playlist" .
-                 ,(lambda (arg)
-                    "Play EMMS playlist interactively.
- With prefix ARG, prompt for playlist file.
- Without ARG, play `user/mms-playlist-file' if it exists,
-otherwise prompt for playlist file."
-                    (interactive "P")
-                    (if arg
-                        (call-interactively #'emms-play-playlist)
-                      (if (and user/mms-playlist-file
-                               (file-exists-p user/mms-playlist-file))
-                          (emms-play-playlist user/mms-playlist-file)
-                        (call-interactively #'emms-play-playlist))))))
+   ("C-c m o" . mms/transient-emms)
+   ("C-c m p" . ("emms-play-playlist" . mms/emms-play-default-playlist))
    ("C-c m f" . ("emms-filter-playlist" .
                  ,(lambda ()
                     "Filter EMMS playlist interactively.
@@ -523,7 +532,7 @@ Only works when current buffer is the EMMS playlist buffer."
    ("<XF86AudioPrev>" . emms-previous)
    ("<XF86AudioNext>" . emms-next)
    ("<XF86AudioPlay>" . emms-pause)
-   ("<XF86AudioMute>" . emms-player-mpv-mute-volume)
+   ("<XF86AudioMute>" . mms/emms-mpv-mute-volume)
    ("<XF86AudioPause>" . emms-pause)
    ("<XF86AudioRaiseVolume>" . emms-volume-mode-plus)
    ("<XF86AudioLowerVolume>" . emms-volume-mode-minus)))
@@ -549,9 +558,7 @@ With prefix argument ARG, start ytm-radio instead of emms."
                (file-exists-p emms-history-file))
           (emms-playlist-mode-go)
         (emms)
-        (emms-play-playlist user/mms-playlist-file))
-      ;; set init volume
-      (emms-player-mpv-cmd `(set_property volume ,emms-player-mpv-volume)))))
+        (mms/emms-play-default-playlist)))))
 
 (global-bind-keys
  ("C-c l s" . ("Music Tab emms" . tab-bar-switch-or-create-music))
