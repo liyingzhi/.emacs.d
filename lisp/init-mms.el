@@ -538,6 +538,59 @@ then write results to OUTPUT-FILEPATH, one element per line."
 
 ;;; menu
 
+(defun mms/yt-dlp-download-audio (dir source-link &optional allow-playlist)
+  "Download bestaudio m4a from SOURCE-LINK into DIR with yt-dlp.
+
+DIR is the yt-dlp paths home (-P).  SOURCE-LINK is a URL.
+Without prefix ARG, pass --no-playlist and write
+%(title)s/%(title)s.%(ext)s.
+With \\[universal-argument], allow playlist/album download and write
+%(album)s/%(title)s.%(ext)s."
+  (interactive
+   (list (read-directory-name
+          "Download directory: "
+          (and (boundp 'emms-source-file-default-directory)
+               emms-source-file-default-directory))
+         (read-string "Source link: ")
+         current-prefix-arg))
+  (let ((program (or (executable-find "yt-dlp")
+                     (user-error "yt-dlp not found")))
+        (dir (expand-file-name dir))
+        (source-link (string-trim source-link)))
+    (when (string-empty-p source-link)
+      (user-error "Source link is empty"))
+    (unless (file-directory-p dir)
+      (user-error "Not a directory: %s" dir))
+    (let* ((buf (get-buffer-create "*yt-dlp-audio*"))
+           (output-template (if allow-playlist
+                                "%(album)s/%(title)s.%(ext)s"
+                              "%(title)s/%(title)s.%(ext)s"))
+           (args (append
+                  (list "--cookies-from-browser" "chrome"
+                        "-P" dir
+                        "-o" output-template
+                        "-f" "bestaudio[ext=m4a]"
+                        "--embed-thumbnail"
+                        "--add-metadata")
+                  (unless allow-playlist '("--no-playlist"))
+                  (list source-link)))
+           (proc (apply #'start-process "yt-dlp-audio" buf program args)))
+      (set-process-sentinel
+       proc
+       (lambda (process _event)
+         (unless (process-live-p process)
+           (if (zerop (process-exit-status process))
+               (progn
+                 (message "yt-dlp finished: %s → %s" source-link dir)
+                 (when (buffer-live-p (process-buffer process))
+                   (kill-buffer (process-buffer process))))
+             (message "yt-dlp failed (%d); see %s"
+                      (process-exit-status process)
+                      (buffer-name (process-buffer process)))))))
+      (message "yt-dlp started%s: %s → %s"
+               (if allow-playlist " (playlist)" "")
+               source-link dir))))
+
 (defun mms/emms-play-default-playlist (&optional arg)
   "Play `user/mms-playlist-file'.
 With prefix ARG, or when that file is missing, prompt for a playlist."
@@ -600,7 +653,7 @@ With prefix ARG, or when that file is missing, prompt for a playlist."
     ("g" "Goto entry line" consult-emms-current-playlist)]
    ["Global/External"
     :pad-keys t
-    ("d" "Emms mark with dired" emms-play-dired)
+    ("d" "yt-dlp audio" mms/yt-dlp-download-audio)
     ("D" "Emms play directory" emms-play-directory)
     ("t" "Emms add dir tree" emms-add-directory-tree)
     ("F" "Emms play find" emms-play-find)
@@ -616,6 +669,7 @@ With prefix ARG, or when that file is missing, prompt for a playlist."
  `(("C-c m b" . emms-smart-browse)
    ("C-c m C" . +emms-extract-embedded-covers)
    ("C-c m c" . +emms-extract-embedded-cover)
+   ("C-c m d" . mms/yt-dlp-download-audio)
    ("C-c m e" . emms)
    ("C-c m l" . emms-lyrics-lrclib-get)
    ("C-c m L" . emms-lyrics-visit-lyric)
