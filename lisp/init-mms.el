@@ -254,7 +254,7 @@ output, and reloads displayed lyrics when EMMS is playing."
       (goto-char (point-min))
       (unless (re-search-forward "Adjusted file saved as '\\(.*\\)'\\." nil t)
         (user-error "Unexpected lrc-adjuster output: %s"
-                   (string-trim (buffer-string))))
+                    (string-trim (buffer-string))))
       (setq adjusted (match-string 1)))
     (rename-file adjusted lrc t)
     (when-let* ((buf (find-buffer-visiting lrc)))
@@ -743,6 +743,8 @@ With prefix argument ARG, start ytm-radio instead of emms."
 
 (with-eval-after-load 'emms-ui
   (keymap-binds emms-ui-now-playing-mode-map
+    ("j" . next-line)
+    ("k" . previous-line)
     (("+" "=") . emms-volume-mode-plus)
     ("-" . emms-volume-mode-minus)
     ("A" . emms-ui-albums)
