@@ -103,7 +103,7 @@ When called interactively, use the currently selected EMMS track."
   :type 'string)
 
 (defcustom +emms-syncedlyrics-providers
-  '("netease" "musixmatch" "megalobiz")
+  '("netease" "lrclib" "musixmatch" "megalobiz")
   "Providers used by `syncedlyrics' after LRCLIB fails."
   :type '(repeat string))
 
@@ -116,12 +116,27 @@ When called interactively, use the currently selected EMMS track."
   (and (file-readable-p file)
        (> (file-attribute-size (file-attributes file)) 0)))
 
+(defun +emms-opencc-t2s (string)
+  "Convert traditional Chinese in STRING to simplified via opencc.
+Non-Chinese characters are left unchanged.  Return STRING unchanged
+when empty, nil, or when `opencc' is unavailable."
+  (if-let* ((string (and (stringp string) (not (string-empty-p string)) string))
+            (opencc (executable-find "opencc")))
+      (with-temp-buffer
+        (insert string)
+        (if (zerop (call-process-region (point-min) (point-max)
+                                        opencc t t nil "--config" "t2s"))
+            (string-trim (buffer-string))
+          string))
+    string))
+
 (defun +emms-syncedlyrics-sentinel (process _event)
   "Handle completion of a `syncedlyrics' PROCESS."
   (when (memq (process-status process) '(exit signal))
     (let ((file (process-get process 'emms-lyrics-file))
           (track (process-get process 'emms-lyrics-track))
-          (interactive (process-get process 'emms-lyrics-interactive)))
+          (interactive (process-get process 'emms-lyrics-interactive))
+          (omit-artist (process-get process 'emms-lyrics-omit-artist)))
       (if (and (= 0 (process-exit-status process))
                (+emms-lyrics-file-nonempty-p file))
           (progn
@@ -132,19 +147,32 @@ When called interactively, use the currently selected EMMS track."
                        emms-player-playing-p
                        (equal track (emms-playlist-current-selected-track)))
               (emms-lyrics-catchup file)))
-        (when interactive
-          (message "No synchronized lyrics found from fallback providers."))))))
+        (if (and (not omit-artist)
+                 track
+                 (emms-track-get track 'info-artist)
+                 (emms-track-get track 'info-title))
+            (progn
+              (when interactive
+                (message "No lyrics with artist; retrying title-only search..."))
+              (+emms-lyrics-syncedlyrics-get track file interactive t))
+          (when interactive
+            (message "No synchronized lyrics found from fallback providers.")))))))
 
-(defun +emms-lyrics-syncedlyrics-get (track file interactive)
-  "Fetch TRACK's synchronized lyrics with `syncedlyrics' into FILE."
+(defun +emms-lyrics-syncedlyrics-get (track file interactive &optional omit-artist)
+  "Fetch TRACK's synchronized lyrics with `syncedlyrics' into FILE.
+Title and artist are converted traditional→simplified via opencc.
+When OMIT-ARTIST is non-nil, search using title only."
   (if-let* ((program (executable-find +emms-syncedlyrics-program))
+            (title (emms-lyrics-lrclib-encode-name
+                    (+emms-opencc-t2s (emms-track-get track 'info-title))))
             (query (mapconcat
                     #'identity
                     (delq nil
-                          (list (emms-lyrics-lrclib-encode-name (emms-track-get track 'info-title))
-                                (emms-lyrics-lrclib-encode-name (emms-track-get track 'info-artist))
-                                ;; (emms-lyrics-lrclib-encode-name (emms-track-get track 'info-album))
-                                ))
+                          (list title
+                                (and (not omit-artist)
+                                     (emms-lyrics-lrclib-encode-name
+                                      (+emms-opencc-t2s
+                                       (emms-track-get track 'info-artist))))))
                     " "))
             (process
              (apply #'start-process
@@ -158,9 +186,12 @@ When called interactively, use the currently selected EMMS track."
         (process-put process 'emms-lyrics-file file)
         (process-put process 'emms-lyrics-track track)
         (process-put process 'emms-lyrics-interactive interactive)
+        (process-put process 'emms-lyrics-omit-artist omit-artist)
         (set-process-sentinel process #'+emms-syncedlyrics-sentinel)
         (when interactive
-          (message "LRCLIB had no result; trying alternate lyric providers...")))
+          (message (if omit-artist
+                       "Retrying alternate lyric providers without artist..."
+                     "LRCLIB had no result; trying alternate lyric providers..."))))
     (when interactive
       (message "Fallback unavailable: install the `syncedlyrics' command."))))
 
@@ -187,28 +218,34 @@ tag is missing."
     (when-let* ((track (or track (emms-playlist-current-selected-track)))
                 ((eq (emms-track-type track) 'file))
                 (file (emms-track-name track))
-                (lrc (replace-regexp-in-string "\\.[^.]+\\'" ".lrc" file))
-                ((or force (not (file-exists-p lrc))))
-                ((file-writable-p lrc))
-                (title (emms-lyrics-lrclib-encode-name
-                        (emms-track-get track 'info-title)))
-                (artist (emms-lyrics-lrclib-encode-name
-                         (emms-track-get track 'info-artist)))
-                (time (emms-track-get track 'info-playing-time)))
-      (let ((album (emms-lyrics-lrclib-encode-name
-                    (emms-track-get track 'info-album))))
-        (setq emms-lyrics-lrclib-requests
-              (1+ emms-lyrics-lrclib-requests))
-        (when interactive (message "Searching for lyrics..."))
-        (url-retrieve
-         (url-encode-url
-          (format "%sget?artist_name=%s&track_name=%s%s&duration=%d"
-                  emms-lyrics-lrclib-url artist title
-                  (if (and album (not (string-empty-p album)))
-                      (format "&album_name=%s" album)
-                    "")
-                  time))
-         #'+emms-lyrics-lrclib-parse (list lrc track interactive))))))
+                (lrc (replace-regexp-in-string "\\.[^.]+\\'" ".lrc" file)))
+      (let ((lrc-exists (file-exists-p lrc)))
+        (when (and interactive lrc-exists (not force))
+          (message "Lyric file already exists: %s" lrc))
+        (when-let* (((or force (not lrc-exists)))
+                    ((file-writable-p lrc))
+                    (title (emms-lyrics-lrclib-encode-name
+                            (emms-track-get track 'info-title)))
+                    (artist (emms-lyrics-lrclib-encode-name
+                             (emms-track-get track 'info-artist)))
+                    (time (emms-track-get track 'info-playing-time)))
+          (let ((album (emms-lyrics-lrclib-encode-name
+                        (emms-track-get track 'info-album))))
+            (setq emms-lyrics-lrclib-requests
+                  (1+ emms-lyrics-lrclib-requests))
+            (when interactive
+              (if lrc-exists
+                  (message "Lyric file already exists: %s; searching..." lrc)
+                (message "Searching for lyrics...")))
+            (url-retrieve
+             (url-encode-url
+              (format "%sget?artist_name=%s&track_name=%s%s&duration=%d"
+                      emms-lyrics-lrclib-url artist title
+                      (if (and album (not (string-empty-p album)))
+                          (format "&album_name=%s" album)
+                        "")
+                      time))
+             #'+emms-lyrics-lrclib-parse (list lrc track interactive))))))))
 
 (defun mms/emms--maybe-fetch-lyrics ()
   "Fetch lyrics for the current track when `+emms-auto-fetch-lyrics' is set."
