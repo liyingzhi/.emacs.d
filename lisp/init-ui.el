@@ -20,6 +20,9 @@
 (setq fast-but-imprecise-scrolling t)
 (setq redisplay-skip-fontification-on-input t)
 
+;; To fix the issue where SVG appears too large on high-resolution screens.
+(setopt image-scaling-factor 1.0)
+
 ;;; Title
 (setq frame-title-format '("Emacs - %b")
       icon-title-format frame-title-format)
