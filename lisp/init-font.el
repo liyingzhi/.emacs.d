@@ -18,10 +18,10 @@
 (defun set-face-like-default (face)
   "Set FACE attributes to match the default face."
   (set-face-attribute face nil
-                      :family (face-attribute 'default :family)
-                      :height (face-attribute 'default :height)
-                      :weight (face-attribute 'default :weight)
-                      :slant (face-attribute 'default :slant)))
+                      :family (face-attribute 'default :family nil 'default)
+                      :height 'unspecified
+                      :weight 'unspecified
+                      :slant 'unspecified))
 
 (defconst user/fallback-fonts
   '("Jetbrains Mono" "Source Code Pro" "PragmataPro Mono Liga"
@@ -51,6 +51,9 @@ FONT-SIZE is the default font size."
                                         :height (if font-size
                                                     font-size
                                                   user/font-size)))
+    ;; Inline code and code blocks commonly inherit `fixed-pitch'.  Keep it
+    ;; in sync with `default' so they use the configured default font too.
+    (set-face-like-default 'fixed-pitch)
     (set-face-like-default 'fixed-pitch-serif)
     (set-face-like-default 'variable-pitch)
 
@@ -71,22 +74,22 @@ FONT-SIZE is the default font size."
                         (set-fontset-font "fontset-default" 'unicode font nil 'prepend)
                       (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
 
-    ;; "Emacs 28 now has 'emoji . before, emoji is part of 'symbol"
-    ;; 根据上面这句话应该写成 'emoji 就可以了，但是由于 Emoji 本身
-    ;; 分布比较散，所以还是先设置 'unicode 后再设置 CJK 比较靠谱。
-    ;; 特例：'emoji 就会导致 ⛈️ fallback 到 ⛈
-    ;; https://emacs-china.org/t/emacs/15676/34
-
     ;; Emoji
+    ;; Use the dedicated emoji script without changing unrelated Unicode
+    ;; fallbacks.  Keep emoji slightly smaller so Corfu rows are not clipped.
+    ;; Overwrite the default list; prepend makes VS16 sequences use Symbola.
     (cl-loop for font in '("Noto Color Emoji" "Apple Color Emoji" "Noto Emoji" "Segoe UI Emoji")
              when (font-installed-p font)
              return (cond
                      ((< emacs-major-version 27)
                       (set-fontset-font "fontset-default" 'unicode font nil 'prepend))
                      ((< emacs-major-version 28)
-                      (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend))
+                      (set-fontset-font t 'symbol (font-spec :family font :size (* 0.85 (/ user/font-size 10.0))) nil 'prepend))
                      (t
-                      (set-fontset-font t 'emoji (font-spec :family font) nil 'prepend))))
+                      (set-fontset-font t 'emoji (font-spec :family font :size (* 0.85 (/ user/font-size 10.0))) nil 'prepend))))
+
+    ;; Force Emacs to search by using font-spec
+    (set-fontset-font t 'han (font-spec :script 'han) nil 'append)
 
     ;; Specify font for Chinese characters
     (cl-loop for font in (append user/favourite-zh-fonts
@@ -111,26 +114,21 @@ FONT-SIZE is the default font size."
       (when (member font (font-family-list))
         (set-fontset-font "fontset-default" 'han font nil 'append)))
 
-    ;; Force Emacs to search by using font-spec
-    (set-fontset-font t 'han (font-spec :script 'han) nil 'append)
+    (set-fontset-font (frame-parameter nil 'font)
+                      'tai-viet
+                      (font-spec :family "Noto Sans Tai Viet"))
 
-    (when sys/linuxp
-      ;; Set character composition rule for U+FE0F on Linux 2025-10-31
-      ;;
-      ;; Background:
-      ;; On some Linux systems, U+FE0F (VARIATION SELECTOR-16) may display as a box
-      ;; instead of the expected variant display (such as a colored emoji). This is
-      ;; due to the lack of proper character composition rules.
-      ;;
-      ;; Solution:
-      ;; Use the `set-char-table-range` function to set a composition rule for U+FE0F
-      ;; in the `composition-function-table`. This ensures it combines correctly with
-      ;; preceding characters to display as the intended variant.
-      ;;
-      ;; To avoid unnecessary settings on non-Linux systems, the `when` conditional
-      ;; is used to apply this rule only in a Linux environment.
-      ;; https://t.me/emacs_china/297476
-      (set-char-table-range composition-function-table #xFE0F '(["\\c.\\c^+" 1 compose-gstring-for-graphic])))))
+    (+setup-character-display)))
+
+(defun +setup-character-display ()
+  "Set up special character composition and display."
+  (when sys/linuxp
+    ;; Compose VARIATION SELECTOR-16 with the preceding character.
+    ;; https://t.me/emacs_china/297476
+    (set-char-table-range composition-function-table #xFE0F '(["\\c.\\c^+" 1 compose-gstring-for-graphic])))
+
+  ;; Hide U+FFF4 on all platforms.
+  (set-char-table-range glyphless-char-display #xFFF4 'zero-width))
 
 ;;; setup default font
 (add-hook 'window-setup-hook #'setup-fonts)
