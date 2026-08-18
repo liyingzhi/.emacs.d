@@ -27,6 +27,8 @@
                    (abbreviate-file-name (expand-file-name "lib/" user-emacs-directory))
                    (abbreviate-file-name (expand-file-name "theme/" user-emacs-directory))))
 
+(setq current-time-list t)
+
 ;;; Encoding
 ;; UTF-8 as the default coding system
 (when (fboundp 'set-charset-priority)
