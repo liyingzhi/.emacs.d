@@ -130,6 +130,32 @@ when empty, nil, or when `opencc' is unavailable."
           string))
     string))
 
+(defun +emms-lyrics-reload-playing (file)
+  "Reload FILE's lyrics at the current playback position."
+  (let ((position
+         (+ emms-lyrics-elapsed-time
+            (float-time
+             (time-subtract (or emms-lyrics-pause-time (current-time))
+                            emms-lyrics-start-time)))))
+    (mapc #'emms-cancel-timer emms-lyrics-timers)
+    (setq emms-lyrics-start-time (current-time)
+          emms-lyrics-pause-time nil
+          emms-lyrics-elapsed-time 0
+          emms-lyrics-timers nil
+          emms-lyrics-alist nil)
+    (emms-lyrics-read-file file t)
+    (emms-lyrics-seek position)))
+
+(defun +emms-ui-refresh-lyrics ()
+  "Invalidate and refresh the visible EMMS UI lyrics view."
+  (when (boundp 'emms-ui-now-playing-buffer-name)
+    (when-let* ((buffer (get-buffer emms-ui-now-playing-buffer-name))
+                ((get-buffer-window buffer t)))
+      (with-current-buffer buffer
+        (setq emms-ui-now--track nil
+              emms-ui-now--lyrics nil)
+        (emms-ui-refresh t)))))
+
 (defun +emms-syncedlyrics-sentinel (process _event)
   "Handle completion of a `syncedlyrics' PROCESS."
   (when (memq (process-status process) '(exit signal))
@@ -142,11 +168,12 @@ when empty, nil, or when `opencc' is unavailable."
           (progn
             (when interactive
               (message "Saved fallback synced lyrics at \"%s\"" file))
-            (when (and (boundp 'emms-lyrics-display-p)
-                       emms-lyrics-display-p
-                       emms-player-playing-p
-                       (equal track (emms-playlist-current-selected-track)))
-              (emms-lyrics-catchup file)))
+            (when (equal track (emms-playlist-current-selected-track))
+              (when (and (boundp 'emms-lyrics-display-p)
+                         emms-lyrics-display-p
+                         emms-player-playing-p)
+                (+emms-lyrics-reload-playing file))
+              (+emms-ui-refresh-lyrics)))
         (if (and (not omit-artist)
                  track
                  (emms-track-get track 'info-artist)
@@ -300,7 +327,8 @@ output, and reloads displayed lyrics when EMMS is playing."
     (when (and (boundp 'emms-lyrics-display-p)
                emms-lyrics-display-p
                (bound-and-true-p emms-player-playing-p))
-      (emms-lyrics-catchup lrc))
+      (+emms-lyrics-reload-playing lrc))
+    (+emms-ui-refresh-lyrics)
     (message "Adjusted lyrics by %s s → %s" seconds lrc)))
 
 
