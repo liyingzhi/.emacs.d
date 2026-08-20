@@ -300,12 +300,23 @@ Path resolution matches `emms-lyrics-visit-lyric'."
     lrc))
 
 (defun +emms-lyrics-adjust-time (seconds)
-  "Shift the current track's LRC timestamps by SECONDS (may be negative).
+  "Shift the current track's LRC timestamps by SECONDS.
 
 Runs `+emms-lrc-adjuster-program' on the lyric file found by
 `+emms-lyrics-current-file', replaces the original with the adjusted
-output, and reloads displayed lyrics when EMMS is playing."
-  (interactive (list (read-number "Adjust lyrics by seconds: ")))
+output, and reloads displayed lyrics when EMMS is playing.  Interactively,
+choose whether to move the lyrics earlier or later, then enter a
+non-negative number of seconds."
+  (interactive
+   (let ((direction
+          (read-char-choice
+           "Move lyrics [f]orward or [b]ackward? " '(?f ?b)))
+         (magnitude -1))
+     (while (< magnitude 0)
+       (setq magnitude (read-number "Adjust lyrics by seconds (non-negative): "))
+       (when (< magnitude 0)
+         (message "Seconds must be non-negative; please try again.")))
+     (list (if (eq direction ?f) (- magnitude) magnitude))))
   (let* ((program (or (executable-find +emms-lrc-adjuster-program)
                       (user-error "%s not found" +emms-lrc-adjuster-program)))
          (lrc (or (+emms-lyrics-current-file)
