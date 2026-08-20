@@ -815,10 +815,7 @@ With prefix argument ARG, start ytm-radio instead of emms."
     ("A" . emms-ui-albums)
     ("N" . emms-ui-now-playing)
     ("L" . emms-ui-list)
-    ("E" . emms))
-
-  (define-key emms-ui-now-playing-mode-map [remap meow-keypad]
-              #'emms-pause))
+    ("E" . emms)))
 
 ;;; consult-emms
 (setq consult-emms--sort-album-function #'string<)
