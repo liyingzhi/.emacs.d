@@ -731,6 +731,20 @@ OPEN and CLOSE. Otherwise, insert the delimiters with space for text in between.
                                 (org-priority-down)
                                 (transient-priority-setting))))))
 
+;;; org cycle
+(add-hook 'org-cycle-tab-first-hook
+          (defun +org-cycle-visible-heading ()
+            "Cycle the visible parent heading at either edge of a folded subtree."
+            (when-let ((folded-region
+                        (or (org-fold-get-region-at-point 'headline)
+                            (and (> (point) (point-min))
+                                 (org-fold-get-region-at-point
+                                  'headline (1- (point)))))))
+              (goto-char (car folded-region))
+              (org-back-to-heading t)
+              (org-cycle)
+              t)))
+
 ;;; Org capf
 (defun my/org-capf ()
   "Set up `completion-at-point' functions for Org mode.
