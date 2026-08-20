@@ -807,26 +807,18 @@ With prefix argument ARG, start ytm-radio instead of emms."
         emms-ui-now-playing-default-view 'cover)
 
 (with-eval-after-load 'emms-ui
-  (keymap-binds emms-ui-now-playing-mode-map
+  (keymap-binds (emms-ui-albums-mode-map emms-ui-now-playing-mode-map emms-ui-list-mode-map)
     ("j" . next-line)
     ("k" . previous-line)
     (("+" "=") . emms-volume-mode-plus)
     ("-" . emms-volume-mode-minus)
     ("A" . emms-ui-albums)
-    ("L" . emms-ui-list)
-    ("E" . emms))
-  (keymap-binds emms-ui-albums-mode-map
-    (("+" "=") . emms-volume-mode-plus)
-    ("-" . emms-volume-mode-minus)
     ("N" . emms-ui-now-playing)
     ("L" . emms-ui-list)
     ("E" . emms))
-  (keymap-binds emms-ui-list-mode-map
-    (("+" "=") . emms-volume-mode-plus)
-    ("-" . emms-volume-mode-minus)
-    ("A" . emms-ui-albums)
-    ("N" . emms-ui-now-playing)
-    ("E" . emms)))
+
+  (define-key emms-ui-now-playing-mode-map [remap meow-keypad]
+              #'emms-pause))
 
 ;;; consult-emms
 (setq consult-emms--sort-album-function #'string<)
