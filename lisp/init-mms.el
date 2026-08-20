@@ -299,14 +299,98 @@ Path resolution matches `emms-lyrics-visit-lyric'."
               ((file-exists-p lrc)))
     lrc))
 
+(defun +emms--lrc-expand-timestamps (line)
+  "Expand adjacent LRC timestamps in LINE into separate entries."
+  (let ((regexp "\\[[[:digit:]]+:[[:digit:]]+\\(?:\\.[[:digit:]]+\\)?\\]")
+        (position 0)
+        timestamps)
+    (while (and (string-match regexp line position)
+                (= (match-beginning 0) position))
+      (push (match-string 0 line) timestamps)
+      (setq position (match-end 0)))
+    (setq timestamps (nreverse timestamps))
+    (if (> (length timestamps) 1)
+        (let ((lyric (substring line position)))
+          (mapconcat (lambda (timestamp)
+                       (concat timestamp lyric))
+                     timestamps
+                     "\n"))
+      line)))
+
+(defun +emms--lrc-timestamp-seconds (line)
+  "Return the first LRC timestamp in LINE as seconds, including fractions."
+  (when (string-match
+         "\\`\\[\\([[:digit:]]+\\):\\([[:digit:]]+\\)\\(?:\\.\\([[:digit:]]+\\)\\)?\\]"
+         line)
+    (+ (* 60 (string-to-number (match-string 1 line)))
+       (string-to-number (match-string 2 line))
+       (if-let* ((fraction (match-string 3 line)))
+           (string-to-number (concat "0." fraction))
+         0))))
+
+(defun +emms--lrc-sort-timestamped-lines (lines)
+  "Return LINES with timestamped entries sorted chronologically."
+  (let* ((entries
+          (cl-loop for line in lines
+                   for index from 0
+                   for timestamp = (+emms--lrc-timestamp-seconds line)
+                   when timestamp
+                   collect (list timestamp index line)))
+         (sorted
+          (sort entries
+                (lambda (left right)
+                  (or (< (nth 0 left) (nth 0 right))
+                      (and (= (nth 0 left) (nth 0 right))
+                           (< (nth 1 left) (nth 1 right)))))))
+         (sorted-lines (mapcar #'caddr sorted))
+         (position 0))
+    (mapcar
+     (lambda (line)
+       (if (+emms--lrc-timestamp-seconds line)
+           (prog1 (nth position sorted-lines)
+             (setq position (1+ position)))
+         line))
+     lines)))
+
+(defun +emms--normalize-lrc-timestamps (file)
+  "Normalize timestamp entries in FILE before external LRC processing."
+  (with-temp-buffer
+    (insert-file-contents file)
+    (let ((original (buffer-string))
+          (trailing-newline (eq (char-before (point-max)) ?\n))
+          lines)
+      (goto-char (point-min))
+      (while (not (eobp))
+        (let* ((begin (line-beginning-position))
+               (end (line-end-position))
+               (line (buffer-substring-no-properties begin end))
+               (expanded (+emms--lrc-expand-timestamps line)))
+          (dolist (expanded-line
+                   (if (string= line expanded)
+                       (list line)
+                     (split-string expanded "\n")))
+            (push expanded-line lines)))
+        (forward-line 1))
+      (setq lines (+emms--lrc-sort-timestamped-lines (nreverse lines)))
+      (erase-buffer)
+      (insert (mapconcat #'identity lines "\n"))
+      (when trailing-newline
+        (insert "\n"))
+      (let ((changed (not (string= original (buffer-string)))))
+        (when changed
+          (let ((coding-system-for-write buffer-file-coding-system))
+            (write-region (point-min) (point-max) file nil 'no-message)))
+        changed))))
+
 (defun +emms-lyrics-adjust-time (seconds)
   "Shift the current track's LRC timestamps by SECONDS.
 
 Runs `+emms-lrc-adjuster-program' on the lyric file found by
 `+emms-lyrics-current-file', replaces the original with the adjusted
-output, and reloads displayed lyrics when EMMS is playing.  Interactively,
-choose whether to move the lyrics earlier or later, then enter a
-non-negative number of seconds."
+output, and reloads displayed lyrics when EMMS is playing.  Before adjustment,
+repeated timestamp tags are expanded and timestamped entries are sorted before
+adjustment.  Interactively, choose whether to move the lyrics earlier or
+later, then enter a non-negative number of seconds."
   (interactive
    (let ((direction
           (read-char-choice
@@ -323,6 +407,7 @@ non-negative number of seconds."
                   (user-error "No lyric file for the current track")))
          (offset (number-to-string seconds))
          adjusted)
+    (+emms--normalize-lrc-timestamps lrc)
     (with-temp-buffer
       (unless (zerop (call-process program nil t nil lrc offset))
         (user-error "lrc-adjuster failed: %s" (string-trim (buffer-string))))
