@@ -34,6 +34,19 @@
   :key #'gptel-api-key
   :models '(moonshot-v1-8k moonshot-v1-128k))
 
+(gptel-make-openai "llm-ollama"
+  :stream t
+  :protocol "https"
+  :host "ollama.com"
+  :key #'gptel-api-key
+  :models '((gpt-oss:20b
+             :capabilities (tool-use)
+             :context-window 128)
+            (gpt-oss:120b
+             :capabilities (tool-use)
+             :context-window 128)
+            ))
+
 (gptel-make-openai "fireworks"
   :stream t
   :protocol "https"
