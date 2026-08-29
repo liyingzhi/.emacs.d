@@ -42,7 +42,7 @@
 (setopt package-enable-at-startup nil)
 
 ;; prevent system input method for pgtk
-(when (boundp pgtk-use-im-context-on-new-connection)
+(when (boundp 'pgtk-use-im-context-on-new-connection)
   (setq pgtk-use-im-context-on-new-connection nil))
 
 (setopt user-lisp-auto-scrape nil)
