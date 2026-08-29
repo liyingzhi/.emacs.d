@@ -112,7 +112,7 @@ and update transparent."
         mouse-wheel-scroll-amount-horizontal 1
         mouse-wheel-progressive-speed nil))
 (setq scroll-step 1
-      scroll-margin 0
+      scroll-margin 1
       hscroll-step 2
       hscroll-margin 2
       scroll-conservatively 101
