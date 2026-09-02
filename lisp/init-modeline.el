@@ -24,6 +24,7 @@
 (if (and (display-graphic-p) (not user/show-modeline))
     (awesome-tray-mode)
   (require 'doom-modeline)
+  (setopt mode-line-compact 'long)
   (setq doom-modeline-workspace-name nil)
   (setq doom-modeline-time-icon nil)
   (setq doom-modeline-height 20)
