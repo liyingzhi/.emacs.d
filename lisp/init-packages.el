@@ -182,6 +182,7 @@
     magit
     magit-delta
     (magit-standup :host github :repo "function-artisans/magit-standup")
+    consult-magit
     git-link
     forge
     difftastic

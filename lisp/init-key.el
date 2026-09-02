@@ -125,6 +125,7 @@ current window."
  (:key "b" :description "Switch buffer" :command consult-buffer)
  (:key "B" :description "Switch buffer other window" :command consult-buffer-other-window)
  (:key "I" :description "ibuffer" :command ibuffer-refersh)
+ (:key "j" :description "Magit buffer" :command consult-magit)
  (:key "k" :description "Kill buffer" :command kill-buffer-and-window)
  (:key "T" :description "Switch telega buffers" :command telega-switch-buffer :filename "init-telega")
  (:key "i" :description "Switch telega important chat" :command telega-switch-important-chat :filename "init-telega")

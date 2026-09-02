@@ -139,6 +139,8 @@
           (highlight
            (highlight-face . magit-blame-highlight)))))
 
+(keymap-sets goto-map
+  '(("j" . consult-magit)))
 
 ;;; smerge
 ;;; from https://github.com/alphapapa/unpackaged.el?tab=readme-ov-file#smerge-mode
@@ -207,16 +209,8 @@ In Dired, this uses the current Dired directory."
     ("i" "Init repo" magit-init)
     ("B" "Blame" magit-blame)
     ("f" "Find git file" magit-find-file)
-    ("E" "Magit emacs" (lambda ()
-                         (interactive)
-                         (my/magit-status-by-project-name ".emacs.d" "straight")))
-    ("I" "Magit igc emacs" (lambda ()
-                             (interactive)
-                             (my/magit-status-by-project-name ".emacs.igc.d" "straight")))
-    ("F" "Fetch gc&igc emacs" (lambda ()
-                                (interactive)
-                                (my/git-pull-upstream-by-project-name ".emacs.d" "straight")
-                                (my/git-pull-upstream-by-project-name ".emacs.igc.d" "straight")))]
+    ("j" "magit jump" consult-magit)
+    ]
    ["Log"
     ("oh" "Region history" vc-region-history)
     ("ol" "File log" magit-log-buffer-file)
