@@ -87,7 +87,7 @@
 (add-hook 'dashboard-mode-hook
           (lambda ()
             (page-break-lines-mode)
-            (setq-local default-directory "~")))
+            (setq-local default-directory "~/")))
 
 (with-eval-after-load 'page-break-lines
   (set-fontset-font "fontset-default"
@@ -234,7 +234,7 @@ window or buffer.  The around advice avoids `dashboard-open''s
   (my-dashboard-refresh)
   (when-let* ((buf (get-buffer dashboard-buffer-name)))
     (with-current-buffer buf
-      (setq-local default-directory "~"))))
+      (setq-local default-directory "~/"))))
 
 (defun open-dashboard-from-other-buffer ()
   "Switch to dashboard buffer after opening it.
