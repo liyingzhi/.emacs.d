@@ -22,10 +22,11 @@
         plantuml-indent-level 4
         plantuml-svg-background "white")
 
-(org-babel-do-load-languages
- 'org-babel-load-languages
- `(,@org-babel-load-languages
-   (plantuml . t)))
+(with-eval-after-load 'org
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   `(,@org-babel-load-languages
+     (plantuml . t))))
 
 (with-eval-after-load 'plantuml-mode
   (defun plantuml-convert (path output-type &optional finish-callback)
@@ -132,16 +133,22 @@ OUTPUT-TYPE is export file type."
 
 (autoload #'plantuml-convert-dir "plantuml-mode" nil t)
 
-;; plantuml-emacs
-(require 'plantuml)
-(setq plantuml-output-type "svg"
-      plantuml-relative-path "./images/"
-      plantuml-theme "plain"
-      plantuml-font "somefont"
-      plantuml-add-index-number t
-      plantuml-log-command t
-      plantuml-mindmap-contains-org-content t
-      plantuml-org-headline-bold t)
+;; plantuml-emacs pulls in org-element; configure on first use / after org.
+(with-eval-after-load 'plantuml
+  (setq plantuml-output-type "svg"
+        plantuml-relative-path "./images/"
+        plantuml-theme "plain"
+        plantuml-font "somefont"
+        plantuml-add-index-number t
+        plantuml-log-command t
+        plantuml-mindmap-contains-org-content t
+        plantuml-org-headline-bold t))
+
+;; Autoload entry points instead of requiring plantuml (and org) at startup.
+(autoload 'plantuml-org-to-mindmap "plantuml" nil t)
+(autoload 'plantuml-org-to-mindmap-open "plantuml" nil t)
+(autoload 'plantuml-org-to-wbs "plantuml" nil t)
+(autoload 'plantuml-org-to-wbs-open "plantuml" nil t)
 
 (provide 'init-plantuml)
 ;;; init-plantuml.el ends here

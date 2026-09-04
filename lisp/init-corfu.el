@@ -82,9 +82,11 @@
 (require 'cape)
 
 (advice-add 'comint-completion-at-point :around #'cape-wrap-nonexclusive)
-(advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-(advice-add 'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
 (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive)
+
+(with-eval-after-load 'eglot
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-nonexclusive))
 
 (defun my/eglot-capf-with-dabbrev ()
   "Setup up eglot capf with dabbrev."

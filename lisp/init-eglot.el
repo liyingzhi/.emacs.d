@@ -25,14 +25,13 @@
 ;;; Code:
 
 (setq read-process-output-max (* 4 1024 1024)) ; 4MB
+
+;; Safe before eglot loads: defcustoms / variables only.
 (setq eglot-autoshutdown t
       eglot-events-buffer-size 0
       eglot-send-changes-idle-time 0.5
-      eglot-code-action-indications '(eldoc-hint))
-
-(require 'eglot)
-
-(setq eglot-ignored-server-capabilities
+      eglot-code-action-indications '(eldoc-hint)
+      eglot-ignored-server-capabilities
       '(:inlayHintProvider
         ;; :documentHighlightProvider
         :documentFormattingProvider
@@ -41,27 +40,16 @@
         :colorProvider
         :foldingRangeProvider
         ;; :hoverProvider
-        ))
+        )
+      eglot-stay-out-of '(imenu))
 
-(setq eglot-stay-out-of
-      '(imenu))
-
+;; `eglot-ensure' is autoloaded — do not require eglot at startup.
 (add-hook 'prog-mode-hook
           (lambda ()
             (unless (or (derived-mode-p 'emacs-lisp-mode 'lisp-mode 'makefile-mode 'snippet-mode 'json-ts-mode 'plantuml-mode 'cmake-ts-mode)
                         buffer-read-only)
               (eglot-ensure)))
           -100)
-
-(require 'consult-eglot)
-(keymap-set eglot-mode-map
-            "C-M-."
-            #'consult-eglot-symbols)
-
-;; Emacs LSP booster
-(when (executable-find "emacs-lsp-booster")
-  (eglot-booster-mode 1)
-  (setopt eglot-booster-no-remote-boost t))
 
 ;; next eglot highligh from https://gist.github.com/jdtsmith/8b34f1459ca2a67debf943680f4896a4
 (defun my/eglot-next-highlight (&optional prev)
@@ -106,15 +94,27 @@ beginning and end of the symbol set."
   (interactive)
   (my/eglot-next-highlight 'prev))
 
-(keymap-binds eglot-mode-map
-  (("C-c C-n" "M-g .") . my/eglot-next-highlight)
-  (("C-c C-p" "M-g ,") . my/eglot-prev-highlight))
-
 (defvar-keymap eglot-highlight-repeat-map
   :doc "Eglot highligh repeat map."
   :repeat t
   "n" #'my/eglot-next-highlight
   "p" #'my/eglot-prev-highlight)
+
+(with-eval-after-load 'eglot
+  (require 'consult-eglot)
+  (keymap-set eglot-mode-map
+              "C-M-."
+              #'consult-eglot-symbols)
+
+  (keymap-binds eglot-mode-map
+    (("C-c C-n" "M-g .") . my/eglot-next-highlight)
+    (("C-c C-p" "M-g ,") . my/eglot-prev-highlight))
+
+  ;; Emacs LSP booster — only after eglot is present.
+  (when (executable-find "emacs-lsp-booster")
+    (require 'eglot-booster nil t)
+    (eglot-booster-mode 1)
+    (setopt eglot-booster-no-remote-boost t)))
 
 (provide 'init-eglot)
 ;;; init-eglot.el ends here

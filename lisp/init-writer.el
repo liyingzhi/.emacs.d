@@ -55,15 +55,14 @@
 (global-set-keys
  '(("C-c n b o" . citar-open)))
 
-;; Export citations with Org Mode
-
-(require 'oc-natbib)
-(require 'oc-csl)
-
-(setq org-cite-global-bibliography ews-bibtex-files
-      org-cite-insert-processor 'citar
-      org-cite-follow-processor 'citar
-      org-cite-activate-processor 'citar)
+;; Export citations with Org Mode (defer Org load)
+(with-eval-after-load 'org
+  (require 'oc-natbib)
+  (require 'oc-csl)
+  (setq org-cite-global-bibliography ews-bibtex-files
+        org-cite-insert-processor 'citar
+        org-cite-follow-processor 'citar
+        org-cite-activate-processor 'citar))
 
 (citar-embark-mode)
 
@@ -256,11 +255,12 @@ DENOTE-DIR is denote dir."
    ("C-c n b x" . citar-denote-nocite)
    ("C-c n b s" . citar-denote-create-silo-note)))
 
-(keymap-sets org-mode-map
-  '(("C-c n b k" . citar-denote-add-citekey)
-    ("C-c n b K" . citar-denote-remove-citekey)
-    ("C-c n b i" . citar-insert-citation)
-    ("C-c n b d" . citar-denote-dwim)))
+(with-eval-after-load 'org
+  (keymap-sets org-mode-map
+    '(("C-c n b k" . citar-denote-add-citekey)
+      ("C-c n b K" . citar-denote-remove-citekey)
+      ("C-c n b i" . citar-insert-citation)
+      ("C-c n b d" . citar-denote-dwim))))
 
 (which-key-add-key-based-replacements
   "C-c n"   "Note and Writing"

@@ -278,7 +278,8 @@
    '("?" . help-helpful-lsp-sly)
    '("/" . consult-ripgrep)))
 
-(meow-vterm-enable)
+(with-eval-after-load 'vterm
+  (meow-vterm-enable))
 (meow-setup)
 (meow-global-mode 1)
 

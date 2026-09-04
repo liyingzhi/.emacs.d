@@ -31,8 +31,10 @@
   ('lsp-bridge
    (require 'init-lsp-bridge)))
 
-;;; mason manager
-(add-hook 'after-init-hook #'mason-ensure)
+;;; mason manager — idle so it does not contend with first-frame setup
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (run-with-idle-timer 2 nil #'mason-ensure)))
 
 (with-eval-after-load 'mason-manager
   (keymap-binds mason-manager-map

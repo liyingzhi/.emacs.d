@@ -60,11 +60,15 @@
 
 (let ((autoload-file (expand-file-name ".user-lisp-autoloads.el"
                                        user-lisp-directory)))
-  (if (file-exists-p autoload-file)
-      (when (check-user-lisp-change)
-        (message "Re compile user-lisp file.")
-        (prepare-user-lisp nil nil t))
-    (prepare-user-lisp)))
+  (cond
+   ((not (file-exists-p autoload-file))
+    (prepare-user-lisp))
+   ((check-user-lisp-change)
+    (message "Re compile user-lisp file.")
+    (prepare-user-lisp nil nil t))
+   (t
+    ;; Autoloads already scraped; only put them on load-path / load defs.
+    (prepare-user-lisp t))))
 
 ;; igc setting for no-igc version
 (unless (fboundp #'igc-stats)
@@ -124,7 +128,35 @@
              (not (file-remote-p buffer-file-name)))
     (axis-mode)))
 
-(require 'init-ai)
+;;; AI — defer until first gptel/magit use (keeps startup free of gptel stack)
+(defun user/require-init-ai (&rest _)
+  "Load `init-ai' once on first AI-related use."
+  (unless (featurep 'init-ai)
+    (require 'init-ai)))
+
+(dolist (cmd '(gptel
+               gptel-menu
+               gptel-send
+               gptel-quick
+               gptel-aibo
+               gptel-agent
+               gptel-context-add
+               gptel-add-file
+               gptel-translate-buffer
+               gptel-translate-at-point
+               gptel-translate-to-english
+               gptel-translate-to-english-insert
+               agental-global-chat
+               agental-project-chat
+               my/switch-gptel-llm
+               my/switch-gptel-llm-coder))
+  (advice-add cmd :before #'user/require-init-ai))
+
+(with-eval-after-load 'gptel
+  (user/require-init-ai))
+
+(with-eval-after-load 'magit
+  (user/require-init-ai))
 
 ;;; Programming
 (require 'init-git)

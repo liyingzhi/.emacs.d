@@ -364,7 +364,8 @@ ARG is passed through to ORIG-FUN."
 
 ;; 设成nil 则不从 .zshrc 读 只从 .zshenv读（可以加快速度，但是需要你将环境变量相关的都放到 .zshenv 中，而非 .zshrc 中）
 (setq exec-path-from-shell-arguments '("-l" )) ;remove -i read form .zshenv
-(exec-path-from-shell-initialize)
+;; Defer shell probe until after UI is up; PATH is ready before idle work.
+(add-hook 'emacs-startup-hook #'exec-path-from-shell-initialize)
 
 (add-hook 'after-init-hook
           (lambda ()

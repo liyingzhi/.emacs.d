@@ -59,29 +59,33 @@
   (let ((denote-directory (concat denote-directory "/personal")))
     (denote-org-capture)))
 
-(push '("W" "New work note (with Denote)" plain
-        (file denote-last-path)
-        #'create-denote--in-work-subdir
-        :no-save t
-        :immediate-finish nil
-        :kill-buffer t
-        :jump-to-captured t) org-capture-templates)
+(with-eval-after-load 'org
+  (push '("W" "New work note (with Denote)" plain
+          (file denote-last-path)
+          #'create-denote--in-work-subdir
+          :no-save t
+          :immediate-finish nil
+          :kill-buffer t
+          :jump-to-captured t)
+        org-capture-templates)
 
-(push '("r" "New robot note (with Denote)" plain
-        (file denote-last-path)
-        #'create-denote--in-robot-subdir
-        :no-save t
-        :immediate-finish nil
-        :kill-buffer t
-        :jump-to-captured t) org-capture-templates)
+  (push '("r" "New robot note (with Denote)" plain
+          (file denote-last-path)
+          #'create-denote--in-robot-subdir
+          :no-save t
+          :immediate-finish nil
+          :kill-buffer t
+          :jump-to-captured t)
+        org-capture-templates)
 
-(push '("p" "New personal note (with Denote)" plain
-        (file denote-last-path)
-        #'create-denote--in-personal-subdir
-        :no-save t
-        :immediate-finish nil
-        :kill-buffer t
-        :jump-to-captured t) org-capture-templates)
+  (push '("p" "New personal note (with Denote)" plain
+          (file denote-last-path)
+          #'create-denote--in-personal-subdir
+          :no-save t
+          :immediate-finish nil
+          :kill-buffer t
+          :jump-to-captured t)
+        org-capture-templates))
 
 ;; (push '("j" "Journal" entry
 ;;         (file denote-journal-extras-path-to-new-or-existing-entry)

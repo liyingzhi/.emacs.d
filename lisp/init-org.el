@@ -8,9 +8,9 @@
 
 ;;; Code:
 
+;; Defer Org load: configuration runs on first `org' use (file, capture, agenda).
+(with-eval-after-load 'org
 ;;; Base Org
-(require 'org)
-
 (require 'lib-org)
 
 (setopt org-default-notes-file "~/Documents/Org/index.org")
@@ -716,8 +716,8 @@ OPEN and CLOSE. Otherwise, insert the delimiters with space for text in between.
    ("M-s n" . consult-notes)
    ("M-s N" . consult-notes-search-in-all-notes)))
 
-;; for embark
-(with-eval-after-load 'embark
+;; for embark (maps live in embark-org, not embark itself)
+(with-eval-after-load 'embark-org
   (keymap-binds embark-org-item-map
     ("c" . ("Cycle" . org-cycle-list-bullet)))
 
@@ -941,6 +941,7 @@ on a headline."
 
 (require 'init-org-agenda)
 ;; (require 'init-org-media-note)
+) ;; end with-eval-after-load 'org
 
 ;;; Local Variables
 

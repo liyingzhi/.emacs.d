@@ -60,10 +60,19 @@
     ("k" gt-use-korean-gt "show (ko->zh) with taker")
     ("s" gt-setup "gt setup"))))
 
-;;; spell
-(require 'init-spell)
+;;; spell — load wucuo on first prog/text buffer instead of at startup
+(defun user/require-init-spell ()
+  "Load spell configuration once, then start wucuo in this buffer."
+  (require 'init-spell)
+  (remove-hook 'prog-mode-hook #'user/require-init-spell)
+  (remove-hook 'text-mode-hook #'user/require-init-spell)
+  (when (derived-mode-p 'prog-mode 'text-mode)
+    (wucuo-start)))
 
-;;; input
+(add-hook 'prog-mode-hook #'user/require-init-spell)
+(add-hook 'text-mode-hook #'user/require-init-spell)
+
+;;; input — rime/pyim configs register via with-eval-after-load
 (setq default-input-method "rime")
 
 (require 'init-pyim)

@@ -25,7 +25,6 @@
 ;;; Code:
 
 (require 'nerd-icons)
-(require 'weather)
 
 (defvar *start-banner* (propertize ";;     *
 ;;      May the Code be with You!
@@ -162,6 +161,7 @@
 The format includes the weekday, Gregorian date, Chinese lunar month and day,
 and the current time. The lunar date is displayed with a smaller font and
 normal weight to distinguish it from other elements."
+    (require 'cal-china-x)
     (let* ((cn-date (calendar-chinese-from-absolute
                      (calendar-absolute-from-gregorian (calendar-current-date))))
            (cn-month (cl-caddr  cn-date))
@@ -183,6 +183,7 @@ normal weight to distinguish it from other elements."
 
   (defun my-dashboard-insert-weather-info ()
     "Insert weather info."
+    (require 'weather)
     (dashboard-insert-center
      (weather-info))))
 
@@ -207,6 +208,7 @@ window or buffer.  The around advice avoids `dashboard-open''s
 (defun my-dashboard-refresh ()
   "Refresh dashboard and ensure weather cache is fresh."
   (interactive)
+  (require 'weather)
   (my-dashboard-redraw)
   (weather-ensure-fresh #'my-dashboard-redraw-if-visible))
 
@@ -339,7 +341,11 @@ then calls `open-dashboard' to display it."
    (dashboard-setup-startup-hook)
    (add-hook 'window-setup-hook
              (lambda ()
-               (weather-ensure-fresh #'my-dashboard-redraw-if-visible))))
+               (run-with-idle-timer
+                1 nil
+                (lambda ()
+                  (require 'weather)
+                  (weather-ensure-fresh #'my-dashboard-redraw-if-visible))))))
   ('scratch
    (add-hook 'window-setup-hook
              #'+evan/scratch-setup))

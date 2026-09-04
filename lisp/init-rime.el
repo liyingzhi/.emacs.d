@@ -24,7 +24,7 @@
 
 ;;; Code:
 
-(require 'rime)
+(with-eval-after-load 'rime
 
 (when sys/macp
   (custom-set-variables
@@ -123,6 +123,8 @@
   (with-eval-after-load 'orderless
     (add-to-list 'orderless-affix-dispatch-alist
                  `(?= . ,#'rime-chinese-orderless-regexp))))
+
+) ;; end with-eval-after-load 'rime
 
 (provide 'init-rime)
 ;;; init-rime.el ends here
