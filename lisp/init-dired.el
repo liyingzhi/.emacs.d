@@ -134,14 +134,49 @@
     ("C-o" "casual-dired-tmenu" casual-dired-tmenu)]]
   [("q" "Quit" transient-quit-all)])
 
+;;; Flat Dired compatibility with Dirvish
+;; Dirvish advises `dired-noselect' and assumes its argument is always a real
+;; directory.  `prot-dired-search-flat-list[-since-days]' create "virtual"
+;; Dired buffers from a (LABEL . FILES) cons, so Dirvish scans a bogus path in
+;; `dirvish--dir-data-async' and its sentinel then fails with:
+;;   Wrong type argument: hash-table-p, nil
+;; These wrappers temporarily disable that advice while creating the listing.
+
+(defmacro my/dired-without-dirvish (&rest body)
+  "Run BODY with Dirvish's `dired-noselect' advice removed.
+Re-add the advice afterwards, unless it was absent before BODY ran."
+  (declare (indent 0) (debug t))
+  `(let ((enabled (and (bound-and-true-p dirvish-override-dired-mode)
+                       (advice-member-p 'dirvish-dired-noselect-a 'dired-noselect))))
+     (unwind-protect
+         (progn
+           (when enabled (advice-remove 'dired-noselect #'dirvish-dired-noselect-a))
+           ,@body)
+       (when enabled
+         (advice-add 'dired-noselect :around #'dirvish-dired-noselect-a)))))
+
+(defun my/dired-search-flat-list ()
+  "Show flat Dired listing like `prot-dired-search-flat-list'.
+Safe to use when Dirvish overrides Dired."
+  (interactive)
+  (my/dired-without-dirvish
+   (call-interactively #'prot-dired-search-flat-list)))
+
+(defun my/dired-search-flat-list-since-days ()
+  "Show flat Dired listing like `prot-dired-search-flat-list-since-days'.
+Safe to use when Dirvish overrides Dired."
+  (interactive)
+  (my/dired-without-dirvish
+   (call-interactively #'prot-dired-search-flat-list-since-days)))
+
 ;;; Keymap
 
 (defvar-keymap my/dired-file-filter
   :doc "Dired file filter keymap"
   :prefix t
   "." '("Limit by regexp" . prot-dired-limit-regexp)
-  "*" '("Flat list by regexp" . prot-dired-search-flat-list)
-  "t" '("Flat list by regexp since days" . prot-dired-search-flat-list-since-days))
+  "*" '("Flat list by regexp" . my/dired-search-flat-list)
+  "t" '("Flat list by regexp since days" . my/dired-search-flat-list-since-days))
 
 (keymap-binds dired-mode-map
   (")" . dired-git-info-mode)
