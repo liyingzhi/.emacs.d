@@ -48,7 +48,7 @@
 
 (defun rime-predicate-gptel-preset-p ()
   "Whether point is in an `gptel-mode' and start input preset."
-  (and gptel-mode
+  (and (bound-and-true-p gptel-mode)
        (save-excursion
          (let ((pos (max (point-min) (1- (point)))))
            (char-equal (char-after pos) ?@)))))
