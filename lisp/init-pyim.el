@@ -86,9 +86,9 @@ Can be used in `rime-disable-predicates' and `rime-inline-predicates'."
 
 (when (and (boundp 'user/pinyin-regexp)
            (eq user/pinyin-regexp 'pyim))
+  (require 'pyim)
   (defun chinese-orderless-regexp (component)
     "Match COMPONENT as a chinese regexp via pyim."
-    (require 'pyim)
     (condition-case nil
         (pyim-cregexp-build
          (progn (string-match-p component "")
