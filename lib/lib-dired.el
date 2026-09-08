@@ -210,7 +210,9 @@ Restore the buffer with \\<dired-mode-map>`\\[revert-buffer]'."
   "Return a Dired buffer for files matching REGEXP.
 Perform the search recursively from the current directory."
   (interactive (list (prot-dired-regexp-prompt)))
-  (if-let* ((files (prot-dired--get-files regexp))
+  (if-let* ((files (prot-dired--get-files (if (fboundp 'pyim-cregexp-build)
+                                              (pyim-cregexp-build regexp)
+                                            regexp)))
             (relative-paths (mapcar #'file-relative-name files)))
       (dired (cons (format "prot-flat-dired for `%s'" regexp) relative-paths))
     (error "No files matching `%s'" regexp)))
@@ -237,7 +239,9 @@ Perform the search recursively from the current directory."
    (list
     (prot-dired-regexp-prompt)
     (prot-dired-days-prompt)))
-  (if-let* ((files (prot-dired--get-files regexp)))
+  (if-let* ((files (prot-dired--get-files (if (fboundp 'pyim-cregexp-build)
+                                              (pyim-cregexp-build regexp)
+                                            regexp))))
       (if-let* ((files-filtered (prot-dired--get-last-modified files days))
                 (relative-paths (mapcar #'file-relative-name files-filtered)))
           (dired (cons (format "prot-flat-dired since %d days for `%s'" days regexp) relative-paths))
