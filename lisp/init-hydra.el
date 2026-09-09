@@ -66,8 +66,8 @@
     ("C" customize-set-variable "Customize set variable" :exit t)
     ("G" customize-group "Customize set group" :exit t))
    "LLM"
-   (("l f" my/switch-gptel-llm "llm free" :toggle (equal gptel-model user/ai-model-free))
-    ("l c" my/switch-gptel-llm-coder "llm coder" :toggle (equal gptel-model user/ai-model-coder)))))
+   (("l f" my/switch-gptel-llm "llm free" :toggle (and (boundp 'gptel-mode) (equal gptel-model user/ai-model-free)))
+    ("l c" my/switch-gptel-llm-coder "llm coder" :toggle (and (boundp 'gptel-mode) (equal gptel-model user/ai-model-coder))))))
 
 (global-set-keys
  '(("C-c T" . hydra-toggles/body)
