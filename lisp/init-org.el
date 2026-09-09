@@ -7,6 +7,10 @@
 ;;; Commentary:
 
 ;;; Code:
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (run-with-idle-timer 0.2 nil #'(lambda ()
+                                             (require 'org)))))
 
 ;; Defer Org load: configuration runs on first `org' use (file, capture, agenda).
 (with-eval-after-load 'org
