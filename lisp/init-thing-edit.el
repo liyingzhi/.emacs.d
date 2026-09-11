@@ -1,3 +1,4 @@
+;;; init-thing-edit.el --- init thing edit  -*- lexical-binding: t; -*-
 
 ;;; Code:
 

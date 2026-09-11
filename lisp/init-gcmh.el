@@ -1,3 +1,5 @@
+;;; init-gcmh.el --- init gcmh  -*- lexical-binding: t; -*-
+
 (require 'gcmh)
 (setq gcmh-idle-delay 10)
 (setq gcmh-high-cons-threshold #x6400000)

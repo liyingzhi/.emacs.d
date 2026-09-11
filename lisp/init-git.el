@@ -1,4 +1,3 @@
-
 ;;; init-git.el --- init package about git           -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2025  lizqwer scott
