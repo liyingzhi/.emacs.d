@@ -79,9 +79,6 @@
         denote-link-description-function #'ews-denote-link-description-title-case
         denote-rename-buffer-mode t)
 
-(setopt denote-templates
-        '((week-report . denote-week-report-template)))
-
 (with-eval-after-load 'denote
   ;; for fix `denote--file-has-backlinks-p', use old.
   (advice-add #'denote--file-has-backlinks-p
@@ -336,6 +333,9 @@ Falls back to `citar-open-entry' if not in a Denote file or no any reference."
           "\n"
           "* 下周工作计划"
           "\n"))
+
+(setopt denote-templates
+        '((week-report . denote-week-report-template)))
 
 ;; (setopt denote-journal-signature
 ;;         (lambda ()
