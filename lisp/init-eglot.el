@@ -28,7 +28,11 @@
 
 ;; Safe before eglot loads: defcustoms / variables only.
 (setq eglot-autoshutdown t
-      eglot-events-buffer-size 0
+      eglot-sync-connect nil
+      ;; Disable event logging completely (Emacs >= 30)
+      eglot-events-buffer-config '(:size 0 :format short)
+      ;; For Emacs <= 29
+      ;; eglot-events-buffer-size 0
       eglot-send-changes-idle-time 0.5
       eglot-code-action-indications '(eldoc-hint)
       eglot-ignored-server-capabilities
