@@ -129,10 +129,18 @@
     (axis-mode)))
 
 ;;; AI — defer until first gptel/magit use (keeps startup free of gptel stack)
+(defvar user/init-ai--loading nil
+  "Non-nil while `init-ai' is being loaded.")
+
 (defun user/require-init-ai (&rest _)
-  "Load `init-ai' once on first AI-related use."
-  (unless (featurep 'init-ai)
-    (require 'init-ai)))
+  "Load `init-ai' once on first AI-related use.
+
+`init-ai' loads `gptel', which fires the gptel entry below before
+`init-ai' has provided itself; the dynamic guard makes that nested
+call a no-op instead of loading the file a second time."
+  (unless (or user/init-ai--loading (featurep 'init-ai))
+    (let ((user/init-ai--loading t))
+      (require 'init-ai))))
 
 (dolist (cmd '(gptel
                gptel-menu
