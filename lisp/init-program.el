@@ -480,6 +480,8 @@ ARGS is ORIG-FN args."
 (setq json-ts-mode-indent-offset 4)
 
 ;;; markdown
+(autoload 'markdown-ts-mode "markdown-ts-mode" nil t)
+
 (add-hook 'markdown-ts-mode-hook #'markdown-indent-mode)
 
 (with-eval-after-load 'markdown-ts-mode
