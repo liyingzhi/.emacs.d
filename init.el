@@ -128,43 +128,8 @@
              (not (file-remote-p buffer-file-name)))
     (axis-mode)))
 
-;;; AI — defer until first gptel/magit use (keeps startup free of gptel stack)
-(defvar user/init-ai--loading nil
-  "Non-nil while `init-ai' is being loaded.")
-
-(defun user/require-init-ai (&rest _)
-  "Load `init-ai' once on first AI-related use.
-
-`init-ai' loads `gptel', which fires the gptel entry below before
-`init-ai' has provided itself; the dynamic guard makes that nested
-call a no-op instead of loading the file a second time."
-  (unless (or user/init-ai--loading (featurep 'init-ai))
-    (let ((user/init-ai--loading t))
-      (require 'init-ai))))
-
-(dolist (cmd '(gptel
-               gptel-menu
-               gptel-send
-               gptel-quick
-               gptel-aibo
-               gptel-agent
-               gptel-context-add
-               gptel-add-file
-               gptel-translate-buffer
-               gptel-translate-at-point
-               gptel-translate-to-english
-               gptel-translate-to-english-insert
-               agental-global-chat
-               agental-project-chat
-               my/switch-gptel-llm
-               my/switch-gptel-llm-coder))
-  (advice-add cmd :before #'user/require-init-ai))
-
-(with-eval-after-load 'gptel
-  (user/require-init-ai))
-
-(with-eval-after-load 'magit
-  (user/require-init-ai))
+;;; Ai
+(require 'init-ai)
 
 ;;; Programming
 (require 'init-git)

@@ -24,8 +24,6 @@
 
 ;;; Code:
 
-(require 'init-gptel)
-
 (defun set-ai-completion (symbol value)
   "Set font SYMBOL VALUE."
   (dolist (mode '(python-ts-mode rust-ts-mode c++-ts-mode web-mode bash-ts-mode go-ts-mode csharp-mode csharp-ts-mode))
@@ -130,10 +128,43 @@
   (with-eval-after-load 'magit
     (ai-code-magit-setup-transients)))
 
+;;; gptel — defer until first gptel/magit use
+(defvar user/init-gptel--loading nil
+  "Non-nil while `init-gptel' is being loaded.")
 
+(defun user/require-init-gptel (&rest _)
+  "Load `init-gptel' once on first AI-related use.
 
-;;; mcp
-(require 'init-mcp)
+`init-gptel' loads `gptel', which fires the gptel entry below before
+`init-gptel' has provided itself; the dynamic guard makes that nested
+call a no-op instead of loading the file a second time."
+  (unless (or user/init-gptel--loading (featurep 'init-gptel))
+    (let ((user/init-gptel--loading t))
+      (require 'init-gptel))))
+
+(dolist (cmd '(gptel
+               gptel-menu
+               gptel-send
+               gptel-quick
+               gptel-aibo
+               gptel-agent
+               gptel-context-add
+               gptel-add-file
+               gptel-translate-buffer
+               gptel-translate-at-point
+               gptel-translate-to-english
+               gptel-translate-to-english-insert
+               agental-global-chat
+               agental-project-chat
+               my/switch-gptel-llm
+               my/switch-gptel-llm-coder))
+  (advice-add cmd :before #'user/require-init-gptel))
+
+(with-eval-after-load 'gptel
+  (require 'init-mcp))
+
+(with-eval-after-load 'magit
+  (user/require-init-gptel))
 
 (provide 'init-ai)
 ;;; init-ai.el ends here

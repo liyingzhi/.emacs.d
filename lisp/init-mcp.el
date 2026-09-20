@@ -26,8 +26,6 @@
 
 (require 'mcp-hub)
 
-(require 'gptel)
-
 (setq mcp-hub-servers
       `(,@(when-let* ((key (lizqwer/api-key-from-auth-source "api.github.com" "lizqwerscott^mcp")))
             `(("github" . (
