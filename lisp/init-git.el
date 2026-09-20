@@ -76,6 +76,10 @@
   (keymap-unset diff-mode-shared-map "k"))
 
 ;;; magit
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (run-with-idle-timer 1 nil #'(lambda ()
+                                           (require 'magit)))))
 
 ;; ANCHOR: magit-todos keyword text
 ;; (require 'magit-todos)
