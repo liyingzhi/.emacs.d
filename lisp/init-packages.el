@@ -181,7 +181,7 @@
     (cond-let :host github :repo "tarsius/cond-let")
     magit
     magit-delta
-    (magit-standup :host github :repo "function-artisans/magit-standup")
+    magit-standup
     consult-magit
     git-link
     forge
