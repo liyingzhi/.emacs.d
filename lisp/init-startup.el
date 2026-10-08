@@ -265,6 +265,7 @@ ARG is passed through to ORIG-FUN."
 (setq save-interprogram-paste-before-kill t)
 
 (setq x-select-enable-clipboard-manager nil)
+(setq x-selection-timeout 100)
 
 (setq ad-redefinition-action 'accept)
 

@@ -45,6 +45,9 @@
 (when (boundp 'pgtk-use-im-context-on-new-connection)
   (setq pgtk-use-im-context-on-new-connection nil))
 
+(when (boundp 'pgtk-wait-for-event-timeout)
+  (setq pgtk-wait-for-event-timeout 0.001))
+
 (setopt user-lisp-auto-scrape nil)
 
 ;; Local Variables:

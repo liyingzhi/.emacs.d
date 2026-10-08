@@ -23,6 +23,13 @@
 ;; To fix the issue where SVG appears too large on high-resolution screens.
 (setopt image-scaling-factor 1.0)
 
+;; Apply to all future frames, including emacsclient frames
+(add-to-list 'default-frame-alist '(wait-for-wm . nil))
+
+;; Apply immediately to the startup frame if a GUI frame exists
+(when (display-graphic-p)
+  (modify-frame-parameters nil '((wait-for-wm . nil))))
+
 ;;; Title
 (setq frame-title-format '("Emacs - %b")
       icon-title-format frame-title-format)
