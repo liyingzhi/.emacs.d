@@ -105,5 +105,10 @@ return (HOSTING-SITE OWNER REPO-NAME)。"
 ;;; straight-overview
 (setopt straight-overview-build-on-pull t)
 
+(with-eval-after-load 'straight-overview
+  (keymap-binds straight-overview-mode-map
+    ("S" . hydra-straight-helper/body)
+    ("s" . tabulated-list-sort)))
+
 (provide 'init-straight)
 ;;; init-straight.el ends here

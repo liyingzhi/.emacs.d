@@ -181,6 +181,12 @@
 
 (add-hook 'csv-mode-hook #'display-line-numbers-mode)
 
+;;; tabulated-list
+(with-eval-after-load 'tabulated-list
+  (keymap-binds tabulated-list-mode-map
+    ("TAB" . tabulated-list-next-column)
+    (("<backtab>" "S-TAB") . tabulated-list-previous-column)))
+
 ;;; aggressive-indent
 (add-hooks '(emacs-lisp-mode lisp-mode)
            #'aggressive-indent-mode )
