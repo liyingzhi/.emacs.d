@@ -151,6 +151,26 @@
                  'face 'font-lock-comment-face)))
   (advice-add #'dashboard-insert-footer :after #'my-dashboard-insert-copyright)
 
+  ;; Drop remote entries (`/rpc:', `/ssh:', `/sshx:' — EAF/rpc, sshx mounts)
+  ;; from the projects list so only local project roots are shown.
+  (defun my-dashboard-projects-backend-load-projects--drop-remote (orig-fn &rest args)
+    "Around advice for `dashboard-projects-backend-load-projects'.
+Remove any string item starting with `/rpc:', `/ssh:' or `/sshx:' from the
+returned project list, keeping local project roots."
+    (let ((projects (apply orig-fn args))
+          (keep nil))
+      (dolist (p projects)
+        (unless (and (stringp p)
+                     (or (string-prefix-p "/rpc:" p)
+                         (string-prefix-p "/ssh:" p)
+                         (string-prefix-p "/sshx:" p)))
+          (push p keep)))
+      (nreverse keep)))
+
+  (advice-add #'dashboard-projects-backend-load-projects
+              :around
+              #'my-dashboard-projects-backend-load-projects--drop-remote)
+
   ;; (defun my-dashboard-insert-time ()
   ;;   "Insert time info."
   ;;   (dashboard-insert-center
