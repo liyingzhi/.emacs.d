@@ -25,6 +25,7 @@ tree-sitter/*
 /straight/modified/
 /straight/build-cache.el
 /straight/watcher/
+/straight/versions/straight-overview-pinned.eld
 /mason/
 /site-lisp/
 /.dir-locals.el

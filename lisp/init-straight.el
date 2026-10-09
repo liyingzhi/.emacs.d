@@ -103,7 +103,10 @@ return (HOSTING-SITE OWNER REPO-NAME)。"
     (insert recipe)))
 
 ;;; straight-overview
-(setopt straight-overview-build-on-pull t)
+(setopt straight-overview-build-on-pull t
+        straight-overview-pinned-file (expand-file-name
+                                       "straight/versions/straight-overview-pinned.eld"
+                                       user-emacs-directory))
 
 (with-eval-after-load 'straight-overview
   (keymap-binds straight-overview-mode-map
