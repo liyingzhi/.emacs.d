@@ -213,6 +213,7 @@ current window."
  (:key "C" :description "Insert color" :command my-insert-color-hex :filename "init-func")
  (:key "g" :description "gptel" :command gptel)
  (:key "G" :description "gptel menu" :command gptel-menu)
+ (:key "r" :description "gptel-write" :command gptel-rewrite)
  (:key "h" :description "gptel aibo" :command gptel-aibo)
  (:key "H" :description "gptel agent" :command gptel-agent)
  (:key "a" :description "ai code / agent shell" :command (lambda ()
