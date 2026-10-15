@@ -49,7 +49,7 @@
   "Install all required language grammars."
   (interactive)
   (treesit-install-language-grammar 'elisp)
-  (let ((treesit-auto-langs '(bash c cpp lua python rust zig yaml toml cmake)))
+  (let ((treesit-auto-langs '(bash c cpp lua python rust zig yaml toml cmake markdown markdown-inline)))
     (treesit-auto-install-all)))
 
 ;; from https://github.com/renzmann/treesit-auto/issues/135#issuecomment-3314598444
@@ -488,6 +488,7 @@ ARGS is ORIG-FN args."
         markdown-ts-appear-heading-bullets '(?◉ ?○ ?✸ ?✿))
 
 (with-eval-after-load 'markdown-ts-mode
+  (require 'markdown-ts-mode-x)
   (keymap-binds markdown-ts-mode-map
     ("C-c C-e" . markdown-ts-convert)
     (("S-RET" "S-<return>") . markdown-ts-insert-list-item))
