@@ -484,10 +484,14 @@ ARGS is ORIG-FN args."
 
 (add-hook 'markdown-ts-mode-hook #'markdown-indent-mode)
 
+(setopt markdown-ts-appear-enable-mermaid-preview t
+        markdown-ts-appear-heading-bullets '(?◉ ?○ ?✸ ?✿))
+
 (with-eval-after-load 'markdown-ts-mode
   (keymap-binds markdown-ts-mode-map
     ("C-c C-e" . markdown-ts-convert)
-    (("S-RET" "S-<return>") . markdown-ts-insert-list-item)))
+    (("S-RET" "S-<return>") . markdown-ts-insert-list-item))
+  (add-hook 'markdown-ts-mode-hook #'markdown-ts-appear-mode))
 
 ;; repeat for outline navigation
 (defvar-keymap outline-navigation-repeat-map
