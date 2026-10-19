@@ -94,6 +94,7 @@
 (defvar *package-language-mode-install-list*
   '(markdown-indent-mode
     markdown-ts-appear
+    latex-to-svg-for-markdown
     log4j-mode
     just-mode
     elvish-mode

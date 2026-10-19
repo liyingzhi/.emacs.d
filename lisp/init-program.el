@@ -484,8 +484,11 @@ ARGS is ORIG-FN args."
 
 (add-hook 'markdown-ts-mode-hook #'markdown-indent-mode)
 
-(setopt markdown-ts-appear-enable-mermaid-preview t
-        markdown-ts-appear-heading-bullets '(?◉ ?○ ?✸ ?✿))
+(setopt markdown-ts-appear-heading-bullets '(?◉ ?○ ?✸ ?✿)
+        markdown-ts-appear-table-reveal 'table
+        markdown-ts-appear-enable-math-preview t
+        latex-to-svg-frontend-center-display-math t
+        markdown-ts-appear-diagram-renderers '(("mermaid" . markdown-ts-appear-diagram-mmdc)))
 
 (with-eval-after-load 'markdown-ts-mode
   (require 'markdown-ts-mode-x)
