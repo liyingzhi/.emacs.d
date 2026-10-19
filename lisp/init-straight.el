@@ -102,6 +102,9 @@ return (HOSTING-SITE OWNER REPO-NAME)。"
                               repo-name)))
     (insert recipe)))
 
+(setopt magit-repository-directories
+        `((,(expand-file-name "straight/repos/" user-emacs-directory) . 1)))
+
 ;;; straight-overview
 (setopt straight-overview-build-on-pull t
         straight-overview-pinned-file (expand-file-name

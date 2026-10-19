@@ -213,7 +213,7 @@ In Dired, this uses the current Dired directory."
     ("B" "Blame" magit-blame)
     ("f" "Find git file" magit-find-file)
     ("j" "magit jump" consult-magit)
-    ]
+    ("l r" "magit list repos" magit-list-repositories)]
    ["Log"
     ("oh" "Region history" vc-region-history)
     ("ol" "File log" magit-log-buffer-file)
