@@ -92,10 +92,7 @@
     language-detection))
 
 (defvar *package-language-mode-install-list*
-  '(markdown-indent-mode
-    markdown-ts-appear
-    latex-to-svg-for-markdown
-    log4j-mode
+  '(log4j-mode
     just-mode
     elvish-mode
     git-modes
@@ -303,6 +300,11 @@
     org-rich-yank
     (org-media-note :host github :repo "yuchen-lea/org-media-note")))
 
+(defvar *package-markdown-install-list*
+  '(markdown-indent-mode
+    markdown-ts-appear
+    latex-to-svg-for-markdown))
+
 (defvar *package-write-install-list*
   '(nov
     (buffer-to-pdf :host github :repo "protesilaos/buffer-to-pdf")
@@ -415,6 +417,7 @@
          *package-window-install-list*
          *package-language-install-list*
          *package-org-install-list*
+         *package-markdown-install-list*
          *package-write-install-list*
          *package-ai-install-list*
          *package-toolkit-install-list*
