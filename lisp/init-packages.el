@@ -62,7 +62,7 @@
     trashed
     elisp-demos
     eros
-    (p-search :repo "zkry/p-search" :host github)
+    p-search
     heap
     (rsync-project-mode
      :host github
