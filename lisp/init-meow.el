@@ -276,7 +276,7 @@
   (meow-normal-define-key
    '("Q" . kill-buffer-and-window)
    '("?" . help-helpful-lsp-sly)
-   '("/" . consult-ripgrep)))
+   '("/" . meow-normal-/-key-enhance)))
 
 (with-eval-after-load 'vterm
   (meow-vterm-enable))

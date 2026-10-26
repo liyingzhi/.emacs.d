@@ -56,6 +56,16 @@ otherwise falls back to `meow-yank'."
       (call-interactively #'telega-msg-previous)
     (call-interactively #'meow-yank)))
 
+(defun meow-normal-/-key-enhance ()
+  "Enhanced /-key command for meow normal state.
+In telega chat mode, filter the current chat buffer with
+`telega-chatbuf-filter'; otherwise search the project with
+`consult-ripgrep'."
+  (interactive)
+  (if (eq major-mode 'telega-chat-mode)
+      (call-interactively #'telega-chatbuf-filter)
+    (call-interactively #'consult-ripgrep)))
+
 (defun my/meow-quit ()
   "Meow quit."
   (interactive)
