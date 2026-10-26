@@ -125,6 +125,8 @@
   ;; telega-mnz
   (global-telega-mnz-mode 1)
 
+  (telega-autoplay-mode 1)
+
   (with-hook telega-chat-mode
     (telega-completions-setup-capf)
     (my/telega-chat-capf)
