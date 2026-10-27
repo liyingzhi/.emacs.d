@@ -34,6 +34,15 @@
          (call-interactively #'org-return))
         (t (call-interactively #'goto-address-at-point))))
 
+(defun meow-smart-enter-goto-address-status ()
+  "Report whether point is on a `goto-address' overlay.
+Display the result in the echo area: a non-nil overlays at point
+means an address is highlighted here."
+  (let* ((pos (point))
+         (ovs (seq-filter (lambda (o) (overlay-get o 'goto-address))
+                          (overlays-at pos))))
+    (not (null ovs))))
+
 (defun meow-smart-enter-keymap-normal-filter (cmd)
   "Return CMD if `browse-url' and similar button bindings should be active.
 They are considered active only in read-only buffers."

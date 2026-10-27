@@ -103,29 +103,37 @@
 
 
   (defun my/markdown-ts-newline ()
-    "Continue a plain ordered or unordered Markdown list."
+    "Insert a newline, continuing a Markdown list item when relevant.
+In Meow normal state with point on a link or address, visit it with
+`goto-address-at-point' instead.  Inside a code block, or when point is
+not on a plain list item, defer to `markdown-ts-newline'.  Otherwise
+break the line and start a new item with the same indentation and
+bullet, incrementing the number of an ordered item.  On an item that
+has no content, delete the whole line to end the list."
     (interactive)
-    (font-lock-ensure (line-beginning-position) (line-end-position))
-    (if (or (markdown-ts-at-code-block-p)
-            (not (save-excursion
-                   (goto-char (line-beginning-position))
-                   (re-search-forward my/markdown-list-item-regexp
-                                      (line-end-position) t))))
-        (markdown-ts-newline)
-      (let ((prefix (match-string-no-properties 1))
-            (marker (match-string-no-properties 2))
-            (number (match-string-no-properties 3))
-            (delimiter (match-string-no-properties 4))
-            (content (match-string-no-properties 5)))
-        (if (string-empty-p (string-trim content))
-            (delete-region (line-beginning-position) (line-end-position))
-          (newline)
-          (insert prefix
-                  (if number
-                      (concat (number-to-string (1+ (string-to-number number)))
-                              delimiter)
-                    marker)
-                  " ")))))
+    (if (and (meow-normal-mode-p) (meow-smart-enter-goto-address-status))
+        (call-interactively #'goto-address-at-point)
+      (font-lock-ensure (line-beginning-position) (line-end-position))
+      (if (or (markdown-ts-at-code-block-p)
+              (not (save-excursion
+                     (goto-char (line-beginning-position))
+                     (re-search-forward my/markdown-list-item-regexp
+                                        (line-end-position) t))))
+          (markdown-ts-newline)
+        (let ((prefix (match-string-no-properties 1))
+              (marker (match-string-no-properties 2))
+              (number (match-string-no-properties 3))
+              (delimiter (match-string-no-properties 4))
+              (content (match-string-no-properties 5)))
+          (if (string-empty-p (string-trim content))
+              (delete-region (line-beginning-position) (line-end-position))
+            (newline)
+            (insert prefix
+                    (if number
+                        (concat (number-to-string (1+ (string-to-number number)))
+                                delimiter)
+                      marker)
+                    " "))))))
 
   (defun my/markdown-ts-limit-image-height (source &rest _)
     "Limit previews for SOURCE to eight character heights without a width cap."
@@ -216,7 +224,14 @@ Convert TIFF images to PNG for Markdown renderer compatibility."
                           '(image/tiff))))
     (yank-media-handler "image/.*" #'my/markdown-ts-yank-image))
 
+  (advice-add 'markdown-ts-appear-image--sync-views
+              :after #'my/markdown-ts-limit-image-height)
 
+  (add-hook 'markdown-ts-mode-hook #'my/markdown-ts-editing-setup)
+  (add-hook 'markdown-ts-mode-hook #'my/markdown-ts-yank-media-setup)
+  (add-hook 'markdown-ts-mode-hook #'markdown-ts-appear-mode)
+
+  ;;; menu
   (pretty-transient-define-prefix my/markdown-ts-insert-<structure ()
     "Transient markdown block structure menu.
 
@@ -275,14 +290,7 @@ otherwise insert marker pairs and place point between.
              (if (or (region-active-p) (looking-back "^\s*" (line-beginning-position)))
                  (call-interactively #'my/markdown-ts-insert-<structure)
                (self-insert-command 1))))
-    (">" . my/markdown-ts-insert->structure))
-
-  (advice-add 'markdown-ts-appear-image--sync-views :after
-              #'my/markdown-ts-limit-image-height)
-
-  (add-hook 'markdown-ts-mode-hook #'my/markdown-ts-editing-setup)
-  (add-hook 'markdown-ts-mode-hook #'my/markdown-ts-yank-media-setup)
-  (add-hook 'markdown-ts-mode-hook #'markdown-ts-appear-mode))
+    (">" . my/markdown-ts-insert->structure)))
 
 (provide 'init-markdown)
 ;;; init-markdown.el ends here
