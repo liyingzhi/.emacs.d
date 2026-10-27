@@ -42,6 +42,26 @@
 (with-eval-after-load 'markdown-ts-mode
   (require 'markdown-ts-mode-x)
 
+  (defvar my/markdown-image-directory-history nil
+    "History of directories used for yanked Markdown images.")
+
+  (defvar my/markdown-image-basename-history nil
+    "History of basenames used for yanked Markdown images.")
+
+  (defvar-local my/markdown-image-default-directory nil
+    "Default image directory, relative to the current Markdown file.")
+
+  (defconst my/markdown-list-item-regexp
+    "^\\([ \t]*\\(?:>[ \t]*\\)*\\)\\([-+*]\\|\\([0-9]+\\)\\([.)]\\)\\)[ \t]+\\(.*\\)$"
+    "Regexp matching a plain Markdown list item.")
+
+  (defconst my/markdown-heading-regexp
+    "^\\([ \t]*\\(?:>[ \t]*\\)*\\)\\(#+\\)[ \t]+\\(.*\\)$"
+    "Regexp matching a Markdown ATX heading.")
+
+  (put 'my/markdown-image-default-directory 'safe-local-variable
+       #'string-or-null-p)
+
   (defun my/markdown-ts-editing-setup ()
     "Enable personal Markdown editing helpers in the current buffer."
     (add-hook 'after-change-functions #'my/markdown-ts-refontify-fence nil t)
@@ -114,7 +134,8 @@ has no content, delete the whole line to end the list."
     (if (and (meow-normal-mode-p) (meow-smart-enter-goto-address-status))
         (call-interactively #'goto-address-at-point)
       (font-lock-ensure (line-beginning-position) (line-end-position))
-      (if (or (markdown-ts-at-code-block-p)
+      (if (or (and (fboundp 'markdown-ts-at-code-block-p)
+                   (markdown-ts-at-code-block-p))
               (not (save-excursion
                      (goto-char (line-beginning-position))
                      (re-search-forward my/markdown-list-item-regexp
@@ -135,6 +156,29 @@ has no content, delete the whole line to end the list."
                       marker)
                     " "))))))
 
+  (defun my/markdown-ts-new-heading ()
+    "Insert a newline, continuing a Markdown heading when relevant. ..."
+    (interactive)
+    (font-lock-ensure (line-beginning-position) (line-end-position))
+    (save-match-data
+      (let ((on-heading
+             (save-excursion
+               (goto-char (line-beginning-position))
+               (re-search-forward my/markdown-heading-regexp
+                                  (line-end-position) t))))
+        (if (or (and (fboundp 'markdown-ts-at-code-block-p)
+                     (markdown-ts-at-code-block-p))
+                (not on-heading))
+            (markdown-ts-newline)
+          (let ((prefix  (match-string-no-properties 1))
+                (level   (match-string-no-properties 2))
+                (content (or (match-string-no-properties 3) "")))
+            (if (string-empty-p (string-trim content))
+                (delete-region (line-beginning-position) (line-end-position))
+              (goto-char (line-end-position))
+              (newline)
+              (insert prefix level " ")))))))
+
   (defun my/markdown-ts-limit-image-height (source &rest _)
     "Limit previews for SOURCE to eight character heights without a width cap."
     (dolist (view (overlay-get source 'markdown-ts-appear-image--views))
@@ -150,22 +194,6 @@ has no content, delete the whole line to end the list."
                 (image-property image :max-height) height)
           (put-text-property position (1+ position) 'display image text)
           (overlay-put view 'after-string text)))))
-
-  (defvar my/markdown-image-directory-history nil
-    "History of directories used for yanked Markdown images.")
-
-  (defvar my/markdown-image-basename-history nil
-    "History of basenames used for yanked Markdown images.")
-
-  (defvar-local my/markdown-image-default-directory nil
-    "Default image directory, relative to the current Markdown file.")
-
-  (defconst my/markdown-list-item-regexp
-    "^\\([ \t]*\\(?:>[ \t]*\\)*\\)\\([-+*]\\|\\([0-9]+\\)\\([.)]\\)\\)[ \t]+\\(.*\\)$"
-    "Regexp matching a plain Markdown list item.")
-
-  (put 'my/markdown-image-default-directory 'safe-local-variable
-       #'string-or-null-p)
 
   (defun my/markdown-ts-yank-image (mimetype data)
     "Save image DATA of MIMETYPE and insert a Markdown image link.
@@ -277,12 +305,24 @@ otherwise insert marker pairs and place point between.
       (">" "Insert >" (insert ">"))]]
     [("q" "Quit" transient-quit-one)])
 
+  ;;; keymaps
   (keymap-binds markdown-ts-mode-map
     ("C-c C-e" . markdown-ts-convert)
+    ("M-L" . my/markdown-ts-newline)
+    ("RET" . my/markdown-ts-newline)
+    ("M-K" . markdown-ts-move-subtree-up)
+    ("M-J" . markdown-ts-move-subtree-down)
+    ("M-H" . markdown-ts-demote)
+    ("M-L" . markdown-ts-promote)
     ("RET" . my/markdown-ts-newline)
     ("<return>" . my/markdown-ts-newline)
     ("<kp-enter>" . my/markdown-ts-newline)
-    (("S-RET" "S-<return>") . markdown-ts-insert-list-item)
+    (("S-RET" "S-<return>") . (lambda ()
+                                "Insert markdown template."
+                                (interactive)
+                                (if (markdown-ts--heading-at-point)
+                                    (my/markdown-ts-new-heading)
+                                  (my/markdown-ts-newline))))
     (("C-s-y" "C-M-y") . yank-media)
     ("<" . (lambda ()
              "Insert markdown template."
