@@ -135,6 +135,7 @@
 (require 'init-git)
 (require 'init-citre)
 (require 'init-program)
+(require 'init-markdown)
 (require 'init-lsp)
 
 ;; ;; Enable Completion Preview mode in code buffers
