@@ -29,7 +29,7 @@
 (add-hook 'markdown-ts-mode-hook #'markdown-indent-mode)
 
 (setopt markdown-ts-appear-heading-bullets '(?◉ ?○ ?✸ ?✿)
-        markdown-ts-appear-table-reveal 'table
+        markdown-ts-appear-table-reveal 'row
         markdown-ts-appear-enable-math-preview t
         latex-to-svg-frontend-center-display-math t
         markdown-ts-appear-diagram-renderers '(("mermaid" . markdown-ts-appear-diagram-mmdc)))
