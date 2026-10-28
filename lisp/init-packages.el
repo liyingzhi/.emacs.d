@@ -88,7 +88,7 @@
     scratch
     show-font
     zoxide
-    (straight-overview :host github :repo "alberti42/straight-overview")
+    straight-overview
     language-detection))
 
 (defvar *package-language-mode-install-list*
