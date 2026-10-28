@@ -24,8 +24,6 @@
 
 ;;; Code:
 
-(require 'org)
-
 ;; ref:http://yummymelon.com/devnull/import-markdown-to-org-with-the-clipboard-in-emacs.html
 (defun org-import-yank-markdown-as-org ()
   "Yank Markdown text as Org.
