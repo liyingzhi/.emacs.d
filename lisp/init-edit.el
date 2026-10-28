@@ -87,7 +87,8 @@
       lazy-count-prefix-format "%s/%s "
       search-whitespace-regexp ".*?"
       isearch-repeat-on-direction-change t
-      isearch-wrap-pause nil)
+      isearch-wrap-pause nil
+      isearch-allow-motion t)
 
 ;; use selection to search
 (defadvice isearch-mode (around isearch-mode-default-string (forward &optional regexp op-fun recursive-edit word-p) activate)
