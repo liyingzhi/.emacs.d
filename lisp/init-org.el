@@ -433,21 +433,8 @@
               (yank-media)
               (cl-return-from 'finish t))
           (user-error)))
-      (let* ((escaped-kill (org-escape-code-in-string (current-kill 0)))
-             (needs-initial-newline
-              (save-excursion
-                (re-search-backward "\\S " (line-beginning-position) 'noerror)))
-             (link (org-rich-yank--link))
-             (paste (funcall org-rich-yank-format-paste
-                             org-rich-yank--lang
-                             escaped-kill
-                             link)))
-        (when needs-initial-newline
-          (insert "\n"))
-        (insert
-         (if org-rich-yank-add-target-indent
-             (org-rich-yank-indent paste)
-           paste)))))
+      (let* ((org-rich-yank-download-image nil))
+        (org-rich-yank))))
 
   (defun get-org-attach-file-path-at-point (&optional arg)
     "Get the absolute file path of the attachment link at point.
