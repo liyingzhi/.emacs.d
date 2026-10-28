@@ -127,7 +127,8 @@
     (diverted :host github :repo "xenodium/diverted")
     (home-row-expreg-diverted :host github :repo "bommbo/home-row-expreg-diverted")
     (tramp :type built-in)
-    (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc" :files ("lisp/*.el"))))
+    (tramp-rpc :host github :repo "ArthurHeymans/emacs-tramp-rpc" :files ("lisp/*.el"))
+    isearch-mb))
 
 (defvar *package-program-install-list*
   `(yasnippet

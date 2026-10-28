@@ -197,6 +197,9 @@
 (add-hooks '(python-mode python-ts-mode)
            #'indent-yank-mode)
 
+;; support emacs-rime in isearch
+(isearch-mb-mode 1)
+
 ;;; Outline indent
 (with-eval-after-load 'outline-indent
   (setq outline-indent-ellipsis " ▼"))

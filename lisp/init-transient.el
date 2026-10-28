@@ -41,6 +41,9 @@
 (with-eval-after-load 'isearch
   (keymap-set isearch-mode-map "C-o" #'casual-isearch-tmenu))
 
+(with-eval-after-load 'isearch-mb
+  (keymap-set isearch-mb-minibuffer-map "C-o" #'casual-isearch-tmenu))
+
 (with-eval-after-load 'ibuffer
   (keymap-sets ibuffer-mode-map
     '(("C-o" . casual-ibuffer-tmenu)
