@@ -24,6 +24,85 @@
 ;;; markdown
 ;; Ref: https://github.com/Thysrael/emacs.d
 
+(defun markdown-link--escape-text (s)
+  "Escape S for use as Markdown link text.
+A backslash is prepended before each of [, ], <, > and \\ so that
+they are literal in the link text."
+  (replace-regexp-in-string "[][\\<>]" "\\\\\\&" s))
+
+(defun markdown-link-escape (link)
+  "Escape LINK for use as a Markdown link destination.
+If LINK contains spaces, parentheses, or angle brackets, wrap it in
+angle brackets and percent-encode its embedded < and >.  Otherwise
+return LINK unchanged."
+  (if (string-match-p "[ ()<>]" link)
+      (concat "<"
+              (replace-regexp-in-string "<" "%3C"
+                                        (replace-regexp-in-string ">" "%3E" link))
+              ">")
+    link))
+
+(defun markdown-link-make-string (link &optional description)
+  "Build a Markdown link string from LINK and, optionally, DESCRIPTION.
+LINK is escaped with `markdown-link-escape' and used as the URL.
+If DESCRIPTION is a non-empty string, it is escaped with
+`markdown-link--escape-text' and used as the link text; otherwise
+the escaped LINK is used as the link text as well.  Raise an error
+if LINK is empty and DESCRIPTION is not a non-empty string."
+  (let ((description (and (org-string-nw-p description)
+                          (org-trim description))))
+    (cond
+     ((not (org-string-nw-p link))
+      (or description
+          (error "Empty link")))
+     (description
+      (format "[%s](%s)"
+              (markdown-link--escape-text description)
+              (markdown-link-escape link)))
+     (t
+      ;; Org 的 [[link]] 在 Markdown 里最接近的是 [link](link)
+      (format "[%s](%s)"
+              (markdown-link--escape-text link)
+              (markdown-link-escape link))))))
+
+(defun ar/markdown-insert-link-dwim ()
+  "Insert a Markdown link, inferring the URL and description where possible.
+
+- If the region is active, point is not inside a link, and the top
+  of the kill ring holds an HTTP(S) URL, replace the region with a
+  link whose description is the region text and whose target is
+  that URL.
+- Otherwise, if the top of the kill ring holds an HTTP(S) URL and
+  point is not inside a link, insert a link to that URL.  Its
+  description is prompted for, defaulting to the <title> of the
+  fetched page.
+- In all other cases, fall back to `org-insert-link' (this includes
+  when point is already inside a link)."
+  (interactive)
+  (let* ((point-in-link (org-in-regexp org-link-any-re 1))
+         (clipboard-url (when (and kill-ring (string-match-p "^http" (current-kill 0)))
+                          (current-kill 0)))
+         (region-content (when (region-active-p)
+                           (buffer-substring-no-properties (region-beginning)
+                                                           (region-end)))))
+    (cond ((and region-content clipboard-url (not point-in-link))
+           (delete-region (region-beginning) (region-end))
+           (insert (markdown-link-make-string clipboard-url region-content)))
+          ((and clipboard-url (not point-in-link))
+           (insert (markdown-link-make-string
+                    clipboard-url
+                    (read-string "title: "
+                                 (with-current-buffer (url-retrieve-synchronously clipboard-url)
+                                   (dom-text (car
+                                              (dom-by-tag (libxml-parse-html-region
+                                                           (point-min)
+                                                           (point-max))
+                                                          'title))))))))
+          (t
+           (if (fboundp 'org-insert-link)
+               (call-interactively 'org-insert-link)
+             (message "`org-insert-link' is not available"))))))
+
 (autoload 'markdown-ts-mode "markdown-ts-mode" nil t)
 
 (add-hook 'markdown-ts-mode-hook #'markdown-indent-mode)
@@ -308,6 +387,7 @@ otherwise insert marker pairs and place point between.
   ;;; keymaps
   (keymap-binds markdown-ts-mode-map
     ("C-c C-e" . markdown-ts-convert)
+    ("C-c C-l" . ar/markdown-insert-link-dwim)
     ("M-L" . my/markdown-ts-newline)
     ("RET" . my/markdown-ts-newline)
     ("M-K" . markdown-ts-move-subtree-up)
