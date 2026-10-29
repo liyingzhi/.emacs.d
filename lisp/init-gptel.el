@@ -158,6 +158,8 @@
              (concat user-emacs-directory
                      "config/prompts"))
 
+(setq agental-tool-show-tool-call nil)
+
 (agental-install (list :backend user/ai-backend
                        :model user/ai-model))
 
