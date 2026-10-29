@@ -90,6 +90,14 @@
   :protocol "http"
   :models user/local-models)
 
+(gptel-make-openai "local-llm-Rl2"
+  :stream t
+  :host user/local-llm-server-host
+  :endpoint "/v1/chat/completions"
+  :protocol "http"
+  :key #'gptel-api-key
+  :models user/local-models)
+
 (gptel-make-openai "ModelScope"
   :stream t
   :protocol "https"

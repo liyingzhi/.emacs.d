@@ -241,6 +241,11 @@ Each element should be a symbol representing a model name."
           (const :tag "No models" nil)
           (list :tag "Model list" (repeat symbol))))
 
+(defcustom user/local-llm-server-host "localhost:8080"
+  "Host and port of the local LLM Server."
+  :group 'user
+  :type 'string)
+
 (defcustom user/modelscope-models '(deepseek-ai/DeepSeek-V3)
   "List of available models for modelscope GPTel backend.
 Each element should be a symbol representing a model name."
