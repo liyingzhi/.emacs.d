@@ -110,6 +110,7 @@
     ("n i" "Set id" denote-project-notes-set-identifier)]
    ["Other"
     ("v" "Magit status" unpackaged/magit-project-status)
+    ("=" "format" projection-format-project)
     ("r" "Rsync" rsync-project-dispatch)
     ("t" "Term" project-term)
     ("s" "Eshell" project-eshell)
