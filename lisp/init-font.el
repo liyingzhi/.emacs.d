@@ -97,7 +97,7 @@ FONT-SIZE is the default font size."
              when (font-installed-p font)
              return (progn
                       ;; (setq face-font-rescale-alist `((,font . 1.2)))
-
+                      (add-list-to-list 'face-font-rescale-alist `((,font . ,user/CJK-font-rescale)))
                       ;; Do not use 'unicode charset, it will cause the English font setting invalid
                       ;; kana       = Japanese Hiragana & Katakana (e.g., あ, ア)
                       ;; han        = Chinese characters used in Chinese/Japanese/Korean (e.g., 中, 日, 韓)
@@ -143,6 +143,11 @@ FONT-SIZE is the default font size."
   (set-default-toplevel-value symbol value)
   (setup-fonts value))
 
+(defun set-CJK-font-rescale (symbol value)
+  "Set font SYMBOL VALUE."
+  (set-default-toplevel-value symbol value)
+  (setup-fonts))
+
 (defcustom user/font-size (cond (sys/macp user/default-mac-font-size)
                                 (sys/win32p user/default-win-font-size)
                                 (t user/default-linux-font-size))
@@ -151,6 +156,14 @@ An integer value specifies font height in units of 1/10 pt."
   :group 'user
   :type 'number
   :set #'set-font-size)
+
+(defcustom user/CJK-font-rescale 1
+  "Scale factor for CJK font size relative to `user/font-size'.
+A value of 1 means CJK fonts are the same size as the default font.
+For example, 1.2 makes CJK fonts 20% larger."
+  :group 'user
+  :type 'number
+  :set #'set-CJK-font-rescale)
 
 (defcustom user/icon-font-size nil
   "The icon font size.
