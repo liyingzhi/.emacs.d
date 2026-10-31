@@ -97,7 +97,7 @@ FONT-SIZE is the default font size."
              when (font-installed-p font)
              return (progn
                       ;; (setq face-font-rescale-alist `((,font . 1.2)))
-                      (add-list-to-list 'face-font-rescale-alist `((,font . ,user/CJK-font-rescale)))
+                      ;; (add-list-to-list 'face-font-rescale-alist `((,font . ,user/CJK-font-rescale)))
                       ;; Do not use 'unicode charset, it will cause the English font setting invalid
                       ;; kana       = Japanese Hiragana & Katakana (e.g., あ, ア)
                       ;; han        = Chinese characters used in Chinese/Japanese/Korean (e.g., 中, 日, 韓)
@@ -130,10 +130,44 @@ FONT-SIZE is the default font size."
   ;; Hide U+FFF4 on all platforms.
   (set-char-table-range glyphless-char-display #xFFF4 'zero-width))
 
+(defun my/font-set-rescale (font scale)
+  "Set the rescale factor for FONT to SCALE in `face-font-rescale-alist'.
+If an entry for FONT already exists, update it in place; otherwise
+push a new (FONT . SCALE) entry onto the alist."
+  (let ((entry (assoc font face-font-rescale-alist)))
+    (if entry
+        (setcdr entry scale)
+      (push `(,font . ,scale) face-font-rescale-alist))))
+
+(defun my/font-measure-rescale (char1 char2)
+  "Return the rescale factor of CHAR1 relative to CHAR2.
+Measure the string pixel-width ratio of CHAR1 to CHAR2 at scale 1;
+the factor 2.0 accounts for CJK characters being double-width
+relative to Latin characters.
+
+For example, (my/font-measure-rescale \"h\" \"汉\") returns 1.0 when
+the font has the correct 1:2 Latin-to-CJK width ratio."
+  (/ (* 2.0 (string-pixel-width char1))
+     (string-pixel-width char2)))
+
+(defun my/setup-zh-font-rescale ()
+  "Set font rescale factors for the first setup Chinese font.
+Iterate over `user/favourite-zh-fonts' followed by `user/fallback-zh-fonts';
+for the first font that is installed, set the rescale for Latin glyphs to 1
+and the CJK rescale to the factor measured by `my/font-measure-rescale'."
+  (cl-loop for font in (append user/favourite-zh-fonts
+                               user/fallback-zh-fonts)
+           when (font-installed-p font)
+           return (progn
+                    (my/font-set-rescale font 1)
+                    (my/font-set-rescale font (my/font-measure-rescale "h" "汉")))))
+
 ;;; setup default font
 (add-hook 'window-setup-hook #'setup-fonts)
-(add-hook 'server-after-make-frame-hook #'setup-fonts)
+(add-hook 'window-setup-hook #'my/setup-zh-font-rescale 100)
 
+(add-hook 'server-after-make-frame-hook #'setup-fonts)
+(add-hook 'server-after-make-frame-hook #'my/setup-zh-font-rescale 100)
 
 ;; Ignore misc-fixed bitmap fonts to prevent them from being used as fallback
 (add-list-to-list 'face-ignored-fonts '("-misc-fixed-.*"))
