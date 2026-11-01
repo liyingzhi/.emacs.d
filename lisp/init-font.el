@@ -160,14 +160,16 @@ and the CJK rescale to the factor measured by `my/font-measure-rescale'."
            when (font-installed-p font)
            return (progn
                     (my/font-set-rescale font 1)
-                    (my/font-set-rescale font (my/font-measure-rescale "h" "汉")))))
+                    (set-fontset-font t 'han (font-spec :family font))
+                    (my/font-set-rescale font (my/font-measure-rescale "h" "汉"))
+                    (set-fontset-font t 'han (font-spec :family font)))))
 
 ;;; setup default font
 (add-hook 'window-setup-hook #'setup-fonts)
-(add-hook 'window-setup-hook #'my/setup-zh-font-rescale 100)
+(add-hook 'window-setup-hook #'my/setup-zh-font-rescale 99)
 
 (add-hook 'server-after-make-frame-hook #'setup-fonts)
-(add-hook 'server-after-make-frame-hook #'my/setup-zh-font-rescale 100)
+(add-hook 'server-after-make-frame-hook #'my/setup-zh-font-rescale 99)
 
 ;; Ignore misc-fixed bitmap fonts to prevent them from being used as fallback
 (add-list-to-list 'face-ignored-fonts '("-misc-fixed-.*"))
