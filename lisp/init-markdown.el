@@ -108,6 +108,7 @@ if LINK is empty and DESCRIPTION is not a non-empty string."
 (add-hook 'markdown-ts-mode-hook #'markdown-indent-mode)
 
 (setopt markdown-ts-appear-heading-bullets '(?◉ ?○ ?✸ ?✿)
+        markdown-ts-appear-auto-start nil
         markdown-ts-appear-table-reveal 'row
         markdown-ts-appear-enable-math-preview t
         latex-to-svg-frontend-center-display-math t
@@ -331,6 +332,17 @@ Convert TIFF images to PNG for Markdown renderer compatibility."
                           '(image/tiff))))
     (yank-media-handler "image/.*" #'my/markdown-ts-yank-image))
 
+  (defun my/toggle-markdown-ts-appear-tracking-semantic ()
+    "Toggle source tracking for the semantic Markdown element at point.
+Only acts when `markdown-ts-appear-mode' is active.  Stops tracking
+and restores hidden markup with `markdown-ts-appear-stop' when
+`markdown-ts-appear--update' is in `post-command-hook'; otherwise
+starts it with `markdown-ts-appear-start'."
+    (interactive)
+    (when markdown-ts-appear-mode (if (memq #'markdown-ts-appear--update post-command-hook)
+                                      (markdown-ts-appear-stop)
+                                    (markdown-ts-appear-start))))
+
   (advice-add 'markdown-ts-appear-image--sync-views
               :after #'my/markdown-ts-limit-image-height)
 
@@ -381,6 +393,7 @@ otherwise insert marker pairs and place point between.
       ("a" "Bold & Italic" (markdown-ts-emphasize ?a))
       ("e" "Emphasize" markdown-ts-emphasize)]
      ["Misc"
+      ("t" "Toggle tracking" (my/toggle-markdown-ts-appear-tracking-semantic))
       (">" "Insert >" (insert ">"))]]
     [("q" "Quit" transient-quit-one)])
 
