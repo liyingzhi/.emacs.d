@@ -287,7 +287,6 @@
     ox-hugo
     org-appear
     org-journal
-    valign
     ftable
     (pangu-spacing
      :host github

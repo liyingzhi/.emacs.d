@@ -368,11 +368,6 @@
 ;;                                       :color "grey75"
 ;;                                       :style released-button))))
 
-
-(setopt valign-fancy-bar t)
-;; (setopt valign-max-table-size 1000)
-;; (add-hook 'org-mode-hook #'valign-mode)
-
 (setopt org-fancy-priorities-list
         '((?A . "⚡")
           (?B . "B")
@@ -593,7 +588,6 @@ prepended to the element after the #+HEADER: tag."
     ("m" "Hide Emphasis Markers" org-toggle-display-emphasis-markers :toggle org-hide-emphasis-markers :transient t)
     ("e" "Display Pretty Entities" org-toggle-pretty-entities :toggle org-pretty-entities :transient t)
     ("i" "Buffer Link Preview" org-toggle-buffer-link-preview :toggle org-link-preview-overlays :transient t)
-    ("v" "Toggle Valign" valign-mode :toggle t :transient t)
     ("s" "Toggle sliced image" org-sliced-images-mode :toggle t :transient t)]
    ["Org Management"
     :if (lambda ()
