@@ -56,6 +56,8 @@ FONT-SIZE is the default font size."
     (set-face-like-default 'fixed-pitch)
     (set-face-like-default 'fixed-pitch-serif)
     (set-face-like-default 'variable-pitch)
+    ;; Enable `variable-pitch-mode' on ROI hooks so that `buffer-face-mode' is
+    ;; set up buffer-locally, replacing the `default' face with `variable-pitch'.
 
     ;; Set mode-line font
     ;; (cl-loop for font in '("Menlo" "SF Pro Display" "Helvetica")
