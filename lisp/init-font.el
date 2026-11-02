@@ -100,6 +100,9 @@ FONT-SIZE is the default font size."
              return (progn
                       ;; (setq face-font-rescale-alist `((,font . 1.2)))
                       ;; (add-list-to-list 'face-font-rescale-alist `((,font . ,user/CJK-font-rescale)))
+
+                      ;; Correct the CJK rescale factor so that CJK characters align with Latin characters
+                      (my/setup-cjk-rescale font)
                       ;; Do not use 'unicode charset, it will cause the English font setting invalid
                       ;; kana       = Japanese Hiragana & Katakana (e.g., あ, ア)
                       ;; han        = Chinese characters used in Chinese/Japanese/Korean (e.g., 中, 日, 韓)
@@ -141,37 +144,74 @@ push a new (FONT . SCALE) entry onto the alist."
         (setcdr entry scale)
       (push `(,font . ,scale) face-font-rescale-alist))))
 
-(defun my/font-measure-rescale (char1 char2)
-  "Return the rescale factor of CHAR1 relative to CHAR2.
-Measure the string pixel-width ratio of CHAR1 to CHAR2 at scale 1;
-the factor 2.0 accounts for CJK characters being double-width
-relative to Latin characters.
+(defun my/font-latin-cjk-width-ratio (latin cjk)
+  "Return the ratio of 2 LATIN glyph widths to 1 CJK glyph width.
 
-For example, (my/font-measure-rescale \"h\" \"汉\") returns 1.0 when
-the font has the correct 1:2 Latin-to-CJK width ratio."
-  (/ (* 2.0 (string-pixel-width char1))
-     (string-pixel-width char2)))
+LATIN and CJK are single-character strings (e.g. \"h\" and \"汉\").
+The widths are measured via `string-pixel-width' in the current font.
+The font's rescale factor should be 1 at measurement time so the result
+can be used as a CJK rescale factor; return 1.0 when 2 Latin glyphs are
+exactly as wide as 1 CJK glyph."
+  (/ (* 2.0 (string-pixel-width latin))
+     (string-pixel-width cjk)))
 
-(defun my/setup-zh-font-rescale ()
-  "Set font rescale factors for the first setup Chinese font.
-Iterate over `user/favourite-zh-fonts' followed by `user/fallback-zh-fonts';
-for the first font that is installed, set the rescale for Latin glyphs to 1
-and the CJK rescale to the factor measured by `my/font-measure-rescale'."
-  (cl-loop for font in (append user/favourite-zh-fonts
-                               user/fallback-zh-fonts)
-           when (font-installed-p font)
-           return (progn
-                    (my/font-set-rescale font 1)
-                    (set-fontset-font t 'han (font-spec :family font))
-                    (my/font-set-rescale font (my/font-measure-rescale "h" "汉"))
-                    (set-fontset-font t 'han (font-spec :family font)))))
+(defun my/setup-cjk-rescale (font)
+  "Correct FONT's CJK width rescale and map the `han' script to FONT.
+
+FONT is a font family name, e.g. \"Noto Sans SC\".  The rescale factor
+is the ratio of two Latin glyph widths to one CJK glyph width,
+measured at rescale factor 1 (see
+`my/font-latin-cjk-width-ratio'), and is written to
+`face-font-rescale-alist' so that CJK text is exactly twice as wide
+as Latin.  This corrects fonts whose CJK glyphs are not already twice
+as wide as their Latin glyphs.
+
+Return the face spec of the `han' entry (see `set-fontset-font')."
+  (my/font-set-rescale font 1)
+  (set-fontset-font t 'han (font-spec :family font))
+  (my/font-set-rescale font (my/font-latin-cjk-width-ratio "h" "汉"))
+  (set-fontset-font t 'han (font-spec :family font)))
+
+(defun my/measure-font-pixel-width (string &optional height font-family)
+  "Return the pixel width of STRING rendered at HEIGHT in FONT-FAMILY.
+
+STRING is measured in a temporary buffer whose `default' face is
+remapped to HEIGHT and/or FONT-FAMILY, so the result reflects the
+actual glyph metrics of that font configuration.
+
+HEIGHT, if non-nil, is a face height spec: an integer is an
+absolute height in 1/10 pt (120 means 12 pt), while a float is a
+scale factor relative to the default face (1.5 means 1.5x).
+
+FONT-FAMILY, if non-nil, is a font family name such as \"Maple
+Mono\".  Either argument may be given alone; when both are nil,
+STRING is measured in the default face.
+
+This requires a graphical frame.  On a TTY frame, Emacs falls back
+to character-width-based estimation, which is independent of
+HEIGHT and FONT-FAMILY.
+
+If STRING contains newlines, return the width of the widest
+newline-free substring, as with `string-pixel-width'.
+
+For example:
+  (my/measure-font-pixel-width \"h\")
+  (my/measure-font-pixel-width \"h\" 150)
+  (my/measure-font-pixel-width \"h\" 150 \"Iosevka Fixed\")
+  (my/measure-font-pixel-width \"汉\" 150 \"LXGW WenKai Mono\")"
+  (declare (important-return-value t))
+  (when font-family
+    (unless (font-installed-p font-family)
+      (user-error "Font %s is not installed" font-family)))
+  (with-temp-buffer
+    (when (or height font-family)
+      (buffer-face-set (append (when height (list :height height))
+                               (when font-family (list :family font-family)))))
+    (string-pixel-width string (current-buffer))))
 
 ;;; setup default font
 (add-hook 'window-setup-hook #'setup-fonts)
-(add-hook 'window-setup-hook #'my/setup-zh-font-rescale 99)
-
 (add-hook 'server-after-make-frame-hook #'setup-fonts)
-(add-hook 'server-after-make-frame-hook #'my/setup-zh-font-rescale 99)
 
 ;; Ignore misc-fixed bitmap fonts to prevent them from being used as fallback
 (add-list-to-list 'face-ignored-fonts '("-misc-fixed-.*"))
@@ -205,7 +245,7 @@ For example, 1.2 makes CJK fonts 20% larger."
 
 (defcustom user/icon-font-size nil
   "The icon font size.
-An `nil' value specifies icon font size same with `user/font-size'.
+An nil value specifies icon font size same with `user/font-size'.
 An integer value specifies font height in units of 1/10 pt."
   :group 'user
   :type '(choice (const nil) number))
@@ -215,6 +255,7 @@ An integer value specifies font height in units of 1/10 pt."
   :group 'user
   :type 'boolean)
 
+;;; setup buffer-specified font
 (defun set-buffer-font (font face-name)
   "Set the current buffer's font to FONT using FACE-NAME.
 If FONT is nil, use the default face entirely.
@@ -242,7 +283,6 @@ while preserving other default attributes."
                   (let ((face-name (intern (format "%s-font-face" mode))))
                     (set-buffer-font font face-name)))))))
 
-;;; setup buffer-specified font
 ;; (defconst *fallback-fonts* '("Jigmo" "Jigmo2" "Jigmo3"))
 ;; (defconst *font-size* 15)
 ;; (defconst *default-font* (format "MonoLisa Lucius %d" *font-size*))
