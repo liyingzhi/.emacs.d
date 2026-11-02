@@ -11,6 +11,13 @@
 (defconst user/default-linux-font-size 190
   "The default font size in linux.")
 
+(defcustom user/icon-font-size nil
+  "The icon font size.
+An nil value specifies icon font size same with `user/font-size'.
+An integer value specifies font height in units of 1/10 pt."
+  :group 'user
+  :type '(choice (const nil) number))
+
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."
   (find-font (font-spec :name font-name)))
@@ -34,13 +41,47 @@
     "PingFang SC" "Microsoft Yahei" "STFangsong")
   "Zh fonts to try in order when `user/favourite-zh-font' is unavailable.")
 
+;; setup nerd-icons font
+(require 'nerd-icons)
+
+(defun my/nerd-icons-set-font (font-size &optional font-family frame)
+  "Set fontset entries for nerd icons at FONT-SIZE using FONT-FAMILY on FRAME.
+For each known nerd icon character range, configure the fontset with
+a `font-spec' using FONT-FAMILY and size derived from FONT-SIZE.
+FONT-FAMILY defaults to `nerd-icons-font-family'.  FRAME defaults to
+the selected frame.
+This is a variant of `nerd-icons-set-font' that additionally accepts a
+numeric FONT-SIZE argument to control the icon glyph size."
+  (let ((font-f (or font-family nerd-icons-font-family))
+        (charsets '((#xe5fa . #xe6b9)  ;; Seti-UI + Custom
+                    (#xe700 . #xe8ef)  ;; Devicons
+                    (#xed00 . #xf2ff)  ;; Font Awesome
+                    (#xe200 . #xe2a9)  ;; Font Awesome Extension
+                    (#xf500 . #xfd46) (#xf0001 . #xf1af0) ;; Material Design Icons
+                    (#xe300 . #xe3e3)  ;; Weather
+                    (#xf400 . #xf533) #x2665 #x26a1  ;; Octicons
+                    (#xe0a0 . #xe0a3) (#xe0b0 . #xe0d7)  ;; Powerline Symbols + Extra
+                    (#x23fb . #x23fe) #x2b58  ;; IEC Power Symbols
+                    (#xf300 . #xf381)  ;; Font Logos
+                    (#xe000 . #xe00a)  ;; Pomicons
+                    (#xea60 . #xec1e))))  ;; Codicons
+    (cl-loop for charset in charsets do
+             (set-fontset-font
+              (frame-parameter nil 'font)
+              charset
+              (font-spec :family font-f
+                         :weight nil
+                         :size (/ font-size 10.0))
+              frame
+              'prepend))))
 
 (defun setup-fonts (&optional font-size)
   "Setup fonts.
 FONT-SIZE is the default font size."
   ;; Setting the default
   (when (display-graphic-p)
-    ;; Set default font
+
+    ;; Setup default font
     (cl-loop for font in (append user/favourite-fonts
                                  user/fallback-fonts)
              when (font-installed-p font)
@@ -51,6 +92,7 @@ FONT-SIZE is the default font size."
                                         :height (if font-size
                                                     font-size
                                                   user/font-size)))
+
     ;; Inline code and code blocks commonly inherit `fixed-pitch'.  Keep it
     ;; in sync with `default' so they use the configured default font too.
     (set-face-like-default 'fixed-pitch)
@@ -68,7 +110,7 @@ FONT-SIZE is the default font size."
     ;;                     (set-face-attribute 'mode-line-active nil :family font :height 120))
     ;;                   (set-face-attribute 'mode-line-inactive nil :family font :height 120)))
 
-    ;; Specify font for all unicode characters
+    ;; Setup specify font for all unicode characters
     ;; https://www.wfonts.com/font/symbola
     (cl-loop for font in '("Apple Symbols" "Segoe UI Symbol" "Symbola" "Symbol")
              when (font-installed-p font)
@@ -76,7 +118,7 @@ FONT-SIZE is the default font size."
                         (set-fontset-font "fontset-default" 'unicode font nil 'prepend)
                       (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
 
-    ;; Emoji
+    ;; Set up Emoji font
     ;; Use the dedicated emoji script without changing unrelated Unicode
     ;; fallbacks.  Keep emoji slightly smaller so Corfu rows are not clipped.
     ;; Overwrite the default list; prepend makes VS16 sequences use Symbola.
@@ -93,7 +135,7 @@ FONT-SIZE is the default font size."
     ;; Force Emacs to search by using font-spec
     (set-fontset-font t 'han (font-spec :script 'han) nil 'append)
 
-    ;; Specify font for Chinese characters
+    ;; Setup specify font for CJK characters font
     (cl-loop for font in (append user/favourite-zh-fonts
                                  user/fallback-zh-fonts)
              when (font-installed-p font)
@@ -103,6 +145,7 @@ FONT-SIZE is the default font size."
 
                       ;; Correct the CJK rescale factor so that CJK characters align with Latin characters
                       (my/setup-cjk-rescale font)
+
                       ;; Do not use 'unicode charset, it will cause the English font setting invalid
                       ;; kana       = Japanese Hiragana & Katakana (e.g., あ, ア)
                       ;; han        = Chinese characters used in Chinese/Japanese/Korean (e.g., 中, 日, 韓)
@@ -113,17 +156,26 @@ FONT-SIZE is the default font size."
                         (set-fontset-font t charset
                                           (font-spec :family font)))))
 
-    ;; Setting fall-back fonts
+    ;; Setup fall-back fonts
     ;; https://idiocy.org/emacs-fonts-and-fontsets.html
     (dolist (font '("Jigmo" "Jigmo2" "Jigmo3"))
       (when (member font (font-family-list))
         (set-fontset-font "fontset-default" 'han font nil 'append)))
 
+    ;; Set up tai-viet characters font
     (set-fontset-font (frame-parameter nil 'font)
                       'tai-viet
                       (font-spec :family "Noto Sans Tai Viet"))
 
-    (+setup-character-display)))
+    ;; Set up special characters font
+    (+setup-character-display)
+
+    ;; Set up nerd-icon characters font
+    (unless (find-font (font-spec :name nerd-icons-font-family))
+      (nerd-icons-install-fonts t))
+    (if (and user/icon-font-size (> user/icon-font-size 0))
+        (my/nerd-icons-set-font user/icon-font-size)
+      (nerd-icons-set-font))))
 
 (defun +setup-character-display ()
   "Set up special character composition and display."
@@ -243,13 +295,6 @@ For example, 1.2 makes CJK fonts 20% larger."
   :type 'number
   :set #'set-CJK-font-rescale)
 
-(defcustom user/icon-font-size nil
-  "The icon font size.
-An nil value specifies icon font size same with `user/font-size'.
-An integer value specifies font height in units of 1/10 pt."
-  :group 'user
-  :type '(choice (const nil) number))
-
 (defcustom user/ligature nil
   "Is use ligature."
   :group 'user
@@ -325,47 +370,6 @@ while preserving other default attributes."
         (global-hl-line-mode 1)))))
 
 (advice-add 'face-at-point :around #'+suggest-other-faces)
-
-;;; nerd-icons-set-font
-(require 'nerd-icons)
-
-(defun my/nerd-icons-set-font (font-size &optional font-family frame)
-  "Set fontset entries for nerd icons at FONT-SIZE using FONT-FAMILY on FRAME.
-For each known nerd icon character range, configure the fontset with
-a `font-spec' using FONT-FAMILY and size derived from FONT-SIZE.
-FONT-FAMILY defaults to `nerd-icons-font-family'.  FRAME defaults to
-the selected frame.
-This is a variant of `nerd-icons-set-font' that additionally accepts a
-numeric FONT-SIZE argument to control the icon glyph size."
-  (let ((font-f (or font-family nerd-icons-font-family))
-        (charsets '((#xe5fa . #xe6b9)  ;; Seti-UI + Custom
-                    (#xe700 . #xe8ef)  ;; Devicons
-                    (#xed00 . #xf2ff)  ;; Font Awesome
-                    (#xe200 . #xe2a9)  ;; Font Awesome Extension
-                    (#xf500 . #xfd46) (#xf0001 . #xf1af0) ;; Material Design Icons
-                    (#xe300 . #xe3e3)  ;; Weather
-                    (#xf400 . #xf533) #x2665 #x26a1  ;; Octicons
-                    (#xe0a0 . #xe0a3) (#xe0b0 . #xe0d7)  ;; Powerline Symbols + Extra
-                    (#x23fb . #x23fe) #x2b58  ;; IEC Power Symbols
-                    (#xf300 . #xf381)  ;; Font Logos
-                    (#xe000 . #xe00a)  ;; Pomicons
-                    (#xea60 . #xec1e))))  ;; Codicons
-    (cl-loop for charset in charsets do
-             (set-fontset-font
-              (frame-parameter nil 'font)
-              charset
-              (font-spec :family font-f
-                         :weight nil
-                         :size (/ font-size 10.0))
-              frame
-              'prepend))))
-
-(when (display-graphic-p)
-  (unless (find-font (font-spec :name nerd-icons-font-family))
-    (nerd-icons-install-fonts t))
-  (if (and user/icon-font-size (> user/icon-font-size 0))
-      (my/nerd-icons-set-font user/icon-font-size)
-    (nerd-icons-set-font)))
 
 ;;; 连体字体
 (with-eval-after-load 'ligature
