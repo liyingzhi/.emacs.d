@@ -417,14 +417,20 @@
           link))
 (customize-set-variable 'org-rich-yank-format-paste #'my-org-rich-yank-format-paste)
 
-(defun org-rich-yank-with-media ()
-  "Yank, surrounded by #+BEGIN_SRC block with major mode of originating buffer."
-  (interactive)
+(defun org-rich-yank-with-media (&optional noselect)
+  "Yank content from the clipboard into an Org source block.
+If the clipboard contains an image, insert it as an attachment via
+`yank-media' instead; otherwise yank it as an Org source block via
+`org-rich-yank'.
+Optional argument NOSELECT non-nil (interactively, with a prefix
+argument) means to skip auto-selecting the best MIME type when
+yanking the image."
+  (interactive "P")
   (cl-block 'finish
     (when (gui-backend-get-selection 'CLIPBOARD 'image/png)
       (condition-case _
           (progn
-            (yank-media)
+            (yank-media noselect)
             (cl-return-from 'finish t))
         (user-error)))
     (let* ((org-rich-yank-download-image nil))
