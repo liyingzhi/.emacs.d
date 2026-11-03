@@ -98,10 +98,12 @@
     ("c r" "Run" projection-commands-run-project)
     ("c t" "Test" projection-commands-test-project)
     ("m" "Mutli compile" projection-multi-compile)]
-   ["Dir Locals"
-    ("e e" "Edit" project-edit-dir-local)
-    ("e s" "Trust" project-add-to-safe-local-variable)
-    ("e a" "Add" project-add-dir-local-variable)]
+   ["Dir Locals and Tags"
+    ("e e" "Locals Edit" project-edit-dir-local)
+    ("e s" "Locals Trust" project-add-to-safe-local-variable)
+    ("e a" "Locals Add" project-add-dir-local-variable)
+    ("T u" "Tags Update" citre-update-this-tags-file)
+    ("T d" "Tags Delete" my/citre-delete-tags-files)]
    ["(De)Notes"
     :if (lambda ()
           (bound-and-true-p denote-project-notes-denote-directory))
@@ -114,7 +116,7 @@
     ("r" "Rsync" rsync-project-dispatch)
     ("t" "Term" project-term)
     ("s" "Eshell" project-eshell)
-    ("S" "blink search" project-blink-search )]]
+    ("S" "Blink search" project-blink-search )]]
   [("q" "Quit" transient-quit-all)])
 
 (provide 'init-project)
