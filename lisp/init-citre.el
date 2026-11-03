@@ -57,9 +57,9 @@ Prompt for confirmation before deleting the `.list`, `.ctags`, and
                              ctags-path
                              tags-path)))
         (when (yes-or-no-p promot)
-          (delete-file list-path)
-          (delete-file ctags-path)
-          (delete-file tags-path)
+          (delete-file list-path t)
+          (delete-file ctags-path t)
+          (delete-file tags-path t)
           (message "Delete Finished!")))
     (message "This project has no citre-tags-file!")))
 
