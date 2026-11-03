@@ -50,7 +50,7 @@
   (:title "Language" :color amaranth :quit-key ("C-g" "q" "<escape>") :all-exit t)
   ("Dict"
    (("d" quick-sdcv-search-at-point "sdcv dict point")
-    ("i" quick-sdcv-search-input "sdcv dict Input")
+    ("D" quick-sdcv-search-input "sdcv dict Input")
     ("f" fanyi-dwim2 "Fanyi Point")
     ("F" fanyi-dwim "Fanyi Input"))
 
