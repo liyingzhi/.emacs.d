@@ -168,7 +168,7 @@ See `jf/treesit-language-available-p' for usage.")
          '(flymake-popon ((t :inherit default :height 0.85)))
          `(flymake-popon-posframe-border ((t :foreground ,(face-background 'posframe-border nil t)))))
 
-        (add-hook #'flymake-mode-hook
+        (add-hook 'flymake-mode-hook
                   #'flymake-popon-mode))
        ('flycheck
         (wait-packages! '(flycheck consult-flycheck flycheck-package))

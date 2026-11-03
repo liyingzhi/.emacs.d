@@ -38,7 +38,7 @@
 
   (setopt gt-source-text-transformer #'(lambda (text) (replace-regexp-in-string "[\r\n]" " " text)))
 
-  (add-hook #'gt-buffer-render-output-hook  #'visual-line-mode)
+  (add-hook 'gt-buffer-render-output-hook  #'visual-line-mode)
 
   (if user/aider-deepseek-api
       (let* ((info (lizqwer/api-key-from-auth-source "deepseek.com")))

@@ -43,7 +43,7 @@
 (defun my/citre-delete-tags-files ()
   (interactive)
   (if (and citre--tags-file
-         (not (equal citre--tags-file 'none)))
+           (not (equal citre--tags-file 'none)))
       (let* ((path (string-remove-suffix ".tags" citre--tags-file))
              (list-path (concat path ".list"))
              (ctags-path (concat path ".ctags"))
@@ -59,7 +59,7 @@
           (message "Delete Finished!")))
     (message "This project has no citre-tags-file!")))
 
-(add-hook #'eglot-managed-mode-hook
+(add-hook 'eglot-managed-mode-hook
           #'(lambda ()
               (when (bound-and-true-p citre-mode)
                 (setq-local xref-backend-functions

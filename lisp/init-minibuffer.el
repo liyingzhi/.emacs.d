@@ -73,7 +73,7 @@
     ("C-j" . vertico-exit-input)
     ("/" . my/vertico-insert)))
 
-(add-hook #'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
+(add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
 
 (vertico-mode 1)
 

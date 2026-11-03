@@ -4,7 +4,7 @@
 
 (wait-packages! '(rust-mode cargo))
 
-(add-hook #'rust-ts-mode-hook
+(add-hook 'rust-ts-mode-hook
           #'(lambda ()
               (require 'rust-cargo)
               (require 'rust-compile)
