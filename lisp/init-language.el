@@ -23,7 +23,20 @@
 (with-eval-after-load 'fanyi
   (require 'ol-fanyi)
   (keymap-sets fanyi-mode-map
-    '(("M-<left>" . previous-buffer-dedicated-window)
+    '(("h" . meow-left)
+      ("j" . meow-next)
+      ("k" . meow-prev)
+      ("l" . meow-right)
+      ("x" . meow-line)
+      (";" . meow-reverse)
+      ("y" . meow-save)
+      ("W" . meow-mark-symbol)
+      ("L" . meow-right-expand)
+      ("H" . meow-left-expand)
+      ("J" . meow-next-expand)
+      ("K" . meow-prev-expand)
+      ("/" . fanyi-from-history)
+      ("M-<left>" . previous-buffer-dedicated-window)
       ("M-<right>" . next-buffer-dedicated-window))))
 
 ;;; dict

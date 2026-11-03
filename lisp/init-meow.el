@@ -30,7 +30,7 @@
         (help-mode . motion)
         (helpful-mode . motion)
         (devdocs-mode . normal)
-        (fanyi-mode . normal)
+        (fanyi-mode . motion)
         (eww-mode . normal)
         (difftastic-mode . motion)
         (biblio-selection-mode . motion)))
