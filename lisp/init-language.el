@@ -15,12 +15,13 @@
 (add-hook 'nov-pre-html-render-hook #'immersive-translate-setup)
 
 ;;; fanyi
-(custom-set-variables
- '(fanyi-providers '(fanyi-haici-provider
-                     fanyi-youdao-thesaurus-provider
-                     fanyi-longman-provider)))
+(setopt fanyi-providers '(fanyi-haici-provider
+                          fanyi-youdao-thesaurus-provider
+                          fanyi-etymon-provider
+                          fanyi-longman-provider))
 
 (with-eval-after-load 'fanyi
+  (require 'ol-fanyi)
   (keymap-sets fanyi-mode-map
     '(("M-<left>" . previous-buffer-dedicated-window)
       ("M-<right>" . next-buffer-dedicated-window))))
@@ -37,10 +38,8 @@
   ("Dict"
    (("d" quick-sdcv-search-at-point "sdcv dict point")
     ("i" quick-sdcv-search-input "sdcv dict Input")
-    ;; ("f" fanyi-dwim2 "Fanyi Point")
-    ;; ("F" fanyi-dwim "Fanyi Input")
-    ("f" gt-translate-prompt "Fanyi Point")
-    ("F" gt-translate-prompt-with-simple-dict "Fanyi Input"))
+    ("f" fanyi-dwim2 "Fanyi Point")
+    ("F" fanyi-dwim "Fanyi Input"))
 
    "English"
    (("t" gt-translate "Show (en->zh) with taker")
@@ -56,6 +55,7 @@
 
    "Preset"
    (("g" gt-translate-prompt "(en->zh) with taker & prompt")
+    ("G" gt-translate-prompt-with-simple-dict "(en->zh) with Input")
     ("u" gt-use-text-utility "text utility")
     ("k" gt-use-korean-gt "show (ko->zh) with taker")
     ("s" gt-setup "gt setup"))))
