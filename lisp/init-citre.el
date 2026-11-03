@@ -41,6 +41,10 @@
 (setq citre-peek-use-dashes-as-horizontal-border t)
 
 (defun my/citre-delete-tags-files ()
+  "Delete this project's citre tags cache files.
+
+Prompt for confirmation before deleting the `.list`, `.ctags`, and
+`.tags` files.  If no tags file is set, display a message."
   (interactive)
   (if (and citre--tags-file
            (not (equal citre--tags-file 'none)))
