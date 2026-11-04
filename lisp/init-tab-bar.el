@@ -22,9 +22,20 @@
 
 (tab-rename "Main")
 
+(defun my/tab-bar-switch-to-tab ()
+  "Switch to the most recently used tab if only one exists.
+If multiple recent tabs exist, prompt for selection."
+  (interactive)
+  (let* ((recent-tabs (mapcar (lambda (tab)
+                                (alist-get 'name tab))
+                              (tab-bar--tabs-recent))))
+    (if (= (length recent-tabs) 1)
+        (tab-bar-switch-to-tab (car recent-tabs))
+      (call-interactively #'tab-bar-switch-to-tab))))
+
 ;;; Menu tab-bar
 (global-bind-keys
- ("C-c l l" . ("Switch Tab" . tab-bar-switch-to-tab))
+ ("C-c l l" . ("Switch Tab" . my/tab-bar-switch-to-tab))
  ("C-c l b" . consult-buffer-other-tab)
  ("C-c l f" . find-file-other-tab)
  ("C-c l B" . bookmark-jump-other-tab)
