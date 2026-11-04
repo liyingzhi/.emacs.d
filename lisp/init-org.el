@@ -269,6 +269,14 @@
 ;; export html
 (setopt org-html-validation-link nil)
 
+;; Ref: http://yummymelon.com/devnull/beautifying-org-html-export.html
+(with-eval-after-load 'ox-html
+  (setq org-html-head-extra (with-temp-buffer
+                              (insert-file-contents
+                               (expand-file-name "config/template/cc-org-html.css"
+                                                 user-emacs-directory))
+                              (format "<style>\n%s\n</style>" (buffer-string)))))
+
 ;;; Org babel
 (org-babel-do-load-languages
  'org-babel-load-languages
