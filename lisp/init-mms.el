@@ -299,6 +299,30 @@ Path resolution matches `emms-lyrics-visit-lyric'."
               ((file-exists-p lrc)))
     lrc))
 
+(defun +emms-lyrics-create-current-file ()
+  "Create an empty LRC file for the current track.
+The file is placed next to the audio file with a `.lrc' suffix
+\(e.g. song.flac → song.lrc).  Creation is skipped when
+`emms-lyrics-find-lyric-function' has already found lyrics for the
+track, or when the `.lrc' file already exists.  Returns the LRC path
+on success, or nil when nothing was created."
+  (when-let* ((track (emms-playlist-current-selected-track))
+              (name (emms-track-get track 'name))
+              (regex (concat "\\." (file-name-extension name) "\\'"))
+              (rel-lrc (emms-replace-regexp-in-string
+                        regex ".lrc"
+                        (file-name-nondirectory name)))
+              (lrc-path (emms-replace-regexp-in-string
+                         regex ".lrc"
+                         (expand-file-name name)))
+              ((not (string-empty-p rel-lrc)))
+              ((not (file-exists-p lrc-path)))
+              ((not (funcall emms-lyrics-find-lyric-function rel-lrc)))
+              (lrc-dir (file-name-directory lrc-path))
+              ((file-directory-p lrc-dir)))
+    (with-temp-file lrc-path)
+    lrc-path))
+
 (defun +emms--lrc-expand-timestamps (line)
   "Expand adjacent LRC timestamps in LINE into separate entries."
   (let ((regexp "\\[[[:digit:]]+:[[:digit:]]+\\(?:\\.[[:digit:]]+\\)?\\]")
@@ -752,6 +776,17 @@ With \\[universal-argument], allow playlist/album download and write
                (if allow-playlist " (playlist)" "")
                source-link dir))))
 
+(defun +emms-lyrics-visit-or-create (&optional arg)
+  "Visit the current track's lyrics, creating an empty `.lrc' first when needed.
+With prefix ARG, when no lyric file exists for the current track, create
+an empty `.lrc' file next to the audio file first, then visit it.
+Without prefix, behave like `emms-lyrics-visit-lyric' (searching online
+when no local lyric is found)."
+  (interactive "P")
+  (when (and arg (not (+emms-lyrics-current-file)))
+    (+emms-lyrics-create-current-file))
+  (call-interactively #'emms-lyrics-visit-lyric))
+
 (defun mms/emms-play-default-playlist (&optional arg)
   "Play `user/mms-playlist-file'.
 With prefix ARG, or when that file is missing, prompt for a playlist."
@@ -833,7 +868,7 @@ With prefix ARG, or when that file is missing, prompt for a playlist."
    ("C-c m d" . mms/yt-dlp-download-audio)
    ("C-c m e" . emms)
    ("C-c m l" . emms-lyrics-lrclib-get)
-   ("C-c m L" . emms-lyrics-visit-lyric)
+   ("C-c m L" . +emms-lyrics-visit-or-create)
    ("C-c m T" . +emms-lyrics-adjust-time)
    ("C-c m o" . mms/transient-emms)
    ("C-c m p" . ("emms-play-playlist" . mms/emms-play-default-playlist))
