@@ -288,7 +288,7 @@
    (dot . t)))
 
 (setopt org-confirm-babel-evaluate
-        (lambda (lang body)
+        (lambda (&optional _ _)
           (let* ((context (org-element-context))
                  (parameters (org-element-property :parameters context)))
             ;; check if exist :eval yes
