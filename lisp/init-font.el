@@ -54,6 +54,9 @@ An integer value specifies font height in units of 1/10 pt."
     "PingFang SC" "Microsoft Yahei" "STFangsong")
   "Zh fonts to try in order when `user/favourite-zh-font' is unavailable.")
 
+;; Ignore misc-fixed bitmap fonts to prevent them from being used as fallback
+(add-list-to-list 'face-ignored-fonts '("-misc-fixed-.*"))
+
 ;; setup nerd-icons font
 (require 'nerd-icons)
 
@@ -275,13 +278,6 @@ For example:
                                (when font-family (list :family font-family)))))
     (string-pixel-width string (current-buffer))))
 
-;;; setup default font
-(add-hook 'window-setup-hook #'setup-fonts)
-(add-hook 'server-after-make-frame-hook #'setup-fonts)
-
-;; Ignore misc-fixed bitmap fonts to prevent them from being used as fallback
-(add-list-to-list 'face-ignored-fonts '("-misc-fixed-.*"))
-
 (defun set-font-size (symbol value)
   "Set font SYMBOL VALUE."
   (set-default-toplevel-value symbol value)
@@ -350,10 +346,8 @@ while preserving other default attributes."
 ;;                (latex-mode . ,*prog-font*)
 ;;                (prog-mode  . ,*prog-font*)))))
 
-(add-hook 'after-init-hook
-          (lambda ()
-            (set-font-for-modes
-             `((vterm-mode . ,user/*term-default-font*)))))
+
+(set-font-for-modes `((vterm-mode . ,user/*term-default-font*)))
 
 (defun +suggest-other-faces (func &rest args)
   "Temporarily disable `global-hl-line-mode' while executing FUNC with ARGS."
@@ -383,9 +377,14 @@ while preserving other default attributes."
                             "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
                             "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%")))
 
-(when user/ligature
-  (add-hook 'after-init-hook
-            #'global-ligature-mode))
+;;; setup buffer-specified font
+;; setopt on user/font-size auto-calls set-font-size (the defcustom :set function),
+;; which in turn calls setup-fonts
+
+;; (setup-fonts)
+(add-hook 'server-after-make-frame-hook #'setup-fonts)
+
+(when user/ligature (global-ligature-mode))
 
 (provide 'init-font)
 ;;; init-font.el ends here
