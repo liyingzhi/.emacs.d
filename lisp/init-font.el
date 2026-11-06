@@ -11,6 +11,9 @@
 (defconst user/default-linux-font-size 190
   "The default font size in linux.")
 
+(defvar +default-fontset-configured-p nil
+  "Non-nil after the default fontset has been configured.")
+
 (defcustom user/cjk-latin-align-width t
   "Non-nil means strictly align CJK glyph width to Latin advance width.
 When enabled, CJK advance is forced to an exact integer multiple
@@ -126,30 +129,32 @@ FONT-SIZE is the default font size."
     ;;                     (set-face-attribute 'mode-line-active nil :family font :height 120))
     ;;                   (set-face-attribute 'mode-line-inactive nil :family font :height 120)))
 
-    ;; Setup specify font for all unicode characters
-    ;; https://www.wfonts.com/font/symbola
-    (cl-loop for font in '("Apple Symbols" "Segoe UI Symbol" "Symbola" "Symbol")
-             when (font-installed-p font)
-             return (if (< emacs-major-version 27)
-                        (set-fontset-font "fontset-default" 'unicode font nil 'prepend)
-                      (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
+    (unless +default-fontset-configured-p
+      ;; Setup specify font for all unicode characters
+      ;; https://www.wfonts.com/font/symbola
+      (cl-loop for font in '("Apple Symbols" "Segoe UI Symbol" "Symbola" "Symbol")
+               when (font-installed-p font)
+               return (if (< emacs-major-version 27)
+                          (set-fontset-font "fontset-default" 'unicode font nil 'prepend)
+                        (set-fontset-font t 'symbol (font-spec :family font) nil 'prepend)))
 
-    ;; Set up Emoji font
-    ;; Use the dedicated emoji script without changing unrelated Unicode
-    ;; fallbacks.  Keep emoji slightly smaller so Corfu rows are not clipped.
-    ;; Overwrite the default list; prepend makes VS16 sequences use Symbola.
-    (cl-loop for font in '("Noto Color Emoji" "Apple Color Emoji" "Noto Emoji" "Segoe UI Emoji")
-             when (font-installed-p font)
-             return (cond
-                     ((< emacs-major-version 27)
-                      (set-fontset-font "fontset-default" 'unicode font nil 'prepend))
-                     ((< emacs-major-version 28)
-                      (set-fontset-font t 'symbol (font-spec :family font :size (* 0.85 (/ user/font-size 10.0))) nil 'prepend))
-                     (t
-                      (set-fontset-font t 'emoji (font-spec :family font :size (* 0.85 (/ user/font-size 10.0))) nil 'prepend))))
+      ;; Set up Emoji font
+      ;; Use the dedicated emoji script without changing unrelated Unicode
+      ;; fallbacks.  Keep emoji slightly smaller so Corfu rows are not clipped.
+      ;; Overwrite the default list so VS16 sequences use this emoji font.
+      (cl-loop for font in '("Noto Color Emoji" "Apple Color Emoji" "Noto Emoji" "Segoe UI Emoji")
+               when (font-installed-p font)
+               return (cond
+                       ((< emacs-major-version 27)
+                        (set-fontset-font "fontset-default" 'unicode font nil 'prepend))
+                       ((< emacs-major-version 28)
+                        (set-fontset-font t 'symbol (font-spec :family font)))
+                       (t
+                        (set-fontset-font t 'emoji (font-spec :family font)))))
 
-    ;; Force Emacs to search by using font-spec
-    (set-fontset-font t 'han (font-spec :script 'han) nil 'append)
+      ;; Force Emacs to search by using font-spec
+      (set-fontset-font t 'han (font-spec :script 'han) nil 'append)
+      (setq +default-fontset-configured-p t))
 
     ;; Setup specify font for CJK characters font
     (cl-loop for font in (append user/favourite-zh-fonts
