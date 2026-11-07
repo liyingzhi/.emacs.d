@@ -283,6 +283,39 @@ For example:
                                (when font-family (list :family font-family)))))
     (string-pixel-width string (current-buffer))))
 
+(defun my/setup-cjk-rescale-explicit (font-cjk &optional font-latin height-cjk height-latin)
+  "Correct the CJK rescale for FONT-CJK and map the `han' script to it.
+
+FONT-CJK is a font family name, e.g. \"LXGW WenKai Mono\".  Its rescale
+factor is set so that CJK text is exactly twice as wide as Latin,
+fixing fonts whose CJK glyphs are not already twice as wide as their
+Latin glyphs.  FONT-LATIN, if non-nil, is the font family used to
+measure the width of \"h\"; when omitted, the measurement is made
+in the default face.  HEIGHT-CJK and HEIGHT-LATIN, if given, are height
+specs for the measurement, as accepted by `my/measure-font-pixel-width'.
+
+FONT-CJK's rescale factor is first reset to 1, and the `han' script
+is mapped to FONT-CJK.  The pixel width of \"汉\" in FONT-CJK and of
+\"h\" in FONT-LATIN are then measured via `my/measure-font-pixel-width';
+FONT-CJK's rescale factor is set to twice the width of \"h\" divided by
+the width of \"汉\" and written to `face-font-rescale-alist'.  Finally
+the `han' script is mapped to FONT-CJK.
+
+For example:
+  (my/setup-cjk-rescale-explicit \"LXGW WenKai Mono\")
+  (my/setup-cjk-rescale-explicit \"LXGW WenKai Mono\" \"Iosevka Fixed\")
+  (my/setup-cjk-rescale-explicit \"LXGW WenKai Mono\" nil 150)
+  (my/setup-cjk-rescale-explicit \"LXGW WenKai Mono\" \"Iosevka Fixed\" 150 150)
+
+Return the face spec of the `han' entry (see `set-fontset-font')."
+  (my/font-set-rescale font-cjk 1)
+  (set-fontset-font t 'han (font-spec :family font-cjk))
+  (let* ((cjk-char-width (my/measure-font-pixel-width "汉" height-cjk font-cjk))
+         (latin-char-width (my/measure-font-pixel-width "h" height-latin font-latin))
+         (cjk-to-latin-ratio (/ (* 2.0 latin-char-width) cjk-char-width)))
+    (my/font-set-rescale font-cjk cjk-to-latin-ratio)
+    (set-fontset-font t 'han (font-spec :family font-cjk))))
+
 (defun set-font-size (symbol value)
   "Set font SYMBOL VALUE."
   (set-default-toplevel-value symbol value)
