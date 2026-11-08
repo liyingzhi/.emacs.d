@@ -101,5 +101,26 @@ report errors as appropriate for this kind of usage."
   '("m a" . puni-mark-sexp-around-point)
   '("m l" . puni-mark-list-around-point))
 
+;;;###autoload
+(defun my/meow-state--toggle-between-normal-motion ()
+  "Switch between the `normal' and `motion' Meow states.
+If the current state is `normal', switch to `motion'
+and report the switch.
+If the current state is `motion', switch back to
+`normal' and report the switch.
+Otherwise report that the current state is neither
+`normal' nor `motion'.
+Use `meow--switch-state' to do the work."
+  (interactive)
+  (cond
+   ((eq meow--current-state 'normal)
+    (meow--switch-state 'motion)
+    (message "Switch Meow motion state"))
+   ((eq meow--current-state 'motion)
+    (meow--switch-state 'normal)
+    (message "Switch Meow normal state"))
+   (t
+    (message "Meow not at normal or motion state"))))
+
 (provide 'meow-lisp-state)
 ;;; meow-lisp-state.el ends here

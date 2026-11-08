@@ -275,6 +275,7 @@
 
   (meow-normal-define-key
    '("Q" . kill-buffer-and-window)
+   '("M" . my/meow-state--toggle-between-normal-motion)
    '("?" . help-helpful-lsp-sly)
    '("/" . meow-normal-/-key-enhance)))
 
