@@ -246,20 +246,20 @@ Return the face spec of the `han' entry (see `set-fontset-font')."
   (my/font-set-rescale font (my/font-latin-cjk-width-ratio "h" "汉"))
   (set-fontset-font t 'han (font-spec :family font)))
 
-(defun my/measure-font-pixel-width (string &optional height font-family)
+(defun my/measure-font-pixel-width (string &optional font-family height)
   "Return the pixel width of STRING rendered at HEIGHT in FONT-FAMILY.
 
 STRING is measured in a temporary buffer whose `default' face is
 remapped to HEIGHT and/or FONT-FAMILY, so the result reflects the
 actual glyph metrics of that font configuration.
 
-HEIGHT, if non-nil, is a face height spec: an integer is an
-absolute height in 1/10 pt (120 means 12 pt), while a float is a
-scale factor relative to the default face (1.5 means 1.5x).
-
 FONT-FAMILY, if non-nil, is a font family name such as \"Maple
 Mono\".  Either argument may be given alone; when both are nil,
 STRING is measured in the default face.
+
+HEIGHT, if non-nil, is a face height spec: an integer is an
+absolute height in 1/10 pt (120 means 12 pt), while a float is a
+scale factor relative to the default face (1.5 means 1.5x).
 
 This requires a graphical frame.  On a TTY frame, Emacs falls back
 to character-width-based estimation, which is independent of
@@ -270,9 +270,11 @@ newline-free substring, as with `string-pixel-width'.
 
 For example:
   (my/measure-font-pixel-width \"h\")
-  (my/measure-font-pixel-width \"h\" 150)
-  (my/measure-font-pixel-width \"h\" 150 \"Iosevka Fixed\")
-  (my/measure-font-pixel-width \"汉\" 150 \"LXGW WenKai Mono\")"
+  (my/measure-font-pixel-width \"h\" nil 150)
+  (my/measure-font-pixel-width \"h\" \"Iosevka Fixed\" 150)
+  (my/measure-font-pixel-width \"汉\")
+  (my/measure-font-pixel-width \"汉\" nil 150)
+  (my/measure-font-pixel-width \"汉\" \"LXGW WenKai Mono\" 150)"
   (declare (important-return-value t))
   (when font-family
     (unless (font-installed-p font-family)
@@ -310,8 +312,8 @@ For example:
 Return the face spec of the `han' entry (see `set-fontset-font')."
   (my/font-set-rescale font-cjk 1)
   (set-fontset-font t 'han (font-spec :family font-cjk))
-  (let* ((cjk-char-width (my/measure-font-pixel-width "汉" height-cjk font-cjk))
-         (latin-char-width (my/measure-font-pixel-width "h" height-latin font-latin))
+  (let* ((cjk-char-width (my/measure-font-pixel-width "汉" font-cjk height-cjk))
+         (latin-char-width (my/measure-font-pixel-width "h" font-latin height-latin))
          (cjk-to-latin-ratio (/ (* 2.0 latin-char-width) cjk-char-width)))
     (my/font-set-rescale font-cjk cjk-to-latin-ratio)
     (set-fontset-font t 'han (font-spec :family font-cjk))))
