@@ -86,7 +86,8 @@
 (setq rime-posframe-properties
       (list :background-color "#333333"
             :foreground-color "#dcdccc"
-            :font "TsangerJinKai03-6763-18"
+            :font (format "TsangerJinKai03-6763 %s"
+                          (round (/ user/font-size 10.0)))
             :internal-border-width 5))
 
 (keymap-sets rime-mode-map
