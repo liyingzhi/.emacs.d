@@ -109,7 +109,8 @@ if LINK is empty and DESCRIPTION is not a non-empty string."
 
 (setopt markdown-ts-appear-heading-bullets '(?◉ ?○ ?✸ ?✿)
         markdown-ts-appear-auto-start nil
-        markdown-ts-appear-table-reveal 'row
+        markdown-ts-appear-table-reveal 'table
+        markdown-ts-appear-block-reveal 'explicit
         markdown-ts-appear-enable-math-preview t
         latex-to-svg-frontend-center-display-math t
         markdown-ts-appear-diagram-renderers '(("mermaid" . markdown-ts-appear-diagram-mmdc)))
