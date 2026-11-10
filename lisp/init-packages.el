@@ -309,9 +309,7 @@
   '(nov
     (buffer-to-pdf :host github :repo "protesilaos/buffer-to-pdf")
     pdf-tools
-    ;; (reader :fetcher codeberg :repo "divyaranjan/emacs-reader"
-    ;;       	:files ("*.el" "*.dylib" "*.so")
-    ;;       	:pre-build ("make" "all"))
+    emureader
     biblio
     citar
     (oxr :host github :repo "liyingzhi/oxr" :branch "fix-insert-name")
