@@ -35,7 +35,7 @@ If multiple recent tabs exist, prompt for selection."
 
 ;;; Menu tab-bar
 (global-bind-keys
- ("C-c l l" . ("Switch Tab" . my/tab-bar-switch-to-tab))
+ ("C-c l l" . ("Switch Tab" . tab-bar-switch-to-tab))
  ("C-c l b" . consult-buffer-other-tab)
  ("C-c l f" . find-file-other-tab)
  ("C-c l B" . bookmark-jump-other-tab)
