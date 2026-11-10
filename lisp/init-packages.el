@@ -308,8 +308,6 @@
 (defvar *package-write-install-list*
   '(nov
     (buffer-to-pdf :host github :repo "protesilaos/buffer-to-pdf")
-    pdf-tools
-    emureader
     biblio
     citar
     (oxr :host github :repo "liyingzhi/oxr" :branch "fix-insert-name")

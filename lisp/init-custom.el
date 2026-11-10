@@ -61,6 +61,14 @@ events."
   :group 'user
   :type 'number)
 
+(defcustom user/pdf-tools t
+  "Non-nil means enable pdf-tools support for PDF viewing.
+When non-nil, pdf-tools provides enhanced PDF viewing features such
+as page navigation and smooth scrolling.  When nil, pdf-tools support
+is disabled."
+  :group 'user
+  :type 'boolean)
+
 ;;; UI
 (defcustom user/show-modeline t
   "Show modeline."

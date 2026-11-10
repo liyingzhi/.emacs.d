@@ -29,6 +29,30 @@
 ;;; nov
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
+;;; pdf-tools and emureader
+(if user/pdf-tools
+    (progn
+      (wait-packages! '(pdf-tools))
+      (pdf-loader-install)
+      (with-eval-after-load 'pdf-view
+        (require 'pdf-tools)
+        (require 'pdf-roll)
+        (with-hook pdf-view-mode
+          ;; (pdf-view-themed-minor-mode)
+          (pdf-tools-enable-minor-modes))
+        (keymap-sets pdf-view-mode-map
+          '(("j" . pdf-view-next-line-or-next-page)
+            ("k" . pdf-view-previous-line-or-previous-page)))))
+  (wait-packages! '(emureader))
+  (with-eval-after-load 'emureader
+    (keymap-unset emureader-mode-map "g")
+    (keymap-binds emureader-mode-map
+      ("j" . emureader-next-page)
+      ("k" . emureader-previous-page)
+      ("g p" . emureader-goto-page)
+      ("g i" . consult-imenu)
+      ("G" . emureader-refresh-doc-buffer))))
+
 ;;; bibtex
 (setopt bibtex-user-optional-fields '(("keywords" "Keywords to describe the entry" "")
                                       ("file"     "Relative or absolute path to attachments" "" ))

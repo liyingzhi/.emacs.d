@@ -177,28 +177,6 @@ and update transparent."
             (read-only-mode
              (if redacted-mode 1 -1))))
 
-;;; pdf-tools
-;; (pdf-loader-install)
-(with-eval-after-load 'pdf-view
-  (require 'pdf-tools)
-  (require 'pdf-roll)
-  (with-hook pdf-view-mode
-    ;; (pdf-view-themed-minor-mode)
-    (pdf-tools-enable-minor-modes))
-  (keymap-sets pdf-view-mode-map
-    '(("j" . pdf-view-next-line-or-next-page)
-      ("k" . pdf-view-previous-line-or-previous-page))))
-
-;;; emureader
-(with-eval-after-load 'emureader
-  (keymap-unset emureader-mode-map "g")
-  (keymap-binds emureader-mode-map
-    ("j" . emureader-next-page)
-    ("k" . emureader-previous-page)
-    ("g p" . emureader-goto-page)
-    ("g i" . consult-imenu)
-    ("G" . emureader-refresh-doc-buffer)))
-
 ;;; notification
 (setq knockknock-border-color (face-foreground 'font-lock-keyword-face))
 (setq knockknock-use-svg-layout nil)         ; Switch to text layout
