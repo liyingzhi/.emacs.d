@@ -34,7 +34,6 @@
       ;; For Emacs <= 29
       ;; eglot-events-buffer-size 0
       eglot-send-changes-idle-time 0.5
-      eglot-code-action-indications '(eldoc-hint)
       eglot-ignored-server-capabilities
       '(:inlayHintProvider
         ;; :documentHighlightProvider
@@ -46,6 +45,8 @@
         ;; :hoverProvider
         )
       eglot-stay-out-of '(imenu))
+
+(setopt refactor-indications '(left-fringe margin))
 
 ;; `eglot-ensure' is autoloaded — do not require eglot at startup.
 (add-hook 'prog-mode-hook
