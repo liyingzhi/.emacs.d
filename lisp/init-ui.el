@@ -84,7 +84,9 @@ and update transparent."
 (custom-set-faces
  '(header-line ((t (:inherit t :foreground unspecified :background unspecified)))))
 
-(setq breadcrumb-imenu-max-length 100)
+(setopt breadcrumb-project-max-length 0.5
+        breadcrumb-imenu-max-length 0.45
+        breadcrumb-idle-time 3)
 (breadcrumb-mode)
 
 (with-hook my/tramp-remote-file-hook
