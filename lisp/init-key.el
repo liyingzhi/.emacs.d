@@ -264,7 +264,7 @@ current window."
   (interactive)
   (pcase user/lsp-client
     ('eglot
-     (call-interactively #'eglot-rename))
+     (call-interactively #'refactor-rename))
     ('lsp-bridge
      (autoload #'lsp-bridge-rename "init-lsp-bridge" nil t)
      (call-interactively #'lsp-bridge-rename))))

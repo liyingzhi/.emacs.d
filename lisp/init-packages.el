@@ -135,6 +135,7 @@
     yasnippet-capf
     macrostep
     mason
+    refactor
     ,@(pcase user/lsp-client
         ('eglot
          `(eglot

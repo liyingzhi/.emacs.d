@@ -112,10 +112,12 @@ See `jf/treesit-language-available-p' for usage.")
       (call-interactively #'projection-commands-build-project)
     (call-interactively #'compile)))
 
+(autoload 'refactor-organize-imports "refactor" nil t)
 (keymap-sets prog-mode-map
-  '(("C-c r" . run-project-compile)))
-
-
+  '(("C-c r c" . run-project-compile)
+    ("C-c r a" . refactor)
+    ("C-c r n" . refactor-rename)
+    ("C-c r i" . refactor-organize-imports)))
 
 ;;; Xref
 (setq xref-show-xrefs-function 'consult-xref)
