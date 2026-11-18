@@ -82,22 +82,47 @@
                               (?c . comment)))
 
 (defun lazy-meow-leader-define-key (&rest keybinds)
-  (let* ((meow-leader-keybinds))
-    (dolist (ele  keybinds)
-      (let ((func (cdar ele))
-            (key (caar ele))
-            (filename (cadr ele)))
-        (autoload func filename nil t)
-        (meow-define-keys 'leader (cons key func))))))
+  "Define KEYBINDS on the Meow leader key, lazily via `autoload'.
+Each element of KEYBINDS is a list ((KEY . FUNC) FILENAME) where KEY is
+the key sequence to bind, FUNC the command to autoload and bind, and
+FILENAME the feature or file to load on demand.  See
+`lazy-meow-insert-define-key' for the same behaviour in insert state."
+  (dolist (ele  keybinds)
+    (let ((func (cdar ele))
+          (key (caar ele))
+          (filename (cadr ele)))
+      (autoload func filename nil t)
+      (meow-define-keys 'leader (cons key func)))))
 
 (defun lazy-meow-insert-define-key (&rest keybinds)
-  (let* ((meow-insert-keybinds))
-    (dolist (ele  keybinds)
-      (let ((func (cdar ele))
-            (key (caar ele))
-            (filename (cadr ele)))
-        (autoload func filename nil t)
-        (meow-define-keys 'insert (cons key func))))))
+  "Define KEYBINDS in Meow insert state, lazily via `autoload'.
+Each element of KEYBINDS is a list ((KEY . FUNC) FILENAME) where KEY is
+the key sequence to bind, FUNC the command to autoload and bind, and
+FILENAME the feature or file to load on demand.  See
+`lazy-meow-leader-define-key' for the same behaviour on the leader key."
+  (dolist (ele  keybinds)
+    (let ((func (cdar ele))
+          (key (caar ele))
+          (filename (cadr ele)))
+      (autoload func filename nil t)
+      (meow-define-keys 'insert (cons key func)))))
+
+(with-eval-after-load 'embark
+  (defun my/meow-keypad-prefix-help-command (key-sequence)
+    "Handle undefined meow-keypad KEY-SEQUENCE.
+If KEY-SEQUENCE ends with the help character, browse the keymap bound to
+its prefix with Embark; otherwise report that KEY-SEQUENCE is undefined."
+    (if (not (string-suffix-p
+              (single-key-description help-char)
+              key-sequence))
+        (message "%s is undefined" key-sequence)
+      (let* ((prefix (replace-regexp-in-string "\\`\\(.+\\) .+\\'" "\\1" key-sequence))
+             (keymap (keymap-lookup
+                      (make-composed-keymap
+                       (current-active-maps t))
+                      prefix)))
+        (embark-bindings-in-keymap (define-keymap prefix keymap)))))
+  (setq meow-keypad-key-undefined-function #'my/meow-keypad-prefix-help-command))
 
 (pcase user/lsp-client
   ('eglot
