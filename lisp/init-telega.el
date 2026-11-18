@@ -131,8 +131,7 @@
     (telega-completions-setup-capf)
     (my/telega-chat-capf)
     (setq-local completion-cycle-threshold nil)
-    (electric-pair-local-mode -1)
-    (mode-line-invisible-mode))
+    (electric-pair-local-mode -1))
 
   (with-hook telega-image-mode
     (image-transform-fit-to-window))
