@@ -353,6 +353,8 @@
                      :files (:defaults "prompts"))
             (gptel-quick :host github
                          :repo "karthink/gptel-quick")
+            (gptel-preset-collection :host github
+                                     :repo "liyingzhi/gptel-preset-collection")
             (mcp :host github
                  :repo "lizqwerscott/mcp.el")
             shell-maker

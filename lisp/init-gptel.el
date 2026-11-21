@@ -24,9 +24,14 @@
 
 ;;; Code:
 
+(require 'gptel)
 
-(setq gptel-default-mode 'org-mode)
+(setq gptel-default-mode 'org-mode
+      gptel-highlight-methods (if (controlling-tty-p) '(margin) '(fringe))
+      gptel-track-media t
+      gptel-expert-commands t)
 
+;;; gptel backends
 (gptel-make-openai "kimi"
   :stream t
   :protocol "https"
@@ -151,8 +156,7 @@
     (setq gptel-model user/ai-model-coder)
     (setq gptel-use-tools t)))
 
-(require 'gptel)
-
+;;; gptel prompts
 (require 'agental-prompts)
 (add-to-list 'agental-prompts-path
              (concat user-emacs-directory
@@ -175,8 +179,7 @@
                                                                 '(("to" . "english")
                                                                   ("user_name" . "lizqwerscott"))))))
 
-(setq gptel-include-reasoning 'ignore)
-
+;;; gptel tools
 (require 'init-gptel-tools)
 
 (defun gptel-translate-to-english (&optional dry-run)
@@ -237,7 +240,9 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
      ("q t" "Translate select regions to english" gptel-translate-to-english)
      ("q q" "gptel abort" gptel-abort)]))
 
-;;; preset
+;;; gptel preset
+(require 'gptel-preset-collection)
+
 (gptel-make-preset 'default
   :description "Default"
   :system (alist-get 'default gptel-directives)
@@ -366,6 +371,7 @@ kill-ring entry is not a string representing an existing file path."
               (when (bound-and-true-p ratex-mode)
                 (ratex-mode -1))))
 
+;;; gptel aibo
 (require 'init-gptel-aibo)
 
 ;;; gptel-magit
