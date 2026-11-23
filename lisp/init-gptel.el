@@ -29,7 +29,84 @@
 (setq gptel-default-mode 'org-mode
       gptel-highlight-methods (if (controlling-tty-p) '(margin) '(fringe))
       gptel-track-media t
-      gptel-expert-commands t)
+      gptel-expert-commands t
+      gptel-prompt-prefix-alist nil
+      gptel-response-prefix-alist nil)
+
+(require 'gptel-org)
+(setq-default gptel-org-branching-context t)
+
+(defalias 'my/gptel-easy-page
+  (let ((map (make-composed-keymap
+              (define-keymap
+                "RET" 'gptel-end-of-response
+                "n"   'gptel-end-of-response
+                "p"   'gptel-beginning-of-response)
+              my-pager-map))
+        (scrolling
+         (propertize  "SCRL" 'face '(:inherit highlight))))
+    (require 'pixel-scroll)
+    (lambda ()
+      (interactive)
+      (when (eq (window-buffer (selected-window))
+                (current-buffer))
+        (add-to-list 'mode-line-format scrolling)
+        (set-transient-map
+         map t
+         (lambda () (setq mode-line-format
+                          (delete scrolling mode-line-format))))))))
+
+(add-hook 'gptel-pre-response-hook #'my/gptel-easy-page)
+
+;;; gptel state
+;; Mode line status indicators
+(add-to-list
+ 'global-mode-string
+ '(:eval
+   (when (local-variable-p 'gptel-system-prompt)
+     (concat
+      "["
+      (if-let* ((n (car-safe (rassoc gptel-system-prompt gptel-directives))))
+          (gptel--model-name n)
+        (gptel--describe-directive gptel-system-prompt 12))
+      "]"))))
+
+(add-to-list
+ 'global-mode-string
+ '(:eval
+   (unless gptel-mode
+     (when (and (local-variable-p 'gptel-model)
+                (not (eq gptel-model (default-value 'gptel-model))))
+       (concat "[" (gptel--model-name gptel-model) "]")))))
+
+;; Variable to hold status indicator
+(defvar-local gptel--mode-line-format " ")
+
+(defun gptel--mode-line-format (msg &optional face)
+  (setq gptel--mode-line-format
+        (if face (propertize msg 'face face) msg)))
+
+;; Update according to current state
+(defun gptel--mode-line-update (fsm)
+  (let ((buf (plist-get (gptel-fsm-info fsm) :buffer)))
+    (when (buffer-live-p buf)
+      (with-current-buffer buf
+        (pcase (gptel-fsm-state fsm)
+          ('WAIT (gptel--mode-line-format "↑" 'warning))
+          ('TYPE (gptel--mode-line-format "↓" 'success))
+          ('TOOL (gptel--mode-line-format "🔨" 'warning))
+          ('ERRS (gptel--mode-line-format "❌" 'error))
+          (_     (gptel--mode-line-format " ")))))))
+
+;; Add to `gptel-send' FSM handlers
+(dolist (state '(WAIT TYPE TOOL ERRS DONE))
+  (cl-pushnew 'gptel--mode-line-update
+              (alist-get state gptel-send--handlers)))
+
+;; Add indicator to the `mode-line-misc-info'
+(cl-pushnew '(:eval gptel--mode-line-format) global-mode-string
+            :test #'equal)
+
 
 ;;; gptel backends
 (gptel-make-openai "kimi"
@@ -162,7 +239,8 @@
              (concat user-emacs-directory
                      "config/prompts"))
 
-(setq agental-tool-show-tool-call nil)
+(setopt agental-tool-show-tool-call 'auto
+        agental-tool-include nil)
 
 (agental-install (list :backend user/ai-backend
                        :model user/ai-model))
@@ -242,6 +320,7 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
 
 ;;; gptel preset
 (require 'gptel-preset-collection)
+(advice-add 'gptel-preset-capf :after-until #'gptel-preset-collection-capf)
 
 (gptel-make-preset 'default
   :description "Default"
@@ -284,6 +363,7 @@ The DRY-RUN parameter is set to t, indicating that it will not actually run, but
   :tools '("introspection")
   :use-tools t)
 
+;;; gptel-quick
 (require 'gptel-quick)
 (setq gptel-quick-system-message
       #'(lambda (count)
@@ -357,9 +437,78 @@ kill-ring entry is not a string representing an existing file path."
             (gptel-add-file file))
         (user-error "Current kill ring is not a valid real file path")))))
 
+;;; gptel-rewrite
+(with-eval-after-load 'gptel-rewrite
+  (defun gptel--rewrite-inline-diff (&optional ovs)
+    (interactive (list (gptel--rewrite-overlay-at)))
+    (unless (require 'inline-diff nil t)
+      (user-error "Inline diffs require the inline-diff package"))
+    (when-let* ((ov-buf (overlay-buffer (or (car-safe ovs) ovs)))
+                ((buffer-live-p ov-buf)))
+      (with-current-buffer ov-buf
+        (cl-loop for ov in (ensure-list ovs)
+                 for ov-beg = (overlay-start ov)
+                 for ov-end = (overlay-end ov)
+                 for response = (overlay-get ov 'gptel-rewrite)
+                 do (delete-overlay ov)
+                 (inline-diff-words
+                  ov-beg ov-end response)))))
+  (keymap-sets gptel-rewrite-actions-map
+    '(("C-c C-i" . gptel--rewrite-inline-diff))))
+
+;;; gptel keymap and hooks
+(defun my/gptel-assign-filename ()
+  (unless (or (buffer-file-name) current-prefix-arg)
+    (make-directory my/gptel-chat-directory t)
+    (my/gptel-mode-add-prop-line)
+    (setq buffer-file-name
+          (file-name-concat
+           my/gptel-chat-directory
+           (concat
+            (format-time-string "%Y%m%d%H%M%2S-")
+            (file-name-sans-extension
+             (replace-regexp-in-string " " "-" (buffer-name)))
+            (pcase major-mode
+              ('org-mode ".org") ('markdown-mode ".md") (_ ".txt")))))
+    (rename-buffer (file-name-nondirectory buffer-file-name) t)))
+
 (keymap-binds gptel-mode-map
   ("C-o" . gptel-menu)
-  (("C-s-p" "C-M-p") . my/gptel-context-add-file-with-current-kill-ring))
+  (("C-s-p" "C-M-p") . my/gptel-context-add-file-with-current-kill-ring)
+  ("C-c SPC" . my/gptel-easy-page))
+
+(defun my/gptel-remove-headings (beg end)
+  (when (and (derived-mode-p 'org-mode)
+             gptel-org-branching-context)
+    (save-excursion
+      (goto-char beg)
+      (while (re-search-forward org-heading-regexp end t)
+        (forward-line 0)
+        (delete-char (1+ (length (match-string 1))))
+        (insert-and-inherit "*")
+        (end-of-line)
+        (skip-chars-backward " \t\r")
+        (insert-and-inherit "*")))))
+
+(defun my/gptel-mode-add-prop-line ()
+  "Ensure that this file opens with `gptel-mode' enabled."
+  (save-excursion
+    (let ((enable-local-variables t)) ; Ensure we can modify local variables
+      (if (and (save-excursion (goto-char (point-min)) (looking-at ".*-\\*-")))
+          ;; If there's a -*- line
+          ;; First remove any existing eval, then add the new one
+          (modify-file-local-variable-prop-line 'eval nil 'delete))
+      ;; Always add our eval
+      (add-file-local-variable-prop-line
+       'eval '(and (fboundp 'gptel-mode) (gptel-mode 1))))))
+
+(defvar my/gptel-chat-directory "~/Documents/gptel/")
+
+(defun gptel-resume (chat)
+  "Resume previous gptel chat stored in `my/gptel-chat-directory'."
+  (interactive (list (read-file-name
+                      "Resume chat: " my/gptel-chat-directory nil t)))
+  (find-file chat))
 
 (add-hook 'gptel-mode-hook
           #'gptel-highlight-mode)
@@ -370,6 +519,13 @@ kill-ring entry is not a string representing an existing file path."
                 (org-latex-preview-mode -1))
               (when (bound-and-true-p ratex-mode)
                 (ratex-mode -1))))
+
+(with-hook gptel-mode
+  (setq-local gptel-cache t)
+  (add-hook 'before-save-hook #'my/gptel-assign-filename
+            nil 'local))
+
+(add-hook 'gptel-post-response-functions #'my/gptel-remove-headings)
 
 ;;; gptel-agent
 ;; Refs: https://github.com/karthink/.emacs.d
