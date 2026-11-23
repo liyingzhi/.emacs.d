@@ -400,6 +400,45 @@ current window."
    ("M-s T" . hl-todo-rg))
  "lib-hl-todo")
 
+(defvar-keymap my-pager-map
+  :doc "Keymap with paging commands"
+  "SPC" 'scroll-up-command
+  "C-l" 'recenter-top-bottom
+  "M-P" 'scroll-other-window-down-1/3
+  "s-P" 'scroll-other-window-down-1/3
+  "M-N" 'scroll-other-window-up-1/3
+  "s-N" 'scroll-other-window-up-1/3
+
+  "d" (lambda ()
+        (interactive)
+        (pixel-scroll-precision-interpolate
+         (- (floor (window-text-height nil t) 2))
+         nil 1))
+
+  "u" (lambda ()
+        (interactive)
+        (pixel-scroll-precision-interpolate
+         (floor (window-text-height nil t) 2)
+         nil 1))
+  "S-SPC" 'scroll-down-command)
+
+(let ((scrolling (propertize  "SCRL" 'face '(:inherit highlight)))
+      ml-buffer)
+  (defalias 'my/easy-page
+    (lambda ()
+      (interactive)
+      (when (eq (window-buffer (selected-window))
+                (current-buffer))
+        (setq ml-buffer (current-buffer))
+        (add-to-list 'mode-line-format scrolling)
+        (set-transient-map
+         my-pager-map t
+         (lambda () (with-current-buffer ml-buffer
+                      (setq mode-line-format
+                            (delete scrolling mode-line-format)))))))))
+
+(global-set-keys '(("C-c SPC" . my/easy-page)))
+
 ;;; consult
 (global-set-keys
  '(("M-s l" . consult-line)
