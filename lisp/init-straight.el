@@ -35,35 +35,6 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(defun packages! (packages)
-  "Install PACKAGES."
-  (dolist (package packages)
-    (let ((processed-package
-           (if (and (listp package)
-                    (plist-get (cdr package) :fetcher))
-               ;; If it's a list with :fetcher, convert :fetcher to :host
-               (let* ((package-name (car package))
-                      (package-plist (cdr package))
-                      (host-value (plist-get package-plist :fetcher))
-                      ;; Remove :fetcher key-value pair by rebuilding plist without :fetcher
-                      (new-plist
-                       (let ((result '())
-                             (plist (cl-copy-list package-plist)))
-                         (while plist
-                           (let ((prop (pop plist))
-                                 (val (pop plist)))
-                             (unless (eq prop :fetcher)
-                               (push prop result)
-                               (push val result))))
-                         (nreverse result))))
-                 ;; Add the :host key-value pair to the end of the plist
-                 (cons package-name (append new-plist (list :host host-value))))
-             ;; Otherwise, keep the package as is
-             package)))
-      (straight-use-package processed-package))))
-
-(defalias 'wait-packages! #'packages!)
-
 (defun get-repo-info-from-url (url)
   "Get repo info from URL.
 return (HOSTING-SITE OWNER REPO-NAME)。"
@@ -82,6 +53,50 @@ return (HOSTING-SITE OWNER REPO-NAME)。"
                                 (match-string 1 url)
                                 (match-string 2 url))))))
       nil)))
+
+(defun straight--normalize-recipe (package)
+  "Normalize PACKAGE into a recipe straight.el understands.
+Rename :fetcher to :host, and expand :url into :host plus :repo via
+`get-repo-info-from-url'.  An explicit :host or :repo wins over the
+value derived from :url.  PACKAGES that are not recipes are returned
+unchanged."
+  (if (not (and (listp package) (keywordp (car-safe (cdr package)))))
+      package
+    (let* ((plist (cdr package))
+           (host (plist-get plist :host))
+           (repo (plist-get plist :repo))
+           (result nil))
+      (while plist
+        (let ((prop (pop plist))
+              (val (pop plist)))
+          (pcase prop
+            (:fetcher
+             (unless host (setq host val)))
+            (:url
+             (let ((info (get-repo-info-from-url val)))
+               (if (null info)
+                   ;; Unrecognised URL: leave it alone
+                   (setq result (append result (list prop val)))
+                 (unless host (setq host (nth 0 info)))
+                 (unless repo
+                   (setq repo (format "%s/%s"
+                                      (nth 1 info)
+                                      (replace-regexp-in-string
+                                       "\\.git\\'" "" (nth 2 info))))))))
+            (_
+             (setq result (append result (list prop val)))))))
+      (when (and host (not (plist-get result :host)))
+        (setq result (append result (list :host host))))
+      (when (and repo (not (plist-get result :repo)))
+        (setq result (append result (list :repo repo))))
+      (cons (car package) result))))
+
+(defun packages! (packages)
+  "Install PACKAGES, normalizing each recipe with `straight--normalize-recipe'."
+  (dolist (package packages)
+    (straight-use-package (straight--normalize-recipe package))))
+
+(defalias 'wait-packages! #'packages!)
 
 (defun straight-get-recipe-from-clipboard-url ()
   "Straight get recipe from clipboard url."
