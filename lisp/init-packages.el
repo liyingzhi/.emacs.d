@@ -150,8 +150,8 @@
                        :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
                        :build (:not compile))
            ,@(when (not (display-graphic-p))
-               '((popon :fetcher git :url "https://codeberg.org/akib/emacs-popon.git")
-                 (acm-terminal :fetcher git :url "https://github.com/twlz0ne/acm-terminal.git"))))))
+               '((popon :fetcher github :url "https://codeberg.org/akib/emacs-popon.git")
+                 (acm-terminal :fetcher github :url "https://github.com/twlz0ne/acm-terminal.git"))))))
     corfu
     cape
     nerd-icons-corfu
