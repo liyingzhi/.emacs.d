@@ -54,6 +54,14 @@
             (lambda ()
               (keymap-set ediff-mode-map "C-o" #'casual-ediff-tmenu))))
 
+;;; inline-diff
+(with-eval-after-load 'inline-diff
+  (keymap-sets (inline-diff-overlay-map inline-diff-repeat-map)
+    '(("M-a" . nil)
+      ("M-k" . nil)
+      ("SPC" . inline-diff-apply)
+      ("DEL" . inline-diff-reject))))
+
 ;;; difftastic
 ;; Add commands to a `magit-difftastic'
 (eval-after-load 'magit-diff

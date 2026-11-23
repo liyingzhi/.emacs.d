@@ -164,6 +164,7 @@
     git-link
     forge
     difftastic
+    (inline-diff :type git :repo "https://code.tecosaur.net/tec/inline-diff.git")
     (blame-reveal :host github :repo "LuciusChen/blame-reveal")
     devdocs
     wucuo
