@@ -47,11 +47,11 @@
        (org-in-src-block-p t)))
 
 (defun rime-predicate-gptel-preset-p ()
-  "Whether point is in an `gptel-mode' and start input preset."
+  "Whether point is in an `gptel-mode' and start input preset.
+Nil-safe for empty buffers."
   (and (bound-and-true-p gptel-mode)
-       (save-excursion
-         (let ((pos (max (point-min) (1- (point)))))
-           (char-equal (char-after pos) ?@)))))
+       (let ((pos (max (point-min) (1- (point)))))
+         (eq (char-after pos) ?@))))
 
 (setq rime-show-candidate 'posframe)
 (setq rime-disable-predicates
