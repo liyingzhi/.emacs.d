@@ -25,6 +25,10 @@
 ;;; flyspell-correct
 (with-eval-after-load 'flyspell
   (require 'flyspell-correct)
+
+  (add-hook 'flyspell-mode-hook
+            (poi-register 'flyspell-goto-next-error
+                          'flyspell-auto-correct-word))
   (keymap-sets flyspell-mode-map
     `((("C-," "s-,") . ,(lambda ()
                           (interactive)

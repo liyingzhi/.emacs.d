@@ -119,7 +119,11 @@ beginning and end of the symbol set."
   (when (executable-find "emacs-lsp-booster")
     (require 'eglot-booster nil t)
     (eglot-booster-mode 1)
-    (setopt eglot-booster-no-remote-boost t)))
+    (setopt eglot-booster-no-remote-boost t))
+
+  (add-hook 'eglot-managed-mode-hook
+            (poi-register #'flymake-goto-next-error
+                          #'my/flymake-action)))
 
 (provide 'init-eglot)
 ;;; init-eglot.el ends here

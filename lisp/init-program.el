@@ -170,8 +170,17 @@ See `jf/treesit-language-available-p' for usage.")
          '(flymake-popon ((t :inherit default :height 0.85)))
          `(flymake-popon-posframe-border ((t :foreground ,(face-background 'posframe-border nil t)))))
 
+        (defun my/flymake-action ()
+          (interactive)
+          (when (and (fboundp 'eglot-managed-p)
+                     (eglot-managed-p))
+            (call-interactively #'eglot-code-actions)))
+
         (add-hook 'flymake-mode-hook
-                  #'flymake-popon-mode))
+                  #'flymake-popon-mode)
+        (add-hook 'flymake-mode-hook
+                  (poi-register 'flymake-goto-next-error
+                                'my/flymake-action)))
        ('flycheck
         (wait-packages! '(flycheck consult-flycheck flycheck-package))
         ;; flycheck
@@ -204,6 +213,9 @@ See `jf/treesit-language-available-p' for usage.")
            flyover-virtual-line-icon (concat (nerd-icons-faicon "nf-fa-arrow_right_long")
                                              " ")
            flyover-virtual-line-type nil))))
+
+(advice-add 'next-error :around #'poi-delegate)
+(keymap-sets next-error-repeat-map '(("`" . poi-action)))
 
 ;;; debug
 (require 'init-dap)
@@ -449,6 +461,8 @@ ARGS is ORIG-FN args."
                               '((output-pdf "Evince")
                                 (output-pdf "Sioyek")
                                 (output-pdf "xdg-open")))))
+
+(add-hook 'LaTeX-mode-hook (poi-register 'TeX-next-error))
 
 ;;Refs: https://mbork.pl/2026-05-25_Ignoring_pdfs_when_auto-reverting_files
 (setq global-auto-revert-ignore-modes '(pdf-view-mode))
