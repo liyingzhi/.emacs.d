@@ -94,9 +94,23 @@
   (with-hook dslide-start-hook
     (org-indent-mode -1))
 
-  (keymap-unset dslide-mode-map "<down>")
   (keymap-sets dslide-mode-map
-    '(("C-<down>" . dslide-deck-stop))))
+    '(("<down>" . nil)
+      ("C-<down>" . dslide-deck-stop))))
+
+;;;###autoload
+(defun my/dslide-deck-start-dwim (&optional arg)
+  "Start a dslide deck in the current Org buffer.
+Without a prefix argument call `dslide-deck-start'.  With a prefix argument
+ARG call `dslide-deck-present', which starts the deck in a new
+presentation frame."
+  (interactive "P")
+  (if arg
+      (dslide-deck-present)
+    (dslide-deck-start)))
+
+(keymap-sets org-mode-map
+  '(("<f5>" . my/dslide-deck-start-dwim)))
 
 (provide 'init-org-presentation)
 ;;; init-org-presentation.el ends here
