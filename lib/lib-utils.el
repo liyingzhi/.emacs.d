@@ -144,35 +144,35 @@ or a list of keys, and COMMAND is the command to bind to those keys."
   "Set keys in keymaps.
 KEY-MAPS is a list of keymaps.
 KEY-BINDINGS is a list of (KEYS . COMMAND) pairs, where KEYS can be a single key
-or a list of keys, and COMMAND is the command to bind to those keys."
+or a list of keys.  COMMAND is the command to bind to those keys; when it is nil
+the key is unset with `keymap-unset' instead."
   (declare (indent 1))
   `(dolist (key-map ,(if (listp key-maps)
                          `(list ,@key-maps)
                        `(list ,key-maps)))
      (dolist (key-b ,key-bindings)
-       (when-let* ((keys (car key-b))
-                   (command (cdr key-b)))
-         (if (listp keys)
-             (dolist (key keys)
-               (keymap-set key-map
-                           key
-                           command))
-           (keymap-set key-map
-                       keys
-                       command))))))
+       (when (and (consp key-b) (car key-b))
+         (let ((keys (car key-b))
+               (command (cdr key-b)))
+           (dolist (key (if (listp keys) keys (list keys)))
+             (if command
+                 (keymap-set key-map key command)
+               (keymap-unset key-map key))))))))
 
 (defmacro global-set-keys (key-bindings)
   "Set keys in global keymap.
 KEY-BINDINGS is a list of (KEYS . COMMAND) pairs, where KEYS can be a single key
-or a list of keys, and COMMAND is the command to bind to those keys."
+or a list of keys.  COMMAND is the command to bind to those keys; when it is nil
+the key is unset with `keymap-global-unset' instead."
   ;; (declare (indent 1))
   `(dolist (key-b ,key-bindings)
-     (when-let* ((keys (car key-b))
-                 (command (cdr key-b)))
-       (if (listp keys)
-           (dolist (key keys)
-             (keymap-global-set key command))
-         (keymap-global-set keys command)))))
+     (when (and (consp key-b) (car key-b))
+       (let ((keys (car key-b))
+             (command (cdr key-b)))
+         (dolist (key (if (listp keys) keys (list keys)))
+           (if command
+               (keymap-global-set key command)
+             (keymap-global-unset key)))))))
 
 (defun add-subdirs-to-load-path (search-dir)
   "Add subdirectories of SEARCH-DIR to `load-path'.

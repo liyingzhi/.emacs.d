@@ -359,16 +359,13 @@
 ;;;###autoload
 (defmacro keymap-sets (key-map key-bindings)
   `(dolist (key-b ,key-bindings)
-     (when-let* ((keys (car key-b))
-                 (command (cdr key-b)))
-       (if (listp keys)
-           (dolist (key keys)
-             (keymap-set ,key-map
-                         key
-                         command))
-         (keymap-set ,key-map
-                     keys
-                     command)))))
+     (when (and (consp key-b) (car key-b))
+       (let ((keys (car key-b))
+             (command (cdr key-b)))
+         (dolist (key (if (listp keys) keys (list keys)))
+           (if command
+               (keymap-set ,key-map key command)
+             (keymap-unset ,key-map key)))))))
 ;;;###autoload
 (defun global-set-keys (key-bindings)
   (keymap-sets (current-global-map)
