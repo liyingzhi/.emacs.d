@@ -456,6 +456,10 @@ kill-ring entry is not a string representing an existing file path."
   (keymap-sets gptel-rewrite-actions-map
     '(("C-c C-i" . gptel--rewrite-inline-diff))))
 
+;;; gptel-annotate
+(require 'gptel-annotate)
+(put 'gptel-annotate-flymake 'flymake-always-safe t)
+
 ;;; gptel keymap and hooks
 (defun my/gptel-assign-filename ()
   (unless (or (buffer-file-name) current-prefix-arg)

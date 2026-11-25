@@ -356,6 +356,8 @@
                          :repo "karthink/gptel-quick")
             (gptel-preset-collection :host github
                                      :repo "liyingzhi/gptel-preset-collection")
+            (gptel-annotate :host github
+                            :repo "karthink/gptel-annotate")
             (mcp :host github
                  :repo "lizqwerscott/mcp.el")
             shell-maker
