@@ -285,6 +285,7 @@
     org-contrib
     logos
     olivetti
+    (dslide :host github :repo "karthink/dslide")
     spacious-padding
     ox-hugo
     org-appear

@@ -935,6 +935,7 @@ on a headline."
 (require 'init-org-agenda)
 ;; (require 'init-org-media-note)
 
+(require 'init-org-presentation)
 ;;; Local Variables
 
 ;; Local Variables:

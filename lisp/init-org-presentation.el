@@ -4,54 +4,52 @@
 ;;; Code:
 
 ;;; olivetti
-(require 'olivetti)
-;; Fancy mode uses margins and fringes to create vertical
-;; blocks on either sides of the content.
-(setq olivetti-style 'fancy
-      olivetti-body-width 0.5
-      olivetti-margin-width 5
-      olivetti-minimum-body-width 80
-      olivetti-recall-visual-line-mode-entry-state t)
+(with-eval-after-load 'olivetti
+  ;; Fancy mode uses margins and fringes to create vertical
+  ;; blocks on either sides of the content.
+  (setopt olivetti-style 'fancy
+          olivetti-body-width 0.5
+          olivetti-margin-width 5
+          olivetti-minimum-body-width 80
+          olivetti-recall-visual-line-mode-entry-state t)
 
-(add-hook 'olivetti-mode-on-hook
-		  (lambda ()
-			;; Disable Line numbers.
-			;; (display-line-numbers-mode -1)
-			;; Disable Buffer boundaries.
-			(setq-local indicate-buffer-boundaries nil)))
-(add-hook 'olivetti-mode-off-hook
-		  (lambda ()
-			;; Enable Line numbers.
-			;; (display-line-numbers-mode 1)
-			;; Restores Buffer boundaries.
-			(setq-local indicate-buffer-boundaries 'left)))
+  (add-hook 'olivetti-mode-on-hook
+		    (lambda ()
+			  ;; Disable Line numbers.
+			  ;; (display-line-numbers-mode -1)
+			  ;; Disable Buffer boundaries.
+			  (setq-local indicate-buffer-boundaries nil)))
+  (add-hook 'olivetti-mode-off-hook
+		    (lambda ()
+			  ;; Enable Line numbers.
+			  ;; (display-line-numbers-mode 1)
+			  ;; Restores Buffer boundaries.
+			  (setq-local indicate-buffer-boundaries 'left))))
 
 ;;; logos
-(require 'logos)
-(defun arg-reveal-entry ()
-  "Reveal Org or Outline entry."
-  (cond
-   ((and (eq major-mode 'org-mode)
-         (org-at-heading-p))
-    (org-show-entry))
-   ((or (eq major-mode 'outline-mode)
-        (bound-and-true-p outline-minor-mode))
-    (outline-show-entry))))
+(with-eval-after-load 'logos
+  (defun arg-reveal-entry ()
+    "Reveal Org or Outline entry."
+    (cond
+     ((and (eq major-mode 'org-mode)
+           (org-at-heading-p))
+      (org-show-entry))
+     ((or (eq major-mode 'outline-mode)
+          (bound-and-true-p outline-minor-mode))
+      (outline-show-entry))))
 
-(setq-default logos-olivetti t
-              logos-outlines-are-pages t
-              logos-hide-mode-line t
-              logos-hide-header-line t)
+  (setq-default logos-olivetti t
+                logos-outlines-are-pages t
+                logos-hide-mode-line t
+                logos-hide-header-line t)
 
-(with-hook logos-page-motion-hook
-  (arg-reveal-entry))
+  (with-hook logos-page-motion-hook
+    (arg-reveal-entry))
 
-(define-key org-mode-map [remap forward-page] 'logos-forward-page-dwim)
-(define-key org-mode-map [remap backward-page] 'logos-backward-page-dwim)
+  (define-key org-mode-map [remap forward-page] 'logos-forward-page-dwim)
+  (define-key org-mode-map [remap backward-page] 'logos-backward-page-dwim))
 
-
-;;; utils
-
+;;; presentation with logos utils
 (defvar-local arg-presentation nil
   "Non-nil when this buffer is in presentation mode.")
 
@@ -85,6 +83,20 @@
         (arg-start-presentation))
     (error "This command only works in Org buffers.")))
 
+;;; dslide
+(with-eval-after-load 'dslide
+  (setopt dslide-slide-in-blank-lines 2
+          dslide-breadcrumb-separator " » "
+          dslide-breadcrumb-separator-style 'append)
+  (remove-hook 'dslide-start-hook #'dslide-cursor-hide)
+  (remove-hook 'dslide-present-hook #'dslide-cursor-hide)
+  (remove-hook 'dslide-develop-hook #'dslide-cursor-hide)
+  (with-hook dslide-start-hook
+    (org-indent-mode -1))
+
+  (keymap-unset dslide-mode-map "<down>")
+  (keymap-sets dslide-mode-map
+    '(("C-<down>" . dslide-deck-stop))))
 
 (provide 'init-org-presentation)
 ;;; init-org-presentation.el ends here
