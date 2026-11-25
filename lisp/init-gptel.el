@@ -460,6 +460,39 @@ kill-ring entry is not a string representing an existing file path."
 (require 'gptel-annotate)
 (put 'gptel-annotate-flymake 'flymake-always-safe t)
 
+(defun my/gptel-annotate-notify (bufs)
+  "Notify that `gptel-annotate' finished annotating BUFS.
+
+BUFS is the list of annotation buffers, produced in order.  On
+GNU/Linux, send a desktop notification; when activated or dismissed,
+show the first buffer.  Else message buffer names in the minibuffer."
+  (if sys/linuxp
+      (notifications-notify
+       :title "gptel-annotate"
+       :body (format "Annotations ready in: %s"
+                     (mapconcat #'buffer-name bufs ", "))
+       :on-action
+       (lambda (id key)
+         "Show the first annotation buffer when the notification is clicked."
+         (pop-to-buffer (car bufs)
+                        '((display-buffer-reuse-window
+                           display-buffer-in-previous-window
+                           display-buffer-use-least-recent-window)))
+         (select-frame-set-input-focus (selected-frame)))
+       :on-close
+       (lambda (id reason)
+         "Show the first annotation buffer when the notification is dismissed."
+         (when (memq reason '(dismissed close-notification))
+           (pop-to-buffer (car bufs)
+                          '((display-buffer-reuse-window
+                             display-buffer-in-previous-window
+                             display-buffer-use-least-recent-window)))
+           (select-frame-set-input-focus (selected-frame))))
+       :urgency 'normal)
+    (message "Annotations ready in: %s" (mapconcat #'buffer-name bufs ", "))))
+
+(add-hook 'gptel-annotate-post-hook #'my/gptel-annotate-notify)
+
 ;;; gptel keymap and hooks
 (defun my/gptel-assign-filename ()
   (unless (or (buffer-file-name) current-prefix-arg)
