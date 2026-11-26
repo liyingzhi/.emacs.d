@@ -603,7 +603,7 @@ Edit freely."
 (gptel-make-preset 'web
   :description "TOOLS: Add basic web search tools"
   :pre (lambda () (require 'gptel-agent-tools))
-  :tools '(:append ("WebSearch" "WebFetch" "YouTube"))
+  :tools '(:append ("WebSearch" "WebFetch"))
   ;; :system '(:append "\n\nUse the provided tools to search the web for up-to-date information.")
   )
 (gptel-make-preset 'files
