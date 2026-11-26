@@ -73,6 +73,79 @@
    (("O" . "comment or uncomment") . comment-or-uncomment-region)
    )
  t)
+;;; sticker
+;; Refs: https://github.com/karthink/.emacs.d/blob/master/lisp/utilities.el
+(defvar sticker-list nil
+  "Alist of stored stickers, used by `sticker'.
+Each element is a list whose `car' is the sticker label (a string,
+possibly carrying text properties such as a face).  The remaining
+elements are the overlays currently displaying that label, most
+recently created first.")
+
+(defun sticker-next (&optional arg)
+  "Move to the line of the next sticker.
+With prefix argument ARG, repeat that many times; a negative ARG
+moves to previous stickers instead.  Stickers are the overlays
+created by `sticker' and are recognised via their `sticker'
+overlay property."
+  (interactive "p")
+  (let ((func (if (< arg 0)
+                  'previous-single-char-property-change
+                'next-single-char-property-change)))
+    (dotimes (_ (abs arg))
+      (unless (< arg 0)
+        (forward-line 1))
+      (goto-char (funcall func (point) 'sticker))
+      (forward-line 0))))
+
+(defun sticker (&optional arg label)
+  "Store or attach stickers (see `sticker-list').
+
+With the region active, store its text as a sticker label and do
+nothing else.  Otherwise act on the sticker overlay at point:
+with prefix argument ARG re-label that overlay by choosing another
+label, without ARG delete it (dropping the label from
+`sticker-list' when no overlay still uses it).  When there is no
+overlay at point, attach a new sticker to the current line, taking
+the label from LABEL or, interactively, from the collection of
+stored labels."
+  (interactive "P")
+  (cl-flet ((store-sticker (beg end)
+              (or (assoc (buffer-substring beg end) sticker-list)
+                  (push (list (buffer-substring beg end)) sticker-list))
+              (deactivate-mark)
+              (message "Sticker stored"))
+            (new-sticker (l &optional o)
+              (unless o
+                (setq o (make-overlay (line-beginning-position)
+                                      (line-end-position))))
+              (overlay-put o 'evaporate t)
+              (overlay-put o 'sticker l)
+              (overlay-put
+               o 'after-string
+               (concat " " (if (get-text-property 0 'face l)
+                               l
+                             (propertize l 'face '(:inverse-video t)))))
+              (push o (alist-get l sticker-list nil nil #'equal)))
+            (read-label ()
+              (let ((minibuffer-allow-text-properties t))
+                (completing-read "Attach sticker: " sticker-list))))
+    (if (use-region-p)
+        (store-sticker (region-beginning) (region-end))
+      (if-let* ((exist-ov (cdr-safe (get-char-property-and-overlay (point) 'sticker))))
+          (if arg
+              (new-sticker (read-label) exist-ov)
+            (let* ((old-l (overlay-get exist-ov 'sticker))
+                   (matches (assoc old-l sticker-list)))
+              (delq exist-ov matches)
+              (when (= (length matches) 1)
+                (setq sticker-list (delete matches sticker-list)))
+              (delete-overlay exist-ov)))
+        (new-sticker (or label (read-label)))))))
+
+(add-hook 'poi-functions #'sticker-next)
+
+(global-set-keys '(("M-I" . sticker)))
 
 (provide 'init-toolkit)
 ;;; init-toolkit.el ends here
