@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'hl-todo)
+
 (setq hl-todo-require-punctuation t
       hl-todo-highlight-punctuation ":")
 
@@ -37,12 +39,28 @@
   (setq consult-todo-dir-function #'consult-todo--ripgrep)
   (setq consult-todo--narrow
         (mapcar (lambda (kw)
-                  (let ((key (downcase (substring (car kw) 0 1))))
-                    (cons (aref key 0) (concat (car kw) hl-todo-highlight-punctuation))))
+                  (let ((key (downcase
+                              (substring (car kw)
+                                         0 1))))
+                    (cons (aref key 0)
+                          (concat (car kw)
+                                  hl-todo-highlight-punctuation))))
                 hl-todo-keyword-faces)))
 
+(defun my/consult-to-dwim (&optional arg)
+  "Search for TODO-style keywords, choosing the search scope by prefix argument.
+With a prefix argument (e.g. \\[universal-argument] or `C-u') call
+`consult-todo-project' and search the whole project; otherwise call
+`consult-todo' and search the visited files of the current buffer.
+Interactively, `ARG' is the prefix argument."
+  (interactive "P")
+  (if arg
+      (consult-todo-project)
+    (consult-todo)))
+
 (lazy-load-global-keys
- '(("M-g t" . consult-todo-project))
+ '(("M-g t" . my/consult-to-dwim))
  "consult-todo")
 
 (provide 'init-hl-todo)
+;;; init-hl-todo.el ends here.
