@@ -47,10 +47,15 @@ A non-list means use all attribute values."
 ;; NOTE: `diredp-yank-files' and `diredp-move-files-named-in-kill-ring' read THIS
 ;; variable, not the head of the kill ring, so pasting is unaffected by later kills.
 
-(defvar diredp-filename-separator (copy-sequence "\000") ; ^@ (NUL)
+(defvar diredp-filename-separator (copy-sequence "\n")
   "String used to separate file names in a `kill-ring' list of file names.
-A NUL byte cannot occur in a file name, so it is safe even when file names
-contain spaces.  (This is the same trick the full Dired+ uses.)")
+It must be a string that cannot appear in the names being separated, so
+that `split-string' can round-trip the list.  A newline qualifies: Dired
+cannot list a file whose name contains one.  A side effect is that a
+copied list yanks into a buffer as one file name per line.
+
+The full Dired+ uses a NUL byte as the separator instead, which is also
+safe for names containing newlines, but it renders as \"^@\" when yanked.")
 
 (defun diredp-ensure-mode ()
   "Raise an error unless in Dired or a mode derived from it."
@@ -363,11 +368,17 @@ Optional arg DETAILS is passed to `diredp-y-or-n-files-p'."
   (setq dir  (or dir  (and (derived-mode-p 'dired-mode)  (dired-current-directory))))
   (unless (file-directory-p dir) (error "Not a directory: `%s'" dir))
   (let* ((ipf-files  (funcall interprogram-paste-function))
+         (ipf-files  (if (listp ipf-files)
+                         (car ipf-files)
+                       ipf-files))
          (files      (or ipf-files  diredp-last-copied-filenames)))
-    (unless (stringp files)  (error "No copied file names"))
-    (when ipf-files (setq files  (diredp-copy-as-kill-from-clipboard files)))
-    (setq files  (diredp-delete-if-not (lambda (file) (file-name-absolute-p file))
-                                       (split-string files diredp-filename-separator)))
+    (message "ipf: %s" ipf-files)
+    (unless (stringp files) (error "No copied file names"))
+    (when ipf-files (setq files (diredp-copy-as-kill-from-clipboard files)))
+    (setq files (mapcar #'substring-no-properties
+                        (diredp-delete-if-not (lambda (file) (file-name-absolute-p file))
+                                              (split-string files diredp-filename-separator))))
+
     (unless files  (error "No copied *absolute* file names (Did you use `M-0 w'?)"))
     (if (and (not no-confirm-p)
              (diredp-y-or-n-files-p "Yank files whose names you copied? " files nil details))
@@ -405,9 +416,10 @@ Optional arg DETAILS is passed to `diredp-y-or-n-files-p'."
   (setq dir  (or dir  (and (derived-mode-p 'dired-mode)  (dired-current-directory))))
   (unless (file-directory-p dir) (error "Not a directory: `%s'" dir))
   (let ((files  diredp-last-copied-filenames))
-    (unless (stringp files)  (error "No copied file names"))
-    (setq files  (diredp-delete-if-not (lambda (file) (file-name-absolute-p file))
-                                       (split-string files (regexp-quote diredp-filename-separator))))
+    (unless (stringp files) (error "No copied file names"))
+    (setq files (mapcar #'substring-no-properties
+                        (diredp-delete-if-not (lambda (file) (file-name-absolute-p file))
+                                              (split-string files diredp-filename-separator))))
     (unless files  (error "No copied (absolute* file names (Did you use `W'?)"))
     (if (and (not no-confirm-p)
              (diredp-y-or-n-files-p "MOVE files whose names you copied? " files nil details))
