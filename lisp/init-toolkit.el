@@ -82,6 +82,25 @@ possibly carrying text properties such as a face).  The remaining
 elements are the overlays currently displaying that label, most
 recently created first.")
 
+(defcustom sticker-height 2.0
+  "Height of a sticker label, relative to the default face.
+A float means a multiple of the default face height, so 2.0 makes
+labels twice as tall as the surrounding text."
+  :type 'number)
+
+(defface sticker '((t (:inverse-video t)))
+  "Face used by `sticker' for labels that carry no face of their own.")
+
+(defun sticker--label-face (l)
+  "Return the face to display sticker label L with.
+The `sticker' face (or L's own face, when it has one) is
+inherited, with `sticker-height' layered on top of it."
+  (let ((face (get-text-property 0 'face l)))
+    (cond ((null face) (list :inherit 'sticker :height sticker-height))
+          ((and (consp face) (keywordp (car face)))
+           (plist-put (copy-sequence face) :height sticker-height))
+          (t (list :inherit face :height sticker-height)))))
+
 (defun sticker-next (&optional arg)
   "Move to the line of the next sticker.
 With prefix argument ARG, repeat that many times; a negative ARG
@@ -123,9 +142,7 @@ stored labels."
               (overlay-put o 'sticker l)
               (overlay-put
                o 'after-string
-               (concat " " (if (get-text-property 0 'face l)
-                               l
-                             (propertize l 'face '(:inverse-video t)))))
+               (concat " " (propertize l 'face (sticker--label-face l))))
               (push o (alist-get l sticker-list nil nil #'equal)))
             (read-label ()
               (let ((minibuffer-allow-text-properties t))
