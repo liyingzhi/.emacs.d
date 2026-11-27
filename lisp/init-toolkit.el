@@ -140,6 +140,8 @@ stored labels."
                                       (line-end-position))))
               (overlay-put o 'evaporate t)
               (overlay-put o 'sticker l)
+              (overlay-put o 'help-echo
+                           (format "  Sticker: %s" (substring-no-properties l)))
               (overlay-put
                o 'after-string
                (concat " " (propertize l 'face (sticker--label-face l))))

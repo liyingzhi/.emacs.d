@@ -215,7 +215,9 @@ See `jf/treesit-language-available-p' for usage.")
            flyover-virtual-line-type nil))))
 
 (advice-add 'next-error :around #'poi-delegate)
-(keymap-sets next-error-repeat-map '(("`" . poi-action)))
+(keymap-sets next-error-repeat-map '(("`" . poi-action)
+                                     ("x" . poi-select-error)))
+(global-set-keys '(("M-g x" . poi-select-error)))
 
 ;;; debug
 (require 'init-dap)
