@@ -164,8 +164,9 @@ Returns an alist where keys are export formats and values are file paths."
   "Like `org-insert-link' but with personal dwim preferences."
   (interactive)
   (let* ((point-in-link (org-in-regexp org-link-any-re 1))
-         (clipboard-url (when (and kill-ring (string-match-p "^http" (current-kill 0)))
-                          (current-kill 0)))
+         (current-kill-content (current-kill 0))
+         (clipboard-url (when (string-match-p "^http" current-kill-content)
+                          current-kill-content))
          (region-content (when (region-active-p)
                            (buffer-substring-no-properties (region-beginning)
                                                            (region-end)))))
